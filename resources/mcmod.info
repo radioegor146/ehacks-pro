@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ehacks-ce",
+  "name": "EHacks [CheatingEssentials]",
+  "description": "EHacks based on [CheatingEssentials]",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["radioegor146"],
+  "credits": "Copyright 2018 radioegor146. All rights reserved.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
