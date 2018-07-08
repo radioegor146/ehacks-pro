@@ -67,8 +67,10 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import ehacks.api.module.APICEMod;
 import ehacks.api.module.Mod;
+import ehacks.mod.gui.reeszrbteam.Tuple;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
+import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import ehacks.mod.modulesystem.classes.AutoTool;
@@ -83,6 +85,7 @@ import ehacks.mod.modulesystem.classes.SeeHealth;
 import ehacks.mod.modulesystem.classes.TriggerBot;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
 public class Events {
     public static Block selectedBlock = null;
@@ -108,6 +111,26 @@ public class Events {
 
     @SubscribeEvent
     public void onTicks(TickEvent.ClientTickEvent event) {
+        try
+        {
+            for (Object entity : Wrapper.INSTANCE.world().loadedEntityList)
+            {
+                if (entity instanceof EntityPlayer) {
+                    EntityPlayer ep = (EntityPlayer)entity;
+                    if (WindowPlayerIds.players.containsKey(ep.getCommandSenderName()))
+                    {
+                        WindowPlayerIds.players.remove(ep.getCommandSenderName());
+                        WindowPlayerIds.players.put(ep.getCommandSenderName(), new Tuple<Integer, EntityPlayer>(0, ep));
+                    }
+                    else
+                        WindowPlayerIds.players.put(ep.getCommandSenderName(), new Tuple<Integer, EntityPlayer>(0, ep));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
         for (Mod mod : APICEMod.INSTANCE.mods) {
             if (mod.isActive() && Wrapper.INSTANCE.world() != null) {
                 mod.onTicks();

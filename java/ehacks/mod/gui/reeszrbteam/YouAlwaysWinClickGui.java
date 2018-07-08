@@ -29,6 +29,7 @@ import ehacks.mod.gui.reeszrbteam.window.WindowInfo;
 import ehacks.mod.gui.reeszrbteam.window.WindowMinigames;
 import ehacks.mod.gui.reeszrbteam.window.WindowNoCheatPlus;
 import ehacks.mod.gui.reeszrbteam.window.WindowPlayer;
+import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.gui.reeszrbteam.window.WindowRadar;
 import ehacks.mod.gui.reeszrbteam.window.WindowRender;
 import ehacks.mod.util.GLUtils;
@@ -67,6 +68,7 @@ extends GuiScreen {
         new WindowInfo();
         new WindowRadar();
         new WindowActives();
+        new WindowPlayerIds();
     }
 
     public void initGui() {

@@ -20,8 +20,8 @@ public class YAWWindow {
     public int xPos;
     public int yPos;
     private boolean isOpen;
-    private boolean isExtended;
-    private boolean isPinned;
+    public boolean isExtended;
+    public boolean isPinned;
     public int dragX;
     public int dragY;
     public int lastDragX;

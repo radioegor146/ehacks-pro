@@ -33,6 +33,7 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -41,6 +42,9 @@ import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class NoLimitFire
@@ -81,7 +85,8 @@ extends Mod {
     @Override
     public void onTicks() {
         try {
-            for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
+            List<Entity> players = (List<Entity>)(WindowPlayerIds.useIt ? (Object)WindowPlayerIds.getPlayers() : Wrapper.INSTANCE.world().loadedEntityList);
+            for (Object o : players) {
                 if (((Entity)o).getEntityId() != Wrapper.INSTANCE.player().getEntityId())
                     fireEntity(((Entity)o).getEntityId());
             }
@@ -92,12 +97,14 @@ extends Mod {
     }
     
     public void fireEntity(int entityId) {
-        ByteBuf buf = Unpooled.buffer();
-        buf.writeByte(0);
-        buf.writeInt(7);
-        buf.writeInt(entityId);
-        C17PacketCustomPayload packet = new C17PacketCustomPayload("GalacticraftCore", buf);
-        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+        try {
+            Object packetPipeLine = Class.forName("micdoodle8.mods.galacticraft.core.GalacticraftCore").getField("packetPipeline").get(null);
+            Method sendMethod = packetPipeLine.getClass().getMethod("sendToServer", new Class[] { Class.forName("micdoodle8.mods.galacticraft.core.network.IPacket") });
+            Object packetObj = Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple").getConstructor(new Class[] { Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple$EnumSimplePacket"), Object[].class }).newInstance(Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple$EnumSimplePacket").getMethod("valueOf", String.class).invoke(null, "S_SET_ENTITY_FIRE"), new Object[] { entityId });
+            sendMethod.invoke(packetPipeLine, packetObj);
+        } catch (Exception ex) {
+            
+        }
     }
 }
 

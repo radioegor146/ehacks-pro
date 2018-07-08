@@ -33,6 +33,7 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -84,7 +85,8 @@ extends Mod {
     @Override
     public void onTicks() {
         try {
-            for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
+            List<EntityPlayer> players = WindowPlayerIds.useIt ? WindowPlayerIds.getPlayers() : Wrapper.INSTANCE.world().playerEntities;
+            for (Object o : players) {
                 spinEntity(((Entity)o).getEntityId());
             }
         }
