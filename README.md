@@ -1,0 +1,2 @@
+# EHacks
+Main ehacks repository
