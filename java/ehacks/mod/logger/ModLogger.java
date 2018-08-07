@@ -1,10 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  org.apache.logging.log4j.LogManager
- *  org.apache.logging.log4j.Logger
- */
 package ehacks.mod.logger;
 
 import org.apache.logging.log4j.LogManager;

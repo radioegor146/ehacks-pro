@@ -1,24 +1,10 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiButton
- *  net.minecraft.client.gui.GuiScreen
- */
 package ehacks.mod.gui.xraysettings;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import ehacks.mod.gui.xraysettings.XRayBlockSlot;
-import ehacks.mod.gui.xraysettings.XRayBlock;
-import ehacks.mod.gui.xraysettings.XRayAddGui;
 import ehacks.mod.modulesystem.classes.XRay;
 
 public class XRayGui

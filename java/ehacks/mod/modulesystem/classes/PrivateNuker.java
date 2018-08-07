@@ -26,6 +26,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.Tuple;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.Events;
@@ -64,7 +65,17 @@ extends Mod {
             isActive = false;
             Events.selectedBlock = null;
             this.off();
-            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Private Nuker] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442", 0));
+            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Private Nuker] Not working", 0));
+        }
+    }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("openmodularturrets.network.DropBaseMessage");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
         }
     }
 
@@ -107,12 +118,16 @@ extends Mod {
                             isActive = false;
                             Events.selectedBlock = null;
                             this.off();
-                            Wrapper.INSTANCE.addChatMessage("\u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 :(");
                             ex.printStackTrace();
                         }
                     }
                 }
             }
+    }
+    
+    @Override
+    public String getModName() {
+        return "OMTurrets";
     }
 }
 

@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.util.AxisAlignedBB
- */
 package ehacks.mod.external.axis;
 
 import net.minecraft.util.AxisAlignedBB;

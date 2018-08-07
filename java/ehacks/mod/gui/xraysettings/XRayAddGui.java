@@ -1,30 +1,7 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.Block
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiButton
- *  net.minecraft.client.gui.GuiScreen
- *  net.minecraft.client.gui.GuiTextField
- *  net.minecraft.client.renderer.RenderHelper
- *  net.minecraft.client.renderer.entity.RenderItem
- *  net.minecraft.client.renderer.texture.TextureManager
- *  net.minecraft.creativetab.CreativeTabs
- *  net.minecraft.item.Item
- *  net.minecraft.item.ItemStack
- *  net.minecraft.util.RegistryNamespaced
- *  org.lwjgl.input.Keyboard
- *  org.lwjgl.input.Mouse
- *  org.lwjgl.opengl.GL11
- */
 package ehacks.mod.gui.xraysettings;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -33,18 +10,11 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryNamespaced;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import ehacks.mod.gui.xraysettings.XRayBlock;
-import ehacks.mod.gui.xraysettings.XRayGuiSlider;
-import ehacks.mod.gui.xraysettings.XRayGui;
 
 public class XRayAddGui
 extends GuiScreen {

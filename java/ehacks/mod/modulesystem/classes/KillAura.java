@@ -31,11 +31,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 
@@ -76,7 +74,7 @@ extends Mod {
                 if (!this.hasDelayRun(133L)) break block6;
                 for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
                     EntityPlayer e;
-                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer)o) instanceof EntityPlayerSP || Friend.instance().readFriend(e.getCommandSenderName()) || Wrapper.INSTANCE.player().getDistanceToEntity((Entity)e) > ACommandAuraRange.aurarange || e.isDead) continue;
+                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer)o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity)e) > 6 || e.isDead) continue;
                     if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         ItemStack lel = Wrapper.INSTANCE.player().getCurrentEquippedItem();
                         lel.useItemRightClick((World)Wrapper.INSTANCE.world(), (EntityPlayer)Wrapper.INSTANCE.player());

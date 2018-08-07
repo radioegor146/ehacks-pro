@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- */
 package ehacks.mod.external.config.manual;
 
 import java.io.BufferedReader;
@@ -13,18 +7,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import ehacks.api.module.APICEMod;
+import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
-import ehacks.mod.logger.ModLogger;
-import ehacks.mod.main.Main;
 import ehacks.mod.wrapper.ModuleCategories;
 
 public class ModuleStateConfiguration {
@@ -40,7 +28,7 @@ public class ModuleStateConfiguration {
         try {
             FileWriter filewriter = new FileWriter(this.moduleConfig);
             BufferedWriter bufferedwriter = new BufferedWriter(filewriter);
-            for (Mod module : APICEMod.INSTANCE.mods) {
+            for (Mod module : ModController.INSTANCE.mods) {
                 Boolean s = module.isActive();
                 if (module.getCategory() == ModuleCategories.NONE) continue;
                 bufferedwriter.write(module.getName().toLowerCase().replaceAll(" ", "") + ":" + s + "\r\n");
@@ -53,7 +41,6 @@ public class ModuleStateConfiguration {
     }
 
     public void read() {
-        Main.INSTANCE.logger.info("Reading module config file...");
         try {
             String string;
             FileInputStream inputstream = new FileInputStream(this.moduleConfig.getAbsolutePath());
@@ -64,7 +51,7 @@ public class ModuleStateConfiguration {
                 String[] string2 = string.split(":");
                 String moduleName = string2[0];
                 String booleanState = string2[1];
-                for (Mod module : APICEMod.INSTANCE.mods) {
+                for (Mod module : ModController.INSTANCE.mods) {
                     if (module.getCategory() == ModuleCategories.NONE) continue;
                     List<String> modules = Arrays.asList(module.getName());
                     for (int i = 0; i < modules.size(); ++i) {

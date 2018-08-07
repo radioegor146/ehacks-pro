@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- */
 package ehacks.mod.external.config.manual;
 
 import java.io.BufferedReader;
@@ -13,11 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -43,7 +33,7 @@ public class SaveableGuiState {
                 boolean open = window.isOpen();
                 buffered.write(window.getTitle().toLowerCase().replaceAll(" ", "") + ":" + x + ":" + y + ":" + open + "\r\n");
             }
-            buffered.close();
+            buffered.close(); 
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -13,6 +13,7 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
@@ -71,7 +72,17 @@ extends Mod {
             Class.forName("shedar.mods.ic2.nuclearcontrol.network.message.PacketClientSensor").getConstructor();
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[IC2 Sign Edit] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[IC2 Sign Edit] Not working");
+        }
+    }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("shedar.mods.ic2.nuclearcontrol.network.message.PacketClientSensor");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
         }
     }
     
@@ -163,6 +174,11 @@ extends Mod {
         {
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "NucControl";
     }
 }
 

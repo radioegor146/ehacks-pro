@@ -21,12 +21,12 @@ import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class ChestFinder
 extends Mod {
     public ChestFinder() {
         super(ModuleCategories.RENDER);
-        this.setKeybinding(49);
     }
 
     @Override
@@ -35,7 +35,7 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
         for (Object o : Wrapper.INSTANCE.world().loadedTileEntityList) {
             double renderY;
             AltAxisAlignedBB boundingBox;

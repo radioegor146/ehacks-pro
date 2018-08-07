@@ -1,78 +1,10 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.modulesystem.handler;
 
-import ehacks.api.module.APICEMod;
+import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
-import ehacks.mod.modulesystem.classes.AimAssist;
-import ehacks.mod.modulesystem.classes.AimBot;
-import ehacks.mod.modulesystem.classes.AntiFire;
-import ehacks.mod.modulesystem.classes.AntiKnockBack;
-import ehacks.mod.modulesystem.classes.AntiPotion;
-import ehacks.mod.modulesystem.classes.AutoBlock;
-import ehacks.mod.modulesystem.classes.AutoTool;
-import ehacks.mod.modulesystem.classes.BlockDestroy;
-import ehacks.mod.modulesystem.classes.BlockOverlay;
-import ehacks.mod.modulesystem.classes.BlockSmash;
-import ehacks.mod.modulesystem.classes.Breadcrumb;
-import ehacks.mod.modulesystem.classes.ChestFinder;
-import ehacks.mod.modulesystem.classes.ChestStealer;
-import ehacks.mod.modulesystem.classes.CreativeFly;
-import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.modulesystem.classes.DynamicFly;
-import ehacks.mod.modulesystem.classes.ExtendedDestroyer;
-import ehacks.mod.modulesystem.classes.ExtendedNuker;
-import ehacks.mod.modulesystem.classes.FastBow;
-import ehacks.mod.modulesystem.classes.FastClick;
-import ehacks.mod.modulesystem.classes.FastEat;
-import ehacks.mod.modulesystem.classes.FastPlace;
-import ehacks.mod.modulesystem.classes.Forcefield;
-import ehacks.mod.modulesystem.classes.FreeCam;
-import ehacks.mod.modulesystem.classes.Fullbright;
-import ehacks.mod.modulesystem.classes.Gui;
-import ehacks.mod.modulesystem.classes.GuiXRaySettings;
-import ehacks.mod.modulesystem.classes.HighJump;
-import ehacks.mod.modulesystem.classes.ItemCreator;
-import ehacks.mod.modulesystem.classes.KillAura;
-import ehacks.mod.modulesystem.classes.LimitedAura;
-import ehacks.mod.modulesystem.classes.MobAura;
-import ehacks.mod.modulesystem.classes.MobESP;
-import ehacks.mod.modulesystem.classes.NCPFly;
-import ehacks.mod.modulesystem.classes.NCPSpeed;
-import ehacks.mod.modulesystem.classes.NCPStep;
-import ehacks.mod.modulesystem.classes.NameProtect;
-import ehacks.mod.modulesystem.classes.NoFall;
-import ehacks.mod.modulesystem.classes.NoWeather;
-import ehacks.mod.modulesystem.classes.NoWeb;
-import ehacks.mod.modulesystem.classes.Nuker;
-import ehacks.mod.modulesystem.classes.PlayerESP;
-import ehacks.mod.modulesystem.classes.PrivateNuker;
-import ehacks.mod.modulesystem.classes.Projectiles;
-import ehacks.mod.modulesystem.classes.ProphuntAura;
-import ehacks.mod.modulesystem.classes.ProphuntESP;
-import ehacks.mod.modulesystem.classes.Regen;
-import ehacks.mod.modulesystem.classes.SeeHealth;
-import ehacks.mod.modulesystem.classes.Speed;
-import ehacks.mod.modulesystem.classes.Sprint;
-import ehacks.mod.modulesystem.classes.Step;
-import ehacks.mod.modulesystem.classes.Tracers;
-import ehacks.mod.modulesystem.classes.TriggerBot;
-import ehacks.mod.modulesystem.classes.WaterFall;
-import ehacks.mod.modulesystem.classes.WaterWalk;
-import ehacks.mod.modulesystem.classes.XRay;
-import ehacks.mod.modulesystem.classes.MetaHackAdd;
-import ehacks.mod.modulesystem.classes.MetaHackSub;
-import ehacks.mod.modulesystem.classes.NoLimitAura;
-import ehacks.mod.modulesystem.classes.NoLimitDamage;
-import ehacks.mod.modulesystem.classes.NoLimitPlayers;
-import ehacks.mod.modulesystem.classes.CarpenterOpener;
-import ehacks.mod.modulesystem.classes.GalaxyTeleport;
-import ehacks.mod.modulesystem.classes.IC2SignEdit;
-import ehacks.mod.modulesystem.classes.NoLimitFire;
-import ehacks.mod.modulesystem.classes.NoLimitSpin;
-import ehacks.mod.modulesystem.classes.SpaceFire;
-import ehacks.mod.modulesystem.classes.SpaceTransport;
+import ehacks.mod.modulesystem.classes.*;
+import ehacks.mod.commands.*;
+import net.minecraftforge.client.ClientCommandHandler;
 
 public class ModuleManagement {
     public static volatile ModuleManagement INSTANCE = new ModuleManagement();
@@ -82,7 +14,7 @@ public class ModuleManagement {
     }
 
     private void add(Mod mod) {
-        APICEMod.INSTANCE.enable(mod);
+        ModController.INSTANCE.enable(mod);
     }
 
     public void initModules() {
@@ -106,6 +38,21 @@ public class ModuleManagement {
         this.add(new GalaxyTeleport());
         this.add(new IC2SignEdit());
         //this.add(new SpaceTransport());
+        this.add(new RocketChaos());
+        this.add(new NoLimitRocket());
+        this.add(new ContainerClear());
+        this.add(new ChestMagic());
+        this.add(new MegaExploit());
+        this.add(new JesusGift());
+        this.add(new NEISelect());
+        this.add(new VerticalGui());
+        this.add(new VisibleHack());
+        this.add(new DragonsFuck());
+        this.add(new MagicGive());
+        this.add(new NoLimitSpell());
+        this.add(new NoLimitBuffs());
+        
+        this.add(new PacketFlooder());
         this.add(new Step());
         this.add(new Speed());
         this.add(new NoWeb());
@@ -123,9 +70,11 @@ public class ModuleManagement {
         this.add(new ChestStealer());
         this.add(new AntiKnockBack());
         this.add(new XRay());
-        this.add(new MobESP());
         this.add(new Tracers());
+        this.add(new MobESP());
         this.add(new PlayerESP());
+        this.add(new ItemESP());
+        this.add(new EntityESP());
         this.add(new NoWeather());
         this.add(new BlockSmash());
         this.add(new Fullbright());
@@ -152,8 +101,13 @@ public class ModuleManagement {
         this.add(new NCPSpeed());
         this.add(new WaterFall());
         this.add(new WaterWalk());
+        
+        ModController.INSTANCE.sort();
+        
         this.add(new Gui());
         this.add(new GuiXRaySettings());
+        
+        ClientCommandHandler.instance.registerCommand(new ItemSelectCommand());
     }
 
     public static ModuleManagement instance() {

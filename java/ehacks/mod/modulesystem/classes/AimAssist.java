@@ -1,30 +1,12 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.util.AxisAlignedBB
- *  net.minecraft.util.MovingObjectPosition
- *  net.minecraft.util.MovingObjectPosition$MovingObjectType
- */
 package ehacks.mod.modulesystem.classes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import ehacks.api.module.Mod;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 
@@ -66,7 +48,7 @@ extends Mod {
             this.curtarget = (EntityPlayer)entity;
             return;
         }
-        if (!this.targetlist.contains((Object)this.curtarget) && this.curtarget != null) {
+        if (!this.targetlist.contains(this.curtarget) && this.curtarget != null) {
             this.curtarget = null;
             return;
         }
@@ -94,9 +76,6 @@ extends Mod {
         }
         if (e instanceof EntityPlayer) {
             EntityPlayer p2 = (EntityPlayer)e;
-            if (Friend.instance().readFriend(e.getCommandSenderName())) {
-                return false;
-            }
             if (!p2.isDead && !p2.isInvisible() && (double)Wrapper.INSTANCE.player().getDistanceToEntity((Entity)p2) <= this.range && Wrapper.INSTANCE.player().canEntityBeSeen((Entity)p2) && p2 != Wrapper.INSTANCE.player()) {
                 return true;
             }

@@ -31,13 +31,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -61,14 +60,24 @@ extends Mod {
     @Override
     public void onEnableMod() {
         try {
-            Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple").getConstructor();
+            Class.forName("micdoodle8.mods.galacticraft.core.network.PacketRotateRocket").getConstructor();
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitSpin] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[NoLimitSpin] Not working");
         }
     }
 
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("micdoodle8.mods.galacticraft.core.network.PacketRotateRocket");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
+        }
+    }
+    
     @Override
     public void onDisableMod() {
         
@@ -96,13 +105,18 @@ extends Mod {
     }
     
     public void spinEntity(int entityId) {
-        ByteBuf buf = Unpooled.buffer();
+        ByteBuf buf = Unpooled.buffer(0);
         buf.writeByte(1);
         buf.writeInt(entityId);
         buf.writeFloat(R.nextFloat() * 180f - 90f);
         buf.writeFloat(R.nextFloat() * 360f);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("GalacticraftCore", buf);
         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+    }
+    
+    @Override
+    public String getModName() {
+        return "Galacticraft";
     }
 }
 

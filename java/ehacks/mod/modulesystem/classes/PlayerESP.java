@@ -25,6 +25,10 @@ import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class PlayerESP
 extends Mod {
@@ -38,22 +42,29 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
+        GL11.glPushMatrix();
+        GL11.glClear((int)256);
+        GL11.glEnable((int)3553);
+        GL11.glEnable((int)2884);
+        GL11.glEnable((int)3042); 
+        RenderHelper.enableStandardItemLighting();
         for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
-            EntityLivingBase e;
-            if (!(o instanceof EntityPlayer) || (e = (EntityLivingBase)o).getCommandSenderName().equals(Wrapper.INSTANCE.mc().getSession().getUsername()) || e.isDead) continue;
-            float halfWidth = e.width / 2.0f;
-            AltAxisAlignedBB aaabb = AltAxisAlignedBB.getBoundingBox(e.width - halfWidth, e.height, e.width - halfWidth, e.width + halfWidth, e.height + e.height, e.width + halfWidth);
-            double renderX = e.lastTickPosX + (e.posX - e.lastTickPosX) - RenderManager.renderPosX - (double)e.width;
-            double renderY = e.lastTickPosY + (e.posY - e.lastTickPosY) - RenderManager.renderPosY - (double)e.height;
-            double renderZ = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) - RenderManager.renderPosZ - (double)e.width;
-            GL11.glPushMatrix();
-            GL11.glTranslated((double)renderX, (double)renderY, (double)renderZ);
-            GL11.glColor4f((float)0.27f, (float)0.7f, (float)0.92f, (float)1.0f);
-            GL11.glColor4f((float)0.92f, (float)0.2f, (float)0.2f, (float)1.0f);
-            GLUtils.startDrawingESPs(aaabb, 0.27f, 0.7f, 0.92f);
-            GL11.glPopMatrix();
-        }
+            Entity ent = (Entity)o;
+            if (ent instanceof EntityPlayer)
+            {
+                double d0;
+                double d1;
+                double d2;
+                if (!ent.isInRangeToRender3d(d0 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, d1 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, d2 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mc().gameSettings.thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping()) continue;
+                RenderManager.instance.renderEntitySimple(ent, event.partialTicks);
+            }
+        }                 
+        RenderHelper.disableStandardItemLighting();
+        GL11.glEnable((int)3553);
+        GL11.glEnable((int)2884);
+        GL11.glDisable((int)3042);  
+        GL11.glPopMatrix();
     }
 }
 

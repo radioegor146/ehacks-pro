@@ -19,6 +19,7 @@ import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class ProphuntESP
 extends Mod {
@@ -32,7 +33,7 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
         if (this.isActive()) {
             for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
                 if (!(o instanceof EntityFallingBlock)) continue;

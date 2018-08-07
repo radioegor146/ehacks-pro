@@ -1,22 +1,7 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.client.settings.GameSettings
- *  net.minecraft.util.ChatComponentText
- *  net.minecraft.util.IChatComponent
- */
 package ehacks.mod.wrapper;
 
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;

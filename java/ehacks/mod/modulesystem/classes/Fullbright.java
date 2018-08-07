@@ -19,8 +19,9 @@ public class Fullbright
 extends Mod {
     public Fullbright() {
         super(ModuleCategories.RENDER);
-        this.setKeybinding(33);
     }
+    
+    private int cooldownTicks = 0;
 
     @Override
     public String getName() {
@@ -33,6 +34,18 @@ extends Mod {
         for (int i = 0; i < bright.length; ++i) {
             bright[i] = 1.0f;
         }
+    }
+    
+    @Override
+    public void onTicks() {
+        if (cooldownTicks == 0)
+        {
+            float[] bright = Wrapper.INSTANCE.world().provider.lightBrightnessTable;
+            for (int i = 0; i < bright.length; ++i) {
+                bright[i] = 1.0f;
+            }
+        }
+        cooldownTicks = (cooldownTicks + 1) % 80;
     }
 
     @Override

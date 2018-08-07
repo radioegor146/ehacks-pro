@@ -1,30 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ehacks.mod.gui.reeszrbteam.window;
 
-import ehacks.api.module.APICEMod;
-import ehacks.api.module.Mod;
 import ehacks.mod.gui.reeszrbteam.Tuple;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.element.YAWButton;
 import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
 import ehacks.mod.util.GLUtils;
-import ehacks.mod.wrapper.ModuleCategories;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- *
- * @author radioegor146
- */
 public class WindowPlayerIds 
 extends YAWWindow {
     public static HashMap<String, Tuple<Integer, EntityPlayer>> players = new HashMap<String, Tuple<Integer, EntityPlayer>>();

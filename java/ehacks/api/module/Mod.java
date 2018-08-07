@@ -1,28 +1,22 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.api.module;
 
-import ehacks.api.module.APICEMod;
-import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
-import ehacks.mod.logger.ModLogger;
-import ehacks.mod.main.Main;
 import ehacks.mod.wrapper.ModuleCategories;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-public abstract class Mod {
+public abstract class Mod implements Comparable {
+    private String TPROT = "PRIORITY_1";
+    
     protected String name = "unknown";
     protected String p = "ehacks:";
     protected String description = "unknown";
     protected int keybind = 0;
     protected boolean enabled;
     protected ModuleCategories category;
-    public YAWWindow window = null;
 
     public Mod(ModuleCategories category) {
         this.category = category;
-        Main.INSTANCE.logger.info("Loaded: " + this.getName() + " (" + this.getAlias() + ") Category: " + (Object)((Object)this.getCategory()));
     }
 
     public void setKeybinding(int key) {
@@ -72,7 +66,7 @@ public abstract class Mod {
     public void onTicks() {
     }
 
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
     }
 
     public void onEnableMod() {
@@ -86,6 +80,9 @@ public abstract class Mod {
     
     public void onClick(PlayerInteractEvent event) {
     }
+    
+    public void onKeyBind() {
+    }
 
     public void reset() {
         this.onEnableMod();
@@ -95,28 +92,42 @@ public abstract class Mod {
     public void on() {
         this.enabled = true;
         this.onEnableMod();
-        if (this.window != null)
-            this.window.setOpen(true);
     }
 
     public void off() {
         this.enabled = false;
         this.onDisableMod();
-        if (this.window != null)
-            this.window.setOpen(false);
     }
 
     public void toggle() {
         boolean bl = this.enabled = !this.enabled;
         if (this.isActive()) {
             this.onEnableMod();
-            if (this.window != null)
-                this.window.setOpen(true);
         } else {
             this.onDisableMod();
-            if (this.window != null)
-                this.window.setOpen(false);
         }
+    }
+    
+    public ModStatus getModStatus() {
+        return ModStatus.DEFAULT;
+    }
+    
+    public String getModName() {
+        return "Minecraft";
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Mod)
+        {
+            int fc = this.getModName().compareTo(((Mod)o).getModName());
+            if (fc == 0)
+                return this.getName().compareTo(((Mod)o).getName());
+            else
+                return fc;
+        }
+        else
+            return -1;
     }
 }
 

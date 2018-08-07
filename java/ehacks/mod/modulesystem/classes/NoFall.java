@@ -22,7 +22,6 @@ public class NoFall
 extends Mod {
     public NoFall() {
         super(ModuleCategories.PLAYER);
-        this.setKeybinding(47);
     }
 
     @Override

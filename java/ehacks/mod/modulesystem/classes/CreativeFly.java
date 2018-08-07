@@ -37,6 +37,14 @@ extends Mod {
             Wrapper.INSTANCE.player().sendPlayerAbilities();
         }
     }
+    
+    @Override
+    public void onTicks() {
+        if (!Wrapper.INSTANCE.player().capabilities.isCreativeMode) {
+            Wrapper.INSTANCE.player().capabilities.allowFlying = true;
+            Wrapper.INSTANCE.player().sendPlayerAbilities();
+        }
+    }
 
     @Override
     public void onDisableMod() {

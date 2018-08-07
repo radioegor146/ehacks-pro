@@ -31,12 +31,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -57,14 +56,24 @@ extends Mod {
     @Override
     public void onEnableMod() {
         try {
-            Class.forName("taintedmagic.common.network.PacketKatanaAttack").getConstructor();
+            Class.forName("taintedmagic.common.network.PacketKatanaAttack");
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[LimitedAura] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[LimitedAura] Not working");
         }
     }
 
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("taintedmagic.common.network.PacketKatanaAttack");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
+        }
+    }
+    
     @Override
     public void onDisableMod() {
         
@@ -95,7 +104,7 @@ extends Mod {
     public void killEntity(int entityId) {
         int playerId = Wrapper.INSTANCE.player().getEntityId();
         int dimensionId = Wrapper.INSTANCE.player().dimension;
-        ByteBuf buf = Unpooled.buffer();
+        ByteBuf buf = Unpooled.buffer(0);
         buf.writeByte(0);
         buf.writeInt(entityId);
         buf.writeInt(playerId);
@@ -104,6 +113,11 @@ extends Mod {
         buf.writeBoolean(false);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("taintedmagic", buf);
         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+    }
+    
+    @Override
+    public String getModName() {
+        return "Tainted Magic";
     }
 }
 

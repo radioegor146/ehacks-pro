@@ -56,6 +56,7 @@ import org.lwjgl.util.glu.Cylinder;
 import ehacks.api.module.Mod;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class Projectiles
 extends Mod {
@@ -69,7 +70,7 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
         boolean bow = false;
         EntityClientPlayerMP player = Wrapper.INSTANCE.player();
         if (player.getCurrentEquippedItem() != null) {

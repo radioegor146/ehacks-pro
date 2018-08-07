@@ -24,6 +24,7 @@ import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Mod;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class Breadcrumb
 extends Mod {
@@ -65,7 +66,7 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
         GL11.glPushMatrix();
         GL11.glLineWidth((float)2.0f);
         GL11.glDisable((int)3553);

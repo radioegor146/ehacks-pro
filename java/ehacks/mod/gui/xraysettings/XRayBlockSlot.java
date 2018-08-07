@@ -1,25 +1,9 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.Block
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiSlot
- *  net.minecraft.client.renderer.Tessellator
- *  net.minecraft.util.RegistryNamespaced
- */
 package ehacks.mod.gui.xraysettings;
 
-import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.RegistryNamespaced;
-import ehacks.mod.gui.xraysettings.XRayBlock;
-import ehacks.mod.gui.xraysettings.XRayGui;
 
 public class XRayBlockSlot
 extends GuiSlot {

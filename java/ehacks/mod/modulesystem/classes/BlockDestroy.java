@@ -4,6 +4,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.Tuple;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import static ehacks.mod.modulesystem.classes.PrivateNuker.isActive;
@@ -27,7 +28,7 @@ extends Mod {
 
     @Override
     public String getName() {
-        return "Block Destroyer";
+        return "BlockDestroy";
     }
     
     private Method snd;
@@ -47,10 +48,24 @@ extends Mod {
             isActive = false;
             Events.selectedBlock = null;
             this.off();
-            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442", 0));
+            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Not working", 0));
         }
         
         isActive = true;
+    }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            msg = Class.forName("openmodularturrets.network.DropBaseMessage").getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
+            msg.setAccessible(true);
+            snd = Class.forName("cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper").getDeclaredMethod("sendToServer", Class.forName("cpw.mods.fml.common.network.simpleimpl.IMessage"));
+            snd.setAccessible(true);
+            obj = Class.forName("openmodularturrets.ModularTurrets").getDeclaredField("networking").get(new Object[0]);
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
+        }
     }
 
     @Override
@@ -65,7 +80,7 @@ extends Mod {
             Block previous = selectedBlock;
             selectedBlock = block;
             if (previous == null || previous != null && !previous.getLocalizedName().equalsIgnoreCase(selectedBlock.getLocalizedName())) {
-                YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] \u0412\u044b\u0431\u0440\u0430\u043d \u0431\u043b\u043e\u043a: " + selectedBlock.getLocalizedName(), 0));
+                YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Selected block: " + selectedBlock.getLocalizedName(), 0));
             }
         } else if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && AutoTool.isActive) {
             int blockId = Block.getIdFromBlock((Block)block);
@@ -87,21 +102,17 @@ extends Mod {
         } else if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && BlockDestroy.isActive) {
             
             try {
-                if (snd == null) {
-                    Wrapper.INSTANCE.addChatMessage("snd_null");
-                }
-                if (obj == null) {
-                    Wrapper.INSTANCE.addChatMessage("obj_null");
-                }
-                if (msg == null) {
-                    Wrapper.INSTANCE.addChatMessage("msg_null");
-                }
                 snd.invoke(obj, msg.newInstance(event.x, event.y, event.z));
             }
             catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "OMTurrets";
     }
 }
 

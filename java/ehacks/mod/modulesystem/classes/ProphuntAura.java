@@ -31,7 +31,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -81,7 +80,7 @@ extends Mod {
                 for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
                     if (!(o instanceof EntityFallingBlock)) continue;
                     EntityFallingBlock e = (EntityFallingBlock)o;
-                    if (Wrapper.INSTANCE.player().getDistanceToEntity((Entity)e) > ACommandAuraRange.aurarange || e.isDead) continue;
+                    if (Wrapper.INSTANCE.player().getDistanceToEntity((Entity)e) > 6 || e.isDead) continue;
                     if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         ItemStack lel = Wrapper.INSTANCE.player().getCurrentEquippedItem();
                         lel.useItemRightClick((World)Wrapper.INSTANCE.world(), (EntityPlayer)Wrapper.INSTANCE.player());

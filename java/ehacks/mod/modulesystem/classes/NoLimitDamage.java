@@ -17,6 +17,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategories;
@@ -52,7 +53,7 @@ public class NoLimitDamage extends Mod {
             int playerId = Wrapper.INSTANCE.player().getEntityId();
             int entityId = Wrapper.INSTANCE.mc().objectMouseOver.entityHit.getEntityId();
             int dimensionId = Wrapper.INSTANCE.player().dimension;
-            ByteBuf buf = Unpooled.buffer();
+            ByteBuf buf = Unpooled.buffer(0);
             buf.writeByte(0);
             buf.writeInt(entityId);
             buf.writeInt(playerId);
@@ -68,13 +69,28 @@ public class NoLimitDamage extends Mod {
     }
     
     @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("taintedmagic.common.network.PacketKatanaAttack");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
+        }
+    }
+    
+    @Override
     public void onEnableMod() {
         try {
-            Class.forName("taintedmagic.common.network.PacketKatanaAttack").getConstructor();
+            Class.forName("taintedmagic.common.network.PacketKatanaAttack");
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitDamage] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[NoLimitDamage] Not working");
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "Tainted Magic";
     }
 }

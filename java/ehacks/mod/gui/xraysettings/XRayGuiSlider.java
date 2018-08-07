@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.GuiButton
- *  org.lwjgl.opengl.GL11
- */
 package ehacks.mod.gui.xraysettings;
 
 import net.minecraft.client.Minecraft;

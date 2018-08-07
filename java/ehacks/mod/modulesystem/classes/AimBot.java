@@ -19,18 +19,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.modulesystem.classes.KillAura;
 import ehacks.mod.modulesystem.classes.MobAura;
 import ehacks.mod.modulesystem.classes.ProphuntAura;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AimBot
 extends Mod {
     public static boolean isActive = false;
-    private static long time = 0L;
+    private static final long time = 0L;
 
     public AimBot() {
         super(ModuleCategories.COMBAT);
@@ -74,7 +72,7 @@ extends Mod {
                 if (KillAura.isActive || MobAura.isActive || ProphuntAura.isActive) break block3;
                 for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
                     EntityPlayer e;
-                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer)o) instanceof EntityPlayerSP || Friend.instance().readFriend(e.getCommandSenderName()) || Wrapper.INSTANCE.player().getDistanceToEntity((Entity)e) > ACommandAuraRange.aurarange || e.isDead || !Wrapper.INSTANCE.player().canEntityBeSeen((Entity)e) || !e.isEntityAlive() || e.isDead) continue;
+                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer)o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity)e) > 6 || e.isDead || !Wrapper.INSTANCE.player().canEntityBeSeen((Entity)e) || !e.isEntityAlive() || e.isDead) continue;
                     AimBot.faceEntity((Entity)e);
                     break;
                 }

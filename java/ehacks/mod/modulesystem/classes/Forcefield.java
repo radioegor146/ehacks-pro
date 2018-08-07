@@ -31,11 +31,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 
@@ -95,7 +93,7 @@ extends Mod {
                 if (o instanceof EntityLivingBase) {
                     entity = (EntityLivingBase)o;
                 }
-                if (entity == null || !this.isWithinRange(ACommandAuraRange.aurarange, (Entity)entity) || Friend.instance().readFriend(entity.getCommandSenderName()) || entity.isDead || entity == Wrapper.INSTANCE.player()) continue;
+                if (entity == null || !this.isWithinRange(6, (Entity)entity) || entity.isDead || entity == Wrapper.INSTANCE.player()) continue;
                 this.hitEntity((Entity)entity, AutoBlock.isActive, Criticals.isActive, AimBot.isActive, true);
             }
         }

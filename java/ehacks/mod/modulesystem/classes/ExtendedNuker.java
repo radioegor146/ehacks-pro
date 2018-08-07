@@ -12,6 +12,7 @@ package ehacks.mod.modulesystem.classes;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
@@ -69,7 +70,17 @@ extends Mod {
             Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater").getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Extended Nuker] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[Extended Nuker] Not working");
+        }
+    }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
         }
     }
     
@@ -102,7 +113,7 @@ extends Mod {
                         Block block = Wrapper.INSTANCE.world().getBlock(x, y, z);
                         if (block.getMaterial() == Material.air) 
                             continue;
-                        ByteBuf buf = Unpooled.buffer();
+                        ByteBuf buf = Unpooled.buffer(0);
                         buf.writeByte(14);
                         buf.writeInt(x);
                         buf.writeInt(y);
@@ -113,6 +124,11 @@ extends Mod {
                 }
             }
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "Furniture";
     }
 }
 

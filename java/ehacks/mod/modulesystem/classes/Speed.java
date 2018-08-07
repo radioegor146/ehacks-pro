@@ -8,7 +8,6 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.util.Timer;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandSpeedValue;
 import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategories;
 
@@ -25,7 +24,7 @@ extends Mod {
 
     @Override
     public void onTicks() {
-        TimerUtils.getTimer().timerSpeed = ACommandSpeedValue.SPEED_VALUE;
+        TimerUtils.getTimer().timerSpeed = 3.0f;
     }
 
     @Override

@@ -13,6 +13,7 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
@@ -69,7 +70,17 @@ extends Mod {
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple").getConstructor();
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Space Fire] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[Space Fire] Not working");
+        }
+    }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
         }
     }
     
@@ -84,12 +95,6 @@ extends Mod {
                 Method sendMethod = packetPipeLine.getClass().getMethod("sendToServer", new Class[] { Class.forName("micdoodle8.mods.galacticraft.core.network.IPacket") });
                 Object packetObj = Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple").getConstructor(new Class[] { Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple$EnumSimplePacket"), Object[].class }).newInstance(Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple$EnumSimplePacket").getMethod("valueOf", String.class).invoke(null, "S_SET_ENTITY_FIRE"), new Object[] { position.entityHit.getEntityId() });
                 sendMethod.invoke(packetPipeLine, packetObj);
-                /*ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(0);
-                buf.writeInt(7);
-                buf.writeInt(position.entityHit.getEntityId());
-                C17PacketCustomPayload packet = new C17PacketCustomPayload("GalacticraftCore", buf);
-                Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);*/
                 if (event.isCancelable())
                     event.setCanceled(true);
             }
@@ -98,6 +103,11 @@ extends Mod {
         {
 
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "Galacticraft";
     }
 }
 

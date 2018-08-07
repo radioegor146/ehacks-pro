@@ -31,7 +31,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandAuraRange;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -75,7 +74,7 @@ extends Mod {
                 if (!this.hasDelayRun(133L)) break block6;
                 for (int i = 0; i < Wrapper.INSTANCE.mc().theWorld.loadedEntityList.size(); ++i) {
                     Entity e = (Entity)Wrapper.INSTANCE.mc().theWorld.getLoadedEntityList().get(i);
-                    if (e == Wrapper.INSTANCE.player() || e.isDead || Wrapper.INSTANCE.player().getDistanceToEntity(e) >= ACommandAuraRange.aurarange || !(e instanceof EntityLiving)) continue;
+                    if (e == Wrapper.INSTANCE.player() || e.isDead || Wrapper.INSTANCE.player().getDistanceToEntity(e) >= 6 || !(e instanceof EntityLiving)) continue;
                     if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         ItemStack lel = Wrapper.INSTANCE.player().getCurrentEquippedItem();
                         lel.useItemRightClick((World)Wrapper.INSTANCE.world(), (EntityPlayer)Wrapper.INSTANCE.player());

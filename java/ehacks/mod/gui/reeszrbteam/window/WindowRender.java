@@ -1,13 +1,10 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.gui.reeszrbteam.window;
 
-import java.util.ArrayList;
-import ehacks.api.module.APICEMod;
+import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
 import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
 import ehacks.mod.wrapper.ModuleCategories;
+import java.util.ArrayList;
 
 public class WindowRender
 extends YAWWindow {
@@ -16,10 +13,11 @@ extends YAWWindow {
     }
 
     public YAWWindow init() {
-        for (Mod mod : APICEMod.INSTANCE.mods) {
+        for (Mod mod : ModController.INSTANCE.mods) {
             if (mod.getCategory() != ModuleCategories.RENDER) continue;
             this.addButton(mod);
         }
+        this.setup();
         return this;
     }
 }

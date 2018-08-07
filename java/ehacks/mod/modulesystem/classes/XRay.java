@@ -23,6 +23,7 @@ import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class XRay
 extends Mod {
@@ -32,7 +33,6 @@ extends Mod {
 
     public XRay() {
         super(ModuleCategories.RENDER);
-        this.setKeybinding(45);
     }
 
     @Override
@@ -56,7 +56,7 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
         if (Wrapper.INSTANCE.world() != null) {
             double doubleX = Wrapper.INSTANCE.player().lastTickPosX + (Wrapper.INSTANCE.player().posX - Wrapper.INSTANCE.player().lastTickPosX);
             double doubleY = Wrapper.INSTANCE.player().lastTickPosY + (Wrapper.INSTANCE.player().posY - Wrapper.INSTANCE.player().lastTickPosY);

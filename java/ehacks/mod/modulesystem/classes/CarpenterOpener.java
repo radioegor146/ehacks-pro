@@ -6,6 +6,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.Tuple;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.ModuleCategories;
@@ -46,27 +47,34 @@ public class CarpenterOpener extends Mod {
     @Override
     public void onEnableMod() {
         try {
-            Class.forName("com.carpentersblocks.network.PacketActivateBlock").getConstructor();
+            Class.forName("com.carpentersblocks.network.PacketActivateBlock");
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Container Opener] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442", 0));
+            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Container Opener] Not working", 0));
         }
-        canOpen = true;
     }
     
-    public boolean canOpen = true;
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("com.carpentersblocks.network.PacketActivateBlock");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
+        }
+    }
     
     @Override
     public void onMouse(MouseEvent event) {
         try
         {
             MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
-            if (!Mouse.isButtonDown(1))
-                canOpen = true;
-            if (position.sideHit != -1 && Mouse.isButtonDown(1) && canOpen)
+            if (position.sideHit != -1 && Mouse.isButtonDown(1))
             {
-                canOpen = false;
-                ByteBuf buf = Unpooled.buffer();
+                if (event.isCancelable())
+                    event.setCanceled(true);
+                ByteBuf buf = Unpooled.buffer(0);
                 buf.writeInt(0);
                 buf.writeInt(position.blockX);
                 buf.writeInt(position.blockY);
@@ -74,8 +82,6 @@ public class CarpenterOpener extends Mod {
                 buf.writeInt(position.sideHit);
                 C17PacketCustomPayload packet = new C17PacketCustomPayload("CarpentersBlocks", buf);
                 Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
-                if (event.isCancelable())
-                    event.setCanceled(true);
             }
         }
         catch (Exception e)
@@ -84,4 +90,8 @@ public class CarpenterOpener extends Mod {
         }
     }
     
+    @Override
+    public String getModName() {
+        return "Carpenters";
+    }
 }

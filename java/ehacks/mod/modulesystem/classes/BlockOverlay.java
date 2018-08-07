@@ -34,6 +34,7 @@ import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Mod;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class BlockOverlay
 extends Mod {
@@ -47,7 +48,7 @@ extends Mod {
     }
 
     @Override
-    public void onWorldRender() {
+    public void onWorldRender(RenderWorldLastEvent event) {
         MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
         Block block = Wrapper.INSTANCE.world().getBlock(position.blockX, position.blockY, position.blockZ);
         if (block.getMaterial() != Material.air) {

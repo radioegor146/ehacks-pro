@@ -1,9 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.util.Timer
- */
 package ehacks.mod.util;
 
 import net.minecraft.util.Timer;

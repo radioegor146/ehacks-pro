@@ -33,7 +33,7 @@ extends Mod {
     public void onTick() {
         if (Wrapper.INSTANCE.player().isDead && this.countdown == 1) {
             this.countdown = (int)(8.0 * Math.random());
-            Wrapper.INSTANCE.addChatMessage("[CE] Coordinates on player dead: x:" + (int)Wrapper.INSTANCE.player().posX + " y:" + (int)Wrapper.INSTANCE.player().posY + " z:" + (int)Wrapper.INSTANCE.player().posZ);
+            Wrapper.INSTANCE.addChatMessage("[EHacks] Coordinates on player dead: x:" + (int)Wrapper.INSTANCE.player().posX + " y:" + (int)Wrapper.INSTANCE.player().posY + " z:" + (int)Wrapper.INSTANCE.player().posZ);
         }
         if (!Wrapper.INSTANCE.player().isDead) {
             this.countdown = 1;

@@ -35,7 +35,6 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.relationsystem.Friend;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 
@@ -83,13 +82,13 @@ extends Mod {
     }
 
     private boolean isValidTarget(Entity e) {
-        return (!Friend.instance().readFriend(e.getCommandSenderName()) || !(e instanceof EntityPlayer)) && e instanceof EntityLivingBase;
+        return (!(e instanceof EntityPlayer)) && e instanceof EntityLivingBase;
     }
 
     @Override
     public void onTicks() {
         try {
-            if (!Friend.instance().readFriend(Wrapper.INSTANCE.mc().objectMouseOver.entityHit.getCommandSenderName()) && Wrapper.INSTANCE.mc().objectMouseOver != null && Wrapper.INSTANCE.mc().objectMouseOver.entityHit != null && this.isValidTarget(Wrapper.INSTANCE.mc().objectMouseOver.entityHit) && TriggerBot.hasReached(150 + rand.nextInt(100))) {
+            if (Wrapper.INSTANCE.mc().objectMouseOver != null && Wrapper.INSTANCE.mc().objectMouseOver.entityHit != null && this.isValidTarget(Wrapper.INSTANCE.mc().objectMouseOver.entityHit) && TriggerBot.hasReached(150 + rand.nextInt(100))) {
                 if (Criticals.isActive && !Wrapper.INSTANCE.player().isInWater() && !Wrapper.INSTANCE.player().isInsideOfMaterial(Material.lava) && !Wrapper.INSTANCE.player().isInsideOfMaterial(Material.web) && Wrapper.INSTANCE.player().onGround) {
                     Wrapper.INSTANCE.player().motionY = 0.1;
                     Wrapper.INSTANCE.player().fallDistance = 0.1f;

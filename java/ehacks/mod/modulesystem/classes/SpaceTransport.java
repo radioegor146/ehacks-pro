@@ -86,16 +86,9 @@ extends Mod {
                      double x = buf.readDouble();
                      double y = buf.readDouble();
                      double z = buf.readDouble();
-                     Wrapper.INSTANCE.addChatMessage("Got gc packet");
-                     Wrapper.INSTANCE.addChatMessage(String.valueOf(Math.abs(x - 0.0001337)) + " " + String.valueOf(Math.abs(y - 0.0001337)) + " " + String.valueOf(Math.abs(z - 0.0001337)));
                      if (Math.abs(x - 0.0001337) > 0.0000001 || Math.abs(y - 0.0001337) > 0.0000001 || Math.abs(z - 0.0001337) > 0.0000001)
                      {
-                        Wrapper.INSTANCE.addChatMessage("Packet blocked");
                         return;
-                     }
-                     else
-                     {
-                        Wrapper.INSTANCE.addChatMessage("Packet ok");
                      }
                  }
             }
@@ -172,7 +165,7 @@ extends Mod {
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate").getConstructor();
             if (Wrapper.INSTANCE.player().ridingEntity == null || !Class.forName("micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate$IEntityFullSync").isInstance(Wrapper.INSTANCE.player().ridingEntity))
             {
-                YouAlwaysWinClickGui.log("[Space Transport] \u0412\u044B \u043D\u0435 \u043C\u043E\u0436\u0435\u0442\u0435 \u0443\u043F\u0440\u0430\u0432\u043B\u044F\u0442\u044C \u044D\u0442\u0438\u043C Entity");
+                YouAlwaysWinClickGui.log("[Space Transport] Wrong entity");
                 this.off();
             }
             try
@@ -186,7 +179,7 @@ extends Mod {
             //changer.setState(true);
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Space Transport] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[Space Transport] Not working");
         }
     }
     

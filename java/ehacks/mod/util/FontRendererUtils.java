@@ -1,22 +1,9 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.renderer.texture.TextureManager
- *  net.minecraft.client.settings.GameSettings
- *  net.minecraft.util.ResourceLocation
- *  net.minecraft.util.Session
- */
 package ehacks.mod.util;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;
 import ehacks.mod.modulesystem.classes.NameProtect;
 import ehacks.mod.wrapper.Wrapper;
 

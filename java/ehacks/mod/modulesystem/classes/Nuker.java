@@ -45,7 +45,6 @@ extends Mod {
     @Override
     public void onEnableMod() {
         isActive = true;
-        Wrapper.INSTANCE.addChatMessage("&9[&bCE Nuker&9] &fRight click to choose a block.");
     }
 
     @Override

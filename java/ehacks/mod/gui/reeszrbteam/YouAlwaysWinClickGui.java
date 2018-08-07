@@ -1,27 +1,14 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiScreen
- *  net.minecraft.util.ChatAllowedCharacters
- *  org.lwjgl.input.Keyboard
- */
 package ehacks.mod.gui.reeszrbteam;
 
 import java.util.ArrayList;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
-import ehacks.api.command.Command;
-import ehacks.mod.commands.CommandManager;
 import ehacks.mod.external.config.manual.ModuleStateConfiguration;
 import ehacks.mod.external.config.manual.SaveableGuiState;
 import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
 import ehacks.mod.gui.reeszrbteam.window.WindowActives;
+import ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish;
 import ehacks.mod.gui.reeszrbteam.window.WindowCombat;
 import ehacks.mod.gui.reeszrbteam.window.WindowEHacks;
 import ehacks.mod.gui.reeszrbteam.window.WindowHub;
@@ -35,14 +22,14 @@ import ehacks.mod.gui.reeszrbteam.window.WindowRender;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class YouAlwaysWinClickGui
 extends GuiScreen {
     public static ArrayList<YAWWindow> windows = new ArrayList();
     public static ArrayList<YAWWindow> unFocusedWindows = new ArrayList();
     public static boolean isDark = false;
-    ArrayList cmds = new ArrayList();
     public static ArrayList OrgName = new ArrayList();
     public static ArrayList NameP = new ArrayList();
     private int updateCounter = 0;
@@ -52,10 +39,6 @@ extends GuiScreen {
 
     public YouAlwaysWinClickGui() {
         this.initWindows();
-        this.cmds.clear();
-        for (Command c : CommandManager.commands) {
-            this.cmds.add(c.getCommand() + " - " + c.getDescription());
-        }
     }
 
     public void initWindows() {
@@ -69,6 +52,7 @@ extends GuiScreen {
         new WindowRadar();
         new WindowActives();
         new WindowPlayerIds();
+        new WindowCheckVanish();
     }
 
     public void initGui() {
@@ -108,14 +92,17 @@ extends GuiScreen {
     
     public static ArrayDeque<Tuple<String, Integer>> logData = new ArrayDeque<Tuple<String, Integer>>();
     
-    public void drawLog() {
+    public static void drawLog() {
         int ti = logData.size();
         for (Tuple<String, Integer> log : logData)
         {
-            if (log.y < 40)
-                this.fontRendererObj.drawString(log.x, this.width - this.fontRendererObj.getStringWidth(log.x) - 20, this.height - 10 * ti - 20, GLUtils.getColor(0, 255, 255));   
+            ScaledResolution get = new ScaledResolution(Wrapper.INSTANCE.mc(), Wrapper.INSTANCE.mc().displayWidth, Wrapper.INSTANCE.mc().displayHeight);
+            int twidth = Wrapper.INSTANCE.mc().displayWidth / get.getScaleFactor();
+            int theight = Wrapper.INSTANCE.mc().displayHeight / get.getScaleFactor();
+            if (log.y < 160)
+                Wrapper.INSTANCE.fontRenderer().drawString(log.x, twidth - Wrapper.INSTANCE.fontRenderer().getStringWidth(log.x) - 20, theight - 10 * ti - 20, GLUtils.getColor(0, 255, 255));   
             else
-                this.fontRendererObj.drawString(log.x, this.width - this.fontRendererObj.getStringWidth(log.x) - 20, this.height - 10 * ti - 20, GLUtils.getColor((int)((40 - (log.y - 40)) / 40.0 * 255.0), 0, 255, 255));
+                Wrapper.INSTANCE.fontRenderer().drawString(log.x, twidth - Wrapper.INSTANCE.fontRenderer().getStringWidth(log.x) - 20, theight - 10 * ti - 20, GLUtils.getColor((int)((160 - (log.y - 160)) / 160.0 * 255.0), 0, 255, 255));
             ti--;
             log.y++;
         }

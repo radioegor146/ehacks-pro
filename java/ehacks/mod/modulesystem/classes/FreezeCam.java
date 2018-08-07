@@ -14,10 +14,10 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
-import ehacks.mod.internal.FreecamEntity;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 import com.mojang.authlib.GameProfile;
+import ehacks.mod.util.FreeCamEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -57,7 +57,7 @@ extends Mod {
     public void doFreezeCam() {
         if (Wrapper.INSTANCE.world() instanceof WorldClient) {
             this.location = new LocationHelper((Entity)Wrapper.INSTANCE.player());
-            FreecamEntity spectator = new FreecamEntity((World)Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
+            FreeCamEntity spectator = new FreeCamEntity((World)Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
             spectator.setPositionAndRotation(this.location.posX, this.location.posY - 1.5, this.location.posZ, this.location.rotationYaw, this.location.rotationPitch);
             spectator.inventory.copyInventory(Wrapper.INSTANCE.player().inventory);
             Wrapper.INSTANCE.world().addEntityToWorld(-1, (Entity)spectator);

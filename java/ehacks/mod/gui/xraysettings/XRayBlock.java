@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.Block
- *  net.minecraft.client.Minecraft
- *  net.minecraft.util.RegistryNamespaced
- */
 package ehacks.mod.gui.xraysettings;
 
 import java.io.BufferedReader;
@@ -14,12 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.RegistryNamespaced;
 
 public class XRayBlock {
     public static ArrayList blocks = new ArrayList();

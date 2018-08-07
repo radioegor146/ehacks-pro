@@ -1,37 +1,13 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.Gui
- *  net.minecraft.client.network.NetHandlerPlayClient
- *  net.minecraft.client.renderer.EntityRenderer
- *  net.minecraft.client.renderer.Tessellator
- *  net.minecraft.client.renderer.entity.RenderItem
- *  net.minecraft.client.renderer.texture.TextureManager
- *  net.minecraft.item.ItemStack
- *  net.minecraft.network.Packet
- *  org.lwjgl.opengl.GL11
- *  org.lwjgl.util.glu.Sphere
- */
 package ehacks.mod.util;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 import ehacks.mod.external.axis.AltAxisAlignedBB;

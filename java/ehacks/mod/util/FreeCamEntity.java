@@ -1,12 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  com.mojang.authlib.GameProfile
- *  net.minecraft.client.entity.EntityOtherPlayerMP
- *  net.minecraft.util.MovementInput
- *  net.minecraft.world.World
- */
 package ehacks.mod.util;
 
 import com.mojang.authlib.GameProfile;

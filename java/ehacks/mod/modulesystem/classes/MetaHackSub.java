@@ -17,6 +17,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategories;
@@ -39,12 +40,22 @@ public class MetaHackSub extends Mod {
     public String getName() {
         return "MetaHack-Sub";
     }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("com.riciJak.Ztones.network.ToggleMetaData");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
+        }
+    }
 
     @Override
     public void onEnableMod() {
         try {
             Class.forName("com.riciJak.Ztones.network.ToggleMetaData").getConstructor(Boolean.TYPE);
-            ByteBuf buf = Unpooled.buffer();
+            ByteBuf buf = Unpooled.buffer(0);
             buf.writeInt(0);
             buf.writeBoolean(false);
             C17PacketCustomPayload packet = new C17PacketCustomPayload("Ztones", buf);
@@ -52,7 +63,12 @@ public class MetaHackSub extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[MetaHack-Sub] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[MetaHack-Sub] Not working");
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "ZTones";
     }
 }

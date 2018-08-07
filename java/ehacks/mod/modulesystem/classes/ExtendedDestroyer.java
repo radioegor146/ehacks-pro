@@ -13,6 +13,7 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
@@ -63,10 +64,20 @@ extends Mod {
     @Override
     public void onEnableMod() {
         try {
-            Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater").getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
+            Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater");
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Extended Destroyer] \u0422\u0443\u0442 \u043d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+            YouAlwaysWinClickGui.log("[Extended Destroyer] Not working");
+        }
+    }
+    
+    @Override
+    public ModStatus getModStatus() {
+        try {
+            Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater");
+            return ModStatus.WORKING;
+        } catch (Exception e) {
+            return ModStatus.NOTWORKING;
         }
     }
     
@@ -77,7 +88,7 @@ extends Mod {
             MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
             if (position.sideHit != -1 && Mouse.isButtonDown(0))
             {
-                ByteBuf buf = Unpooled.buffer();
+                ByteBuf buf = Unpooled.buffer(0);
                 buf.writeByte(14);
                 buf.writeInt(position.blockX);
                 buf.writeInt(position.blockY);
@@ -90,6 +101,11 @@ extends Mod {
         {
 
         }
+    }
+    
+    @Override
+    public String getModName() {
+        return "Furniture";
     }
 }
 

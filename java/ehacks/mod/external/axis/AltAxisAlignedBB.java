@@ -1,17 +1,8 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.util.AxisAlignedBB
- *  net.minecraft.util.MovingObjectPosition
- *  net.minecraft.util.Vec3
- */
 package ehacks.mod.external.axis;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import ehacks.mod.external.axis.AltAABBLocalPool;
 
 public class AltAxisAlignedBB {
     private static final ThreadLocal theAABBLocalPool = new AltAABBLocalPool();

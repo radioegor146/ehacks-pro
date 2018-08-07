@@ -8,7 +8,6 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import ehacks.api.module.Mod;
-import ehacks.mod.commands.ACommandStepHeight;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 
@@ -25,7 +24,7 @@ extends Mod {
 
     @Override
     public void onTicks() {
-        Wrapper.INSTANCE.player().stepHeight = ACommandStepHeight.STEP_HEIGHT_VALUE;
+        Wrapper.INSTANCE.player().stepHeight = 2;
     }
 
     @Override
