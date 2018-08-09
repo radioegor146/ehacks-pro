@@ -7,6 +7,7 @@ public class Mappings {
     public static String timer = Mappings.isMCP() ? "timer" : "field_71428_T";
     public static String isInWeb = Mappings.isMCP() ? "isInWeb" : "field_70134_J";
     public static String registerReloadListener = Mappings.isMCP() ? "registerReloadListener" : "func_110542_a";
+    public static String chunkListing = Mappings.isMCP() ? "chunkListing" : "field_73237_c";
 
     private static boolean isMCP() {
         try {

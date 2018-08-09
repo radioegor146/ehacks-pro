@@ -126,25 +126,8 @@ public class ServerListPing17 {
         dataInputStream.readFully(in);  //read json string
         String json = new String(in);
         
-        
-        long now = System.currentTimeMillis();
-        dataOutputStream.writeByte(0x09); //size of packet
-        dataOutputStream.writeByte(0x01); //0x01 for ping
-        dataOutputStream.writeLong(now); //time!?
-
-        readVarInt(dataInputStream);
-        id = readVarInt(dataInputStream);
-        if (id == -1) {
-            throw new IOException("Premature end of stream.");
-        }
-        
-        if (id != 0x01) {
-            throw new IOException("Invalid packetID");
-        }
-        long pingtime = dataInputStream.readLong(); //read response
-
         StatusResponse response = gson.fromJson(json, StatusResponse.class);
-        response.setTime((int) (now - pingtime));
+        response.setTime(0);
         
         dataOutputStream.close();
         outputStream.close();

@@ -17,7 +17,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -38,41 +38,31 @@ import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
+import ehacks.mod.util.Mappings;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import java.lang.reflect.Method;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.MouseEvent;
 import org.lwjgl.input.Mouse;
 import net.minecraft.inventory.IInventory;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
 
-public class ChestMagic
+public class NoLimitClear
 extends Mod {
-    
-    public ChestMagic() {
+    public NoLimitClear() {
         super(ModuleCategories.EHACKS);
     }
 
     @Override
     public String getName() {
-        return "ChestMagic";
-    }
-
-    @Override
-    public void onEnableMod() {
-        try {
-            Class.forName("powercrystals.minefactoryreloaded.net.ServerPacketHandler");
-        }
-        catch (Exception ex) {
-            this.off();
-            YouAlwaysWinClickGui.log("[ChestMagic] Not working");
-        }
+        return "NoLimitClear";
     }
 
     @Override
@@ -86,49 +76,62 @@ extends Mod {
     }
     
     @Override
+    public void onEnableMod() {
+        try {
+            Class.forName("powercrystals.minefactoryreloaded.net.ServerPacketHandler");
+            int count = 0;
+            IChunkProvider chunkProvider = Wrapper.INSTANCE.world().getChunkProvider();
+            if (chunkProvider instanceof ChunkProviderClient)
+            {
+                ChunkProviderClient clientProvider = (ChunkProviderClient)chunkProvider;
+                List<Chunk> chunks = ReflectionHelper.getPrivateValue(ChunkProviderClient.class, clientProvider, Mappings.chunkListing);
+                for (Chunk chunk : chunks)
+                {
+                    for (Object entityObj : chunk.chunkTileEntityMap.values())
+                    {
+                        if (!(entityObj instanceof TileEntity))
+                            return;
+                        TileEntity entity = (TileEntity)entityObj;
+                        if (entity instanceof IInventory)
+                        {
+                            IInventory inv = (IInventory)entity;
+                            TileEntity ent = entity;
+                            for (int i = 0; i < inv.getSizeInventory(); i++)
+                                setSlot(i, ent.xCoord, ent.yCoord, ent.zCoord);
+                            count++;
+                        }
+                    }
+                }
+            }
+            YouAlwaysWinClickGui.log("[NoLimitClear] Cleared " + String.valueOf(count) + " containers");
+            this.off();
+        }
+        catch (Exception ex) {
+            this.off();
+            YouAlwaysWinClickGui.log("[NoLimitClear] Not working");
+        }
+    }
+
+    @Override
     public void onDisableMod() {
         
     }
-    
-    private boolean prevState = false;
-    private boolean prevStateT = false;
-    
-    private int playerId = -1;
-    
-    @Override
-    public void onTicks() {
-        boolean newState = Keyboard.isKeyDown(Keyboard.KEY_M);
-        if (newState && !prevState)
-        {
-            prevState = newState;
-            MovingObjectPosition mop = Wrapper.INSTANCE.mc().objectMouseOver;
-            TileEntity entity = Wrapper.INSTANCE.world().getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-            if (entity != null && entity instanceof IInventory)
-            {
-                IInventory inv = (IInventory)entity;
-                for (int i = 0; i < inv.getSizeInventory(); i++)
-                    setSlot(i, mop.blockX, mop.blockY, mop.blockZ, playerId == -1 ? Wrapper.INSTANCE.player().getEntityId() : playerId);
-                YouAlwaysWinClickGui.log("[ChestMagic] Set");
-            }
-        }
-        prevState = newState;
-        boolean newStateT = Keyboard.isKeyDown(Keyboard.KEY_GRAVE);
-        if (newStateT && !prevStateT)
-        {
-            prevStateT = newStateT;
-            MovingObjectPosition mop = Wrapper.INSTANCE.mc().objectMouseOver;
-            if (mop.entityHit != null && mop.entityHit instanceof EntityPlayer) {
-                playerId = mop.entityHit.getEntityId();
-                YouAlwaysWinClickGui.log("[ChestMagic] Set to player");
-                return;
-            }
-            playerId = -1;
-            YouAlwaysWinClickGui.log("[ChestMagic] Player cleared");
-        }
-        prevStateT = newStateT;
+
+    private float getDistanceToEntity(Entity from, Entity to) {
+        return from.getDistanceToEntity(to);
+    }
+
+    private boolean isWithinRange(float range, Entity e) {
+        return this.getDistanceToEntity(e, (Entity)Wrapper.INSTANCE.player()) <= range;
     }
     
-    public void setSlot(int slotId, int x, int y, int z, int playerId) {
+    @Override
+    public void onMouse(MouseEvent event) {
+        
+    }
+    
+    public void setSlot(int slotId, int x, int y, int z) {
+        int playerId = Wrapper.INSTANCE.player().getEntityId();
         ByteBuf buf = Unpooled.buffer(0);
         buf.writeByte(0);
         buf.writeInt(Wrapper.INSTANCE.player().dimension);

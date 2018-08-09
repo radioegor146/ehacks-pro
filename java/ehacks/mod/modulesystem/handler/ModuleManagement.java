@@ -51,6 +51,7 @@ public class ModuleManagement {
         this.add(new MagicGive());
         this.add(new NoLimitSpell());
         this.add(new NoLimitBuffs());
+        this.add(new NoLimitClear());
         
         this.add(new PacketFlooder());
         this.add(new Step());

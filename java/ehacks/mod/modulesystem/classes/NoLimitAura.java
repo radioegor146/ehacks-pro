@@ -108,7 +108,7 @@ extends Mod {
         buf.writeInt(entityId);
         buf.writeInt(playerId);
         buf.writeInt(dimensionId);
-        buf.writeFloat(10000);
+        buf.writeFloat(Float.MAX_VALUE);
         buf.writeBoolean(false);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("taintedmagic", buf);
         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
