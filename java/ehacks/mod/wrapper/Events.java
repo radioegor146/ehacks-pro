@@ -2,7 +2,9 @@ package ehacks.mod.wrapper;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent;
 import java.awt.Color;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,6 +36,7 @@ import net.minecraftforge.client.event.MouseEvent;
 import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.cvThreadStarted;
 import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.lpLastUpdate;
 import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.lpThreadStarted;
+import ehacks.mod.util.UltimateLogger;
 
 public class Events {
     public static Block selectedBlock = null;
@@ -59,6 +62,11 @@ public class Events {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
             mod.onTick();
         }
+    }
+    
+    @SubscribeEvent
+    public void onPlayerJoinedServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+        UltimateLogger.INSTANCE.sendServerConnectInfo();
     }
 
     @SubscribeEvent
@@ -139,11 +147,13 @@ public class Events {
 
     @SubscribeEvent
     public void onGameOverlay(RenderGameOverlayEvent.Text event) {
+        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+            return;
         if (Wrapper.INSTANCE.mc().currentScreen == null) {
             int x2 = 8;
             int y2 = 7;
             GL11.glPushMatrix();
-            String Copyright1 = "EHacks for FFTeam";
+            String Copyright1 = "EHacks 2.0.8 for FFTeam";
             String Copyright2 = "Powered by CheatingEssentials [Qmaks edit]";
             String Copyright3 = "[ForgeFuck and radioegor146 edition]";
             String Copyright4 = "For private use ONLY!";

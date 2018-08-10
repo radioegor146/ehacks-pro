@@ -52,6 +52,11 @@ public class ModuleManagement {
         this.add(new NoLimitSpell());
         this.add(new NoLimitBuffs());
         this.add(new NoLimitClear());
+        //this.add(new Test());
+        this.add(new DebugMe());
+        
+        this.add(new FakeDestroy());
+        this.add(new NBTView());
         
         this.add(new PacketFlooder());
         this.add(new Step());

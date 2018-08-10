@@ -39,7 +39,9 @@ import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
+import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -95,13 +97,13 @@ extends Mod {
     
     @Override
     public void onTicks() {
-        boolean newState = Keyboard.isKeyDown(Keyboard.KEY_M);
+        boolean newState = Keyboard.isKeyDown(Keybinds.give);
         if (newState && !prevState)
         {
             prevState = newState;
-            if (ItemSelectCommand.SelectedStack == null)
+            if (Statics.STATIC_ITEMSTACK == null)
                 return;
-            tryAtlas(ItemSelectCommand.SelectedStack);
+            tryAtlas(Statics.STATIC_ITEMSTACK);
         }
         prevState = newState;
     }

@@ -9,10 +9,13 @@ import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.input.Keyboard;
 
@@ -59,7 +62,7 @@ public class NEISelect extends Mod {
     
     @Override
     public void onTicks() {
-        boolean newState = Keyboard.isKeyDown(Keyboard.KEY_TAB);
+        boolean newState = Keyboard.isKeyDown(Keybinds.neiSelect);
         if (newState && !prevState)
         {
             prevState = newState;
@@ -71,7 +74,8 @@ public class NEISelect extends Mod {
                 if (checkItem instanceof ItemStack) {
                     ItemStack item = (ItemStack)checkItem;
                     int count = container.isShiftKeyDown() ? item.getMaxStackSize() : 1;
-                    ItemSelectCommand.SelectedStack = item.copy().splitStack(count);
+                    Statics.STATIC_ITEMSTACK = item.copy().splitStack(count);
+                    Statics.STATIC_NBT = Statics.STATIC_ITEMSTACK.getTagCompound() == null ? new NBTTagCompound() : Statics.STATIC_ITEMSTACK.getTagCompound();
                 }
                 YouAlwaysWinClickGui.log("[NEISelect] ItemStack selected");
             } catch (Exception ex) {

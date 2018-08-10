@@ -7,6 +7,7 @@ package ehacks.mod.commands;
 
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.modulesystem.classes.ItemCreator;
+import ehacks.mod.wrapper.Statics;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.command.CommandBase;
@@ -21,8 +22,6 @@ import net.minecraft.nbt.NBTTagList;
  * @author radioegor146
  */
 public class ItemSelectCommand extends CommandBase {
-    
-        public static ItemStack SelectedStack;
     
         @Override
         public String getCommandName() {
@@ -95,7 +94,8 @@ public class ItemSelectCommand extends CommandBase {
                         toGive.stackTagCompound.setTag("ench", tagList);
                     }
 
-                    SelectedStack = toGive;
+                    Statics.STATIC_ITEMSTACK = toGive;
+                    Statics.STATIC_NBT = Statics.STATIC_ITEMSTACK.getTagCompound() == null ? new NBTTagCompound() : Statics.STATIC_ITEMSTACK.getTagCompound();
 
 
                     YouAlwaysWinClickGui.log("[Item Selector] ItemStack selected");

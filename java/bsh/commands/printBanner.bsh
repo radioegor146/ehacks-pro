@@ -1,0 +1,55 @@
+/**
+	Print the BeastShell banner (version and author line) - GUI or non GUI.
+
+	@author Daniel Leuck
+*/
+
+import javax.swing.ImageIcon;
+import java.awt.*;
+import bsh.Interpreter;
+import bsh.Capabilities;
+import bsh.util.JConsole;
+
+/*
+	Note: any errors thrown in here will be caught by interpreter and
+	ignored... printing the default message.
+*/
+printBanner() 
+{
+	f = new Font("SansSerif", Font.BOLD, 12);
+	pbsh() {
+		jconsole.print("bsh % ");
+	}
+	pcmd(String cmd) {
+		jconsole.print(cmd, new Font("SansSerif", Font.BOLD, 12));
+	}
+
+	if ( bsh.console != void 
+		&& Capabilities.haveSwing() 
+		&& (bsh.console instanceof JConsole) ) 
+	{
+
+	    this.jconsole = bsh.console;
+	    jconsole.println( 
+			new ImageIcon( getResource("/bsh/util/lib/small_bean_shell.png")) );
+	    jconsole.print(
+			Interpreter.VERSION + " -- based on BeanShell 2.2 http://code.google.com/p/beanshell2",
+			new Font("SansSerif", Font.BOLD, 12), 
+			new Color(20,100,20) );
+	    jconsole.println();
+		jconsole.print("Interactive Help: Use "); pcmd("help(arg)");jconsole.print(" or ");pcmd("?arg");jconsole.print(" for general help, ");
+		jconsole.print("\nUse ");pcmd("javap(arg)");jconsole.print(" or ");pcmd("??arg");jconsole.print(" for methods and fields. Examples:\n");
+		pbsh();jconsole.print("?dnorm\n", f);
+		pbsh();jconsole.print("?beast.core.MCMC\n", f);
+		pbsh();jconsole.print("var = new beast.core.MCMC();\n", f);
+		pbsh();jconsole.print("help(var);\n", f);
+		pbsh();jconsole.print("?var\n", f);
+		pbsh();jconsole.print("javap(var)\n", f);
+		pbsh();jconsole.print("??var\n", f);
+		jconsole.print("Use ");pcmd("demo();");jconsole.print(" to list demo and ");pcmd("demo(\"chart\");");jconsole.print(" to run a demo.\n");
+		jconsole.println(" ");
+	} else
+		jconsole.print( "BEASTShell "
+			+ Interpreter.VERSION +" -- based on on BeanShell 2.2 http://code.google.com/p/beanshell2");
+
+}

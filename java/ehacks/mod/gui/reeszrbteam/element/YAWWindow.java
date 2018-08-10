@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import ehacks.api.module.Mod;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.util.GLUtils;
+import ehacks.mod.wrapper.Keybinds;
 import java.util.HashSet;
 import org.lwjgl.input.Keyboard;
 
@@ -65,7 +66,7 @@ public class YAWWindow {
             GLUtils.drawGradientBorderedRect(this.xPos + this.buttons.size() * 88 - 18 + this.dragX, this.yPos + 2 + this.dragY, this.xPos + this.buttons.size() * 88 - 10 + this.dragX, this.yPos + 10 + this.dragY, 1.0f, -10066330, this.isPinned ? -8947849 : -7829368, this.isPinned ? -11184811 : -10066330);
             GLUtils.drawGradientBorderedRect(this.xPos + this.buttons.size() * 88 - 8 + this.dragX, this.yPos + 2 + this.dragY, this.xPos + this.buttons.size() * 88 + this.dragX, this.yPos + 10 + this.dragY, 1.0f, -10066330, this.isExtended ? -8947849 : -7829368, this.isExtended ? -11184811 : -10066330);
             if (this.isExtended) {
-                if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD9))
+                if (Keyboard.isKeyDown(Keybinds.showGroups))
                 {
                     int ds = 0;
                     HashSet<String> mods = new HashSet<String>();

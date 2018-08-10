@@ -28,7 +28,7 @@ extends EntityOtherPlayerMP {
     }
 
     public boolean isSneaking() {
-        return FreeCamEntity.movementInput.sneak;
+        return false;
     }
 
     public void onLivingUpdate() {

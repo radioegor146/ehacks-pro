@@ -39,6 +39,7 @@ import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
+import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategories;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -95,7 +96,7 @@ extends Mod {
     
     @Override
     public void onTicks() {
-        boolean newState = Keyboard.isKeyDown(Keyboard.KEY_M);
+        boolean newState = Keyboard.isKeyDown(Keybinds.give);
         if (newState && !prevState)
         {
             prevState = newState;

@@ -129,5 +129,9 @@ public abstract class Mod implements Comparable {
         else
             return -1;
     }
+    
+    public boolean canOnOnStart() {
+        return true;
+    }
 }
 

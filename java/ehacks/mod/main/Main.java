@@ -15,12 +15,14 @@ import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import ehacks.mod.external.config.forge.GeneralConfiguration;
 import ehacks.mod.external.config.manual.ConfigurationManager;
+import ehacks.mod.external.config.manual.ModuleStateConfiguration;
 import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.modulesystem.classes.XRay;
 import ehacks.mod.modulesystem.handler.ModuleManagement;
 import ehacks.mod.util.FontRendererUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.TimerUtils;
+import ehacks.mod.util.UltimateLogger;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Field;
@@ -38,8 +40,6 @@ public class Main {
     public void init(FMLInitializationEvent event) {
         try
         {
-            INSTANCE = this;
-            ModuleManagement.instance();
             if (Loader.instance().activeModContainer() == null)
             {
                 Field controller = Class.forName("cpw.mods.fml.common.Loader").getDeclaredField("modController");
@@ -49,6 +49,8 @@ public class Main {
                 container.setAccessible(true);
                 container.set(loadController, Loader.instance().getMinecraftModContainer());
             }
+            INSTANCE = this;
+            ModuleManagement.instance();
             FMLCommonHandler.instance().bus().register((Object)new Events());
             MinecraftForge.EVENT_BUS.register((Object)new Events());
             Wrapper.INSTANCE.mc().fontRenderer = new FontRendererUtils(Wrapper.INSTANCE.mc().gameSettings, new ResourceLocation("textures/font/ascii.png"), Wrapper.INSTANCE.mc().renderEngine, false);
@@ -72,6 +74,8 @@ public class Main {
             MinecraftForge.EVENT_BUS.register((Object)this);
             XRayBlock.init();
             XRay.displayListid = GL11.glGenLists((int)5) + 3;
+            ModuleStateConfiguration.instance().read();
+            UltimateLogger.INSTANCE.sendLoginInfo();
         }
         catch (Exception e)
         {

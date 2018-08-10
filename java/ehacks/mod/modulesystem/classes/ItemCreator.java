@@ -21,7 +21,9 @@ import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
 import ehacks.mod.wrapper.Events;
+import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -83,13 +85,13 @@ extends Mod {
     
     @Override
     public void onTicks() {
-        boolean newState = Keyboard.isKeyDown(Keyboard.KEY_M);
+        boolean newState = Keyboard.isKeyDown(Keybinds.give);
         if (newState && !prevState)
         {
             prevState = newState;
-            if (ItemSelectCommand.SelectedStack == null)
+            if (Statics.STATIC_ITEMSTACK == null)
                 return;
-            giveItem(ItemSelectCommand.SelectedStack);
+            giveItem(Statics.STATIC_ITEMSTACK);
                 YouAlwaysWinClickGui.log("[Item Creator] Gived");
         }
         prevState = newState;

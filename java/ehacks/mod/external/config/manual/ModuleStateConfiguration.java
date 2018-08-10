@@ -57,7 +57,8 @@ public class ModuleStateConfiguration {
                     for (int i = 0; i < modules.size(); ++i) {
                         if (!moduleName.equalsIgnoreCase(modules.get(i).toLowerCase().replaceAll(" ", "")) || !booleanState.equalsIgnoreCase("true")) continue;
                         try {
-                            module.on();
+                            if (module.canOnOnStart())
+                                module.on();
                             continue;
                         }
                         catch (Exception e) {

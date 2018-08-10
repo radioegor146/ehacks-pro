@@ -22,6 +22,8 @@ import ehacks.mod.gui.reeszrbteam.window.WindowRender;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -93,20 +95,33 @@ extends GuiScreen {
     public static ArrayDeque<Tuple<String, Integer>> logData = new ArrayDeque<Tuple<String, Integer>>();
     
     public static void drawLog() {
-        int ti = logData.size();
-        for (Tuple<String, Integer> log : logData)
+        int ti = 0;
+        for (int i = logData.size() - 1; i >= 0; i--)
         {
+            Tuple<String, Integer> log = (Tuple<String, Integer>)logData.toArray()[i];
             ScaledResolution get = new ScaledResolution(Wrapper.INSTANCE.mc(), Wrapper.INSTANCE.mc().displayWidth, Wrapper.INSTANCE.mc().displayHeight);
             int twidth = Wrapper.INSTANCE.mc().displayWidth / get.getScaleFactor();
             int theight = Wrapper.INSTANCE.mc().displayHeight / get.getScaleFactor();
-            if (log.y < 160)
-                Wrapper.INSTANCE.fontRenderer().drawString(log.x, twidth - Wrapper.INSTANCE.fontRenderer().getStringWidth(log.x) - 20, theight - 10 * ti - 20, GLUtils.getColor(0, 255, 255));   
-            else
-                Wrapper.INSTANCE.fontRenderer().drawString(log.x, twidth - Wrapper.INSTANCE.fontRenderer().getStringWidth(log.x) - 20, theight - 10 * ti - 20, GLUtils.getColor((int)((160 - (log.y - 160)) / 160.0 * 255.0), 0, 255, 255));
-            ti--;
+            List<String> strings = Wrapper.INSTANCE.fontRenderer().listFormattedStringToWidth(log.x, 324);
+            if (log.y < 320) {
+                for (int j = 0; j < strings.size(); j++)
+                    if (ti + j < 20)
+                    {
+                        //GLUtils.drawRect(twidth - 326, theight - 9 * ti - 9 * j - 28 - 9, twidth - 324, theight - 9 * ti - 9 * j - 28, GLUtils.getColor(128, 0, 0, 0));
+                        Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(strings.get(strings.size() - j - 1).replaceAll("[\u0000-\u001f]", ""), twidth - 326, theight - 9 * ti - 9 * j - 28 - 9, GLUtils.getColor(0, 255, 255));   
+                    }
+            } else {
+                for (int j = 0; j < strings.size(); j++)
+                    if (ti + j < 20)
+                    {
+                        //GLUtils.drawRect(twidth - 326, theight - 9 * ti - 9 * j - 28 - 9, twidth - 324, theight - 9 * ti - 9 * j - 28, GLUtils.getColor(Math.max(0, (int)((80 - (log.y - 320)) / 80.0 * 128.0)), 0, 0, 0));
+                        Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(strings.get(strings.size() - j - 1).replaceAll("[\u0000-\u001f]", ""), twidth - 326, theight - 9 * ti - 9 * j - 28 - 9, GLUtils.getColor(Math.max(0, (int)((80 - (log.y - 320)) / 80.0 * 255.0)), 0, 255, 255));
+                    }
+            }
+            ti += strings.size();
             log.y++;
         }
-        while (!logData.isEmpty() && logData.peek().y == 80)
+        while (!logData.isEmpty() && logData.peek().y == 390)
             logData.poll();
     }
 

@@ -98,7 +98,7 @@ extends Mod {
     public void onTicks() {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
         {
-            
+            Wrapper.INSTANCE.mc().displayGuiScreen(null);
         }
     }
     

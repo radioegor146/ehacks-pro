@@ -8,8 +8,9 @@ public class Mappings {
     public static String isInWeb = Mappings.isMCP() ? "isInWeb" : "field_70134_J";
     public static String registerReloadListener = Mappings.isMCP() ? "registerReloadListener" : "func_110542_a";
     public static String chunkListing = Mappings.isMCP() ? "chunkListing" : "field_73237_c";
+    public static String currentSlot = Mappings.isMCP() ? "theSlot" : "field_75186_f";
 
-    private static boolean isMCP() {
+    public static boolean isMCP() {
         try {
             if (ReflectionHelper.findField(Minecraft.class, (String[])new String[]{"theMinecraft"}) != null) {
                 return true;

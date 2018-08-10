@@ -32,15 +32,12 @@ extends Mod {
 
     @Override
     public void onEnableMod() {
-        if (!Wrapper.INSTANCE.player().capabilities.isCreativeMode) {
-            Wrapper.INSTANCE.player().capabilities.allowFlying = true;
-            Wrapper.INSTANCE.player().sendPlayerAbilities();
-        }
+        
     }
     
     @Override
     public void onTicks() {
-        if (!Wrapper.INSTANCE.player().capabilities.isCreativeMode) {
+        if (Wrapper.INSTANCE.player() != null && !Wrapper.INSTANCE.player().capabilities.isCreativeMode) {
             Wrapper.INSTANCE.player().capabilities.allowFlying = true;
             Wrapper.INSTANCE.player().sendPlayerAbilities();
         }
@@ -48,10 +45,7 @@ extends Mod {
 
     @Override
     public void onDisableMod() {
-        if (!Wrapper.INSTANCE.player().capabilities.isCreativeMode) {
-            Wrapper.INSTANCE.player().capabilities.allowFlying = false;
-            Wrapper.INSTANCE.player().sendPlayerAbilities();
-        }
+        
     }
 }
 
