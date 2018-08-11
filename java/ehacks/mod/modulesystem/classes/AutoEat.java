@@ -11,7 +11,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -24,7 +24,7 @@ extends Mod {
     private int counter = 0;
 
     public AutoEat() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

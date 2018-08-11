@@ -40,7 +40,7 @@ import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
 import ehacks.mod.wrapper.Keybinds;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -59,7 +59,7 @@ import org.lwjgl.input.Keyboard;
 public class JesusGift
 extends Mod {
     public JesusGift() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override

@@ -39,7 +39,7 @@ import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
 import ehacks.mod.wrapper.Keybinds;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -57,7 +57,7 @@ public class ChestMagic
 extends Mod {
     
     public ChestMagic() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override
@@ -107,8 +107,11 @@ extends Mod {
             if (entity != null && entity instanceof IInventory)
             {
                 IInventory inv = (IInventory)entity;
+                boolean setFull = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+                int count = setFull ? (Wrapper.INSTANCE.player().inventory.getItemStack() == null ? 1 : Wrapper.INSTANCE.player().inventory.getItemStack().getMaxStackSize()) : 1;
                 for (int i = 0; i < inv.getSizeInventory(); i++)
-                    setSlot(i, mop.blockX, mop.blockY, mop.blockZ, playerId == -1 ? Wrapper.INSTANCE.player().getEntityId() : playerId);
+                    for (int j = 0; j < count; j++)
+                        setSlot(i, mop.blockX, mop.blockY, mop.blockZ, playerId == -1 ? Wrapper.INSTANCE.player().getEntityId() : playerId);
                 YouAlwaysWinClickGui.log("[ChestMagic] Set");
             }
         }

@@ -9,7 +9,7 @@ import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.Tuple;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -26,7 +26,7 @@ import org.lwjgl.input.Mouse;
 public class CarpenterOpener extends Mod {
 
     public CarpenterOpener() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CarpenterOpener extends Mod {
         try
         {
             MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
-            if (position.sideHit != -1 && Mouse.isButtonDown(1))
+            if (position.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && Mouse.isButtonDown(1))
             {
                 if (event.isCancelable())
                     event.setCanceled(true);

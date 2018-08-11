@@ -22,7 +22,7 @@ import ehacks.api.module.Mod;
 import ehacks.mod.modulesystem.classes.KillAura;
 import ehacks.mod.modulesystem.classes.MobAura;
 import ehacks.mod.modulesystem.classes.ProphuntAura;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AimBot
@@ -31,7 +31,7 @@ extends Mod {
     private static final long time = 0L;
 
     public AimBot() {
-        super(ModuleCategories.COMBAT);
+        super(ModuleCategory.COMBAT);
     }
 
     @Override

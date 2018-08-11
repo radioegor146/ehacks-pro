@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AimAssist
@@ -18,7 +18,7 @@ extends Mod {
     private List<EntityPlayer> targetlist = new ArrayList<EntityPlayer>();
 
     public AimAssist() {
-        super(ModuleCategories.COMBAT);
+        super(ModuleCategory.COMBAT);
     }
 
     @Override

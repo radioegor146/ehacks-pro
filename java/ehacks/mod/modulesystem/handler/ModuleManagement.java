@@ -54,9 +54,13 @@ public class ModuleManagement {
         this.add(new NoLimitClear());
         //this.add(new Test());
         this.add(new DebugMe());
+        this.add(new PacketLogger());
+        this.add(new CellViewer());
         
         this.add(new FakeDestroy());
         this.add(new NBTView());
+        this.add(new Blink());
+        //this.add(new ShowContainer());
         
         this.add(new PacketFlooder());
         this.add(new Step());

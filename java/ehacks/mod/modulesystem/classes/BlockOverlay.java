@@ -32,14 +32,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class BlockOverlay
 extends Mod {
     public BlockOverlay() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
 
     @Override

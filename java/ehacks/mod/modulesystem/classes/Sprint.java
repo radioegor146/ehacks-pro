@@ -8,13 +8,13 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Sprint
 extends Mod {
     public Sprint() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

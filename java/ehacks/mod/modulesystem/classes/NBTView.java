@@ -13,7 +13,7 @@ import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.nbtedit.GuiNBTEdit;
 import ehacks.mod.wrapper.Keybinds;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Method;
@@ -37,7 +37,7 @@ import org.lwjgl.input.Mouse;
  */
 public class NBTView extends Mod {
     public NBTView() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class NBTView extends Mod {
                     int mouseX = Mouse.getX() / get.getScaleFactor();
                     int mouseY = Mouse.getY() / get.getScaleFactor();
                     GuiContainer container = (GuiContainer)screen;
-                    Method isMouseOverSlot = GuiContainer.class.getDeclaredMethod("isMouseOverSlot", Slot.class, Integer.TYPE, Integer.TYPE);
+                    Method isMouseOverSlot = GuiContainer.class.getDeclaredMethod(Mappings.isMouseOverSlot, Slot.class, Integer.TYPE, Integer.TYPE);
                     isMouseOverSlot.setAccessible(true);
                     for (int i = 0; i < container.inventorySlots.inventorySlots.size(); i++) {
                         if ((Boolean)isMouseOverSlot.invoke(container, container.inventorySlots.inventorySlots.get(i), mouseX, get.getScaledHeight() - mouseY)) {

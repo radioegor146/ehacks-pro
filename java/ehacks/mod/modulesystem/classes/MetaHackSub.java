@@ -20,7 +20,7 @@ import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.Events;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -33,7 +33,7 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 public class MetaHackSub extends Mod {
 
     public MetaHackSub() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override
@@ -60,6 +60,7 @@ public class MetaHackSub extends Mod {
             buf.writeBoolean(false);
             C17PacketCustomPayload packet = new C17PacketCustomPayload("Ztones", buf);
             Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+            this.off();
         }
         catch (Exception ex) {
             this.off();

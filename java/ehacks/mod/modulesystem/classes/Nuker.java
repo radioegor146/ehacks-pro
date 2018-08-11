@@ -25,7 +25,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
 import ehacks.mod.wrapper.Events;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Nuker
@@ -34,7 +34,7 @@ extends Mod {
     private static int radius = 5;
 
     public Nuker() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ehacks.api.module;
 
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
+import ehacks.mod.wrapper.PacketHandler;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -13,9 +14,9 @@ public abstract class Mod implements Comparable {
     protected String description = "unknown";
     protected int keybind = 0;
     protected boolean enabled;
-    protected ModuleCategories category;
+    protected ModuleCategory category;
 
-    public Mod(ModuleCategories category) {
+    public Mod(ModuleCategory category) {
         this.category = category;
     }
 
@@ -23,7 +24,7 @@ public abstract class Mod implements Comparable {
         this.keybind = key;
     }
 
-    public void setCategory(ModuleCategories category) {
+    public void setCategory(ModuleCategory category) {
         this.category = category;
     }
 
@@ -43,7 +44,7 @@ public abstract class Mod implements Comparable {
         return this.description;
     }
 
-    public ModuleCategories getCategory() {
+    public ModuleCategory getCategory() {
         return this.category;
     }
 
@@ -131,6 +132,10 @@ public abstract class Mod implements Comparable {
     }
     
     public boolean canOnOnStart() {
+        return true;
+    }
+    
+    public boolean onPacket(Object packet, PacketHandler.Side side) {
         return true;
     }
 }

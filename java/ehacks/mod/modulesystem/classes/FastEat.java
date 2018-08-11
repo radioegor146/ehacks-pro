@@ -42,7 +42,7 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.input.Mouse;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class FastEat
@@ -50,7 +50,7 @@ extends Mod {
     private int mode = 0;
 
     public FastEat() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

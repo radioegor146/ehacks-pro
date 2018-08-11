@@ -9,12 +9,12 @@ package ehacks.mod.modulesystem.classes;
 import net.minecraft.util.Timer;
 import ehacks.api.module.Mod;
 import ehacks.mod.util.TimerUtils;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 
 public class Speed
 extends Mod {
     public Speed() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

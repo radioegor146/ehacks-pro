@@ -29,13 +29,13 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class FastBow
 extends Mod {
     public FastBow() {
-        super(ModuleCategories.COMBAT);
+        super(ModuleCategory.COMBAT);
     }
 
     @Override

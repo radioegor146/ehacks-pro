@@ -64,13 +64,33 @@ public class Events {
         }
     }
     
+    public boolean onPacket(Object packet, PacketHandler.Side side) {
+        boolean ok = true;
+        for (Mod mod : ModController.INSTANCE.mods) {
+            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
+            ok &= mod.onPacket(packet, side);
+        }
+        return ok;
+    }
+    
+    private boolean ready = false;
+    
     @SubscribeEvent
     public void onPlayerJoinedServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         UltimateLogger.INSTANCE.sendServerConnectInfo();
     }
-
+    
     @SubscribeEvent
     public void onTicks(TickEvent.ClientTickEvent event) {
+        if (Wrapper.INSTANCE.player() != null) {
+            if (!ready)
+            {
+                new PacketHandler(this);
+                ready = true;
+            }
+        }
+        else
+            ready = false;
         if (!cvThreadStarted.get())
             cvLastUpdate++;
         if (!lpThreadStarted.get())

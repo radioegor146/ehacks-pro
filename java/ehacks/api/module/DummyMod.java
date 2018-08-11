@@ -5,7 +5,7 @@
  */
 package ehacks.api.module;
 
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 
 /**
  *
@@ -14,7 +14,7 @@ import ehacks.mod.wrapper.ModuleCategories;
 public class DummyMod extends Mod {
 
     public DummyMod(String name) {
-        super(ModuleCategories.NONE);
+        super(ModuleCategory.NONE);
         this.name = name;
     }
     

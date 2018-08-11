@@ -13,7 +13,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 
 public class ModuleStateConfiguration {
     private static volatile ModuleStateConfiguration instance = new ModuleStateConfiguration();
@@ -30,7 +30,7 @@ public class ModuleStateConfiguration {
             BufferedWriter bufferedwriter = new BufferedWriter(filewriter);
             for (Mod module : ModController.INSTANCE.mods) {
                 Boolean s = module.isActive();
-                if (module.getCategory() == ModuleCategories.NONE) continue;
+                if (module.getCategory() == ModuleCategory.NONE) continue;
                 bufferedwriter.write(module.getName().toLowerCase().replaceAll(" ", "") + ":" + s + "\r\n");
             }
             bufferedwriter.close();
@@ -52,13 +52,12 @@ public class ModuleStateConfiguration {
                 String moduleName = string2[0];
                 String booleanState = string2[1];
                 for (Mod module : ModController.INSTANCE.mods) {
-                    if (module.getCategory() == ModuleCategories.NONE) continue;
+                    if (module.getCategory() == ModuleCategory.NONE || module.getCategory() == ModuleCategory.EHACKS || !module.canOnOnStart()) continue;
                     List<String> modules = Arrays.asList(module.getName());
                     for (int i = 0; i < modules.size(); ++i) {
                         if (!moduleName.equalsIgnoreCase(modules.get(i).toLowerCase().replaceAll(" ", "")) || !booleanState.equalsIgnoreCase("true")) continue;
                         try {
-                            if (module.canOnOnStart())
-                                module.on();
+                            module.on();
                             continue;
                         }
                         catch (Exception e) {

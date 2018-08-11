@@ -20,4 +20,5 @@ public class Keybinds {
     public static int tickingDebug = Keyboard.KEY_NUMPAD5;
     public static int oneDebug = Keyboard.KEY_NUMPAD6;
     public static int openNbtEdit = Keyboard.KEY_NUMPAD7;
+    public static int openAeViewer = Keyboard.KEY_NUMPAD4;
 }

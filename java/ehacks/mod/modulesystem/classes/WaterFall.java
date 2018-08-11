@@ -41,7 +41,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class WaterFall
@@ -49,7 +49,7 @@ extends Mod {
     private int delay;
 
     public WaterFall() {
-        super(ModuleCategories.NOCHEATPLUS);
+        super(ModuleCategory.NOCHEATPLUS);
     }
 
     @Override

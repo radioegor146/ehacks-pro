@@ -34,7 +34,7 @@ import ehacks.api.module.Mod;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class KillAura
@@ -44,7 +44,7 @@ extends Mod {
     private long lastMS = -1L;
 
     public KillAura() {
-        super(ModuleCategories.COMBAT);
+        super(ModuleCategory.COMBAT);
     }
 
     @Override

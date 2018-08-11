@@ -8,13 +8,13 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.multiplayer.WorldClient;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NoWeather
 extends Mod {
     public NoWeather() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
 
     @Override

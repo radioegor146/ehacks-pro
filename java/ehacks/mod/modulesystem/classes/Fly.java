@@ -9,7 +9,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -20,7 +20,7 @@ extends Mod {
     public static float FLY_SPEED = 0.05f;
 
     public Fly() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

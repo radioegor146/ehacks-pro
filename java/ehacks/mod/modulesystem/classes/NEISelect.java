@@ -10,7 +10,7 @@ import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.Keybinds;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -25,7 +25,7 @@ import org.lwjgl.input.Keyboard;
  */
 public class NEISelect extends Mod {
     public NEISelect() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override

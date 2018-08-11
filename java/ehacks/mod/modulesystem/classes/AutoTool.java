@@ -4,14 +4,14 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 
 public class AutoTool
 extends Mod {
     public static boolean isActive = false;
 
     public AutoTool() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

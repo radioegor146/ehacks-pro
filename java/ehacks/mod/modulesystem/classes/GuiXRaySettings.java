@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import ehacks.api.module.Mod;
 import ehacks.mod.gui.xraysettings.XRayGui;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class GuiXRaySettings
@@ -19,7 +19,7 @@ extends Mod {
     private XRayGui gui = new XRayGui();
 
     public GuiXRaySettings() {
-        super(ModuleCategories.NONE);
+        super(ModuleCategory.NONE);
         this.setKeybinding(65);
     }
 

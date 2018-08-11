@@ -12,13 +12,13 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Fullbright
 extends Mod {
     public Fullbright() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
     
     private int cooldownTicks = 0;

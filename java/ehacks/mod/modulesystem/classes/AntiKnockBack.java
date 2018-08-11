@@ -8,14 +8,14 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class AntiKnockBack
 extends Mod {
     public AntiKnockBack() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

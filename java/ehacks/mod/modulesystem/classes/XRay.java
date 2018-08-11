@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Mod;
 import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.util.GLUtils;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -32,7 +32,7 @@ extends Mod {
     public static int cooldownTicks = 0;
 
     public XRay() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
 
     @Override

@@ -16,10 +16,10 @@ import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
 import ehacks.mod.modulesystem.classes.DynamicFly;
 import ehacks.mod.modulesystem.handler.ModuleManagement;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import com.mojang.authlib.GameProfile;
-import ehacks.mod.util.FreeCamEntity;
+import ehacks.mod.util.EntityFakePlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
@@ -32,7 +32,7 @@ extends Mod {
     private LocationHelper loc;
 
     public Spectate() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
 
     @Override
@@ -60,7 +60,7 @@ extends Mod {
     public void doSpectate() {
         if (Wrapper.INSTANCE.world() instanceof WorldClient) {
             this.loc = new LocationHelper((Entity)Wrapper.INSTANCE.player());
-            FreeCamEntity spectator = new FreeCamEntity((World)Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
+            EntityFakePlayer spectator = new EntityFakePlayer((World)Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
             spectator.setPositionAndRotation(this.loc.posX, this.loc.posY - 1.5, this.loc.posZ, this.loc.rotationYaw, this.loc.rotationPitch);
             spectator.boundingBox.setBB(Wrapper.INSTANCE.player().boundingBox.copy());
             spectator.inventory.copyInventory(Wrapper.INSTANCE.player().inventory);

@@ -10,13 +10,13 @@ package ehacks.mod.modulesystem.classes;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.util.AxisAlignedBB;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NCPStep
 extends Mod {
     public NCPStep() {
-        super(ModuleCategories.NOCHEATPLUS);
+        super(ModuleCategory.NOCHEATPLUS);
     }
 
     @Override

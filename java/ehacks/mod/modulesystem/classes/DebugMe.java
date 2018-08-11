@@ -23,7 +23,7 @@ import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
 import ehacks.mod.util.OpenFileFilter;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Keybinds;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -61,7 +61,7 @@ extends Mod {
     private Interpreter interpreter;
     
     public DebugMe() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
         interpreter = new Interpreter();
     }
 
@@ -163,7 +163,7 @@ extends Mod {
     
     @Override
     public String getModName() {
-        return "Forge";
+        return "Minecraft";
     }
     
     private String runScript() throws FileNotFoundException, EvalError {

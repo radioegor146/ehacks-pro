@@ -10,7 +10,7 @@ import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import static ehacks.mod.modulesystem.classes.PrivateNuker.isActive;
 import ehacks.mod.wrapper.Events;
 import static ehacks.mod.wrapper.Events.selectedBlock;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -23,7 +23,7 @@ extends Mod {
     public static boolean isActive = false;
 
     public BlockDestroy() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override

@@ -17,7 +17,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AntiPotion
@@ -26,7 +26,7 @@ extends Mod {
     private Potion[] goodEffects = new Potion[]{Potion.moveSpeed, Potion.digSpeed, Potion.damageBoost, Potion.heal, Potion.jump, Potion.regeneration, Potion.resistance, Potion.fireResistance, Potion.waterBreathing, Potion.invisibility, Potion.nightVision, Potion.field_76434_w, Potion.field_76444_x, Potion.field_76443_y};
 
     public AntiPotion() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

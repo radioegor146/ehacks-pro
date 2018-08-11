@@ -19,7 +19,7 @@ import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
 import static ehacks.mod.modulesystem.classes.PrivateNuker.isActive;
 import ehacks.mod.wrapper.Events;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -46,7 +46,7 @@ extends Mod {
     public int radius = 5;
     
     public ExtendedNuker() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override

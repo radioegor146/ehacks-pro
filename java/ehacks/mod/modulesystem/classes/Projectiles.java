@@ -54,14 +54,14 @@ import net.minecraft.world.chunk.IChunkProvider;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Cylinder;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class Projectiles
 extends Mod {
     public Projectiles() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
 
     @Override

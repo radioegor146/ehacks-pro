@@ -7,7 +7,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 
@@ -16,7 +16,7 @@ extends Mod {
     int countdown = 80;
 
     public DieCoordinates() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override

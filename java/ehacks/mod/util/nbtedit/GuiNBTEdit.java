@@ -15,6 +15,7 @@
 package ehacks.mod.util.nbtedit;
 
 import ehacks.debugme.Debug;
+import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.wrapper.Statics;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,7 @@ extends GuiScreen {
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
         this.nbtString = new GuiTextField(this.mc.fontRenderer, 274, this.height - 27, this.width - 286, 20);
         this.nbtString.setMaxStringLength(32000);
-        this.nbtString.setText(Debug.INSTANCE.NBTToJson(Statics.STATIC_NBT));
+        this.nbtString.setText(Debug.INSTANCE.NBTToJson(guiTree.getNBTTree().toNBTTagCompound()));
         this.nbtString.setCursorPositionZero();
         this.buttonList.add(new GuiButton(0, 10, this.height - 27, 60, 20, "Save"));
         this.buttonList.add(new GuiButton(1, 75, this.height - 27, 60, 20, "\u00a7cCancel"));
@@ -113,7 +114,13 @@ extends GuiScreen {
                     break;
                 }
                 case 2: {
-                    NBTTagCompound check = Debug.INSTANCE.jsonToNBT(this.nbtString.getText());
+                    try
+                    {
+                        NBTTagCompound check = Debug.INSTANCE.jsonToNBT(this.nbtString.getText());
+                        Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new GuiNBTEdit(check));
+                    } catch (Exception e) {
+                        YouAlwaysWinClickGui.log("[NBTView] Invalid JSON");
+                    }
                 }
                 case 3: {
                     this.nbtString.setText(Debug.INSTANCE.NBTToJson(this.guiTree.getNBTTree().toNBTTagCompound()));

@@ -31,7 +31,7 @@ import ehacks.mod.modulesystem.classes.KillAura;
 import ehacks.mod.modulesystem.classes.MobAura;
 import ehacks.mod.modulesystem.classes.ProphuntAura;
 import ehacks.mod.modulesystem.classes.TriggerBot;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AutoBlock
@@ -39,7 +39,7 @@ extends Mod {
     public static boolean isActive = false;
 
     public AutoBlock() {
-        super(ModuleCategories.COMBAT);
+        super(ModuleCategory.COMBAT);
     }
 
     @Override

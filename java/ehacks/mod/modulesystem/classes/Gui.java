@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import ehacks.api.module.Mod;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Gui
@@ -19,7 +19,7 @@ extends Mod {
     private YouAlwaysWinClickGui click = new YouAlwaysWinClickGui();
 
     public Gui() {
-        super(ModuleCategories.NONE);
+        super(ModuleCategory.NONE);
         this.setKeybinding(34);
     }
 

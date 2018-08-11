@@ -21,13 +21,13 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NCPFly
 extends Mod {
     public NCPFly() {
-        super(ModuleCategories.NOCHEATPLUS);
+        super(ModuleCategory.NOCHEATPLUS);
     }
 
     @Override

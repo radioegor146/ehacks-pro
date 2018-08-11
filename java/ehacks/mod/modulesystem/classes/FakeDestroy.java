@@ -19,7 +19,7 @@ import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
 import ehacks.mod.wrapper.Events;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -48,7 +48,7 @@ import org.lwjgl.input.Mouse;
 public class FakeDestroy
 extends Mod {
     public FakeDestroy() {
-        super(ModuleCategories.PLAYER);
+        super(ModuleCategory.PLAYER);
     }
 
     @Override
@@ -61,7 +61,20 @@ extends Mod {
         return "Fake destroyer";
     }
     
-    private ArrayList<int[]> removedBlocks = new ArrayList<int[]>();
+    private ArrayList<BlockInfo> removedBlocks = new ArrayList<BlockInfo>();
+    
+    private class BlockInfo
+    {
+        public int[] coords;
+        public Block block;
+        public int meta;
+        
+        public BlockInfo(int[] coords, Block block, int meta) {
+            this.coords = coords;
+            this.block = block;
+            this.meta = meta;
+        }
+    }
     
     private boolean prevState = false;
     
@@ -73,11 +86,12 @@ extends Mod {
             MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
             if (position.sideHit != -1 && !prevState && nowState)
             {
+                removedBlocks.add(new BlockInfo(new int[] {position.blockX, position.blockY, position.blockZ}, Wrapper.INSTANCE.world().getBlock(position.blockX, position.blockY, position.blockZ), Wrapper.INSTANCE.world().getBlockMetadata(position.blockX, position.blockY, position.blockZ)));
                 Wrapper.INSTANCE.world().setBlockToAir(position.blockX, position.blockY, position.blockZ);
-                removedBlocks.add(new int[] {position.blockX, position.blockY, position.blockZ});
                 if (event.isCancelable())
                     event.setCanceled(true);
             }
+            prevState = nowState;
         }
         catch (Exception e)
         {
@@ -87,13 +101,13 @@ extends Mod {
     
     @Override
     public void onEnableMod() {
-        removedBlocks = new ArrayList<int[]>();
+        removedBlocks = new ArrayList<BlockInfo>();
     }
     
     @Override
     public void onDisableMod() {
-        for (int[] block : removedBlocks) {
-            
+        for (int i = 0; i < removedBlocks.size(); i++) {
+            Wrapper.INSTANCE.world().setBlock(removedBlocks.get(i).coords[0], removedBlocks.get(i).coords[1], removedBlocks.get(i).coords[2], removedBlocks.get(i).block, removedBlocks.get(i).meta, 3);
         }
     }
 }

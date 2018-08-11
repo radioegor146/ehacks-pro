@@ -29,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import ehacks.api.module.Mod;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class WaterWalk
@@ -38,7 +38,7 @@ extends Mod {
     private int delay;
 
     public WaterWalk() {
-        super(ModuleCategories.NOCHEATPLUS);
+        super(ModuleCategory.NOCHEATPLUS);
     }
 
     @Override

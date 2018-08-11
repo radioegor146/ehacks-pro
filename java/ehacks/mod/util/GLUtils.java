@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.gui.xraysettings.XRayBlock;
+import ehacks.mod.wrapper.Keybinds;
+import org.lwjgl.input.Keyboard;
 
 public class GLUtils {
     private static Minecraft mc = Minecraft.getMinecraft();
@@ -26,6 +28,8 @@ public class GLUtils {
     }
 
     public static void drawSphere(double d1, double d2, double d3, double d4, double x, double y, double z, float size, int slices, int stacks, float lWidth) {
+        
+        
         GLUtils.enableDefaults();
         GL11.glColor4d((double)d1, (double)d2, (double)d3, (double)d4);
         GL11.glTranslated((double)x, (double)y, (double)z);
@@ -35,6 +39,8 @@ public class GLUtils {
     }
 
     public static void drawCheck(int x, int y) {
+        
+        
         GL11.glEnable((int)3042);
         GL11.glDisable((int)3553);
         GL11.glColor4f((float)0.0f, (float)0.0f, (float)0.75f, (float)0.5f);
@@ -79,6 +85,8 @@ public class GLUtils {
     }
 
     public static void renderPlayerSphere(double par3, double par5, double par7) {
+        
+        
         float x = (float)par3;
         float y = (float)par5;
         float z = (float)par7;
@@ -86,6 +94,8 @@ public class GLUtils {
     }
 
     private static void renderSphere(float x, float y, float z) {
+        
+        
         GL11.glPushMatrix();
         GL11.glTranslatef((float)x, (float)(y + 1.0f), (float)z);
         GL11.glColor4f((float)0.0f, (float)1.0f, (float)1.0f, (float)0.5f);
@@ -103,6 +113,8 @@ public class GLUtils {
     }
 
     public static void drawItem(int x, int y, ItemStack stack) {
+        
+        
         itemRenderer.renderItemIntoGUI(GLUtils.mc.fontRenderer, GLUtils.mc.renderEngine, stack, x, y);
         itemRenderer.renderItemAndEffectIntoGUI(GLUtils.mc.fontRenderer, GLUtils.mc.renderEngine, stack, x, y);
         GL11.glDisable((int)2884);
@@ -114,12 +126,16 @@ public class GLUtils {
     }
 
     public static void drawSmallString(String s, int x, int y, int co) {
+        
+        
         GL11.glScalef((float)0.5f, (float)0.5f, (float)0.5f);
         Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(s, x * 2, y * 2, co);
         GL11.glScalef((float)2.0f, (float)2.0f, (float)2.0f);
     }
 
     public void drawTexturedModalRect(double i, double d, int par3, int par4, double e, double f) {
+        
+        
         float var7 = 0.00390625f;
         float var8 = 0.00390625f;
         Tessellator var9 = Tessellator.instance;
@@ -132,6 +148,8 @@ public class GLUtils {
     }
 
     public static void drawBorderRect(int x, int y, int x1, int y1, int color, int bcolor) {
+        
+        
         float rs = 2.0f;
         x = (int)((float)x * rs);
         y = (int)((float)y * rs);
@@ -147,6 +165,8 @@ public class GLUtils {
     }
 
     public static void drawMovingString(String s, int height, int displaywidth, int color) {
+        
+        
         Integer widthmover = null;
         if (widthmover == null || widthmover >= displaywidth + 1) {
             widthmover = - Minecraft.getMinecraft().fontRenderer.getStringWidth(s);
@@ -158,6 +178,8 @@ public class GLUtils {
     }
 
     public static void drawRoundedRect(float x, float y, float x1, float y1, int borderC, int insideC) {
+        
+        
         GL11.glScalef((float)0.5f, (float)0.5f, (float)0.5f);
         GLUtils.drawVLine(x *= 2.0f, (y *= 2.0f) + 1.0f, (y1 *= 2.0f) - 2.0f, borderC);
         GLUtils.drawVLine((x1 *= 2.0f) - 1.0f, y + 1.0f, y1 - 2.0f, borderC);
@@ -172,6 +194,8 @@ public class GLUtils {
     }
 
     public static void drawBorderedRect(float x, float y, float x1, float y1, int borderC, int insideC) {
+        
+        
         GL11.glScalef((float)0.5f, (float)0.5f, (float)0.5f);
         GLUtils.drawVLine(x *= 2.0f, y *= 2.0f, (y1 *= 2.0f) - 1.0f, borderC);
         GLUtils.drawVLine((x1 *= 2.0f) - 1.0f, y, y1, borderC);
@@ -182,6 +206,8 @@ public class GLUtils {
     }
 
     public static void drawButton(int x, int y, int x2, int y2, int borderC, int topgradient, int bottomgradient) {
+        
+        
         GLUtils.drawBorderedRect(x, y, x2, y2, borderC, 16777215);
         Gui.drawRect((int)(x2 - 2), (int)y, (int)(x2 - 1), (int)y2, (int)-16172197);
         Gui.drawRect((int)(x + 1), (int)(y + 1), (int)(x2 - 1), (int)(y + 2), (int)-15050626);
@@ -199,6 +225,8 @@ public class GLUtils {
     }
 
     public static void drawBorderedRect(double x, double y, double x2, double y2, float l1, int col1, int col2) {
+        
+        
         GLUtils.drawRect((float)x, (float)y, (float)x2, (float)y2, col2);
         float f = (float)(col1 >> 24 & 255) / 255.0f;
         float f1 = (float)(col1 >> 16 & 255) / 255.0f;
@@ -256,6 +284,8 @@ public class GLUtils {
     }
     
     public static void drawRect(float paramXStart, float paramYStart, float paramXEnd, float paramYEnd, int paramColor) {
+        
+        
         float alpha = (float)(paramColor >> 24 & 255) / 255.0f;
         float red = (float)(paramColor >> 16 & 255) / 255.0f;
         float green = (float)(paramColor >> 8 & 255) / 255.0f;
@@ -279,6 +309,8 @@ public class GLUtils {
     }
 
     public static void drawGradientRect(double x, double y, double x2, double y2, int col1, int col2) {
+        
+        
         float f = (float)(col1 >> 24 & 255) / 255.0f;
         float f1 = (float)(col1 >> 16 & 255) / 255.0f;
         float f2 = (float)(col1 >> 8 & 255) / 255.0f;
@@ -309,6 +341,8 @@ public class GLUtils {
     }
 
     public static void drawGradientBorderedRect(double x, double y, double x2, double y2, float l1, int col1, int col2, int col3) {
+        
+        
         float f = (float)(col1 >> 24 & 255) / 255.0f;
         float f1 = (float)(col1 >> 16 & 255) / 255.0f;
         float f2 = (float)(col1 >> 8 & 255) / 255.0f;
@@ -338,6 +372,8 @@ public class GLUtils {
     }
 
     public static void drawStrip(int x, int y, float width, double angle, float points, float radius, int color) {
+        
+        
         int i;
         float yc;
         float a2;
@@ -452,6 +488,8 @@ public class GLUtils {
     }
 
     public static void drawOutlinedBoundingBox(AltAxisAlignedBB par1AxisAlignedBB) {
+        
+        
         Tessellator var2 = Tessellator.instance;
         var2.startDrawing(3);
         var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ);
@@ -480,6 +518,8 @@ public class GLUtils {
     }
 
     public static void drawBoundingBox(AltAxisAlignedBB axisalignedbb) {
+        
+        
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
@@ -544,6 +584,8 @@ public class GLUtils {
     }
 
     public static void drawESP(double d, double d1, double d2, double r, double b2, double g) {
+        
+        
         GL11.glPushMatrix();
         GL11.glEnable((int)3042);
         GL11.glBlendFunc((int)770, (int)771);
@@ -568,6 +610,8 @@ public class GLUtils {
     }
 
     public static void startDrawingESPs(double d, double d1, double d2, double r, double g, double b2) {
+        
+        
         GL11.glPushMatrix();
         GL11.glEnable((int)3042);
         GL11.glBlendFunc((int)770, (int)771);
@@ -592,6 +636,8 @@ public class GLUtils {
     }
 
     public static void startDrawingESPs(AltAxisAlignedBB bb, float r, float b2, float g) {
+        
+        
         GL11.glPushMatrix();
         GL11.glEnable((int)3042);
         GL11.glBlendFunc((int)770, (int)771);
@@ -616,6 +662,8 @@ public class GLUtils {
     }
 
     public static void renderBlock(int x, int y, int z, XRayBlock block) {
+        
+        
         GL11.glColor4ub((byte)((byte)block.r), (byte)((byte)block.g), (byte)((byte)block.b), (byte)((byte)block.a));
         GL11.glVertex3f((float)x, (float)y, (float)z);
         GL11.glVertex3f((float)(x + 1), (float)y, (float)z);

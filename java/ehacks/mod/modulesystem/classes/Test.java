@@ -20,7 +20,8 @@ import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
 import ehacks.mod.util.ExceptionUtils;
 import ehacks.mod.wrapper.Events;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
+import ehacks.mod.wrapper.PacketHandler;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -44,7 +45,7 @@ import org.lwjgl.input.Mouse;
 public class Test
 extends Mod {
     public Test() {
-        super(ModuleCategories.EHACKS);
+        super(ModuleCategory.EHACKS);
     }
 
     @Override
@@ -59,21 +60,19 @@ extends Mod {
     
     @Override
     public void onEnableMod() {
-        try
-        {
-            throw new Exception("Test");
-        }
-        catch (Exception e)
-        {
-            YouAlwaysWinClickGui.log("[Test] Exception: " + ExceptionUtils.getStringException(e));
-            
-        }
-        this.off();
+
     }
     
     @Override
     public String getModName() {
         return "Test";
+    }
+    
+    @Override
+    public boolean onPacket(Object packet, PacketHandler.Side side) {
+        if (side == PacketHandler.Side.OUT && (packet instanceof net.minecraft.network.play.client.C07PacketPlayerDigging))
+            return false;
+        return true;
     }
 }
 

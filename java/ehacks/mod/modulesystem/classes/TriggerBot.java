@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class TriggerBot
@@ -45,7 +45,7 @@ extends Mod {
     private static long lastMS;
 
     public TriggerBot() {
-        super(ModuleCategories.COMBAT);
+        super(ModuleCategory.COMBAT);
     }
 
     @Override

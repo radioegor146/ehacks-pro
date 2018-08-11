@@ -3,7 +3,7 @@ package ehacks.mod.gui.reeszrbteam.window;
 import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
 import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 
 public class WindowEHacks
 extends YAWWindow {
@@ -13,7 +13,7 @@ extends YAWWindow {
 
     public YAWWindow init() {
         for (Mod mod : ModController.INSTANCE.mods) {
-            if (mod.getCategory() != ModuleCategories.EHACKS) continue;
+            if (mod.getCategory() != ModuleCategory.EHACKS) continue;
             this.addButton(mod);
         }
         this.setup();

@@ -9,7 +9,8 @@ public class Mappings {
     public static String registerReloadListener = Mappings.isMCP() ? "registerReloadListener" : "func_110542_a";
     public static String chunkListing = Mappings.isMCP() ? "chunkListing" : "field_73237_c";
     public static String currentSlot = Mappings.isMCP() ? "theSlot" : "field_75186_f";
-
+    public static String isMouseOverSlot = Mappings.isMCP() ? "isMouseOverSlot" : "func_146981_a";
+    
     public static boolean isMCP() {
         try {
             if (ReflectionHelper.findField(Minecraft.class, (String[])new String[]{"theMinecraft"}) != null) {

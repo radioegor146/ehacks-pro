@@ -23,7 +23,7 @@ import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Mod;
 import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
-import ehacks.mod.wrapper.ModuleCategories;
+import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
@@ -34,7 +34,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class ItemESP
 extends Mod {
     public ItemESP() {
-        super(ModuleCategories.RENDER);
+        super(ModuleCategory.RENDER);
     }
 
     @Override
