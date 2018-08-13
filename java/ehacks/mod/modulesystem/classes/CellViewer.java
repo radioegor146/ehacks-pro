@@ -10,6 +10,7 @@ import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.util.Mappings;
+import ehacks.mod.util.MinecraftGuiUtils;
 import ehacks.mod.util.nbtedit.GuiNBTEdit;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -161,21 +162,17 @@ public class CellViewer extends Mod {
             this.ySize = 256;
             
         }
-
+        
         @Override
         protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-            Wrapper.INSTANCE.mc().renderEngine.bindTexture(new ResourceLocation("ehacks", "textures/gui/container.png"));
             GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            GL11.glEnable((int)3042);
             int startX = (this.width - this.xSize) / 2;
             int startY = (this.height - this.ySize) / 2;
-            this.drawTexturedModalRect(startX, startY, 0, 0, this.xSize, this.ySize);
-            GL11.glDisable((int)3042);
+            MinecraftGuiUtils.drawBack(startX, startY, xSize, ySize);
             int x = 0;
             int y = 0;
-            for (int i = 0; i < 143; i++) {
-                if (i >= container.slots.get(container.currentPage).size())
-                    GLUtils.drawRect(startX + 11 + x * 18, startY + 17 + y * 18, startX + 11 + x * 18 + 18, startY + 17 + y * 18 + 18, GLUtils.getColor(198, 198, 198));
+            for (int i = 0; i < container.slots.get(container.currentPage).size(); i++) {
+                MinecraftGuiUtils.drawSlotBack(startX + 11 + x * 18, startY + 17 + y * 18);
                 x++;
                 y += x / 13;
                 x = x % 13;

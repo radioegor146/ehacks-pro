@@ -33,12 +33,11 @@ extends Gui {
     }
 
     public void draw(int mx, int my) {
-        this.mc.renderEngine.bindTexture(GuiNBTNode.WIDGET_TEXTURE);
         if (this.inBounds(mx, my)) {
             Gui.drawRect((int)this.x, (int)this.y, (int)(this.x + 14), (int)(this.y + 14), (int)-2130706433);
         }
         GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-        this.drawTexturedModalRect(this.x, this.y, this.id * 14, 27, 14, 14);
+        //this.drawTexturedModalRect(this.x, this.y, this.id * 14, 27, 14, 14);
         if (!this.enabled) {
             GuiCharacterButton.drawRect((int)this.x, (int)this.y, (int)(this.x + 14), (int)(this.y + 14), (int)-1071504862);
         }

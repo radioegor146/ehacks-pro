@@ -56,10 +56,12 @@ public class ModuleManagement {
         this.add(new DebugMe());
         this.add(new PacketLogger());
         this.add(new CellViewer());
+        this.add(new RedHack());
         
         this.add(new FakeDestroy());
         this.add(new NBTView());
         this.add(new Blink());
+        this.add(new CreativeGive());
         //this.add(new ShowContainer());
         
         this.add(new PacketFlooder());

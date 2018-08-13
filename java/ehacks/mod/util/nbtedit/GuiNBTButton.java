@@ -11,6 +11,7 @@
  */
 package ehacks.mod.util.nbtedit;
 
+import ehacks.mod.util.GLUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -34,11 +35,11 @@ extends Gui {
         this.x = x;
         this.y = y;
     }
-
+    
     public void draw(int mx, int my) {
-        this.mc.renderEngine.bindTexture(GuiNBTNode.WIDGET_TEXTURE);
+        GL11.glScalef(.5f, .5f, .5f);
         if (this.inBounds(mx, my)) {
-            Gui.drawRect((int)this.x, (int)this.y, (int)(this.x + 9), (int)(this.y + 9), (int)-2130706433);
+            Gui.drawRect((int)this.x * 2, (int)this.y * 2, (int)(this.x * 2 + 19), (int)(this.y * 2 + 19), (int)-2130706433);
             if (this.hoverTime == -1L) {
                 this.hoverTime = System.currentTimeMillis();
             }
@@ -46,10 +47,16 @@ extends Gui {
             this.hoverTime = -1L;
         }
         GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-        this.drawTexturedModalRect(this.x, this.y, (this.id - 1) * 9, 18, 9, 9);
+        
+        if (this.id < 12)
+            GuiIconUtils.drawButtonBack(this.x * 2, this.y * 2);
+        GuiIconUtils.drawButtonIcon(this.x * 2, this.y * 2, id - 1);
+        
         if (!this.enabled) {
-            GuiNBTButton.drawRect((int)this.x, (int)this.y, (int)(this.x + 9), (int)(this.y + 9), (int)-1071504862);
-        } else if (this.hoverTime != -1L && System.currentTimeMillis() - this.hoverTime > 300L) {
+            GuiNBTButton.drawRect((int)this.x * 2, (int)this.y * 2, (int)(this.x * 2 + 19), (int)(this.y * 2 + 19), (int)-1071504862);
+        } 
+        GL11.glScalef(2f, 2f, 2f);
+        if (this.enabled && this.hoverTime != -1L && System.currentTimeMillis() - this.hoverTime > 300L) {
             this.drawToolTip(mx, my);
         }
     }

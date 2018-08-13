@@ -22,6 +22,8 @@
  */
 package ehacks.mod.util.nbtedit;
 
+import ehacks.mod.util.GLUtils;
+import ehacks.mod.util.MinecraftGuiUtils;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -128,11 +130,19 @@ extends Gui {
         this.parent.nodeEdited(this.node);
         this.parent.closeWindow();
     }
-
+    
     public void draw(int mx, int my) {
-        this.mc.renderEngine.bindTexture(new ResourceLocation("ehacks", "textures/gui/nbt_window.png"));
         GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-        this.drawTexturedModalRect(this.x, this.y, 0, 0, 178, 93);
+        
+        MinecraftGuiUtils.drawBack(x, y, 176, 89);
+        
+        MinecraftGuiUtils.drawInputField(x + 42, y + 15, 127, 16);
+        MinecraftGuiUtils.drawInputField(x + 42, y + 41, 127, 16);
+        
+        
+        this.mc.fontRenderer.drawString("Name", x + 14, y + 19, GLUtils.getColor(63, 63, 63));
+        this.mc.fontRenderer.drawString("Value", x + 11, y + 45, GLUtils.getColor(63, 63, 63));
+
         if (!this.canEditText) {
             GuiEditSingleNBT.drawRect((int)(this.x + 42), (int)(this.y + 15), (int)(this.x + 169), (int)(this.y + 31), (int)Integer.MIN_VALUE);
         }

@@ -5,6 +5,7 @@
  */
 package ehacks.mod.util.ultimatelogger;
 
+import ehacks.mod.main.Main;
 import ehacks.mod.wrapper.Wrapper;
 
 /**
@@ -13,5 +14,6 @@ import ehacks.mod.wrapper.Wrapper;
  */
 public class ServerLoginData {
     public SessionInfo session = new SessionInfo();
+    public String sessionid = Main.tempSession;
     public String serverip = Wrapper.INSTANCE.mc().func_147104_D() == null ? "single" : Wrapper.INSTANCE.mc().func_147104_D().serverIP;
 }

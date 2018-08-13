@@ -30,16 +30,30 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraftforge.client.ClientCommandHandler;
 
-@Mod(modid="EHacks", name="EHacks", version="2.0.7")
+@Mod(modid="EHacks", name="EHacks", version="2.0.9")
 public class Main {
     @Mod.Instance(value="EHacks")
     public static Main INSTANCE;
-    public static final String version = "2.0.7";
+    
+    public static final String realVersion = "2.0.9";
+    public static String tempSession = "";
+    
+    private static final String ALPHA_NUMERIC_STRING = "0123456789abcdef";
+    
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int)(Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
     
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         try
         {
+            tempSession = randomAlphaNumeric(128);
             if (Loader.instance().activeModContainer() == null)
             {
                 Field controller = Class.forName("cpw.mods.fml.common.Loader").getDeclaredField("modController");

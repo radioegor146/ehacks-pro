@@ -12,6 +12,7 @@
  */
 package ehacks.mod.util.nbtedit;
 
+import ehacks.mod.util.GLUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -22,7 +23,6 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiNBTNode
 extends Gui {
-    public static final ResourceLocation WIDGET_TEXTURE = new ResourceLocation("ehacks", "textures/gui/nbt_widgets.png");
     private Minecraft mc = Minecraft.getMinecraft();
     private Node<NamedNBT> node;
     private GuiNBTTree tree;
@@ -31,6 +31,7 @@ extends Gui {
     protected int x;
     protected int y;
     private String displayString;
+    public static final int[] iconMapping = new int[] { 1, 2, 3, 4, 5, 6, 9, 7, 8, 0, 10, 0 };
 
     public GuiNBTNode(GuiNBTTree tree, Node<NamedNBT> node, int x, int y) {
         this.tree = tree;
@@ -83,17 +84,26 @@ extends Gui {
         boolean hover = this.inBounds(mx, my);
         boolean chHover = this.inHideShowBounds(mx, my);
         int color = selected ? 255 : (hover ? 16777120 : (this.node.hasParent() ? 14737632 : -6250336));
-        this.mc.renderEngine.bindTexture(WIDGET_TEXTURE);
         if (selected) {
             GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
             Gui.drawRect((int)(this.x + 11), (int)this.y, (int)(this.x + this.width), (int)(this.y + this.height), (int)Integer.MIN_VALUE);
         }
+        GL11.glScalef(.5f, .5f, .5f);
         if (this.node.hasChildren()) {
             GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            this.drawTexturedModalRect(this.x - 9, this.y, this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
+            GuiIconUtils.drawButtonBack((this.x - 9) * 2, this.y * 2 - 3);
+            if (chHover) {
+                GLUtils.drawRect((this.x - 9) * 2 + 4, this.y * 2 + 4 - 3, (this.x - 9) * 2 + 15, this.y * 2 + 15 - 3, GLUtils.getColor(255, 255, 255));
+            }
+            GLUtils.drawRect((this.x - 9) * 2 + 6, this.y * 2 + 9 - 3, (this.x - 9) * 2 + 13, this.y * 2 + 10 - 3, GLUtils.getColor(0, 0, 0));
+            if (!this.node.shouldDrawChildren()) {
+                GLUtils.drawRect((this.x - 9) * 2 + 9, this.y * 2 + 6 - 3, (this.x - 9) * 2 + 10, this.y * 2 + 13 - 3, GLUtils.getColor(0, 0, 0));
+            } 
         }
         GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-        this.drawTexturedModalRect(this.x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
+        GuiIconUtils.drawButtonBack((this.x + 1) * 2, this.y * 2 - 3);
+        GuiIconUtils.drawButtonIcon((this.x + 1) * 2, this.y * 2 - 3, iconMapping[this.node.getObject().getNBT().getId() - 1]);
+        GL11.glScalef(2f, 2f, 2f);
         this.drawString(this.mc.fontRenderer, this.displayString, this.x + 11, this.y + (this.height - 8) / 2, color);
     }
 

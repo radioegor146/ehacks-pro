@@ -57,25 +57,25 @@ public class NBTStringHelper {
                 return new NBTTagEnd();
             }
             case 1: {
-                return new NBTTagByte((byte)0);
+                return new NBTTagCompound();
             }
             case 2: {
-                return new NBTTagShort();
+                return new NBTTagByte((byte)0);
             }
             case 3: {
-                return new NBTTagInt(0);
+                return new NBTTagShort();
             }
             case 4: {
-                return new NBTTagLong(0L);
+                return new NBTTagInt(0);
             }
             case 5: {
-                return new NBTTagFloat(0.0f);
+                return new NBTTagLong(0L);
             }
             case 6: {
-                return new NBTTagDouble(0.0);
+                return new NBTTagFloat(0.0f);
             }
             case 7: {
-                return new NBTTagByteArray(new byte[0]);
+                return new NBTTagDouble(0.0);
             }
             case 8: {
                 return new NBTTagString("");
@@ -84,7 +84,7 @@ public class NBTStringHelper {
                 return new NBTTagList();
             }
             case 10: {
-                return new NBTTagCompound();
+                return new NBTTagByteArray(new byte[0]);
             }
             case 11: {
                 return new NBTTagIntArray(new int[0]);
@@ -94,7 +94,10 @@ public class NBTStringHelper {
     }
 
     public static String toString(NBTBase base) {
-        switch (base.getId()) {
+        switch (GuiNBTNode.iconMapping[base.getId() - 1]) {
+            case 0: {
+                return "(TagCompound)";
+            }
             case 1: {
                 return "" + ((NBTTagByte)base).func_150290_f();
             }
@@ -114,18 +117,15 @@ public class NBTStringHelper {
                 return "" + ((NBTTagDouble)base).func_150286_g();
             }
             case 7: {
-                return base.toString();
-            }
-            case 8: {
                 return ((NBTTagString)base).func_150285_a_();
             }
-            case 9: {
+            case 8: {
                 return "(TagList)";
             }
-            case 10: {
-                return "(TagCompound)";
+            case 9: {
+                return base.toString();
             }
-            case 11: {
+            case 10: {
                 return base.toString();
             }
         }
@@ -135,25 +135,25 @@ public class NBTStringHelper {
     public static String getButtonName(byte id) {
         switch (id) {
             case 1: {
-                return "Byte";
+                return "Compound";
             }
             case 2: {
-                return "Short";
+                return "Byte";
             }
             case 3: {
-                return "Int";
+                return "Short";
             }
             case 4: {
-                return "Long";
+                return "Int";
             }
             case 5: {
-                return "Float";
+                return "Long";
             }
             case 6: {
-                return "Double";
+                return "Float";
             }
             case 7: {
-                return "Byte[]";
+                return "Double";
             }
             case 8: {
                 return "String";
@@ -162,7 +162,7 @@ public class NBTStringHelper {
                 return "List";
             }
             case 10: {
-                return "Compound";
+                return "Byte[]";
             }
             case 11: {
                 return "Int[]";
