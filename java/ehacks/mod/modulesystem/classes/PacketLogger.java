@@ -39,7 +39,7 @@ extends Mod {
     
     @Override
     public String getDescription() {
-        return "Allows you to see all out- and incoming packets";
+        return "Allows you to see all out- and incoming packets (c) N1nt3nd0";
     }
 
     @Override
