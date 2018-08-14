@@ -26,6 +26,11 @@ extends Mod {
     @Override
     public String getName() {
         return "DynamicFly";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Dynamic fly mode";
     }
 
     @Override

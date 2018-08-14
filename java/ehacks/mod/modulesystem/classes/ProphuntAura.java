@@ -54,7 +54,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "ProphuntAura";
+        return "Prophunt aura";
     }
 
     @Override

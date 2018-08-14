@@ -46,7 +46,12 @@ extends Mod {
     public String getName() {
         return "Block Overlay";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "Shows you block overlay";
+    }
+    
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {
         MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;

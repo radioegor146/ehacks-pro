@@ -39,6 +39,11 @@ extends Mod {
     public String getName() {
         return "Breadcrumb";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Makes a path behind you";
+    }
 
     @Override
     public void onTicks() {

@@ -53,6 +53,11 @@ extends Mod {
     }
 
     @Override
+    public String getDescription() {
+        return "Just mobaura";
+    }
+    
+    @Override
     public void onEnableMod() {
         isActive = true;
     }

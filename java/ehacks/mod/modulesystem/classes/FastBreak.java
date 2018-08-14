@@ -40,7 +40,7 @@ extends Mod {
     }
 
     @Override
-    public void onTick() {
+    public void onTicks() {
         Minecraft o = Minecraft.getMinecraft();
         MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
         Block block = Wrapper.INSTANCE.world().getBlock(position.blockX, position.blockY, position.blockZ);

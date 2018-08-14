@@ -16,7 +16,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -68,6 +68,11 @@ extends Mod {
     @Override
     public String getName() {
         return "DebugMe";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Opens dialog to select file for interactive BeanShell (c) N1nt3nd0\nUsage: \n  Numpad5 - on/off ticking performing\n  Numpad6 - single executing";
     }
     
     @Override
@@ -86,19 +91,19 @@ extends Mod {
         if (!dialogOpened.get() && scriptFile == null)
         {
             this.off();
-            YouAlwaysWinClickGui.log("[DebugMe] Script load canceled");
+            EHacksClickGui.log("[DebugMe] Script load canceled");
             return;
         }
         else if (!set)
         {
-            YouAlwaysWinClickGui.log("[DebugMe] Script loaded: " + scriptFile.getPath());
+            EHacksClickGui.log("[DebugMe] Script loaded: " + scriptFile.getPath());
             set = true;
         }
         boolean newState5 = Keyboard.isKeyDown(Keybinds.tickingDebug);
         if (!prevState5 && newState5)
-            YouAlwaysWinClickGui.log("[DebugMe] Script tick started");
+            EHacksClickGui.log("[DebugMe] Script tick started");
         if (!newState5 && prevState5)
-            YouAlwaysWinClickGui.log("[DebugMe] Script tick stopped");
+            EHacksClickGui.log("[DebugMe] Script tick stopped");
         prevState5 = newState5;
         if (newState5)
         {
@@ -118,11 +123,11 @@ extends Mod {
             prevState = newState;
             try
             {
-                YouAlwaysWinClickGui.log("[DebugMe] Script executed with result: \"" + runScript() + "\"");
+                EHacksClickGui.log("[DebugMe] Script executed with result: \"" + runScript() + "\"");
             }
             catch (Exception e)
             {
-                YouAlwaysWinClickGui.log("[DebugMe] Exception on eval: \"" + e.getMessage() + "\"");
+                EHacksClickGui.log("[DebugMe] Exception on eval: \"" + e.getMessage() + "\"");
             }
             return;
         }

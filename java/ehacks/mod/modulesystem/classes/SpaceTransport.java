@@ -14,7 +14,7 @@ import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -165,7 +165,7 @@ extends Mod {
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate").getConstructor();
             if (Wrapper.INSTANCE.player().ridingEntity == null || !Class.forName("micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate$IEntityFullSync").isInstance(Wrapper.INSTANCE.player().ridingEntity))
             {
-                YouAlwaysWinClickGui.log("[Space Transport] Wrong entity");
+                EHacksClickGui.log("[Space Transport] Wrong entity");
                 this.off();
             }
             try
@@ -179,7 +179,7 @@ extends Mod {
             //changer.setState(true);
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Space Transport] Not working");
+            EHacksClickGui.log("[Space Transport] Not working");
         }
     }
     

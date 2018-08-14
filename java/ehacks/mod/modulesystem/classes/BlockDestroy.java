@@ -5,8 +5,8 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.Tuple;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.Tuple;
+import ehacks.mod.gui.EHacksClickGui;
 import static ehacks.mod.modulesystem.classes.PrivateNuker.isActive;
 import ehacks.mod.wrapper.Events;
 import static ehacks.mod.wrapper.Events.selectedBlock;
@@ -31,6 +31,11 @@ extends Mod {
         return "BlockDestroy";
     }
     
+    @Override
+    public String getDescription() {
+        return "Destroy blocks instantly with a left click";
+    }
+    
     private Method snd;
     private Constructor msg;
     private Object obj;
@@ -48,7 +53,7 @@ extends Mod {
             isActive = false;
             Events.selectedBlock = null;
             this.off();
-            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Not working", 0));
+            EHacksClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Not working", 0));
         }
         
         isActive = true;
@@ -80,7 +85,7 @@ extends Mod {
             Block previous = selectedBlock;
             selectedBlock = block;
             if (previous == null || previous != null && !previous.getLocalizedName().equalsIgnoreCase(selectedBlock.getLocalizedName())) {
-                YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Selected block: " + selectedBlock.getLocalizedName(), 0));
+                EHacksClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Selected block: " + selectedBlock.getLocalizedName(), 0));
             }
         } else if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && AutoTool.isActive) {
             int blockId = Block.getIdFromBlock((Block)block);

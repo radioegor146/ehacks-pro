@@ -40,6 +40,11 @@ extends Mod {
     @Override
     public String getName() {
         return "Entity ESP";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Shows all entities";
     }
 
     @Override

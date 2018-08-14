@@ -18,7 +18,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -39,6 +39,11 @@ public class MetaHackSub extends Mod {
     @Override
     public String getName() {
         return "MetaHack-Sub";
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to subtract 1 to metadata of item";
     }
     
     @Override
@@ -64,7 +69,7 @@ public class MetaHackSub extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[MetaHack-Sub] Not working");
+            EHacksClickGui.log("[MetaHack-Sub] Not working");
         }
     }
     

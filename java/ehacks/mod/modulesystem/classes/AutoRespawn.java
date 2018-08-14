@@ -24,11 +24,11 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Auto Respawn the player when dead.";
+        return "Auto Respawn the player when dead";
     }
 
     @Override
-    public void onTick() {
+    public void onTicks() {
         if (Wrapper.INSTANCE.player().isDead) {
             Wrapper.INSTANCE.player().respawnPlayer();
         }

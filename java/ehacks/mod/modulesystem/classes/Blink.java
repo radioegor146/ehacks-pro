@@ -28,7 +28,12 @@ extends Mod {
     public String getName() {
         return "Blink";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "As freecam but teleports you when it is off";
+    }
+    
     @Override
     public void onEnableMod() {
         if (Wrapper.INSTANCE.player() != null && Wrapper.INSTANCE.mc().theWorld != null) {

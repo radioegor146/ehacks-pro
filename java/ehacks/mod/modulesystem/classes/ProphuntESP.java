@@ -31,6 +31,11 @@ extends Mod {
     public String getName() {
         return "ProphuntESP";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Prophunt ESP";
+    }
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {

@@ -28,6 +28,11 @@ extends Mod {
     public String getName() {
         return "NoFall";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Gives you zero damage on fall";
+    }
 
     @Override
     public void onTicks() {

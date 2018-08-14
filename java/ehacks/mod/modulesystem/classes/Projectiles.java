@@ -68,6 +68,11 @@ extends Mod {
     public String getName() {
         return "Projectiles";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to see all projectiles";
+    }
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {

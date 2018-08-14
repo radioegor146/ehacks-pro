@@ -33,8 +33,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -64,6 +64,11 @@ extends Mod {
     public String getName() {
         return "ChestMagic";
     }
+    
+    @Override
+    public String getDescription() {
+        return "You can fill containers with an item that player is holding in inventory\nUsage: \n  Numpad3 - Select player\n  Numpad2 - Perform action on container";
+    }
 
     @Override
     public void onEnableMod() {
@@ -72,7 +77,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[ChestMagic] Not working");
+            EHacksClickGui.log("[ChestMagic] Not working");
         }
     }
 
@@ -112,7 +117,7 @@ extends Mod {
                 for (int i = 0; i < inv.getSizeInventory(); i++)
                     for (int j = 0; j < count; j++)
                         setSlot(i, mop.blockX, mop.blockY, mop.blockZ, playerId == -1 ? Wrapper.INSTANCE.player().getEntityId() : playerId);
-                YouAlwaysWinClickGui.log("[ChestMagic] Set");
+                EHacksClickGui.log("[ChestMagic] Set");
             }
         }
         prevState = newState;
@@ -123,11 +128,11 @@ extends Mod {
             MovingObjectPosition mop = Wrapper.INSTANCE.mc().objectMouseOver;
             if (mop.entityHit != null && mop.entityHit instanceof EntityPlayer) {
                 playerId = mop.entityHit.getEntityId();
-                YouAlwaysWinClickGui.log("[ChestMagic] Set to player");
+                EHacksClickGui.log("[ChestMagic] Set to player");
                 return;
             }
             playerId = -1;
-            YouAlwaysWinClickGui.log("[ChestMagic] Player cleared");
+            EHacksClickGui.log("[ChestMagic] Player cleared");
         }
         prevStateT = newStateT;
     }

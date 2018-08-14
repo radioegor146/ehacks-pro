@@ -30,6 +30,11 @@ extends Mod {
     public String getName() {
         return "AntiFire";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Removes fire on you";
+    }
 
     @Override
     public void onTicks() {

@@ -45,6 +45,11 @@ extends Mod {
     public String getName() {
         return "WaterWalk";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Gives ability to walk on water";
+    }
 
     public static boolean isOnLiquid(AxisAlignedBB boundingBox) {
         boundingBox = boundingBox.contract(0.01, 0.0, 0.01).offset(0.0, -0.01, 0.0);

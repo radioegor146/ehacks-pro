@@ -34,8 +34,8 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -66,16 +66,21 @@ extends Mod {
     }
     
     @Override
+    public String getDescription() {
+        return "Toggles your visiblity";
+    }
+    
+    @Override
     public void onEnableMod() {
         try {
             Class.forName("com.kentington.thaumichorizons.common.lib.PacketToggleInvisibleToServer");
             toggleVisiblity();
-            YouAlwaysWinClickGui.log("[VisibleHack] Toggled");
+            EHacksClickGui.log("[VisibleHack] Toggled");
             this.off();
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[VisibleHack] Not working");
+            EHacksClickGui.log("[VisibleHack] Not working");
         }
     }
     

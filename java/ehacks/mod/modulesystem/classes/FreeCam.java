@@ -42,6 +42,11 @@ extends Mod {
     @Override
     public String getName() {
         return "FreeCam";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to move without doing this on server";
     }
 
     @Override

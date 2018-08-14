@@ -14,7 +14,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -52,14 +52,9 @@ extends Mod {
     }
     
     @Override
-    public void onTick() {
-        
-    }
-    
-    @Override
     public void onEnableMod() {
         ByteBuf buf = Unpooled.buffer();
-        YouAlwaysWinClickGui.log(String.valueOf(buf.array().length));
+        EHacksClickGui.log(String.valueOf(buf.array().length));
         this.off();
     }
     

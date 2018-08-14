@@ -32,8 +32,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -59,7 +59,12 @@ extends Mod {
     public String getName() {
         return "ContainerClear";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "Clears container you're looking to";
+    }
+    
     @Override
     public ModStatus getModStatus() {
         try {
@@ -87,12 +92,12 @@ extends Mod {
                 for (int i = 0; i < inv.getSizeInventory(); i++)
                     setSlot(i, mop.blockX, mop.blockY, mop.blockZ);
             }
-            YouAlwaysWinClickGui.log("[ContainerClear] Cleared");
+            EHacksClickGui.log("[ContainerClear] Cleared");
             this.off();
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[ContainerClear] Not working");
+            EHacksClickGui.log("[ContainerClear] Not working");
         }
     }
 

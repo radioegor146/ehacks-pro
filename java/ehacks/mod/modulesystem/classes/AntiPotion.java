@@ -33,7 +33,12 @@ extends Mod {
     public String getName() {
         return "AntiPotion";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "Removes potion effects on you";
+    }
+    
     @Override
     public void onTicks() {
         if (Wrapper.INSTANCE.player().isPotionActive(Potion.blindness)) {

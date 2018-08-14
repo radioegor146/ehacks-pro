@@ -34,11 +34,11 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Automatically makes you eat the food you're holding.";
+        return "Automatically makes you eat the food you're holding";
     }
 
     @Override
-    public void onTick() {
+    public void onTicks() {
         if (Wrapper.INSTANCE.player().getHeldItem() != null && Wrapper.INSTANCE.player().getHeldItem().getItem() instanceof ItemFood) {
             ItemFood item = (ItemFood)Wrapper.INSTANCE.player().getHeldItem().getItem();
             if (!Minecraft.getMinecraft().thePlayer.isEating()) {

@@ -19,11 +19,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import ehacks.api.module.ModController;
 import ehacks.api.module.Mod;
-import ehacks.mod.gui.reeszrbteam.Tuple;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
-import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.cvLastUpdate;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.Tuple;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.element.ModWindow;
+import ehacks.mod.gui.element.SimpleWindow;
+import static ehacks.mod.gui.window.WindowCheckVanish.cvLastUpdate;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.Criticals;
 import ehacks.mod.modulesystem.classes.Forcefield;
 import ehacks.mod.modulesystem.classes.KillAura;
@@ -33,9 +34,10 @@ import ehacks.mod.modulesystem.classes.SeeHealth;
 import ehacks.mod.modulesystem.classes.TriggerBot;
 import ehacks.mod.util.GLUtils;
 import net.minecraftforge.client.event.MouseEvent;
-import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.cvThreadStarted;
-import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.lpLastUpdate;
-import static ehacks.mod.gui.reeszrbteam.window.WindowCheckVanish.lpThreadStarted;
+import static ehacks.mod.gui.window.WindowCheckVanish.cvThreadStarted;
+import static ehacks.mod.gui.window.WindowCheckVanish.lpLastUpdate;
+import static ehacks.mod.gui.window.WindowCheckVanish.lpThreadStarted;
+import ehacks.mod.main.Main;
 import ehacks.mod.util.UltimateLogger;
 
 public class Events {
@@ -48,23 +50,9 @@ public class Events {
         this.keyStates = new boolean[256];
     }
     
-    @SubscribeEvent
-    public void onKeyBind(KeyInputEvent event) {
-        for (Mod mod : ModController.INSTANCE.mods) {
-            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
-            mod.onKeyBind();
-        }
-    }
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ServerTickEvent event) {
-        for (Mod mod : ModController.INSTANCE.mods) {
-            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
-            mod.onTick();
-        }
-    }
-    
     public boolean onPacket(Object packet, PacketHandler.Side side) {
+        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+            return true;
         boolean ok = true;
         for (Mod mod : ModController.INSTANCE.mods) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
@@ -82,6 +70,8 @@ public class Events {
     
     @SubscribeEvent
     public void onTicks(TickEvent.ClientTickEvent event) {
+        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+            return;
         if (Wrapper.INSTANCE.player() != null) {
             if (!ready)
             {
@@ -126,23 +116,9 @@ public class Events {
     }
 
     @SubscribeEvent
-    public void onPlayerUpdate(TickEvent.PlayerTickEvent event) {
-        for (Mod mod : ModController.INSTANCE.mods) {
-            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
-            mod.onPlayerUpdate();
-        }
-    }
-
-    @SubscribeEvent
-    public void onWorldUpdate(TickEvent.WorldTickEvent event) {
-        for (Mod mod : ModController.INSTANCE.mods) {
-            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
-            mod.onWorldUpdate();
-        }
-    }
-
-    @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
+        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+            return;
         for (Mod mod : ModController.INSTANCE.mods) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
             mod.onWorldRender(event);
@@ -151,17 +127,11 @@ public class Events {
     
     @SubscribeEvent
     public void onMouse(MouseEvent event) {
+        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+            return;
         for (Mod mod : ModController.INSTANCE.mods) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
             mod.onMouse(event);
-        }
-    }
-
-    @SubscribeEvent
-    public void onClick(PlayerInteractEvent event) {
-        for (Mod mod : ModController.INSTANCE.mods) {
-            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
-            mod.onClick(event);
         }
     }
 
@@ -173,7 +143,7 @@ public class Events {
             int x2 = 8;
             int y2 = 7;
             GL11.glPushMatrix();
-            String Copyright1 = "EHacks 2.0.8 for FFTeam";
+            String Copyright1 = "EHacks " + Main.realVersion + " for FFTeam";
             String Copyright2 = "Powered by CheatingEssentials [Qmaks edit]";
             String Copyright3 = "[ForgeFuck and radioegor146 edition]";
             String Copyright4 = "For private use ONLY!";
@@ -184,11 +154,11 @@ public class Events {
             this.fontRender.drawString(Copyright4, 2, 32, GLUtils.getColor(255, 0, 0));
             GL11.glPopMatrix();
         }
-        for (YAWWindow windows : YouAlwaysWinClickGui.windows) {
+        for (SimpleWindow windows : EHacksClickGui.windows) {
             if (!windows.isPinned()) continue;
             windows.draw(0, 0);
         }
-        YouAlwaysWinClickGui.drawLog();
+        EHacksClickGui.drawLog();
     }
 
     public static Color rainbowEffect_Text(long offset, float fade) {
@@ -200,6 +170,8 @@ public class Events {
 
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
+        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+            return;
         if (!(KillAura.isActive || MobAura.isActive || ProphuntAura.isActive || Forcefield.isActive || TriggerBot.isActive || !Criticals.isActive || Wrapper.INSTANCE.player().isInWater() || Wrapper.INSTANCE.player().isInsideOfMaterial(Material.lava) || Wrapper.INSTANCE.player().isInsideOfMaterial(Material.web) || !Wrapper.INSTANCE.player().onGround || !Wrapper.INSTANCE.mc().gameSettings.keyBindAttack.getIsKeyPressed() || Wrapper.INSTANCE.mc().objectMouseOver == null || Wrapper.INSTANCE.mc().objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY)) {
             event.setCanceled(true);
             Wrapper.INSTANCE.player().motionY = 0.1000000014901161;

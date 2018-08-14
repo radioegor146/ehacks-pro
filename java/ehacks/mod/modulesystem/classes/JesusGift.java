@@ -34,8 +34,8 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -65,6 +65,11 @@ extends Mod {
     @Override
     public String getName() {
         return "JesusGift";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Gives you items through Atlas item from BiblioCraft\nUsage:\n  Numpad2 - perform give";
     }
     
     @Override
@@ -74,7 +79,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[JesusGift] Not working");
+            EHacksClickGui.log("[JesusGift] Not working");
         }
     }
     
@@ -129,10 +134,10 @@ extends Mod {
             try {
                 Class.forName("cpw.mods.fml.common.network.FMLEventChannel").getDeclaredMethod("sendToServer", Class.forName("cpw.mods.fml.common.network.internal.FMLProxyPacket")).invoke(Class.forName("jds.bibliocraft.BiblioCraft").getDeclaredField("ch_BiblioAtlasGUIswap").get(null),Class.forName("cpw.mods.fml.common.network.internal.FMLProxyPacket").getDeclaredConstructor(ByteBuf.class, String.class).newInstance(buf, "BiblioAtlasSWP"));
             } catch(Exception e) {
-                YouAlwaysWinClickGui.log("[JesusGift] Mod error");
+                EHacksClickGui.log("[JesusGift] Mod error");
             }
         } else {
-            YouAlwaysWinClickGui.log("[JesusGift] Wrong item in hand");
+            EHacksClickGui.log("[JesusGift] Wrong item in hand");
         }
     }
     

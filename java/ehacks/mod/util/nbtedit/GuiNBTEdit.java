@@ -15,7 +15,7 @@
 package ehacks.mod.util.nbtedit;
 
 import ehacks.debugme.Debug;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.Statics;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -119,7 +119,7 @@ extends GuiScreen {
                         NBTTagCompound check = Debug.INSTANCE.jsonToNBT(this.nbtString.getText());
                         Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new GuiNBTEdit(check));
                     } catch (Exception e) {
-                        YouAlwaysWinClickGui.log("[NBTView] Invalid JSON");
+                        EHacksClickGui.log("[NBTView] Invalid JSON");
                     }
                 }
                 case 3: {

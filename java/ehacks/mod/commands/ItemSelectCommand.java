@@ -5,7 +5,7 @@
  */
 package ehacks.mod.commands;
 
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.classes.ItemCreator;
 import ehacks.mod.wrapper.Statics;
 import java.util.ArrayList;
@@ -98,11 +98,11 @@ public class ItemSelectCommand extends CommandBase {
                     Statics.STATIC_NBT = Statics.STATIC_ITEMSTACK.getTagCompound() == null ? new NBTTagCompound() : Statics.STATIC_ITEMSTACK.getTagCompound();
 
 
-                    YouAlwaysWinClickGui.log("[Item Selector] ItemStack selected");
+                    EHacksClickGui.log("[Item Selector] ItemStack selected");
                 } 
                 catch (Exception e)
                 {
-                    YouAlwaysWinClickGui.log("[Item Selector] Wrong item");
+                    EHacksClickGui.log("[Item Selector] Wrong item");
                 }
             }
         }

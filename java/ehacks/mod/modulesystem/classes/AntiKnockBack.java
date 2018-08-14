@@ -22,6 +22,11 @@ extends Mod {
     public String getName() {
         return "AntiKnockBack";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Removes knockback on you";
+    }
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {

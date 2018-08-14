@@ -33,8 +33,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -67,7 +67,12 @@ extends Mod {
     public String getName() {
         return "CreativeGive";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "You can give selected ItemStack when you are in creative mode\nUsage: \n\tNumpad2 - perform give";
+    }
+    
     @Override
     public void onEnableMod() {
         
@@ -101,7 +106,7 @@ extends Mod {
             }
             else
                 setCreative(Statics.STATIC_ITEMSTACK, slotId);
-            YouAlwaysWinClickGui.log("[CreativeGive] Set");
+            EHacksClickGui.log("[CreativeGive] Set");
         }
         prevState = newState;
     }

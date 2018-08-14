@@ -41,6 +41,11 @@ extends Mod {
     @Override
     public String getName() {
         return "FastBow";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Shoots arrows very fast";
     }
 
     @Override

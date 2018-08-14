@@ -28,7 +28,7 @@ extends Mod {
     }
 
     @Override
-    public void onTick() {
+    public void onTicks() {
         if (Wrapper.INSTANCE.player().hurtResistantTime > 0 && Wrapper.INSTANCE.player().hurtTime > 0) {
             Wrapper.INSTANCE.player().motionX = 0.0;
             Wrapper.INSTANCE.player().motionZ = 0.0;

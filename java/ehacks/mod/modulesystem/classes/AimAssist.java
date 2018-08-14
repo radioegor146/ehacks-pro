@@ -28,7 +28,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "AimAssist";
+        return "Helps you to aim";
     }
 
     @Override

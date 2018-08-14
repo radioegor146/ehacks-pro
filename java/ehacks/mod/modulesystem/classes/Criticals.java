@@ -17,6 +17,11 @@ extends Mod {
     @Override
     public String getName() {
         return "Criticals";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Jumps on left click";
     }
 
     @Override

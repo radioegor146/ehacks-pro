@@ -11,8 +11,9 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.element.ModWindow;
+import ehacks.mod.gui.element.SimpleWindow;
 
 public class SaveableGuiState {
     private File guiConfig;
@@ -27,7 +28,7 @@ public class SaveableGuiState {
         try {
             FileWriter filewriter = new FileWriter(this.guiConfig);
             BufferedWriter buffered = new BufferedWriter(filewriter);
-            for (YAWWindow window : YouAlwaysWinClickGui.unFocusedWindows) {
+            for (SimpleWindow window : EHacksClickGui.unFocusedWindows) {
                 int x = window.lastDragX;
                 int y = window.lastDragY;
                 boolean open = window.isOpen();
@@ -53,7 +54,7 @@ public class SaveableGuiState {
                 String xPos = array[1];
                 String yPos = array[2];
                 String open = array[3];
-                for (YAWWindow windows : YouAlwaysWinClickGui.unFocusedWindows) {
+                for (SimpleWindow windows : EHacksClickGui.unFocusedWindows) {
                     List<String> windowsN = Arrays.asList(windows.getTitle());
                     for (int i = 0; i < windowsN.size(); ++i) {
                         if (!window.equalsIgnoreCase(windowsN.get(i).toLowerCase().replaceAll(" ", ""))) continue;

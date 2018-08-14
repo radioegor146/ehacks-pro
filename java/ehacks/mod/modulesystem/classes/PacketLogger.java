@@ -36,6 +36,11 @@ extends Mod {
     public String getName() {
         return "PacketLogger";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to see all out- and incoming packets";
+    }
 
     @Override
     public void onEnableMod() {

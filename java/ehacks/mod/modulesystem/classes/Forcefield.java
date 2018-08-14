@@ -48,6 +48,11 @@ extends Mod {
     @Override
     public String getName() {
         return "Forcefield";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Attacks all entities around you";
     }
 
     @Override

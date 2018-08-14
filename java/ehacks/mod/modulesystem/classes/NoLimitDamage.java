@@ -18,7 +18,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -44,6 +44,11 @@ public class NoLimitDamage extends Mod {
         return "NoLimitDamage";
     }
 
+    @Override
+    public String getDescription() {
+        return "Gives Float.MAX_VALUE to attacked entity";
+    }
+    
     public boolean lastPressed = false;
     
     @Override
@@ -85,7 +90,7 @@ public class NoLimitDamage extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitDamage] Not working");
+            EHacksClickGui.log("[NoLimitDamage] Not working");
         }
     }
     

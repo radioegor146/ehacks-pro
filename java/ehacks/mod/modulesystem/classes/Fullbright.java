@@ -26,6 +26,11 @@ extends Mod {
     @Override
     public String getName() {
         return "Fullbright";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Brights all area around you";
     }
 
     @Override

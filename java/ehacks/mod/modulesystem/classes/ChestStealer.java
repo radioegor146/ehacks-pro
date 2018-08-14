@@ -40,7 +40,12 @@ extends Mod {
     public String getName() {
         return "ChestStealer";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "Steals all stuff from vanilla chest";
+    }
+    
     @Override
     public void onTicks() {
         if (!Wrapper.INSTANCE.mc().inGameHasFocus && Wrapper.INSTANCE.mc().currentScreen instanceof GuiChest) {

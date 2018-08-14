@@ -33,6 +33,11 @@ extends Mod {
     public String getName() {
         return "Chest Finder";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Shows you all chests";
+    }
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {

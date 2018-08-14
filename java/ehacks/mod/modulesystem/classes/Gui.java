@@ -10,13 +10,13 @@ package ehacks.mod.modulesystem.classes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import ehacks.api.module.Mod;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Gui
 extends Mod {
-    private YouAlwaysWinClickGui click = new YouAlwaysWinClickGui();
+    private EHacksClickGui click = new EHacksClickGui();
 
     public Gui() {
         super(ModuleCategory.NONE);

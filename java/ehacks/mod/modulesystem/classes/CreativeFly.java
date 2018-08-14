@@ -28,7 +28,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Fly like in creative mode!";
+        return "Fly like in creative mode";
     }
 
     @Override

@@ -33,8 +33,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -65,6 +65,11 @@ extends Mod {
     @Override
     public String getName() {
         return "DragonsFuck";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "You can open Dragon's radio block on right click";
     }
 
     @Override
@@ -75,7 +80,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[DragonsFuck] Not working");
+            EHacksClickGui.log("[DragonsFuck] Not working");
         }
     }
 
@@ -107,12 +112,12 @@ extends Mod {
                 if (entity != null && Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio").isInstance(entity))
                 {
                     Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen)Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.Gui.NGuiRadio").getConstructor(Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio")).newInstance(entity));
-                    YouAlwaysWinClickGui.log("[DragonsFuck] Gui opened");
+                    EHacksClickGui.log("[DragonsFuck] Gui opened");
                     if (event.isCancelable())
                         event.setCanceled(true);
                 }
             } catch (Exception ex) {
-                YouAlwaysWinClickGui.log("[DragonsFuck]     Error happened");
+                EHacksClickGui.log("[DragonsFuck]     Error happened");
                 ex.printStackTrace();
             }
         }

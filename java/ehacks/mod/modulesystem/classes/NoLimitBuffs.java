@@ -34,8 +34,8 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -68,7 +68,12 @@ extends Mod {
 
     @Override
     public String getName() {
-        return "NoLimitMods";
+        return "NoLimitBuffs";
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to put a lot of modifiers to spell";
     }
     
     @Override
@@ -78,7 +83,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitBuffs] Not working");
+            EHacksClickGui.log("[NoLimitBuffs] Not working");
         }
     }
     
@@ -138,7 +143,7 @@ extends Mod {
                 }
             }
         } catch (Exception e) {
-            YouAlwaysWinClickGui.log("[NoLimitBuffs] Error");
+            EHacksClickGui.log("[NoLimitBuffs] Error");
             e.printStackTrace();
         }
     }

@@ -28,7 +28,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Jump higher!";
+        return "Gives you Jump Boost 2 effect";
     }
 
     @Override

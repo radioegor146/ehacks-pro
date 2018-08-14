@@ -75,7 +75,7 @@ public class ModuleManagement {
         this.add(new FreeCam());
         this.add(new FastEat());
         this.add(new AntiFire());
-        this.add(new AutoTool());
+        //this.add(new AutoTool());
         this.add(new FastPlace());
         this.add(new AntiPotion());
         this.add(new DynamicFly());
@@ -103,7 +103,7 @@ public class ModuleManagement {
         this.add(new Criticals());
         this.add(new FastClick());
         this.add(new AutoBlock());
-        this.add(new SeeHealth());
+        //this.add(new SeeHealth());
         this.add(new TriggerBot());
         this.add(new Forcefield());
         this.add(new ProphuntESP());

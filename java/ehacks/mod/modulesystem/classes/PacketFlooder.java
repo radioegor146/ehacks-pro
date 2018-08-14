@@ -28,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import ehacks.api.module.Mod;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.Random;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -47,6 +47,11 @@ extends Mod {
     public String getName() {
         return "PacketFlooder";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Floods a lot of random packets to server\n\u00A7cTURN IT ON EVERY TIME YOU USE PACKETHACKS!";
+    }
 
     @Override
     public void onEnableMod() {
@@ -55,7 +60,7 @@ extends Mod {
             if (checkClass(packet.clazz()))
                 validPackets.add(packet);
         }
-        YouAlwaysWinClickGui.log("[PacketFlooder] Enabled: " + String.valueOf(validPackets.size()) + "/" + String.valueOf(FakePacket.values().length) + " packets");
+        EHacksClickGui.log("[PacketFlooder] Enabled: " + String.valueOf(validPackets.size()) + "/" + String.valueOf(FakePacket.values().length) + " packets");
     }
     
     public boolean checkClass(String clazz) {

@@ -48,9 +48,14 @@ extends Mod {
 
     @Override
     public String getName() {
-        return "Speed";
+        return "NCPSpeed";
     }
 
+    @Override
+    public String getDescription() {
+        return "Speed from NoCheatPlus";
+    }
+    
     @Override
     public void onTicks() {
         boolean using = Wrapper.INSTANCE.player().isUsingItem() && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemFood;

@@ -7,8 +7,8 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.Tuple;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.Tuple;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -36,12 +36,7 @@ public class CarpenterOpener extends Mod {
 
     @Override
     public String getDescription() {
-        return "Allows to open containers";
-    }
-    
-    @Override
-    public void onTick() {
-        
+        return "Allows to open containers on right click on servers with bad WorldGuard";
     }
     
     @Override
@@ -50,7 +45,7 @@ public class CarpenterOpener extends Mod {
             Class.forName("com.carpentersblocks.network.PacketActivateBlock");
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Container Opener] Not working", 0));
+            EHacksClickGui.logData.add(new Tuple<String, Integer>("[Container Opener] Not working", 0));
         }
     }
     

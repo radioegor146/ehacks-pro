@@ -34,8 +34,8 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -66,14 +66,19 @@ extends Mod {
     }
     
     @Override
+    public String getDescription() {
+        return "Opens a gui to perform craft dupe\nUsage:\n  Y - Open gui";
+    }
+    
+    @Override
     public void onEnableMod() {
         try {
             Class.forName("com.kentington.thaumichorizons.common.lib.PacketFingersToServer");
-            YouAlwaysWinClickGui.log("[VerticalGui] Press Y for GUI");
+            EHacksClickGui.log("[VerticalGui] Press Y for GUI");
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[VerticalGui] Not working");
+            EHacksClickGui.log("[VerticalGui] Not working");
         }
     }
     
@@ -111,7 +116,7 @@ extends Mod {
         buf.writeInt(Wrapper.INSTANCE.player().dimension);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("thaumichorizons", buf);
         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
-        YouAlwaysWinClickGui.log("[VerticalGui] Opened");
+        EHacksClickGui.log("[VerticalGui] Opened");
     }
     
     @Override

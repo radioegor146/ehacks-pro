@@ -32,7 +32,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -54,13 +54,18 @@ extends Mod {
     }
 
     @Override
+    public String getDescription() {
+        return "Gives Float.MAX_VALUE of damage to all entities around you";
+    }
+    
+    @Override
     public void onEnableMod() {
         try {
             Class.forName("taintedmagic.common.network.PacketKatanaAttack");
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitAura] Not working");
+            EHacksClickGui.log("[NoLimitAura] Not working");
         }
     }
     

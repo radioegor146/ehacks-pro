@@ -14,7 +14,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -58,7 +58,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Fake destroyer";
+        return "Destroy blocks on client with left click";
     }
     
     private ArrayList<BlockInfo> removedBlocks = new ArrayList<BlockInfo>();

@@ -39,6 +39,11 @@ extends Mod {
     public String getName() {
         return "MobESP";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to see all mobs around you";
+    }
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {            

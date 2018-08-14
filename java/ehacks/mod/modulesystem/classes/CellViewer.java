@@ -7,7 +7,7 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.MinecraftGuiUtils;
@@ -55,7 +55,7 @@ public class CellViewer extends Mod {
 
     @Override
     public String getDescription() {
-        return "View cell's data";
+        return "View Applied Energetics storage cell's data\nUsage: \n  Numpad4 - see data in hovered cell";
     }
     
     @Override
@@ -100,7 +100,7 @@ public class CellViewer extends Mod {
                             }
                         }
                     } catch (Exception ex) {
-                        YouAlwaysWinClickGui.log("[CellViewer] Error");
+                        EHacksClickGui.log("[CellViewer] Error");
                         ex.printStackTrace();
                     }
                 }
@@ -108,12 +108,12 @@ public class CellViewer extends Mod {
                     return;
                 if (!(Class.forName("appeng.items.storage.ItemBasicStorageCell").isInstance(cell.getItem())))
                 {
-                    YouAlwaysWinClickGui.log("[CellViewer] Not a cell");
+                    EHacksClickGui.log("[CellViewer] Not a cell");
                     return;
                 }
                 NBTTagCompound tag = cell.stackTagCompound;
                 if (tag == null) {
-                    YouAlwaysWinClickGui.log("[CellViewer] Cell is empty (new)");
+                    EHacksClickGui.log("[CellViewer] Cell is empty (new)");
                     return;
                 }
                 try {
@@ -131,7 +131,7 @@ public class CellViewer extends Mod {
                     Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new CellViewerGui(new CellViewerContainer(stacks.toArray(new ItemStack[stacks.size()]), cell.getDisplayName())));
                 }
                 catch (Exception e) {
-                    YouAlwaysWinClickGui.log("[CellViewer] Error");
+                    EHacksClickGui.log("[CellViewer] Error");
                     e.printStackTrace();
                 }
             }

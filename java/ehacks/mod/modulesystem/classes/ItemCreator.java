@@ -18,8 +18,8 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.element.YAWWindow;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.element.ModWindow;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -52,6 +52,11 @@ extends Mod {
     @Override
     public String getName() {
         return "Item Creator";
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Gives you any ItemStack you want\nUsage:\n  Numpad2 - perform give";
     }
 
     public void giveItem(ItemStack stack) {
@@ -92,7 +97,7 @@ extends Mod {
             if (Statics.STATIC_ITEMSTACK == null)
                 return;
             giveItem(Statics.STATIC_ITEMSTACK);
-                YouAlwaysWinClickGui.log("[Item Creator] Gived");
+                EHacksClickGui.log("[Item Creator] Gived");
         }
         prevState = newState;
     }
@@ -103,7 +108,7 @@ extends Mod {
             Class.forName("com.mrcrayfish.furniture.network.message.MessagePackage");
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Item Creator] Not working");
+            EHacksClickGui.log("[Item Creator] Not working");
         }
     }
     

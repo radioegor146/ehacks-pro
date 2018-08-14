@@ -29,6 +29,11 @@ extends Mod {
     public String getName() {
         return "Regen";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Regenerates you";
+    }
 
     @Override
     public void onTicks() {

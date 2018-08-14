@@ -28,6 +28,11 @@ extends Mod {
     }
 
     @Override
+    public String getDescription() {
+        return "You are not in web";
+    }
+    
+    @Override
     public void onTicks() {
         ReflectionHelper.setPrivateValue(Entity.class, Wrapper.INSTANCE.player(), (Object)false, (String[])new String[]{Mappings.isInWeb});
     }

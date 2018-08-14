@@ -31,7 +31,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "FastClick";
+        return "Makes you click very fast";
     }
 
     @Override

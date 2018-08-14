@@ -14,7 +14,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -90,7 +90,7 @@ extends Mod {
                         event.setCanceled(true);
                 }
                 else
-                    YouAlwaysWinClickGui.log("[ShowContainer] Not a container");
+                    EHacksClickGui.log("[ShowContainer] Not a container");
             }
             prevState = nowState;
         }

@@ -49,7 +49,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "AutoBlock";
+        return "Your sword will be blocking damage while using it";
     }
 
     @Override

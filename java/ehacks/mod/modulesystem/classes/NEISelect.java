@@ -8,7 +8,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -35,7 +35,7 @@ public class NEISelect extends Mod {
 
     @Override
     public String getDescription() {
-        return "Select item from NEI";
+        return "Select ItemStack from NEI\nUsage:\n  Tab - select single item\n  Shift+Tab - select stack of item";
     }
     
     @Override
@@ -44,7 +44,7 @@ public class NEISelect extends Mod {
             Class.forName("codechicken.nei.guihook.GuiContainerManager");
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NEISelect] Not working");
+            EHacksClickGui.log("[NEISelect] Not working");
         }
     }
     
@@ -77,7 +77,7 @@ public class NEISelect extends Mod {
                     Statics.STATIC_ITEMSTACK = item.copy().splitStack(count);
                     Statics.STATIC_NBT = Statics.STATIC_ITEMSTACK.getTagCompound() == null ? new NBTTagCompound() : Statics.STATIC_ITEMSTACK.getTagCompound();
                 }
-                YouAlwaysWinClickGui.log("[NEISelect] ItemStack selected");
+                EHacksClickGui.log("[NEISelect] ItemStack selected");
             } catch (Exception ex) {
                 
             }

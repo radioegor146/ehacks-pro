@@ -52,16 +52,7 @@ public abstract class Mod implements Comparable {
         return this.enabled;
     }
 
-    public void onAttackEntity() {
-    }
-
-    public void onPlayerUpdate() {
-    }
-
     public void onWorldUpdate() {
-    }
-
-    public void onTick() {
     }
 
     public void onTicks() {

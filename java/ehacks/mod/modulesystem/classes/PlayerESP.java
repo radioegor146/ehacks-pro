@@ -40,6 +40,11 @@ extends Mod {
     public String getName() {
         return "Player ESP";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to see all players around you";
+    }
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {

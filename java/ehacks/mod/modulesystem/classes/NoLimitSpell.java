@@ -34,8 +34,8 @@ import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -69,13 +69,18 @@ extends Mod {
     }
     
     @Override
+    public String getDescription() {
+        return "Allows you to put a any modifier to spell";
+    }
+    
+    @Override
     public void onEnableMod() {
         try {
             Class.forName("am2.blocks.tileentities.TileEntityInscriptionTable");
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[MagicGive] Not working");
+            EHacksClickGui.log("[MagicGive] Not working");
         }
     }
     
@@ -122,7 +127,7 @@ extends Mod {
                 setFinalStatic(Class.forName("am2.guis.GuiInscriptionTable").getDeclaredField("knownModifiers"), currentScreen, getIntArray((ArrayList<Integer>)Class.forName("am2.spell.SkillManager").getMethod("getAllModifiers").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))));
             }
         } catch (Exception e) {
-            YouAlwaysWinClickGui.log("[NoLimitSpell] Error");
+            EHacksClickGui.log("[NoLimitSpell] Error");
             e.printStackTrace();
         }
     }

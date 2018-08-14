@@ -58,6 +58,11 @@ extends Mod {
     }
 
     @Override
+    public String getDescription() {
+        return "Automatically put water bucket on fall";
+    }
+    
+    @Override
     public void onTicks() {
         if (Wrapper.INSTANCE.player().fallDistance >= 5.0f) {
             this.switchToItem(I18n.format((String)"item.bucketWater.name", (Object[])new Object[0]));

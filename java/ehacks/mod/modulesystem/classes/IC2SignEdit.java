@@ -14,7 +14,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -58,12 +58,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "IC2 Sign Edit";
-    }
-    
-    @Override
-    public void onTick() {
-        
+        return "Allows you to edit configs of blocks from IC2 Nuclear Control mod with right click";
     }
     
     @Override
@@ -72,7 +67,7 @@ extends Mod {
             Class.forName("shedar.mods.ic2.nuclearcontrol.network.message.PacketClientSensor").getConstructor();
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[IC2 Sign Edit] Not working");
+            EHacksClickGui.log("[IC2 Sign Edit] Not working");
         }
     }
     

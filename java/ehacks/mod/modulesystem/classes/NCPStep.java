@@ -21,7 +21,7 @@ extends Mod {
 
     @Override
     public String getName() {
-        return "Step";
+        return "NCPStep";
     }
 
     @Override

@@ -55,7 +55,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "TriggerBot";
+        return "Automaticly rightclicks an entity";
     }
 
     @Override

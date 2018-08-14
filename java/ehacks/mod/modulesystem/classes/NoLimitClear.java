@@ -33,8 +33,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -76,6 +76,11 @@ extends Mod {
     }
     
     @Override
+    public String getDescription() {
+        return "Clears all containers around you";
+    }
+    
+    @Override
     public void onEnableMod() {
         try {
             Class.forName("powercrystals.minefactoryreloaded.net.ServerPacketHandler");
@@ -103,12 +108,12 @@ extends Mod {
                     }
                 }
             }
-            YouAlwaysWinClickGui.log("[NoLimitClear] Cleared " + String.valueOf(count) + " containers");
+            EHacksClickGui.log("[NoLimitClear] Cleared " + String.valueOf(count) + " containers");
             this.off();
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitClear] Not working");
+            EHacksClickGui.log("[NoLimitClear] Not working");
         }
     }
 

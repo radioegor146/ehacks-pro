@@ -28,7 +28,7 @@ extends Mod {
     }
 
     @Override
-    public void onTick() {
+    public void onTicks() {
         Wrapper.INSTANCE.player().setInvisible(true);
     }
 

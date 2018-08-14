@@ -5,7 +5,7 @@
  */
 package ehacks.mod.wrapper;
 
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,10 +24,10 @@ public class PacketHandler extends ChannelDuplexHandler {
         try {
             ChannelPipeline pipeline = Wrapper.INSTANCE.mc().getNetHandler().getNetworkManager().channel().pipeline();
             pipeline.addBefore("packet_handler", "PacketHandler", (ChannelHandler)this);
-            YouAlwaysWinClickGui.log("[PacketHandler] Attached");
+            EHacksClickGui.log("[PacketHandler] Attached");
         }
         catch (Exception exception) {
-            YouAlwaysWinClickGui.log("[PacketHandler] Error on attaching");
+            EHacksClickGui.log("[PacketHandler] Error on attaching");
             exception.printStackTrace();
         }
     }

@@ -21,6 +21,11 @@ extends Mod {
     public String getName() {
         return "Speed";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Your game will run 3x faster";
+    }
 
     @Override
     public void onTicks() {

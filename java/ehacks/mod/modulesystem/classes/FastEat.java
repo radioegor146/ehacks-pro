@@ -59,6 +59,11 @@ extends Mod {
     }
 
     @Override
+    public String getDescription() {
+        return "You can eat food instantly";
+    }
+    
+    @Override
     public void onTicks() {
         if (this.isActive() && Mouse.getEventButton() == 1 && Mouse.isButtonDown((int)1)) {
             if (this.mode == 1) {

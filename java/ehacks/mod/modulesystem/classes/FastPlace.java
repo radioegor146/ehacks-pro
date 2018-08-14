@@ -27,6 +27,11 @@ extends Mod {
     @Override
     public String getName() {
         return "FastPlace";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "You can place blocks instantly";
     }
 
     @Override

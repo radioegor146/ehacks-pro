@@ -41,7 +41,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "AimBot";
+        return "Automatically aims you";
     }
 
     @Override

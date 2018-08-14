@@ -21,6 +21,11 @@ extends Mod {
     public String getName() {
         return "Step";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to walk on 2 blocks height";
+    }
 
     @Override
     public void onTicks() {

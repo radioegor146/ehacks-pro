@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.nbtedit.GuiNBTEdit;
 import ehacks.mod.wrapper.Keybinds;
@@ -47,7 +47,7 @@ public class NBTView extends Mod {
 
     @Override
     public String getDescription() {
-        return "View item's nbt";
+        return "View item's nbt\nUsage:\n  Numpad7 - open NBT editor/viewer";
     }
     
     @Override
@@ -82,7 +82,7 @@ public class NBTView extends Mod {
                         }
                     }
                 } catch (Exception ex) {
-                    YouAlwaysWinClickGui.log("[NBTView] Error");
+                    EHacksClickGui.log("[NBTView] Error");
                     ex.printStackTrace();
                 }
             }

@@ -13,7 +13,7 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -56,12 +56,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Breaks blocks instantly";
-    }
-    
-    @Override
-    public void onTick() {
-        
+        return "Breaks blocks instantly in radius of 4 blocks around you";
     }
     
     @Override
@@ -70,7 +65,7 @@ extends Mod {
             Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater").getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Extended Nuker] Not working");
+            EHacksClickGui.log("[Extended Nuker] Not working");
         }
     }
     

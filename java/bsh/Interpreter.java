@@ -51,7 +51,6 @@ import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
-import bsh.util.JConsole;
 
 /**
 	The BeanShell script interpreter.
@@ -832,11 +831,7 @@ public class Interpreter
 	}
 	public final void print( Object o , Font f) 
 	{
-		if (console instanceof JConsole) {
-			((JConsole) console).print(o, f);
-		} else {
-			print(o);
-		}
+            print(o);
 	}
 
 	// End ConsoleInterface

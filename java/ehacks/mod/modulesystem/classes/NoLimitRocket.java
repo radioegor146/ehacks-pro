@@ -32,8 +32,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -54,6 +54,11 @@ extends Mod {
     public String getName() {
         return "NoLimitRocket";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Fires rocket to all entities around you every 4 seconds";
+    }
 
     @Override
     public void onEnableMod() {
@@ -63,7 +68,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitRocket] Not working");
+            EHacksClickGui.log("[NoLimitRocket] Not working");
         }
     }
 

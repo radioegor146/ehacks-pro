@@ -41,6 +41,11 @@ extends Mod {
     public String getName() {
         return "Nuker";
     }
+    
+    @Override
+    public String getDescription() {
+        return "Default nuker";
+    }
 
     @Override
     public void onEnableMod() {

@@ -33,8 +33,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -67,7 +67,12 @@ extends Mod {
     public String getName() {
         return "RedHack";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "Allows you to give any ItemStack to your hand\nUsage:\n  Numpad2 - Gives an item";
+    }
+    
     @Override
     public void onEnableMod() {
         try {
@@ -76,7 +81,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[ChestMagic] Not working");
+            EHacksClickGui.log("[ChestMagic] Not working");
         }
     }
 
@@ -111,7 +116,7 @@ extends Mod {
             if (Statics.STATIC_ITEMSTACK == null)
                 return;
             setRed(Statics.STATIC_ITEMSTACK, slotId);
-            YouAlwaysWinClickGui.log("[RedHack] Set");
+            EHacksClickGui.log("[RedHack] Set");
         }
         prevState = newState;
     }

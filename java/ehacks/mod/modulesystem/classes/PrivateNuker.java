@@ -27,8 +27,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.Tuple;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.Tuple;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -45,6 +45,11 @@ extends Mod {
     @Override
     public String getName() {
         return "Private Nuker";
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Destroys all blocks around you in radius of 5 blocks";
     }
     
     private Method snd;
@@ -65,7 +70,7 @@ extends Mod {
             isActive = false;
             Events.selectedBlock = null;
             this.off();
-            YouAlwaysWinClickGui.logData.add(new Tuple<String, Integer>("[Private Nuker] Not working", 0));
+            EHacksClickGui.logData.add(new Tuple<String, Integer>("[Private Nuker] Not working", 0));
         }
     }
     

@@ -9,7 +9,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.List;
@@ -93,7 +93,7 @@ public class Debug {
     }
 
     public void log(String data) {
-        YouAlwaysWinClickGui.log("[DebugMe] [Log] " + data);
+        EHacksClickGui.log("[DebugMe] [Log] " + data);
     }
     
     public int getEntityId(Entity entity) {

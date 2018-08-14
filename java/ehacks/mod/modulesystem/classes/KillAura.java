@@ -50,6 +50,11 @@ extends Mod {
     @Override
     public String getName() {
         return "KillAura";
+    }    
+    
+    @Override
+    public String getDescription() {
+        return "Just killaura";
     }
 
     @Override

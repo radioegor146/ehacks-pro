@@ -32,9 +32,9 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "BlockSmash";
+        return "Plays blocksmash effect";
     }
-
+    
     @Override
     public void onTicks() {
         Wrapper.INSTANCE.player().fallDistance = 100.0f;

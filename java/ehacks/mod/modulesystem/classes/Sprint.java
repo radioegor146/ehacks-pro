@@ -24,7 +24,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Sprints automatically when you should be walking.";
+        return "Sprints automatically when you should be walking";
     }
 
     @Override

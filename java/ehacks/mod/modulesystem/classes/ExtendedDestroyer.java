@@ -14,7 +14,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
 import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
@@ -53,12 +53,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Breaks blocks instantly";
-    }
-    
-    @Override
-    public void onTick() {
-        
+        return "Breaks blocks instantly on left click";
     }
     
     @Override
@@ -67,7 +62,7 @@ extends Mod {
             Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater");
         } catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[Extended Destroyer] Not working");
+            EHacksClickGui.log("[Extended Destroyer] Not working");
         }
     }
     

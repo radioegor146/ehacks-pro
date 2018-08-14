@@ -24,7 +24,7 @@ extends Mod {
 
     @Override
     public String getDescription() {
-        return "Stops rain.";
+        return "Stops rain";
     }
 
     @Override

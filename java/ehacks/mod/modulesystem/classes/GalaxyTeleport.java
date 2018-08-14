@@ -34,7 +34,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
+import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -59,7 +59,12 @@ extends Mod {
     public String getName() {
         return "GalaxyTeleport";
     }
-
+    
+    @Override
+    public String getDescription() {
+        return "On click you can teleport to any planet in Galacticraft";
+    }
+    
     @Override
     public ModStatus getModStatus() {
         try {
@@ -85,7 +90,7 @@ extends Mod {
         catch (Exception ex) {
             this.off();
             ex.printStackTrace();
-            YouAlwaysWinClickGui.log("[GalaxyTeleport] Not working");
+            EHacksClickGui.log("[GalaxyTeleport] Not working");
         }
     }
 

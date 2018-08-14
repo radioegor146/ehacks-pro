@@ -32,7 +32,12 @@ extends Mod {
 
     @Override
     public String getName() {
-        return "Fly";
+        return "NCPFly";
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Fly for NoCheatPlus";
     }
 
     @Override

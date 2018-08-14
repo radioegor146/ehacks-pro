@@ -32,8 +32,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import ehacks.api.module.Mod;
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.reeszrbteam.YouAlwaysWinClickGui;
-import ehacks.mod.gui.reeszrbteam.window.WindowPlayerIds;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.modulesystem.classes.AimBot;
 import ehacks.mod.modulesystem.classes.AutoBlock;
 import ehacks.mod.modulesystem.classes.Criticals;
@@ -51,6 +51,11 @@ extends Mod {
     public NoLimitSpin() {
         super(ModuleCategory.EHACKS);
     }
+    
+    @Override
+    public String getDescription() {
+        return "Rotates all entities around you randomly";
+    }
 
     @Override
     public String getName() {
@@ -64,7 +69,7 @@ extends Mod {
         }
         catch (Exception ex) {
             this.off();
-            YouAlwaysWinClickGui.log("[NoLimitSpin] Not working");
+            EHacksClickGui.log("[NoLimitSpin] Not working");
         }
     }
 
