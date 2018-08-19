@@ -3,11 +3,11 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 
 public class Criticals
-extends Mod {
+extends Module {
     public static boolean isActive = false;
 
     public Criticals() {

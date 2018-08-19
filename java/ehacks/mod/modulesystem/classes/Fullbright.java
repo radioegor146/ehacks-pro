@@ -11,12 +11,12 @@ package ehacks.mod.modulesystem.classes;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Fullbright
-extends Mod {
+extends Module {
     public Fullbright() {
         super(ModuleCategory.RENDER);
     }

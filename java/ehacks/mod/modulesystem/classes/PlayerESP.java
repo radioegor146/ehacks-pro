@@ -20,7 +20,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Session;
 import org.lwjgl.opengl.GL11;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -31,7 +31,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class PlayerESP
-extends Mod {
+extends Module {
     public PlayerESP() {
         super(ModuleCategory.RENDER);
     }

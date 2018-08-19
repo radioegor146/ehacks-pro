@@ -6,13 +6,13 @@ import java.util.List;
 
 public class ModController {
     public static volatile ModController INSTANCE = new ModController();
-    public List<Mod> mods = new ArrayList();
+    public List<Module> mods = new ArrayList();
 
-    public void enable(Mod mod) {
+    public void enable(Module mod) {
         this.mods.add(mod);
     }
 
-    public void disable(Mod mod) {
+    public void disable(Module mod) {
         this.mods.remove(mod);
     }
     
@@ -20,9 +20,9 @@ public class ModController {
         Collections.sort(mods);
     }
 
-    public Mod call(Class clazz) {
+    public Module call(Class clazz) {
         try {
-            for (Mod mod : this.mods) {
+            for (Module mod : this.mods) {
                 if (mod.getClass() != clazz) continue;
                 return mod;
             }

@@ -31,7 +31,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.window.WindowPlayerIds;
@@ -55,7 +55,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class NoLimitClear
-extends Mod {
+extends Module {
     public NoLimitClear() {
         super(ModuleCategory.EHACKS);
     }
@@ -114,6 +114,7 @@ extends Mod {
         catch (Exception ex) {
             this.off();
             EHacksClickGui.log("[NoLimitClear] Not working");
+            ex.printStackTrace();
         }
     }
 

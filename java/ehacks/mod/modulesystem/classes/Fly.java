@@ -8,7 +8,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.Minecraft;
@@ -16,7 +16,7 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.PlayerCapabilities;
 
 public class Fly
-extends Mod {
+extends Module {
     public static float FLY_SPEED = 0.05f;
 
     public Fly() {

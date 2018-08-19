@@ -5,6 +5,7 @@ import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import java.awt.Color;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -18,7 +19,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import ehacks.api.module.ModController;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
+import ehacks.mod.external.config.manual.ModIdConfiguration;
 import ehacks.mod.gui.Tuple;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.ModWindow;
@@ -38,9 +40,17 @@ import static ehacks.mod.gui.window.WindowCheckVanish.cvThreadStarted;
 import static ehacks.mod.gui.window.WindowCheckVanish.lpLastUpdate;
 import static ehacks.mod.gui.window.WindowCheckVanish.lpThreadStarted;
 import ehacks.mod.main.Main;
+import ehacks.mod.util.Mappings;
 import ehacks.mod.util.UltimateLogger;
+import ehacks.mod.util.ehackscfg.GuiMainConfig;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class Events {
+    public static boolean cheatEnabled = true;
     public static Block selectedBlock = null;
     FontRenderer fontRender;
     private boolean[] keyStates;
@@ -51,10 +61,10 @@ public class Events {
     }
     
     public boolean onPacket(Object packet, PacketHandler.Side side) {
-        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+        if (!cheatEnabled)
             return true;
         boolean ok = true;
-        for (Mod mod : ModController.INSTANCE.mods) {
+        for (Module mod : ModController.INSTANCE.mods) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
             ok &= mod.onPacket(packet, side);
         }
@@ -68,10 +78,18 @@ public class Events {
         UltimateLogger.INSTANCE.sendServerConnectInfo();
     }
     
+    public boolean prevState = false;
+    
     @SubscribeEvent
     public void onTicks(TickEvent.ClientTickEvent event) {
-        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+        boolean nowState = Keyboard.isKeyDown(Keybinds.hideCheat);
+        if (!prevState && nowState)
+            cheatEnabled = !cheatEnabled;
+        prevState = nowState;
+        Wrapper.INSTANCE.mcSettings().viewBobbing = true;
+        if (!cheatEnabled)
             return;
+        Wrapper.INSTANCE.mcSettings().viewBobbing = false;
         if (Wrapper.INSTANCE.player() != null) {
             if (!ready)
             {
@@ -105,7 +123,7 @@ public class Events {
         {
 
         }
-        for (Mod mod : ModController.INSTANCE.mods) {
+        for (Module mod : ModController.INSTANCE.mods) {
             if (mod.isActive() && Wrapper.INSTANCE.world() != null) {
                 mod.onTicks();
             }
@@ -117,9 +135,9 @@ public class Events {
 
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
-        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+        if (!cheatEnabled)
             return;
-        for (Mod mod : ModController.INSTANCE.mods) {
+        for (Module mod : ModController.INSTANCE.mods) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
             mod.onWorldRender(event);
         }
@@ -127,31 +145,37 @@ public class Events {
     
     @SubscribeEvent
     public void onMouse(MouseEvent event) {
-        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+        if (!cheatEnabled)
             return;
-        for (Mod mod : ModController.INSTANCE.mods) {
+        for (Module mod : ModController.INSTANCE.mods) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
             mod.onMouse(event);
+        }
+    }
+    
+    @SubscribeEvent
+    public void onLiving(LivingEvent.LivingUpdateEvent event) {
+        if (!cheatEnabled)
+            return;
+        for (Module mod : ModController.INSTANCE.mods) {
+            if (!mod.isActive() || Wrapper.INSTANCE.world() == null) continue;
+            mod.onLiving(event);
         }
     }
 
     @SubscribeEvent
     public void onGameOverlay(RenderGameOverlayEvent.Text event) {
-        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+        if (!cheatEnabled)
             return;
         if (Wrapper.INSTANCE.mc().currentScreen == null) {
             int x2 = 8;
             int y2 = 7;
             GL11.glPushMatrix();
-            String Copyright1 = "EHacks " + Main.realVersion + " for FFTeam";
-            String Copyright2 = "Powered by CheatingEssentials [Qmaks edit]";
-            String Copyright3 = "[ForgeFuck and radioegor146 edition]";
-            String Copyright4 = "For private use ONLY!";
+            String Copyright1 = "EHacks v" + Main.REAL_VERSION;
+            String Copyright2 = "For private use ONLY!";
             GL11.glScalef((float)1f, (float)1f, (float)1f);
             this.fontRender.drawString(Copyright1, 2,  2, Events.rainbowEffect_Text(9999999L, 1.0f).getRGB());
-            this.fontRender.drawString(Copyright2, 2, 12, Events.rainbowEffect_Text(9999999L, 1.0f).getRGB());
-            this.fontRender.drawString(Copyright3, 2, 22, Events.rainbowEffect_Text(9999999L, 1.0f).getRGB());
-            this.fontRender.drawString(Copyright4, 2, 32, GLUtils.getColor(255, 0, 0));
+            this.fontRender.drawString(Copyright2, 2, 12, GLUtils.getColor(255, 0, 0));
             GL11.glPopMatrix();
         }
         for (SimpleWindow windows : EHacksClickGui.windows) {
@@ -170,7 +194,7 @@ public class Events {
 
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
-        if (Keyboard.isKeyDown(Keybinds.hideCheat))
+        if (!cheatEnabled)
             return;
         if (!(KillAura.isActive || MobAura.isActive || ProphuntAura.isActive || Forcefield.isActive || TriggerBot.isActive || !Criticals.isActive || Wrapper.INSTANCE.player().isInWater() || Wrapper.INSTANCE.player().isInsideOfMaterial(Material.lava) || Wrapper.INSTANCE.player().isInsideOfMaterial(Material.web) || !Wrapper.INSTANCE.player().onGround || !Wrapper.INSTANCE.mc().gameSettings.keyBindAttack.getIsKeyPressed() || Wrapper.INSTANCE.mc().objectMouseOver == null || Wrapper.INSTANCE.mc().objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY)) {
             event.setCanceled(true);
@@ -196,6 +220,30 @@ public class Events {
             return this.keyStates[key];
         }
         return false;
+    }
+    
+    @SubscribeEvent
+    public void onGuiScreenDraw(GuiScreenEvent.DrawScreenEvent.Pre event) {
+        if (event.gui instanceof GuiMainMenu) {
+            GuiMainMenu mainMenu = (GuiMainMenu)event.gui;
+            ReflectionHelper.setPrivateValue(GuiMainMenu.class, mainMenu, "Fucked by radioegor146", Mappings.splashText);
+        }
+    }
+    
+    @SubscribeEvent
+    public void onGuiScreenInit(GuiScreenEvent.InitGuiEvent event) {
+        if (event.gui instanceof GuiMainMenu) { 
+            Wrapper.INSTANCE.mc().getSession();
+            ModIdConfiguration.instance().read();
+            event.buttonList.add(new GuiButton(1337, 0, 0, 100, 20, "EHacks"));
+        }
+    }
+    
+    @SubscribeEvent
+    public void onGuiScreenAction(GuiScreenEvent.ActionPerformedEvent event) {
+        if (event.gui instanceof GuiMainMenu && event.button.id == 1337) {
+            Wrapper.INSTANCE.mc().displayGuiScreen(new GuiMainConfig(event.gui));
+        }
     }
 }
 

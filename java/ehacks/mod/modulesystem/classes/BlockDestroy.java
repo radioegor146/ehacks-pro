@@ -3,7 +3,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.Tuple;
 import ehacks.mod.gui.EHacksClickGui;
@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public class BlockDestroy
-extends Mod {
+extends Module {
     public static boolean isActive = false;
 
     public BlockDestroy() {

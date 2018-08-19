@@ -7,12 +7,12 @@
 package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.multiplayer.WorldClient;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NoWeather
-extends Mod {
+extends Module {
     public NoWeather() {
         super(ModuleCategory.RENDER);
     }

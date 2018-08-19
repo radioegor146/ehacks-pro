@@ -12,7 +12,7 @@ package ehacks.mod.modulesystem.classes;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
@@ -46,7 +46,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Mouse;
 
 public class FakeDestroy
-extends Mod {
+extends Module {
     public FakeDestroy() {
         super(ModuleCategory.PLAYER);
     }

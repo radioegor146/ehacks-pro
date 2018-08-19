@@ -18,7 +18,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.modulesystem.classes.KillAura;
 import ehacks.mod.modulesystem.classes.MobAura;
 import ehacks.mod.modulesystem.classes.ProphuntAura;
@@ -26,7 +26,7 @@ import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AimBot
-extends Mod {
+extends Module {
     public static boolean isActive = false;
     private static final long time = 0L;
 

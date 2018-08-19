@@ -30,7 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.window.WindowPlayerIds;
@@ -45,7 +45,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class NoLimitRocket
-extends Mod {
+extends Module {
     public NoLimitRocket() {
         super(ModuleCategory.EHACKS);
     }

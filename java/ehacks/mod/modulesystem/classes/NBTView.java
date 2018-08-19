@@ -6,7 +6,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.EHacksClickGui;
@@ -35,7 +35,7 @@ import org.lwjgl.input.Mouse;
  *
  * @author radioegor146
  */
-public class NBTView extends Mod {
+public class NBTView extends Module {
     public NBTView() {
         super(ModuleCategory.EHACKS);
     }

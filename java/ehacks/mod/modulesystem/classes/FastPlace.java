@@ -14,12 +14,12 @@ import java.lang.reflect.Method;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class FastPlace
-extends Mod {
+extends Module {
     public FastPlace() {
         super(ModuleCategory.PLAYER);
     }

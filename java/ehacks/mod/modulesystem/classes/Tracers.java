@@ -24,13 +24,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
+import ehacks.mod.util.EntityFakePlayer;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class Tracers
-extends Mod {
+extends Module {
     public Tracers() {
         super(ModuleCategory.RENDER);
     }
@@ -46,6 +47,10 @@ extends Mod {
     }
 
     @Override
+    public void onDisableMod() {
+    }
+    
+    @Override
     public void onWorldRender(RenderWorldLastEvent event) {
         try {
             GL11.glBlendFunc((int)770, (int)771);
@@ -55,12 +60,12 @@ extends Mod {
             GL11.glDisable((int)2929);
             GL11.glDepthMask((boolean)false);
             for (Object entities : Wrapper.INSTANCE.mc().theWorld.loadedEntityList) {
-                if (entities == Wrapper.INSTANCE.mc().thePlayer || entities == null || !(entities instanceof EntityPlayer) || ((EntityPlayer)entities).isDead || ((EntityPlayer)entities).isInvisible()) continue;
+                if (entities == Wrapper.INSTANCE.mc().thePlayer || entities == null || !(entities instanceof EntityPlayer) || (entities instanceof EntityFakePlayer) || ((EntityPlayer)entities).isDead || ((EntityPlayer)entities).isInvisible()) continue;
                 EntityPlayer entity = (EntityPlayer)entities;
                 float distance = Wrapper.INSTANCE.mc().renderViewEntity.getDistanceToEntity((Entity)entity);
-                double posX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) - RenderManager.renderPosX;
-                double posY = entity.lastTickPosY + 1.4 + (entity.posY - entity.lastTickPosY) - RenderManager.renderPosY;
-                double posZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) - RenderManager.renderPosZ;
+                double posX = entity.posX - RenderManager.renderPosX;
+                double posY = entity.posY + (double)(entity.height / 2.0f) - RenderManager.renderPosY;
+                double posZ = entity.posZ - RenderManager.renderPosZ;
                 String playerName = Wrapper.INSTANCE.player().getGameProfile().getName();
                 if (distance <= 6.0f) {
                     GL11.glColor3f((float)1.0f, (float)0.0f, (float)0.0f);

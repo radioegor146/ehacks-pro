@@ -6,13 +6,13 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 
 public class AutoRespawn
-extends Mod {
+extends Module {
     public AutoRespawn() {
         super(ModuleCategory.PLAYER);
     }

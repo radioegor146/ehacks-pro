@@ -25,7 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.modulesystem.classes.Forcefield;
 import ehacks.mod.modulesystem.classes.KillAura;
 import ehacks.mod.modulesystem.classes.MobAura;
@@ -35,7 +35,7 @@ import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AutoBlock
-extends Mod {
+extends Module {
     public static boolean isActive = false;
 
     public AutoBlock() {

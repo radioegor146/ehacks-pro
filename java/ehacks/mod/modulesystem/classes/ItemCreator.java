@@ -15,7 +15,7 @@ package ehacks.mod.modulesystem.classes;
  */
 
 import cpw.mods.fml.common.network.ByteBufUtils;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.EHacksClickGui;
@@ -43,7 +43,7 @@ import net.minecraftforge.client.ClientCommandHandler;
 import org.lwjgl.input.Keyboard;
 
 public class ItemCreator
-extends Mod {
+extends Module {
     
     public ItemCreator() {
         super(ModuleCategory.EHACKS);

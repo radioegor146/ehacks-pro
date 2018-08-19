@@ -13,7 +13,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import com.mojang.authlib.GameProfile;
@@ -27,7 +27,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.world.World;
 
 public class FreezeCam
-extends Mod {
+extends Module {
     LocationHelper location;
 
     public FreezeCam() {

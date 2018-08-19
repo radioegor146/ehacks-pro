@@ -32,7 +32,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.classes.AimBot;
@@ -50,7 +50,7 @@ import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 
 public class GalaxyTeleport
-extends Mod {
+extends Module {
     public GalaxyTeleport() {
         super(ModuleCategory.EHACKS);
     }

@@ -41,12 +41,12 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.input.Mouse;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class FastEat
-extends Mod {
+extends Module {
     private int mode = 0;
 
     public FastEat() {

@@ -15,11 +15,11 @@ import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.ModWindow;
 import ehacks.mod.gui.element.SimpleWindow;
 
-public class SaveableGuiState {
+public class GuiConfiguration {
     private File guiConfig;
-    private static volatile SaveableGuiState inst = new SaveableGuiState();
+    private static volatile GuiConfiguration inst = new GuiConfiguration();
 
-    public SaveableGuiState() {
+    public GuiConfiguration() {
         this.guiConfig = new File(Minecraft.getMinecraft().mcDataDir, "/config/ehacks/tgc.txt");
         this.write();
     }
@@ -81,7 +81,7 @@ public class SaveableGuiState {
         }
     }
 
-    public static SaveableGuiState instance() {
+    public static GuiConfiguration instance() {
         return inst;
     }
 }

@@ -16,4 +16,5 @@ import net.minecraft.nbt.NBTTagCompound;
 public class Statics {
     public static NBTTagCompound STATIC_NBT = new NBTTagCompound();
     public static ItemStack STATIC_ITEMSTACK = null;
+    public static int STATIC_INT = 0;
 }

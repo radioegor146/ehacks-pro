@@ -6,12 +6,12 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AimAssist
-extends Mod {
+extends Module {
     public static boolean isActive = false;
     private double range = 3.8;
     private EntityPlayer curtarget;

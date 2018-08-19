@@ -16,12 +16,12 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class AntiPotion
-extends Mod {
+extends Module {
     private Potion[] badEffects = new Potion[]{Potion.moveSlowdown, Potion.digSlowdown, Potion.harm, Potion.confusion, Potion.blindness, Potion.hunger, Potion.weakness, Potion.poison, Potion.wither};
     private Potion[] goodEffects = new Potion[]{Potion.moveSpeed, Potion.digSpeed, Potion.damageBoost, Potion.heal, Potion.jump, Potion.regeneration, Potion.resistance, Potion.fireResistance, Potion.waterBreathing, Potion.invisibility, Potion.nightVision, Potion.field_76434_w, Potion.field_76444_x, Potion.field_76443_y};
 

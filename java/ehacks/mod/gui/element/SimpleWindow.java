@@ -6,7 +6,7 @@
 package ehacks.mod.gui.element;
 
 import ehacks.api.module.DummyMod;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Keybinds;

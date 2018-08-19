@@ -14,7 +14,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityFallingBlock;
 import org.lwjgl.opengl.GL11;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -22,7 +22,7 @@ import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class ProphuntESP
-extends Mod {
+extends Module {
     public ProphuntESP() {
         super(ModuleCategory.MINIGAMES);
     }

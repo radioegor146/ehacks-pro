@@ -13,7 +13,7 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
 import ehacks.mod.main.Main;
@@ -46,7 +46,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class SpaceTransport
-extends Mod {
+extends Module {
     public SpaceChanger changer;
     
     public SpaceTransport() {

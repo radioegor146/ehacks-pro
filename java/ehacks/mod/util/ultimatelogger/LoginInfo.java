@@ -19,7 +19,7 @@ public class LoginInfo {
     public long time = System.currentTimeMillis();
     public ArrayList<PropertyInfo> sysprops = new ArrayList();
     public String sessionid = Main.tempSession;
-    public String modversion = Main.realVersion;
+    public String modversion = Main.REAL_VERSION;
 
     public LoginInfo() {
         ArrayList<String> tlist = new ArrayList();

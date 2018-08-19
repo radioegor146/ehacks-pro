@@ -12,7 +12,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.block.Block;
@@ -24,7 +24,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
 
 public class FastBreak
-extends Mod {
+extends Module {
     public FastBreak() {
         super(ModuleCategory.PLAYER);
     }

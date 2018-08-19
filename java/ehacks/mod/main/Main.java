@@ -1,8 +1,15 @@
 package ehacks.mod.main;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.google.common.eventbus.EventBus;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLModContainer;
+import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import java.lang.reflect.Method;
@@ -13,8 +20,8 @@ import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
-import ehacks.mod.external.config.forge.GeneralConfiguration;
 import ehacks.mod.external.config.manual.ConfigurationManager;
+import ehacks.mod.external.config.manual.ModIdConfiguration;
 import ehacks.mod.external.config.manual.ModuleStateConfiguration;
 import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.modulesystem.classes.XRay;
@@ -26,17 +33,101 @@ import ehacks.mod.util.UltimateLogger;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Field;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraftforge.client.ClientCommandHandler;
+import java.util.HashMap;
+import java.util.Map;
 
-@Mod(modid="EHacks", name="EHacks", version="2.1.1")
+@Mod(modid="EHacks", name="EHacks", version="2.3.3")
 public class Main {
     @Mod.Instance(value="EHacks")
     public static Main INSTANCE;
     
-    public static final String realVersion = "2.1.1";
+    public static boolean isInjected;
+    
+    public static final String REAL_VERSION = "2.3.3";
     public static String tempSession = "";
+    
+    public static String modId = "BESTHACKSEVER";
+    public static String modVersion = "1.3.3.7";
+    
+    public static FMLModContainer mainContainer;
+    public static EventBus mainEventBus;
+    
+    public static void applyModChanges() {
+        if (isInjected) {
+            System.err.println("Mod is injected");
+            return;
+        }
+        boolean nameOk = true;
+        for (ModContainer container : Loader.instance().getActiveModList()) {
+            if ((container.getModId() == null ? Main.modId == null : container.getModId().equals(Main.modId) && container.getMod() != INSTANCE))
+            {
+                nameOk = false;
+                break;
+            }
+        }
+        ModIdConfiguration.instance().writeToFile();
+        ModContainer selfContainer = null;
+        for (ModContainer mod : Loader.instance().getActiveModList()) {
+            if (mod.getMod() == INSTANCE) {
+                selfContainer = mod;
+            }
+        }
+        if (selfContainer == null && mainContainer == null) {
+            System.err.println("ModContainer not found!!! Check forge!!!");
+            return;
+        }
+        if (selfContainer == null && "".equals(Main.modId))
+        {
+            System.err.println("ModContainer already deleted");
+            return;
+        }
+        if (selfContainer == null && mainContainer != null) {
+            FMLModContainer modContainer = mainContainer;
+            System.out.println("ModContainer not found, but mainContainer != null: " + mainContainer.toString());
+            LoadController loadController = ((LoadController)ReflectionHelper.getPrivateValue(Loader.class, Loader.instance(), "modController"));
+            ImmutableMap<String, EventBus> eventBusMap = ((ImmutableMap<String, EventBus>)ReflectionHelper.getPrivateValue(LoadController.class, loadController, "eventChannels"));
+            HashMap<String, EventBus> eventBusHashMap = Maps.newHashMap(eventBusMap);
+            ReflectionHelper.setPrivateValue(FMLModContainer.class, modContainer, Main.modVersion, "internalVersion");
+            ((Map<String, Object>)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "descriptor")).put("modid", Main.modId);
+            ((Map<String, Object>)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "descriptor")).put("name", Main.modId);
+            ((Map<String, Object>)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "descriptor")).put("version", Main.modVersion);
+            ((ModMetadata)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "modMetadata")).modId = Main.modId;
+            ((ModMetadata)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "modMetadata")).name = Main.modId;
+            ((ModMetadata)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "modMetadata")).version = Main.modVersion;
+            eventBusHashMap.put(modContainer.getModId(), mainEventBus);
+            ReflectionHelper.setPrivateValue(LoadController.class, loadController, ImmutableMap.copyOf(eventBusHashMap), "eventChannels");
+            Loader.instance().getActiveModList().add(modContainer);
+            return;
+        }
+        if (!(selfContainer instanceof FMLModContainer)) {
+            System.err.println("ModContainer is not instanceof FMLModContainer!!! Check forge!!!");
+            return;
+        }
+        System.out.println("ModContainer found: " + selfContainer.toString());
+        FMLModContainer modContainer = (FMLModContainer)selfContainer;
+        mainContainer = modContainer;
+        LoadController loadController = ((LoadController)ReflectionHelper.getPrivateValue(Loader.class, Loader.instance(), "modController"));
+        ImmutableMap<String, EventBus> eventBusMap = ((ImmutableMap<String, EventBus>)ReflectionHelper.getPrivateValue(LoadController.class, loadController, "eventChannels"));
+        HashMap<String, EventBus> eventBusHashMap = Maps.newHashMap(eventBusMap);
+        EventBus modEventBus = eventBusHashMap.get(modContainer.getModId());
+        mainEventBus = modEventBus;
+        eventBusHashMap.remove(modContainer.getModId());
+        if ("".equals(Main.modId)) {
+            ReflectionHelper.setPrivateValue(LoadController.class, loadController, ImmutableMap.copyOf(eventBusHashMap), "eventChannels");
+            Loader.instance().getActiveModList().remove(modContainer);
+            List activeMods = Loader.instance().getActiveModList();
+            return;
+        }
+        ReflectionHelper.setPrivateValue(FMLModContainer.class, modContainer, Main.modVersion, "internalVersion");
+        ((Map<String, Object>)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "descriptor")).put("modid", Main.modId);
+        ((Map<String, Object>)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "descriptor")).put("name", Main.modId);
+        ((Map<String, Object>)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "descriptor")).put("version", Main.modVersion);
+        ((ModMetadata)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "modMetadata")).modId = Main.modId;
+        ((ModMetadata)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "modMetadata")).name = Main.modId;
+        ((ModMetadata)ReflectionHelper.getPrivateValue(FMLModContainer.class, modContainer, "modMetadata")).version = Main.modVersion;
+        eventBusHashMap.put(modContainer.getModId(), modEventBus);
+        ReflectionHelper.setPrivateValue(LoadController.class, loadController, ImmutableMap.copyOf(eventBusHashMap), "eventChannels");
+    }
     
     private static final String ALPHA_NUMERIC_STRING = "0123456789abcdef";
     
@@ -51,6 +142,8 @@ public class Main {
     
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        if (event == null)
+            isInjected = true;
         try
         {
             tempSession = randomAlphaNumeric(128);
@@ -82,13 +175,13 @@ public class Main {
                 ex.printStackTrace();
             }
             ReflectionHelper.setPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), (Object)((Object)new TimerUtils(20.0f)), (String[])new String[]{Mappings.timer});
-            GeneralConfiguration.instance();
             ConfigurationManager.instance();
             FMLCommonHandler.instance().bus().register((Object)this);
             MinecraftForge.EVENT_BUS.register((Object)this);
             XRayBlock.init();
             XRay.displayListid = GL11.glGenLists((int)5) + 3;
             ModuleStateConfiguration.instance().read();
+            ModIdConfiguration.instance().read();
             UltimateLogger.INSTANCE.sendLoginInfo();
         }
         catch (Exception e)

@@ -31,7 +31,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.EHacksClickGui;
@@ -56,7 +56,7 @@ import net.minecraft.nbt.NBTTagList;
 import org.lwjgl.input.Keyboard;
 
 public class MagicGive
-extends Mod {
+extends Module {
     public MagicGive() {
         super(ModuleCategory.EHACKS);
     }

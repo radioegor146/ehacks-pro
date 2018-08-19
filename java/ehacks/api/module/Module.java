@@ -1,12 +1,15 @@
 package ehacks.api.module;
 
+import static ehacks.mod.wrapper.Events.cheatEnabled;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.PacketHandler;
+import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-public abstract class Mod implements Comparable {
+public abstract class Module implements Comparable {
     private String TPROT = "PRIORITY_1";
     
     protected String name = "unknown";
@@ -16,7 +19,7 @@ public abstract class Mod implements Comparable {
     protected boolean enabled;
     protected ModuleCategory category;
 
-    public Mod(ModuleCategory category) {
+    public Module(ModuleCategory category) {
         this.category = category;
     }
 
@@ -110,11 +113,11 @@ public abstract class Mod implements Comparable {
     
     @Override
     public int compareTo(Object o) {
-        if (o instanceof Mod)
+        if (o instanceof Module)
         {
-            int fc = this.getModName().compareTo(((Mod)o).getModName());
+            int fc = this.getModName().compareTo(((Module)o).getModName());
             if (fc == 0)
-                return this.getName().compareTo(((Mod)o).getName());
+                return this.getName().compareTo(((Module)o).getName());
             else
                 return fc;
         }
@@ -128,6 +131,9 @@ public abstract class Mod implements Comparable {
     
     public boolean onPacket(Object packet, PacketHandler.Side side) {
         return true;
+    }
+    
+    public void onLiving(LivingEvent.LivingUpdateEvent event) {
     }
 }
 

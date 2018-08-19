@@ -12,7 +12,7 @@ import org.lwjgl.input.Keyboard;
  * @author radioegor146
  */
 public class Keybinds {
-    public static int give = Keyboard.KEY_NUMPAD2;
+    public static int give = Keyboard.KEY_NUMPAD0;
     public static int selectPlayer = Keyboard.KEY_NUMPAD3;
     public static int neiSelect = Keyboard.KEY_TAB;
     public static int showGroups = Keyboard.KEY_NUMPAD9;

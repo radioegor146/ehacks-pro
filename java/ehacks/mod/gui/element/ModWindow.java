@@ -3,7 +3,7 @@ package ehacks.mod.gui.element;
 import ehacks.api.module.DummyMod;
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.Tooltip;
 import ehacks.mod.util.GLUtils;
@@ -19,7 +19,7 @@ public class ModWindow extends SimpleWindow {
         super(title, x, y);
     }
 
-    public void addButton(Mod mod) {
+    public void addButton(Module mod) {
         this.buttonsSetup.add(new ModButton(this, mod, this.xPos + 2, this.yPos + 11 * this.buttons.size() + 16));
     }
     
@@ -41,7 +41,7 @@ public class ModWindow extends SimpleWindow {
             if (this.dragging) {
                 this.windowDragged(x, y);
             }
-            Mod hoverMod = null;
+            Module hoverMod = null;
             if (this.isExtended) {
                 if (Keyboard.isKeyDown(Keybinds.showGroups))
                 {
@@ -59,7 +59,7 @@ public class ModWindow extends SimpleWindow {
                     int col = 0;
                     for (ArrayList<ModButton> buttonList : this.buttons)
                     {
-                        Mod prevMod = null;
+                        Module prevMod = null;
                         int ty = 0;
                         int tty = 0;
                         for (ModButton button : buttonList) {

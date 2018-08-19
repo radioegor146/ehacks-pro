@@ -13,7 +13,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModController;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.modulesystem.classes.DynamicFly;
 import ehacks.mod.modulesystem.handler.ModuleManagement;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -28,7 +28,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class Spectate
-extends Mod {
+extends Module {
     private LocationHelper loc;
 
     public Spectate() {

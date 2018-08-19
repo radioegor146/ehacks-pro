@@ -9,13 +9,13 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class Gui
-extends Mod {
+extends Module {
     private EHacksClickGui click = new EHacksClickGui();
 
     public Gui() {

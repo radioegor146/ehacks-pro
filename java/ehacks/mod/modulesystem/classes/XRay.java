@@ -18,15 +18,16 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.RegistryNamespaced;
 import org.lwjgl.opengl.GL11;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class XRay
-extends Mod {
+extends Module {
     public static int radius = 45;
     public static int displayListid = 0;
     public static int cooldownTicks = 0;
@@ -58,9 +59,9 @@ extends Mod {
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {
         if (Wrapper.INSTANCE.world() != null) {
-            double doubleX = Wrapper.INSTANCE.player().lastTickPosX + (Wrapper.INSTANCE.player().posX - Wrapper.INSTANCE.player().lastTickPosX);
-            double doubleY = Wrapper.INSTANCE.player().lastTickPosY + (Wrapper.INSTANCE.player().posY - Wrapper.INSTANCE.player().lastTickPosY);
-            double doubleZ = Wrapper.INSTANCE.player().lastTickPosZ + (Wrapper.INSTANCE.player().posZ - Wrapper.INSTANCE.player().lastTickPosZ);
+            double doubleX = RenderManager.renderPosX;
+            double doubleY = RenderManager.renderPosY;
+            double doubleZ = RenderManager.renderPosZ;
             GL11.glPushMatrix();
             GL11.glTranslated((double)(- doubleX), (double)(- doubleY), (double)(- doubleZ));
             GL11.glCallList((int)displayListid);

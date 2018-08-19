@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
 import ehacks.mod.external.config.manual.ModuleStateConfiguration;
-import ehacks.mod.external.config.manual.SaveableGuiState;
+import ehacks.mod.external.config.manual.GuiConfiguration;
 import ehacks.mod.gui.element.ModWindow;
 import ehacks.mod.gui.element.SimpleWindow;
 import ehacks.mod.gui.window.WindowActives;
@@ -60,7 +60,7 @@ extends GuiScreen {
 
     public void initGui() {
         super.initGui();
-        SaveableGuiState.instance().read();
+        GuiConfiguration.instance().read();
         Keyboard.enableRepeatEvents((boolean)true);
         this.guiHub.setOpen(true);
     }
@@ -69,7 +69,7 @@ extends GuiScreen {
         super.onGuiClosed();
         Keyboard.enableRepeatEvents((boolean)false);
         ModuleStateConfiguration.instance().writeToFile();
-        SaveableGuiState.instance().writeToFile();
+        GuiConfiguration.instance().writeToFile();
     }
 
     public static void sendPanelToFront(SimpleWindow window) {

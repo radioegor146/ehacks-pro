@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import ehacks.api.module.ModController;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 
 public class ModuleStateConfiguration {
@@ -28,7 +28,7 @@ public class ModuleStateConfiguration {
         try {
             FileWriter filewriter = new FileWriter(this.moduleConfig);
             BufferedWriter bufferedwriter = new BufferedWriter(filewriter);
-            for (Mod module : ModController.INSTANCE.mods) {
+            for (Module module : ModController.INSTANCE.mods) {
                 Boolean s = module.isActive();
                 if (module.getCategory() == ModuleCategory.NONE) continue;
                 bufferedwriter.write(module.getName().toLowerCase().replaceAll(" ", "") + ":" + s + "\r\n");
@@ -51,7 +51,7 @@ public class ModuleStateConfiguration {
                 String[] string2 = string.split(":");
                 String moduleName = string2[0];
                 String booleanState = string2[1];
-                for (Mod module : ModController.INSTANCE.mods) {
+                for (Module module : ModController.INSTANCE.mods) {
                     if (module.getCategory() == ModuleCategory.NONE || module.getCategory() == ModuleCategory.EHACKS || !module.canOnOnStart()) continue;
                     List<String> modules = Arrays.asList(module.getName());
                     for (int i = 0; i < modules.size(); ++i) {

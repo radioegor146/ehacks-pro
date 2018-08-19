@@ -16,7 +16,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.Events;
@@ -33,7 +33,7 @@ import net.minecraftforge.client.event.MouseEvent;
  *
  * @author radioegor146
  */
-public class NoLimitDamage extends Mod {
+public class NoLimitDamage extends Module {
 
     public NoLimitDamage() {
         super(ModuleCategory.EHACKS);

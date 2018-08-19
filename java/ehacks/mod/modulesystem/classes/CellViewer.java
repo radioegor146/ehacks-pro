@@ -5,7 +5,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
@@ -42,7 +42,7 @@ import org.lwjgl.opengl.GL11;
  *
  * @author radioegor146
  */
-public class CellViewer extends Mod {
+public class CellViewer extends Module {
     
     public CellViewer() {
         super(ModuleCategory.EHACKS);

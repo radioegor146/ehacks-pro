@@ -5,7 +5,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.Tuple;
 import ehacks.mod.gui.EHacksClickGui;
@@ -23,7 +23,7 @@ import org.lwjgl.input.Mouse;
  *
  * @author radioegor146
  */
-public class CarpenterOpener extends Mod {
+public class CarpenterOpener extends Module {
 
     public CarpenterOpener() {
         super(ModuleCategory.EHACKS);

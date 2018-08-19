@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ehacks.mod.wrapper.PacketHandler.Side;
 import java.lang.reflect.Modifier;
+import org.apache.commons.lang3.StringUtils;
 
 public class PacketHandler {
     public static List<String> inBlackList = new ArrayList<String>();
@@ -89,7 +90,7 @@ public class PacketHandler {
                     {
                         ByteBuf buf = (ByteBuf)fieldValue;
                         for (byte b : buf.array()) {
-                            if ((outMessage = outMessage + (int)b + " ").length() <= 80) continue;
+                            if ((outMessage = outMessage + String.format("%02X ", b)).length() <= 80) continue;
                             outMessage = outMessage + "...";
                             break;
                         }

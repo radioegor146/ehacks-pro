@@ -9,7 +9,7 @@ public class ConfigurationManager {
     public ConfigurationManager() {
         new KeybindConfiguration();
         new ModuleStateConfiguration();
-        new SaveableGuiState();
+        new GuiConfiguration();
     }
 
     public static ConfigurationManager instance() {

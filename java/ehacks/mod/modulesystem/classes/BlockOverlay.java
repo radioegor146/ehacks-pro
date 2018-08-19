@@ -31,13 +31,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class BlockOverlay
-extends Mod {
+extends Module {
     public BlockOverlay() {
         super(ModuleCategory.RENDER);
     }
@@ -57,20 +57,17 @@ extends Mod {
         MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
         Block block = Wrapper.INSTANCE.world().getBlock(position.blockX, position.blockY, position.blockZ);
         if (block.getMaterial() != Material.air) {
-            int blockX = (int)Wrapper.INSTANCE.player().lastTickPosX - (int)(Wrapper.INSTANCE.player().posX - Wrapper.INSTANCE.player().lastTickPosX);
-            int blockY = (int)Wrapper.INSTANCE.player().lastTickPosY - (int)(Wrapper.INSTANCE.player().posY - Wrapper.INSTANCE.player().lastTickPosY);
-            int blockZ = (int)Wrapper.INSTANCE.player().lastTickPosZ - (int)(Wrapper.INSTANCE.player().posZ - Wrapper.INSTANCE.player().lastTickPosZ);
-            this.drawESP(blockX, blockY, blockZ, 0.0f);
+            this.drawESP(0.0f);
         }
     }
 
-    private void drawESP(double x, double y, double z, float f) {
+    private void drawESP(float f) {
         Minecraft.getMinecraft().entityRenderer.disableLightmap((double)f);
-        this.drawESP(x - RenderManager.renderPosX, y - RenderManager.renderPosY, z - RenderManager.renderPosZ, 1.0, 0.0, 1.0, (EntityPlayer)Wrapper.INSTANCE.player(), Wrapper.INSTANCE.mc().objectMouseOver);
+        this.drawESP(Wrapper.INSTANCE.mc().objectMouseOver);
         Minecraft.getMinecraft().entityRenderer.enableLightmap((double)f);
     }
 
-    private void drawESP(double d, double d1, double d2, double r, double b2, double g, EntityPlayer player, MovingObjectPosition position) {
+    private void drawESP(MovingObjectPosition position) {
         GL11.glPushMatrix();
         GL11.glEnable((int)3042);
         GL11.glBlendFunc((int)770, (int)771);
@@ -80,9 +77,9 @@ extends Mod {
         GL11.glEnable((int)2848);
         GL11.glDisable((int)2929);
         GL11.glDepthMask((boolean)false);
-        double blockX = player.lastTickPosX - (player.posX - player.lastTickPosX);
-        double blockY = player.lastTickPosY - (player.posY - player.lastTickPosY);
-        double blockZ = player.lastTickPosZ - (player.posZ - player.lastTickPosZ);
+        double blockX = RenderManager.renderPosX;
+        double blockY = RenderManager.renderPosY;
+        double blockZ = RenderManager.renderPosZ;
         Block block = Wrapper.INSTANCE.world().getBlock(position.blockX, position.blockY, position.blockZ);
         GL11.glColor4f((float)0.0f, (float)0.0f, (float)0.0f, (float)0.2f);
         BlockOverlay.drawOutlinedBoundingBox(block.getSelectedBoundingBoxFromPool((World)Wrapper.INSTANCE.world(), position.blockX, position.blockY, position.blockZ).expand(0.002, 0.002, 0.002).getOffsetBoundingBox(- blockX, - blockY, - blockZ));

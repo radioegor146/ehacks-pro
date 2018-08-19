@@ -1,20 +1,20 @@
 package ehacks.mod.gui.element;
 
 import net.minecraft.client.Minecraft;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
 
 public class ModButton {
     private ModWindow window;
-    public Mod mod;
+    public Module mod;
     public int xPos;
     public int yPos;
     public boolean isOverButton;
     public int shiftY = 0;
 
-    public ModButton(ModWindow window, Mod mod, int xPos, int yPos) {
+    public ModButton(ModWindow window, Module mod, int xPos, int yPos) {
         this.window = window;
         this.mod = mod;
         this.xPos = xPos;

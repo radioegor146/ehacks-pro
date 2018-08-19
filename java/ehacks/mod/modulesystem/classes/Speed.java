@@ -7,12 +7,12 @@
 package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.util.Timer;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 
 public class Speed
-extends Mod {
+extends Module {
     public Speed() {
         super(ModuleCategory.PLAYER);
     }

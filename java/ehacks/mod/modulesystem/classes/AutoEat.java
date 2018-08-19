@@ -10,7 +10,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.Minecraft;
@@ -20,7 +20,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
 public class AutoEat
-extends Mod {
+extends Module {
     private int counter = 0;
 
     public AutoEat() {

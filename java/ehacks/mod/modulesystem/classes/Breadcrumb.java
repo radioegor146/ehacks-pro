@@ -21,13 +21,13 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovementInput;
 import org.lwjgl.opengl.GL11;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class Breadcrumb
-extends Mod {
+extends Module {
     public static CopyOnWriteArrayList<double[]> positionsList = new CopyOnWriteArrayList();
     static int count = 0;
 

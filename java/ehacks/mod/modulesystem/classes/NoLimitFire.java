@@ -30,7 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.window.WindowPlayerIds;
@@ -47,7 +47,7 @@ import java.util.logging.Logger;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class NoLimitFire
-extends Mod {
+extends Module {
     public NoLimitFire() {
         super(ModuleCategory.EHACKS);
     }

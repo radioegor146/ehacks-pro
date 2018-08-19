@@ -11,7 +11,7 @@ import ehacks.mod.wrapper.ModuleCategory;
  *
  * @author radioegor146
  */
-public class DummyMod extends Mod {
+public class DummyMod extends Module {
 
     public DummyMod(String name) {
         super(ModuleCategory.NONE);

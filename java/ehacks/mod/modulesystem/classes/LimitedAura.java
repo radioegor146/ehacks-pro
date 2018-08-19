@@ -30,7 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.classes.AimBot;
@@ -43,7 +43,7 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class LimitedAura
-extends Mod {
+extends Module {
     public LimitedAura() {
         super(ModuleCategory.EHACKS);
     }

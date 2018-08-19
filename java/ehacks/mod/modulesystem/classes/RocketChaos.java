@@ -30,13 +30,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.gui.window.WindowPlayerIds;
-import ehacks.mod.modulesystem.classes.AimBot;
-import ehacks.mod.modulesystem.classes.AutoBlock;
-import ehacks.mod.modulesystem.classes.Criticals;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -48,7 +44,7 @@ import net.minecraftforge.client.event.MouseEvent;
 import org.lwjgl.input.Mouse;
 
 public class RocketChaos
-extends Mod {
+extends Module {
     public RocketChaos() {
         super(ModuleCategory.EHACKS);
     }

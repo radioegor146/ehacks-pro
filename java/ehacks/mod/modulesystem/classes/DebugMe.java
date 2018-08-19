@@ -14,7 +14,7 @@ import bsh.EvalError;
 import bsh.Interpreter;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.logger.ModLogger;
@@ -53,7 +53,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class DebugMe
-extends Mod {
+extends Module {
     public static File scriptFile;
     public static AtomicBoolean dialogOpened = new AtomicBoolean();
     private boolean set = false;

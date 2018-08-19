@@ -5,7 +5,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
 import ehacks.mod.commands.ItemSelectCommand;
 import ehacks.mod.gui.EHacksClickGui;
@@ -23,7 +23,7 @@ import org.lwjgl.input.Keyboard;
  *
  * @author radioegor146
  */
-public class NEISelect extends Mod {
+public class NEISelect extends Module {
     public NEISelect() {
         super(ModuleCategory.EHACKS);
     }

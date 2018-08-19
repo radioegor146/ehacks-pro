@@ -9,12 +9,12 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.util.AxisAlignedBB;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NCPStep
-extends Mod {
+extends Module {
     public NCPStep() {
         super(ModuleCategory.NOCHEATPLUS);
     }

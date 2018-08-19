@@ -11,13 +11,13 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NoWeb
-extends Mod {
+extends Module {
     public NoWeb() {
         super(ModuleCategory.PLAYER);
     }

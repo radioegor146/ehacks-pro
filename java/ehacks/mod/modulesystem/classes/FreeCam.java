@@ -25,14 +25,14 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovementInput;
 import net.minecraft.world.World;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.util.EntityFakePlayer;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.PacketHandler;
 import ehacks.mod.wrapper.Wrapper;
 
 public class FreeCam
-extends Mod {
+extends Module {
     public EntityFakePlayer freecamEnt = null;
 
     public FreeCam() {

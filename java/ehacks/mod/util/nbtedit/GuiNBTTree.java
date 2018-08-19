@@ -142,7 +142,7 @@ extends Gui {
                 for (GuiNBTButton b : this.buttons) {
                     b.setEnabled(false);
                 }
-                this.buttons[type - 1].setEnabled(true);
+                this.buttons[GuiNBTNode.iconMapping[type - 1]].setEnabled(true);
                 this.buttons[12].setEnabled(true);
                 this.buttons[11].setEnabled(!(toFocus.getParent().getObject().getNBT() instanceof NBTTagList));
                 this.buttons[13].setEnabled(true);

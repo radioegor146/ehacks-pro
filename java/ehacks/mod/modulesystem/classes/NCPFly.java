@@ -20,12 +20,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NCPFly
-extends Mod {
+extends Module {
     public NCPFly() {
         super(ModuleCategory.NOCHEATPLUS);
     }

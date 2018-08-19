@@ -48,9 +48,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 public class Debug {
     public static Debug INSTANCE = new Debug();
     
-    public int PUBLIC_INT = 0;
-    public boolean PUBLIC_BOOL = false;
-    public String PUBLIC_STR = "";
     public Random random = new Random();
     
     public int[] getMop() {
@@ -188,11 +185,6 @@ public class Debug {
 
     public List<EntityPlayer> getNearPlayers() {
         return getWorld().playerEntities;
-    }
-
-    public boolean switcher() {
-        PUBLIC_BOOL = !PUBLIC_BOOL;
-        return PUBLIC_BOOL;
     }
 
     public String getLongString(int len) {

@@ -1,7 +1,7 @@
 package ehacks.mod.modulesystem.handler;
 
 import ehacks.api.module.ModController;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.modulesystem.classes.*;
 import ehacks.mod.commands.*;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -13,7 +13,7 @@ public class ModuleManagement {
         this.initModules();
     }
 
-    private void add(Mod mod) {
+    private void add(Module mod) {
         ModController.INSTANCE.enable(mod);
     }
 
@@ -113,6 +113,11 @@ public class ModuleManagement {
         this.add(new NCPSpeed());
         this.add(new WaterFall());
         this.add(new WaterWalk());
+        this.add(new DamagePopOffs());
+        this.add(new FastBreak());
+        this.add(new ResearchGod());
+        this.add(new PipeGive());
+        this.add(new MusicalCrash());
         
         ModController.INSTANCE.sort();
         

@@ -10,6 +10,7 @@ public class Mappings {
     public static String chunkListing = Mappings.isMCP() ? "chunkListing" : "field_73237_c";
     public static String currentSlot = Mappings.isMCP() ? "theSlot" : "field_75186_f";
     public static String isMouseOverSlot = Mappings.isMCP() ? "isMouseOverSlot" : "func_146981_a";
+    public static String splashText = Mappings.isMCP() ? "splashText" : "field_73975_c";
     
     public static boolean isMCP() {
         try {

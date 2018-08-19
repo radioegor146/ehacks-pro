@@ -13,7 +13,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import ehacks.api.module.ModController;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 
 public class KeybindConfiguration {
     private static volatile KeybindConfiguration instance = new KeybindConfiguration();
@@ -29,7 +29,7 @@ public class KeybindConfiguration {
         try {
             FileWriter filewriter = new FileWriter(this.keybindConfig);
             BufferedWriter bufferedwriter = new BufferedWriter(filewriter);
-            for (Mod module : ModController.INSTANCE.mods) {
+            for (Module module : ModController.INSTANCE.mods) {
                 String s = Keyboard.getKeyName((int)module.getKeybind());
                 bufferedwriter.write(module.getName().toLowerCase().replaceAll(" ", "") + ":" + s + "\r\n");
             }
@@ -51,7 +51,7 @@ public class KeybindConfiguration {
                 String[] string = line.split(":");
                 String module1 = string[0];
                 String keybinding = string[1].toUpperCase();
-                for (Mod module : ModController.INSTANCE.mods) {
+                for (Module module : ModController.INSTANCE.mods) {
                     List<String> modules = Arrays.asList(module.getName());
                     for (int i = 0; i < modules.size(); ++i) {
                         if (!module1.equalsIgnoreCase(modules.get(i).toLowerCase().replaceAll(" ", ""))) continue;

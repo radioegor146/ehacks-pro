@@ -8,7 +8,7 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -16,7 +16,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public class HighJump
-extends Mod {
+extends Module {
     public HighJump() {
         super(ModuleCategory.PLAYER);
     }

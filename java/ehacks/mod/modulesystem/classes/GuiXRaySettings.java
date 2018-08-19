@@ -9,13 +9,13 @@ package ehacks.mod.modulesystem.classes;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.xraysettings.XRayGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class GuiXRaySettings
-extends Mod {
+extends Module {
     private XRayGui gui = new XRayGui();
 
     public GuiXRaySettings() {

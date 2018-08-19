@@ -28,13 +28,13 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Timer;
-import ehacks.api.module.Mod;
+import ehacks.api.module.Module;
 import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NCPSpeed
-extends Mod {
+extends Module {
     private double motionSpeed = 3.14;
     private float timerSpeed = 1.1f;
     private boolean iceSpeed = true;
