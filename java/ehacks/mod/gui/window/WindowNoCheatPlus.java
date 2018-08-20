@@ -8,16 +8,7 @@ import ehacks.mod.wrapper.ModuleCategory;
 public class WindowNoCheatPlus
 extends ModWindow {
     public WindowNoCheatPlus() {
-        super("NoCheatPlus", 462, 2);
-    }
-
-    public ModWindow init() {
-        for (Module mod : ModController.INSTANCE.mods) {
-            if (mod.getCategory() != ModuleCategory.NOCHEATPLUS) continue;
-            this.addButton(mod);
-        }
-        this.setup();
-        return this;
+        super("NoCheatPlus", 462, 2, ModuleCategory.COMBAT);
     }
 }
 

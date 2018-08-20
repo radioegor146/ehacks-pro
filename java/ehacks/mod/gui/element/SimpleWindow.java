@@ -6,6 +6,7 @@
 package ehacks.mod.gui.element;
 
 import ehacks.api.module.DummyMod;
+import ehacks.api.module.IIncludable;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
@@ -19,7 +20,7 @@ import org.lwjgl.input.Keyboard;
  *
  * @author radioegor146
  */
-public class SimpleWindow {
+public class SimpleWindow implements IIncludable {
     public String title;
     public int xPos;
     public int yPos;
@@ -140,5 +141,14 @@ public class SimpleWindow {
 
     public void setY(int yPos) {
         this.dragY = yPos;
+    }
+
+    @Override
+    public boolean shouldInclude() {
+        return true;
+    }
+    
+    public void init() {
+        
     }
 }

@@ -153,25 +153,4 @@ extends SimpleWindow {
 	}
 
     }
-    
-    @Override
-    public boolean mouseClicked(int x, int y, int button) {
-        boolean retval = false;
-        if (x >= this.getX() + this.dragX + 2 && y >= this.getY() + 14 + this.dragY + 2 && (double)x <= this.getX() + 90 + 100 + this.dragX - 2 && y <= this.getY() + 14 + this.dragY + 12 && button == 0 && this.isOpen() && this.isExtended()) {
-            useIt = !useIt;
-            retval = true;
-        }
-        if (x >= this.xPos + 70 + 100 + this.dragX && y >= this.yPos + 2 + this.dragY && x <= this.xPos + 78 + 100 + this.dragX && y <= this.yPos + 10 + this.dragY) {
-            boolean bl = this.isPinned = !this.isPinned;
-            retval = true;
-        }
-        if (x >= this.xPos + this.dragX && y >= this.yPos + this.dragY && x <= this.xPos + 69 + 100 + this.dragX && y <= this.yPos + 12 + this.dragY) {
-            EHacksClickGui.sendPanelToFront(this);
-            this.dragging = !this.dragging;
-            this.lastDragX = x - this.dragX;
-            this.lastDragY = y - this.dragY;
-            retval = true;
-        }
-        return retval;
-    }
 }

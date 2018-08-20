@@ -1,6 +1,7 @@
 package ehacks.mod.gui.element;
 
 import ehacks.api.module.DummyMod;
+import ehacks.api.module.ModController;
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import ehacks.api.module.Module;
@@ -8,15 +9,27 @@ import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.Tooltip;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Keybinds;
+import ehacks.mod.wrapper.ModuleCategory;
 import java.util.HashSet;
 import org.lwjgl.input.Keyboard;
 
 public class ModWindow extends SimpleWindow {
     public ArrayList<ArrayList<ModButton>> buttons = new ArrayList();
     public ArrayList<ModButton> buttonsSetup = new ArrayList();
-
-    public ModWindow(String title, int x, int y) {
+    private ModuleCategory windowCategory;
+    
+    public ModWindow(String title, int x, int y, ModuleCategory windowCategory) {
         super(title, x, y);
+        this.windowCategory = windowCategory;
+    }
+    
+    @Override
+    public void init() {
+        for (Module mod : ModController.INSTANCE.mods) {
+            if (mod.getCategory() != windowCategory) continue;
+            this.addButton(mod);
+        }
+        this.setup();
     }
 
     public void addButton(Module mod) {

@@ -8,16 +8,7 @@ import ehacks.mod.wrapper.ModuleCategory;
 public class WindowPlayer
 extends ModWindow {
     public WindowPlayer() {
-        super("Player", 94, 2);
-    }
-
-    public ModWindow init() {
-        for (Module mod : ModController.INSTANCE.mods) {
-            if (mod.getCategory() != ModuleCategory.PLAYER) continue;
-            this.addButton(mod);
-        }
-        this.setup();
-        return this;
+        super("Player", 94, 2, ModuleCategory.PLAYER);
     }
 }
 

@@ -5,7 +5,7 @@
  *  net.minecraft.client.Minecraft
  *  net.minecraft.client.gui.GuiScreen
  */
-package ehacks.mod.modulesystem.classes;
+package ehacks.mod.modulesystem.handler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

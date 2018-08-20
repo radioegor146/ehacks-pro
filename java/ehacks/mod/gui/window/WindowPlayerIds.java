@@ -3,6 +3,7 @@ package ehacks.mod.gui.window;
 import ehacks.mod.gui.Tuple;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.ModWindow;
+import ehacks.mod.gui.element.SimpleWindow;
 import ehacks.mod.util.GLUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class WindowPlayerIds 
-extends ModWindow {
+extends SimpleWindow {
     public static HashMap<String, Tuple<Integer, EntityPlayer>> players = new HashMap<String, Tuple<Integer, EntityPlayer>>();
     public static boolean useIt = false;
     
@@ -34,13 +35,11 @@ extends ModWindow {
             if (this.dragging) {
                 this.windowDragged(x, y);
             }
-            GLUtils.drawGradientBorderedRect(this.getX() + this.dragX, this.getY() + this.dragY, this.getX() + 90 + 110 + this.dragX, this.getY() + 12 + this.dragY, 0.5f, -16777216, -6710887, -8947849);
-            Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(this.getTitle(), this.getX() + 2 + this.dragX, this.getY() + this.dragY + 2, 5636095);
-            GLUtils.drawGradientBorderedRect(this.getX() + 70 + 110 + this.dragX, this.getY() + 2 + this.dragY, this.getX() + 78 + 110 + this.dragX, this.getY() + 10 + this.dragY, 1.0f, -10066330, this.isPinned() ? -8947849 : -7829368, this.isPinned() ? -11184811 : -10066330);
-            GLUtils.drawGradientBorderedRect(this.getX() + 80 + 110 + this.dragX, this.getY() + 2 + this.dragY, this.getX() + 88 + 110 + this.dragX, this.getY() + 10 + this.dragY, 1.0f, -10066330, this.isExtended() ? -8947849 : -7829368, this.isExtended() ? -11184811 : -10066330);
+            this.width = 200;
+            this.height = players.size() * 12 + 14;
+            super.draw(x, y);
             if (this.isExtended()) {
                 int i = 0;
-                GLUtils.drawGradientBorderedRect(this.getX() + this.dragX, this.getY() + 14 + this.dragY, this.getX() + 90 + 110 + this.dragX, this.getY() + 14 + this.dragY + players.size() * 12 + 14, 0.5f, -16777216, -6710887, -8947849);
                 GLUtils.drawGradientBorderedRect(this.getX() + this.dragX + 2, this.getY() + 14 + this.dragY + 2, this.getX() + 90 + 110 + this.dragX - 2, this.getY() + 14 + this.dragY + 12, 0.5f, -12303292, !useIt ? -8947849 : -11184811, !useIt ? -11184811 : -10066330);
                 Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Use list", this.getX() + this.dragX + 200 / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth("Use list") / 2, this.getY() + 14 + this.dragY + 3, useIt ? 5636095 : 12303291);
                 for (Map.Entry<String, Tuple<Integer, EntityPlayer>> entry : players.entrySet()) {
@@ -60,21 +59,7 @@ extends ModWindow {
             useIt = !useIt;
             retval = true;
         }
-        if (x >= this.xPos + 80 + 110 + this.dragX && y >= this.yPos + 2 + this.dragY && x <= this.xPos + 88 + 110 + this.dragX && y <= this.yPos + 10 + this.dragY) {
-            boolean bl = this.isExtended = !this.isExtended;
-            retval = true;
-        }
-        if (x >= this.xPos + 70 + 110 + this.dragX && y >= this.yPos + 2 + this.dragY && x <= this.xPos + 78 + 110 + this.dragX && y <= this.yPos + 10 + this.dragY) {
-            boolean bl = this.isPinned = !this.isPinned;
-            retval = true;
-        }
-        if (x >= this.xPos + this.dragX && y >= this.yPos + this.dragY && x <= this.xPos + 69 + 110 + this.dragX && y <= this.yPos + 12 + this.dragY) {
-            EHacksClickGui.sendPanelToFront(this);
-            this.dragging = !this.dragging;
-            this.lastDragX = x - this.dragX;
-            this.lastDragY = y - this.dragY;
-            retval = true;
-        }
+        retval &= super.mouseClicked(x, y, button);
         return retval;
     }
 }

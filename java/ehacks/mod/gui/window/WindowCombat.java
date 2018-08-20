@@ -8,16 +8,7 @@ import ehacks.mod.wrapper.ModuleCategory;
 public class WindowCombat
 extends ModWindow {
     public WindowCombat() {
-        super("Combat", 186, 2);
-    }
-
-    public ModWindow init() {
-        for (Module mod : ModController.INSTANCE.mods) {
-            if (mod.getCategory() != ModuleCategory.COMBAT) continue;
-            this.addButton(mod);
-        }
-        this.setup();
-        return this;
+        super("Combat", 186, 2, ModuleCategory.COMBAT);
     }
 }
 

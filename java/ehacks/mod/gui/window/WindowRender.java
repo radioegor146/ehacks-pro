@@ -9,16 +9,7 @@ import java.util.ArrayList;
 public class WindowRender
 extends ModWindow {
     public WindowRender() {
-        super("Render", 278, 2);
-    }
-
-    public ModWindow init() {
-        for (Module mod : ModController.INSTANCE.mods) {
-            if (mod.getCategory() != ModuleCategory.RENDER) continue;
-            this.addButton(mod);
-        }
-        this.setup();
-        return this;
+        super("Render", 278, 2, ModuleCategory.RENDER);
     }
 }
 

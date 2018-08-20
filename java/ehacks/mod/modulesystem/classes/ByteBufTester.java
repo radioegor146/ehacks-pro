@@ -67,5 +67,10 @@ extends Module {
     public String getModName() {
         return "Forge";
     }
+    
+    @Override
+    public boolean shouldInclude() {
+        return false;
+    }
 }
 

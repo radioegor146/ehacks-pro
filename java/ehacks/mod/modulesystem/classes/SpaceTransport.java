@@ -192,5 +192,10 @@ extends Module {
     public void onMouse(MouseEvent event) {
         
     }
+    
+    @Override
+    public boolean shouldInclude() {
+        return false;
+    }
 }
 

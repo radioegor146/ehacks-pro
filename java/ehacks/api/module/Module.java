@@ -9,7 +9,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-public abstract class Module implements Comparable {
+public abstract class Module implements Comparable, IIncludable {
     private String TPROT = "PRIORITY_1";
     
     protected String name = "unknown";
@@ -134,6 +134,11 @@ public abstract class Module implements Comparable {
     }
     
     public void onLiving(LivingEvent.LivingUpdateEvent event) {
+    }
+
+    @Override
+    public boolean shouldInclude() {
+        return true;
     }
 }
 

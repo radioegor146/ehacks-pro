@@ -4,7 +4,11 @@ import ehacks.api.module.ModController;
 import ehacks.api.module.Module;
 import ehacks.mod.modulesystem.classes.*;
 import ehacks.mod.commands.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.minecraftforge.client.ClientCommandHandler;
+import com.google.common.reflect.ClassPath;
 
 public class ModuleManagement {
     public static volatile ModuleManagement INSTANCE = new ModuleManagement();
@@ -18,6 +22,7 @@ public class ModuleManagement {
     }
 
     public void initModules() {
+        
         this.add(new MetaHackAdd());
         this.add(new MetaHackSub());
         this.add(new PrivateNuker());
@@ -118,11 +123,11 @@ public class ModuleManagement {
         this.add(new ResearchGod());
         this.add(new PipeGive());
         this.add(new MusicalCrash());
+        this.add(new GuiXRaySettings());
         
         ModController.INSTANCE.sort();
         
         this.add(new Gui());
-        this.add(new GuiXRaySettings());
         
         ClientCommandHandler.instance.registerCommand(new ItemSelectCommand());
     }

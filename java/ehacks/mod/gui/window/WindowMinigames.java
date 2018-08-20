@@ -8,16 +8,7 @@ import ehacks.mod.wrapper.ModuleCategory;
 public class WindowMinigames
 extends ModWindow {
     public WindowMinigames() {
-        super("Minigames", 370, 2);
-    }
-
-    public ModWindow init() {
-        for (Module mod : ModController.INSTANCE.mods) {
-            if (mod.getCategory() != ModuleCategory.MINIGAMES) continue;
-            this.addButton(mod);
-        }
-        this.setup();
-        return this;
+        super("Minigames", 370, 2, ModuleCategory.MINIGAMES);
     }
 }
 
