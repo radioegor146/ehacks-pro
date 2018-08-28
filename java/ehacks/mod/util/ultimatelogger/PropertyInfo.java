@@ -10,6 +10,7 @@ package ehacks.mod.util.ultimatelogger;
  * @author radioegor146
  */
 public class PropertyInfo {
+
     public String key = "";
     public String value = "";
 

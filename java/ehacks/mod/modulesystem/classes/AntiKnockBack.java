@@ -1,19 +1,13 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.entity.EntityClientPlayerMP
- */
 package ehacks.mod.modulesystem.classes;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public class AntiKnockBack
-extends Module {
+        extends Module {
+
     public AntiKnockBack() {
         super(ModuleCategory.PLAYER);
     }
@@ -22,7 +16,7 @@ extends Module {
     public String getName() {
         return "AntiKnockBack";
     }
-    
+
     @Override
     public String getDescription() {
         return "Removes knockback on you";
@@ -39,4 +33,3 @@ extends Module {
         }
     }
 }
-

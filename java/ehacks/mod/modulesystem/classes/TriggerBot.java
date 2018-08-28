@@ -1,47 +1,22 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.material.Material
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.PlayerControllerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.item.Item
- *  net.minecraft.item.ItemStack
- *  net.minecraft.item.ItemSword
- *  net.minecraft.util.MovingObjectPosition
- *  net.minecraft.world.World
- */
 package ehacks.mod.modulesystem.classes;
 
+import ehacks.api.module.Module;
+import ehacks.mod.wrapper.ModuleCategory;
+import ehacks.mod.wrapper.Wrapper;
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import ehacks.api.module.Module;
-import ehacks.mod.modulesystem.classes.AutoBlock;
-import ehacks.mod.modulesystem.classes.Criticals;
-import ehacks.mod.wrapper.ModuleCategory;
-import ehacks.mod.wrapper.Wrapper;
 
 public class TriggerBot
-extends Module {
+        extends Module {
+
     public static boolean isActive = false;
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
     private static long lastMS;
 
     public TriggerBot() {
@@ -96,16 +71,14 @@ extends Module {
                 }
                 if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {
                     ItemStack lel = Wrapper.INSTANCE.player().getCurrentEquippedItem();
-                    lel.useItemRightClick((World)Wrapper.INSTANCE.world(), (EntityPlayer)Wrapper.INSTANCE.player());
+                    lel.useItemRightClick((World) Wrapper.INSTANCE.world(), (EntityPlayer) Wrapper.INSTANCE.player());
                 }
                 Wrapper.INSTANCE.player().swingItem();
-                Wrapper.INSTANCE.mc().playerController.attackEntity((EntityPlayer)Wrapper.INSTANCE.player(), Wrapper.INSTANCE.mc().objectMouseOver.entityHit);
+                Wrapper.INSTANCE.mc().playerController.attackEntity((EntityPlayer) Wrapper.INSTANCE.player(), Wrapper.INSTANCE.mc().objectMouseOver.entityHit);
                 this.reset();
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 }
-

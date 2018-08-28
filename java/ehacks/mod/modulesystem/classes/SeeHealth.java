@@ -1,13 +1,11 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 
 public class SeeHealth
-extends Module {
+        extends Module {
+
     public static boolean isActive = false;
 
     public SeeHealth() {
@@ -29,4 +27,3 @@ extends Module {
         isActive = false;
     }
 }
-

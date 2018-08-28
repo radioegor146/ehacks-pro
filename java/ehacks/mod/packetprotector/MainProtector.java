@@ -15,19 +15,20 @@ import java.util.List;
  * @author radioegor146
  */
 public class MainProtector {
+
     public static MainProtector INSTANCE = new MainProtector();
-    
+
     public List<IPacketProtector> protectors = new ArrayList();
-    
+
     public void init() {
         protectors.clear();
-        
+
         protectors.add(new DragonsRadioProtector());
         protectors.add(new IC2NuclearControlProtector());
-        
+
         EHacksClickGui.log("[PacketProtector] Inited " + protectors.size() + " protectors");
     }
-    
+
     public boolean isPacketOk(Object packet) {
         boolean ok = true;
         for (IPacketProtector protector : protectors) {

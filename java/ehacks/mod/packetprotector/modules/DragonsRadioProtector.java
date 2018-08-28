@@ -21,23 +21,21 @@ public class DragonsRadioProtector implements IPacketProtector {
     @Override
     public boolean isPacketOk(Object packet) {
         try {
-            if (packet instanceof FMLProxyPacket && "DragonsRadioMod".equals(((FMLProxyPacket)packet).channel())) {
-                FMLProxyPacket fmlPacket = (FMLProxyPacket)packet;
+            if (packet instanceof FMLProxyPacket && "DragonsRadioMod".equals(((FMLProxyPacket) packet).channel())) {
+                FMLProxyPacket fmlPacket = (FMLProxyPacket) packet;
                 ByteBuf buf = Unpooled.copiedBuffer(fmlPacket.payload());
-                if (buf.readByte() != 0) return true;
+                if (buf.readByte() != 0) {
+                    return true;
+                }
                 buf.readInt();
-                TileEntity entity = Wrapper.INSTANCE.world().getTileEntity((int)buf.readDouble(), (int)buf.readDouble(), (int)buf.readDouble());
-                    if (entity == null || !Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio").isInstance(entity))
-                        return false;
-                    else
-                        return true;
-            }
-            else
+                TileEntity entity = Wrapper.INSTANCE.world().getTileEntity((int) buf.readDouble(), (int) buf.readDouble(), (int) buf.readDouble());
+                return !(entity == null || !Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio").isInstance(entity));
+            } else {
                 return true;
-        }
-        catch (Exception e) {
+            }
+        } catch (Exception e) {
             return false;
         }
     }
-    
+
 }

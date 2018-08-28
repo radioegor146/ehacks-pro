@@ -10,5 +10,6 @@ package ehacks.mod.packetprotector;
  * @author radioegor146
  */
 public interface IPacketProtector {
+
     boolean isPacketOk(Object packet);
 }

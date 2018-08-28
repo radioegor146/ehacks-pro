@@ -1,49 +1,18 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.material.Material
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.PlayerControllerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.item.Item
- *  net.minecraft.item.ItemStack
- *  net.minecraft.item.ItemSword
- *  net.minecraft.world.World
- */
 package ehacks.mod.modulesystem.classes;
 
-import java.util.List;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.world.World;
-import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.modulesystem.classes.AimBot;
-import ehacks.mod.modulesystem.classes.AutoBlock;
-import ehacks.mod.modulesystem.classes.Criticals;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class NoLimitAura
-extends Module {
+        extends Module {
+
     public NoLimitAura() {
         super(ModuleCategory.EHACKS);
     }
@@ -57,18 +26,17 @@ extends Module {
     public String getDescription() {
         return "Gives Float.MAX_VALUE of damage to all entities around you";
     }
-    
+
     @Override
     public void onEnableMod() {
         try {
             Class.forName("taintedmagic.common.network.PacketKatanaAttack");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             this.off();
             EHacksClickGui.log("[NoLimitAura] Not working");
         }
     }
-    
+
     @Override
     public ModStatus getModStatus() {
         try {
@@ -81,7 +49,7 @@ extends Module {
 
     @Override
     public void onDisableMod() {
-        
+
     }
 
     private float getDistanceToEntity(Entity from, Entity to) {
@@ -89,22 +57,22 @@ extends Module {
     }
 
     private boolean isWithinRange(float range, Entity e) {
-        return this.getDistanceToEntity(e, (Entity)Wrapper.INSTANCE.player()) <= range;
+        return this.getDistanceToEntity(e, (Entity) Wrapper.INSTANCE.player()) <= range;
     }
 
     @Override
     public void onTicks() {
         try {
             for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
-                if (((Entity)o).getEntityId() != Wrapper.INSTANCE.player().getEntityId())
-                    killEntity(((Entity)o).getEntityId());
+                if (((Entity) o).getEntityId() != Wrapper.INSTANCE.player().getEntityId()) {
+                    killEntity(((Entity) o).getEntityId());
+                }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void killEntity(int entityId) {
         int playerId = Wrapper.INSTANCE.player().getEntityId();
         int dimensionId = Wrapper.INSTANCE.player().dimension;
@@ -116,12 +84,11 @@ extends Module {
         buf.writeFloat(Float.MAX_VALUE);
         buf.writeBoolean(false);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("taintedmagic", buf);
-        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+        Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
     }
-    
+
     @Override
     public String getModName() {
         return "Tainted Magic";
     }
 }
-

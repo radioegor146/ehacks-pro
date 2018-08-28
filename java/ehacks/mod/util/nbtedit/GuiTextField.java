@@ -1,14 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.Gui
- *  net.minecraft.client.gui.GuiScreen
- *  net.minecraft.client.renderer.Tessellator
- *  net.minecraft.util.ChatAllowedCharacters
- *  org.lwjgl.opengl.GL11
- */
 package ehacks.mod.util.nbtedit;
 
 import net.minecraft.client.gui.FontRenderer;
@@ -19,7 +8,8 @@ import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.opengl.GL11;
 
 public class GuiTextField
-extends Gui {
+        extends Gui {
+
     private final FontRenderer fontRenderer;
     private final int xPos;
     private final int yPos;
@@ -37,7 +27,7 @@ extends Gui {
     private int disabledColor = 7368816;
     private boolean visible = true;
     private boolean enableBackgroundDrawing = true;
-    private boolean allowSection;
+    private final boolean allowSection;
 
     public GuiTextField(FontRenderer par1FontRenderer, int x, int y, int w, int h, boolean allowSection) {
         this.fontRenderer = par1FontRenderer;
@@ -75,17 +65,17 @@ extends Gui {
         int var5 = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
         int var6 = this.maxStringLength - this.text.length() - (var4 - this.selectionEnd);
         if (this.text.length() > 0) {
-            var2 = var2 + this.text.substring(0, var4);
+            var2 += this.text.substring(0, var4);
         }
         if (var6 < var3.length()) {
-            var2 = var2 + var3.substring(0, var6);
+            var2 += var3.substring(0, var6);
             var8 = var6;
         } else {
-            var2 = var2 + var3;
+            var2 += var3;
             var8 = var3.length();
         }
         if (this.text.length() > 0 && var5 < this.text.length()) {
-            var2 = var2 + this.text.substring(var5);
+            var2 += this.text.substring(var5);
         }
         this.text = var2;
         this.moveCursorBy(var4 - this.selectionEnd + var8);
@@ -114,7 +104,7 @@ extends Gui {
                     var5 = this.text.substring(0, var3);
                 }
                 if (var4 < this.text.length()) {
-                    var5 = var5 + this.text.substring(var4);
+                    var5 += this.text.substring(var4);
                 }
                 this.text = var5;
                 if (var2) {
@@ -191,7 +181,7 @@ extends Gui {
                     return true;
                 }
                 case '\u0003': {
-                    GuiScreen.setClipboardString((String)this.getSelectedtext());
+                    GuiScreen.setClipboardString((String) this.getSelectedtext());
                     return true;
                 }
                 case '\u0016': {
@@ -199,7 +189,7 @@ extends Gui {
                     return true;
                 }
                 case '\u0018': {
-                    GuiScreen.setClipboardString((String)this.getSelectedtext());
+                    GuiScreen.setClipboardString((String) this.getSelectedtext());
                     this.writeText("");
                     return true;
                 }
@@ -266,7 +256,7 @@ extends Gui {
                     return true;
                 }
             }
-            if (ChatAllowedCharacters.isAllowedCharacter((char)par1)) {
+            if (ChatAllowedCharacters.isAllowedCharacter((char) par1)) {
                 this.writeText(Character.toString(par1));
                 return true;
             }
@@ -293,8 +283,8 @@ extends Gui {
         String textToDisplay = this.text.replace('\u00a7', '?');
         if (this.getVisible()) {
             if (this.getEnableBackgroundDrawing()) {
-                GuiTextField.drawRect((int)(this.xPos - 1), (int)(this.yPos - 1), (int)(this.xPos + this.width + 1), (int)(this.yPos + this.height + 1), (int)-6250336);
-                GuiTextField.drawRect((int)this.xPos, (int)this.yPos, (int)(this.xPos + this.width), (int)(this.yPos + this.height), (int)-16777216);
+                GuiTextField.drawRect((int) (this.xPos - 1), (int) (this.yPos - 1), (int) (this.xPos + this.width + 1), (int) (this.yPos + this.height + 1), (int) -6250336);
+                GuiTextField.drawRect((int) this.xPos, (int) this.yPos, (int) (this.xPos + this.width), (int) (this.yPos + this.height), (int) -16777216);
             }
             int var1 = this.isEnabled ? this.enabledColor : this.disabledColor;
             int var2 = this.cursorPosition - this.field_73816_n;
@@ -325,7 +315,7 @@ extends Gui {
             }
             if (var6) {
                 if (var13) {
-                    Gui.drawRect((int)var11, (int)(var8 - 1), (int)(var11 + 1), (int)(var8 + 1 + this.fontRenderer.FONT_HEIGHT), (int)-3092272);
+                    Gui.drawRect((int) var11, (int) (var8 - 1), (int) (var11 + 1), (int) (var8 + 1 + this.fontRenderer.FONT_HEIGHT), (int) -3092272);
                 } else {
                     this.fontRenderer.drawStringWithShadow("_", var11, var8, var1);
                 }
@@ -350,18 +340,18 @@ extends Gui {
             par4 = var5;
         }
         Tessellator var6 = Tessellator.instance;
-        GL11.glColor4f((float)0.0f, (float)0.0f, (float)255.0f, (float)255.0f);
-        GL11.glDisable((int)3553);
-        GL11.glEnable((int)3058);
-        GL11.glLogicOp((int)5387);
+        GL11.glColor4f((float) 0.0f, (float) 0.0f, (float) 255.0f, (float) 255.0f);
+        GL11.glDisable((int) 3553);
+        GL11.glEnable((int) 3058);
+        GL11.glLogicOp((int) 5387);
         var6.startDrawingQuads();
-        var6.addVertex((double)par1, (double)par4, 0.0);
-        var6.addVertex((double)par3, (double)par4, 0.0);
-        var6.addVertex((double)par3, (double)par2, 0.0);
-        var6.addVertex((double)par1, (double)par2, 0.0);
+        var6.addVertex((double) par1, (double) par4, 0.0);
+        var6.addVertex((double) par3, (double) par4, 0.0);
+        var6.addVertex((double) par3, (double) par2, 0.0);
+        var6.addVertex((double) par1, (double) par2, 0.0);
         var6.draw();
-        GL11.glDisable((int)3058);
-        GL11.glEnable((int)3553);
+        GL11.glDisable((int) 3058);
+        GL11.glEnable((int) 3553);
     }
 
     public void setMaxStringLength(int par1) {
@@ -460,4 +450,3 @@ extends Gui {
         this.visible = par1;
     }
 }
-

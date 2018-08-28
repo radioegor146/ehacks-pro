@@ -1,31 +1,14 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.network.NetHandlerPlayClient
- *  net.minecraft.client.settings.GameSettings
- *  net.minecraft.client.settings.KeyBinding
- *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.C03PacketPlayer
- *  net.minecraft.network.play.client.C03PacketPlayer$C04PacketPlayerPosition
- *  net.minecraft.util.AxisAlignedBB
- */
 package ehacks.mod.modulesystem.classes;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class NCPFly
-extends Module {
+        extends Module {
+
     public NCPFly() {
         super(ModuleCategory.NOCHEATPLUS);
     }
@@ -34,7 +17,7 @@ extends Module {
     public String getName() {
         return "NCPFly";
     }
-    
+
     @Override
     public String getDescription() {
         return "Fly for NoCheatPlus";
@@ -43,8 +26,8 @@ extends Module {
     @Override
     public void onEnableMod() {
         for (int i = 0; i < 4; ++i) {
-            Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet)new C03PacketPlayer.C04PacketPlayerPosition(Wrapper.INSTANCE.player().posX, Wrapper.INSTANCE.player().boundingBox.minY + 1.01, Wrapper.INSTANCE.player().posY + 1.01, Wrapper.INSTANCE.player().posZ, false));
-            Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet)new C03PacketPlayer.C04PacketPlayerPosition(Wrapper.INSTANCE.player().posX, Wrapper.INSTANCE.player().boundingBox.minY, Wrapper.INSTANCE.player().posY, Wrapper.INSTANCE.player().posZ, false));
+            Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet) new C03PacketPlayer.C04PacketPlayerPosition(Wrapper.INSTANCE.player().posX, Wrapper.INSTANCE.player().boundingBox.minY + 1.01, Wrapper.INSTANCE.player().posY + 1.01, Wrapper.INSTANCE.player().posZ, false));
+            Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet) new C03PacketPlayer.C04PacketPlayerPosition(Wrapper.INSTANCE.player().posX, Wrapper.INSTANCE.player().boundingBox.minY, Wrapper.INSTANCE.player().posY, Wrapper.INSTANCE.player().posZ, false));
         }
         Wrapper.INSTANCE.player().setPosition(Wrapper.INSTANCE.player().posX, Wrapper.INSTANCE.player().posY + 0.8, Wrapper.INSTANCE.player().posZ);
     }
@@ -60,4 +43,3 @@ extends Module {
         }
     }
 }
-

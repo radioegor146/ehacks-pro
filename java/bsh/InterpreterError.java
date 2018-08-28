@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,7 +29,7 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
+ **************************************************************************** */
 // part of beanshell fork at http://code.google.com/p/beanshell2
 // licensed unter GNU Lesser GPL, see http://www.gnu.org/licenses/lgpl.html
 package bsh;
@@ -39,15 +39,12 @@ package bsh;
  */
 public class InterpreterError extends RuntimeException {
 
-	public InterpreterError(final String s) {
-		super(s);
-	}
+    public InterpreterError(final String s) {
+        super(s);
+    }
 
-
-	public InterpreterError(final String s, final Throwable cause) {
-		super(s, cause);
-	}
-
+    public InterpreterError(final String s, final Throwable cause) {
+        super(s, cause);
+    }
 
 }
-

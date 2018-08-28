@@ -1,14 +1,15 @@
 package ehacks.mod.gui.xraysettings;
 
+import ehacks.mod.modulesystem.classes.XRay;
+import ehacks.mod.wrapper.Wrapper;
 import java.io.IOException;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import ehacks.mod.modulesystem.classes.XRay;
 
 public class XRayGui
-extends GuiScreen {
+        extends GuiScreen {
+
     XRayBlockSlot slot;
     GuiButton add;
     GuiButton del;
@@ -16,10 +17,11 @@ extends GuiScreen {
     GuiButton exit;
     FontRenderer render;
 
+    @Override
     public void initGui() {
         super.initGui();
         this.render = this.fontRendererObj;
-        this.slot = new XRayBlockSlot(Minecraft.getMinecraft(), this.width, this.height, 25, this.height - 25, 20, this);
+        this.slot = new XRayBlockSlot(Wrapper.INSTANCE.mc(), this.width, this.height, 25, this.height - 25, 20, this);
         this.add = new GuiButton(0, this.width / 9, this.height - 22, 70, 20, "Add Block");
         this.del = new GuiButton(1, this.width / 9 * 3, this.height - 22, 70, 20, "Delete Block");
         this.del.enabled = false;
@@ -32,6 +34,7 @@ extends GuiScreen {
         this.buttonList.add(this.exit);
     }
 
+    @Override
     public void drawScreen(int par1, int par2, float par3) {
         this.slot.drawScreen(par1, par2, par3);
         super.drawScreen(par1, par2, par3);
@@ -44,10 +47,11 @@ extends GuiScreen {
         }
     }
 
+    @Override
     protected void actionPerformed(GuiButton par1GuiButton) {
         switch (par1GuiButton.id) {
             case 0: {
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new XRayAddGui());
+                Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) new XRayAddGui());
                 break;
             }
             case 1: {
@@ -55,18 +59,17 @@ extends GuiScreen {
                 this.slot.selectedIndex = -1;
                 try {
                     XRayBlock.save();
-                }
-                catch (IOException var3) {
+                } catch (IOException var3) {
                     var3.printStackTrace();
                 }
                 break;
             }
             case 2: {
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new XRayAddGui((XRayBlock)XRayBlock.blocks.get(this.slot.selectedIndex), this.slot.selectedIndex));
+                Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) new XRayAddGui((XRayBlock) XRayBlock.blocks.get(this.slot.selectedIndex), this.slot.selectedIndex));
                 break;
             }
             case 3: {
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+                Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) null);
                 XRay.cooldownTicks = 0;
                 break;
             }
@@ -76,4 +79,3 @@ extends GuiScreen {
         }
     }
 }
-

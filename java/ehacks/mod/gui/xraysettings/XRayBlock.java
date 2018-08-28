@@ -1,5 +1,6 @@
 package ehacks.mod.gui.xraysettings;
 
+import ehacks.mod.wrapper.Wrapper;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,9 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 
 public class XRayBlock {
+
     public static ArrayList blocks = new ArrayList();
     public int r;
     public int g;
@@ -33,6 +34,7 @@ public class XRayBlock {
         this.enabled = enabled;
     }
 
+    @Override
     public String toString() {
         return "" + this.r + " " + this.g + " " + this.b + " " + this.a + " " + this.meta + " " + this.id + " " + this.enabled;
     }
@@ -60,16 +62,17 @@ public class XRayBlock {
         blocks = block;
         try {
             XRayBlock.save();
-        }
-        catch (IOException var2) {
+        } catch (IOException var2) {
             var2.printStackTrace();
         }
     }
 
     public static void removeInvalidBlocks() {
         for (int i = 0; i < blocks.size(); ++i) {
-            XRayBlock block = (XRayBlock)blocks.get(i);
-            if (Block.blockRegistry.containsKey(block.id)) continue;
+            XRayBlock block = (XRayBlock) blocks.get(i);
+            if (Block.blockRegistry.containsKey(block.id)) {
+                continue;
+            }
             blocks.remove(block);
         }
     }
@@ -77,18 +80,17 @@ public class XRayBlock {
     public static void init() {
         try {
             XRayBlock.load();
-        }
-        catch (Exception var1) {
+        } catch (Exception var1) {
             var1.printStackTrace();
         }
         XRayBlock.removeInvalidBlocks();
-        if (blocks.size() == 0) {
+        if (blocks.isEmpty()) {
             XRayBlock.setStandardList();
         }
     }
 
     private static void load() throws Exception {
-        File toLoad = new File(Minecraft.getMinecraft().mcDataDir, "xrayBlocks.dat");
+        File toLoad = new File(Wrapper.INSTANCE.mc().mcDataDir, "xrayBlocks.dat");
         if (toLoad.exists() && !toLoad.isDirectory()) {
             String s;
             ArrayList<XRayBlock> block = new ArrayList<XRayBlock>();
@@ -102,17 +104,16 @@ public class XRayBlock {
     }
 
     static void save() throws IOException {
-        File toSave = new File(Minecraft.getMinecraft().mcDataDir, "xrayBlocks.dat");
+        File toSave = new File(Wrapper.INSTANCE.mc().mcDataDir, "xrayBlocks.dat");
         if (toSave.exists()) {
             toSave.delete();
         }
         BufferedWriter bw = new BufferedWriter(new FileWriter(toSave));
         for (int i = 0; i < blocks.size(); ++i) {
-            bw.write(((XRayBlock)blocks.get(i)).toString());
+            bw.write(((XRayBlock) blocks.get(i)).toString());
             bw.newLine();
         }
         bw.flush();
         bw.close();
     }
 }
-

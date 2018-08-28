@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,25 +29,23 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
-class BSHStatementExpressionList extends SimpleNode
-{
-	BSHStatementExpressionList(int id) { super(id); }
+class BSHStatementExpressionList extends SimpleNode {
 
-	public Object eval(CallStack callstack, Interpreter interpreter)  
-		throws EvalError
-	{
-		int n = jjtGetNumChildren();
-		for(int i=0; i<n; i++)
-		{
-			SimpleNode node = ((SimpleNode)jjtGetChild(i));
-			node.eval(callstack, interpreter);
-		}
-		return Primitive.VOID;
-	}
+    BSHStatementExpressionList(int id) {
+        super(id);
+    }
+
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        int n = jjtGetNumChildren();
+        for (int i = 0; i < n; i++) {
+            SimpleNode node = ((SimpleNode) jjtGetChild(i));
+            node.eval(callstack, interpreter);
+        }
+        return Primitive.VOID;
+    }
 }
-

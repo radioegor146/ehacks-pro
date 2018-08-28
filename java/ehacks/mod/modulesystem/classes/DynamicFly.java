@@ -1,24 +1,12 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.settings.GameSettings
- *  net.minecraft.client.settings.KeyBinding
- */
 package ehacks.mod.modulesystem.classes;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class DynamicFly
-extends Module {
+        extends Module {
+
     public DynamicFly() {
         super(ModuleCategory.PLAYER);
     }
@@ -26,8 +14,8 @@ extends Module {
     @Override
     public String getName() {
         return "DynamicFly";
-    }    
-    
+    }
+
     @Override
     public String getDescription() {
         return "Dynamic fly mode";
@@ -40,13 +28,12 @@ extends Module {
         Wrapper.INSTANCE.player().motionY = 0.0;
         Wrapper.INSTANCE.player().motionZ = 0.0;
         Wrapper.INSTANCE.player().jumpMovementFactor *= 3.0f;
-        if (Wrapper.INSTANCE.mc().gameSettings.keyBindJump.getIsKeyPressed()) {
+        if (Wrapper.INSTANCE.mcSettings().keyBindJump.getIsKeyPressed()) {
             Wrapper.INSTANCE.player().motionY += 1.0;
         }
-        if (Wrapper.INSTANCE.mc().gameSettings.keyBindSneak.getIsKeyPressed()) {
+        if (Wrapper.INSTANCE.mcSettings().keyBindSneak.getIsKeyPressed()) {
             Wrapper.INSTANCE.player().motionY -= 1.0;
         }
         Wrapper.INSTANCE.player().motionY -= 0.05;
     }
 }
-

@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,38 +29,37 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
-class BSHReturnType extends SimpleNode
-{
-	public boolean isVoid;
+class BSHReturnType extends SimpleNode {
 
-	BSHReturnType(int id) { super(id); }
+    public boolean isVoid;
 
-	BSHType getTypeNode() { 
-		return (BSHType)jjtGetChild(0);
-	}
+    BSHReturnType(int id) {
+        super(id);
+    }
 
-	public String getTypeDescriptor( 
-		CallStack callstack, Interpreter interpreter, String defaultPackage ) 
-	{
-		if ( isVoid )
-			return "V";
-		else
-			return getTypeNode().getTypeDescriptor( 
-				callstack, interpreter, defaultPackage );
-	}
+    BSHType getTypeNode() {
+        return (BSHType) jjtGetChild(0);
+    }
 
-	public Class evalReturnType( 
-		CallStack callstack, Interpreter interpreter ) throws EvalError
-	{
-		if ( isVoid )
-			return Void.TYPE;
-		else
-			return getTypeNode().getType( callstack, interpreter );
-	}
+    public String getTypeDescriptor(
+            CallStack callstack, Interpreter interpreter, String defaultPackage) {
+        if (isVoid) {
+            return "V";
+        } else {
+            return getTypeNode().getTypeDescriptor(
+                    callstack, interpreter, defaultPackage);
+        }
+    }
+
+    public Class evalReturnType(
+            CallStack callstack, Interpreter interpreter) throws EvalError {
+        if (isVoid) {
+            return Void.TYPE;
+        } else {
+            return getTypeNode().getType(callstack, interpreter);
+        }
+    }
 }
-

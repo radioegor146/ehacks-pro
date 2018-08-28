@@ -1,42 +1,24 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.Block
- *  net.minecraft.block.material.Material
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.PlayerControllerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.client.network.NetHandlerPlayClient
- *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.C07PacketPlayerDigging
- */
 package ehacks.mod.modulesystem.classes;
 
+import ehacks.api.module.ModStatus;
+import ehacks.api.module.Module;
+import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.gui.Tuple;
+import ehacks.mod.wrapper.Events;
+import ehacks.mod.wrapper.ModuleCategory;
+import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import ehacks.api.module.Module;
-import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.Tuple;
-import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.wrapper.Events;
-import ehacks.mod.wrapper.ModuleCategory;
-import ehacks.mod.wrapper.Wrapper;
 
 public class PrivateNuker
-extends Module {
+        extends Module {
+
     public static boolean isActive = false;
-    private static int radius = 5;
+    private static final int radius = 5;
 
     public PrivateNuker() {
         super(ModuleCategory.EHACKS);
@@ -46,12 +28,12 @@ extends Module {
     public String getName() {
         return "Private Nuker";
     }
-    
+
     @Override
     public String getDescription() {
         return "Destroys all blocks around you in radius of 5 blocks";
     }
-    
+
     private Method snd;
     private Constructor msg;
     private Object obj;
@@ -65,15 +47,14 @@ extends Module {
             snd = Class.forName("cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper").getDeclaredMethod("sendToServer", Class.forName("cpw.mods.fml.common.network.simpleimpl.IMessage"));
             snd.setAccessible(true);
             obj = Class.forName("openmodularturrets.ModularTurrets").getDeclaredField("networking").get(new Object[0]);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             isActive = false;
             Events.selectedBlock = null;
             this.off();
             EHacksClickGui.logData.add(new Tuple<String, Integer>("[Private Nuker] Not working", 0));
         }
     }
-    
+
     @Override
     public ModStatus getModStatus() {
         try {
@@ -92,34 +73,36 @@ extends Module {
 
     @Override
     public void onTicks() {
-        if (Wrapper.INSTANCE.mc().playerController.isInCreativeMode())
-            for (int i = PrivateNuker.radius; i >= - radius; --i) {
-                for (int k = PrivateNuker.radius; k >= - radius; --k) {
-                    for (int j = - PrivateNuker.radius; j <= radius; ++j) {
-                        int x = (int)(Wrapper.INSTANCE.player().posX + (double)i);
-                        int y = (int)(Wrapper.INSTANCE.player().posY + (double)j);
-                        int z = (int)(Wrapper.INSTANCE.player().posZ + (double)k);
+        if (Wrapper.INSTANCE.mc().playerController.isInCreativeMode()) {
+            for (int i = PrivateNuker.radius; i >= -radius; --i) {
+                for (int k = PrivateNuker.radius; k >= -radius; --k) {
+                    for (int j = -PrivateNuker.radius; j <= radius; ++j) {
+                        int x = (int) (Wrapper.INSTANCE.player().posX + (double) i);
+                        int y = (int) (Wrapper.INSTANCE.player().posY + (double) j);
+                        int z = (int) (Wrapper.INSTANCE.player().posZ + (double) k);
                         Block blockID = Wrapper.INSTANCE.world().getBlock(x, y, z);
-                        if (blockID.getMaterial() == Material.air) 
+                        if (blockID.getMaterial() == Material.air) {
                             continue;
-                        Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet)new C07PacketPlayerDigging(0, x, y, z, 0));
+                        }
+                        Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet) new C07PacketPlayerDigging(0, x, y, z, 0));
                     }
                 }
             }
-        if (Wrapper.INSTANCE.mc().playerController.isNotCreative())
-            for (int i = PrivateNuker.radius; i >= - radius; --i) {
-                for (int k = PrivateNuker.radius; k >= - radius; --k) {
-                    for (int j = - PrivateNuker.radius; j <= radius; ++j) {
-                        int x = (int)(Wrapper.INSTANCE.player().posX + (double)i);
-                        int y = (int)(Wrapper.INSTANCE.player().posY + (double)j);
-                        int z = (int)(Wrapper.INSTANCE.player().posZ + (double)k);
+        }
+        if (Wrapper.INSTANCE.mc().playerController.isNotCreative()) {
+            for (int i = PrivateNuker.radius; i >= -radius; --i) {
+                for (int k = PrivateNuker.radius; k >= -radius; --k) {
+                    for (int j = -PrivateNuker.radius; j <= radius; ++j) {
+                        int x = (int) (Wrapper.INSTANCE.player().posX + (double) i);
+                        int y = (int) (Wrapper.INSTANCE.player().posY + (double) j);
+                        int z = (int) (Wrapper.INSTANCE.player().posZ + (double) k);
                         Block block = Wrapper.INSTANCE.world().getBlock(x, y, z);
-                        if (block.getMaterial() == Material.air) continue;
-                        try {
-                            snd.invoke(obj, msg.newInstance(x, y, z));
+                        if (block.getMaterial() == Material.air) {
                             continue;
                         }
-                        catch (Exception ex) {
+                        try {
+                            snd.invoke(obj, msg.newInstance(x, y, z));
+                        } catch (Exception ex) {
                             isActive = false;
                             Events.selectedBlock = null;
                             this.off();
@@ -128,11 +111,11 @@ extends Module {
                     }
                 }
             }
+        }
     }
-    
+
     @Override
     public String getModName() {
         return "OMTurrets";
     }
 }
-

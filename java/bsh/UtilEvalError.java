@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,70 +29,67 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
 /**
-	UtilEvalError is an error corresponding to an EvalError but thrown by a 
-	utility or other class that does not have the caller context (Node) 
-	available to it.  A normal EvalError must supply the caller Node in order 
-	for error messages to be pinned to the correct line and location in the 
-	script.  UtilEvalError is a checked exception that is *not* a subtype of 
-	EvalError, but instead must be caught and rethrown as an EvalError by 
-	the a nearest location with context.  The method toEvalError( Node ) 
-	should be used to throw the EvalError, supplying the node.
-	<p>
+ * UtilEvalError is an error corresponding to an EvalError but thrown by a
+ * utility or other class that does not have the caller context (Node) available
+ * to it. A normal EvalError must supply the caller Node in order for error
+ * messages to be pinned to the correct line and location in the script.
+ * UtilEvalError is a checked exception that is *not* a subtype of EvalError,
+ * but instead must be caught and rethrown as an EvalError by the a nearest
+ * location with context. The method toEvalError( Node ) should be used to throw
+ * the EvalError, supplying the node.
+ * <p>
+ *
+ * To summarize: Utilities throw UtilEvalError. ASTs throw EvalError. ASTs catch
+ * UtilEvalError and rethrow it as EvalError using toEvalError( Node ).
+ * <p>
+ *
+ * Philosophically, EvalError and UtilEvalError corrospond to RuntimeException.
+ * However they are constrained in this way in order to add the context for
+ * error reporting.
+ *
+ * @see UtilTargetError
+ */
+public class UtilEvalError extends Exception {
 
-	To summarize: Utilities throw UtilEvalError.  ASTs throw EvalError.
-	ASTs catch UtilEvalError and rethrow it as EvalError using 
-	toEvalError( Node ).  
-	<p>
+    protected UtilEvalError() {
+    }
 
-	Philosophically, EvalError and UtilEvalError corrospond to 
-	RuntimeException.  However they are constrained in this way in order to 
-	add the context for error reporting.
+    public UtilEvalError(String s) {
+        super(s);
+    }
 
-	@see UtilTargetError
-*/
-public class UtilEvalError extends Exception 
-{
-	protected UtilEvalError() {
-	}
+    public UtilEvalError(String s, Throwable cause) {
+        super(s, cause);
+    }
 
-	public UtilEvalError( String s ) {
-		super(s);
-	}
+    /**
+     * Re-throw as an eval error, prefixing msg to the message and specifying
+     * the node. If a node already exists the addNode is ignored.
+     *
+     * @see #setNode( bsh.SimpleNode )
+     * <p>
+     * @param msg may be null for no additional message.
+     */
+    public EvalError toEvalError(
+            String msg, SimpleNode node, CallStack callstack) {
+        if (Interpreter.DEBUG) {
+            printStackTrace();
+        }
 
-	public UtilEvalError( String s, Throwable cause ) {
-		super(s,cause);
-	}
+        if (msg == null) {
+            msg = "";
+        } else {
+            msg += ": ";
+        }
+        return new EvalError(msg + getMessage(), node, callstack, this);
+    }
 
-	/**
-		Re-throw as an eval error, prefixing msg to the message and specifying
-		the node.  If a node already exists the addNode is ignored.
-		@see #setNode( bsh.SimpleNode )
-		<p>
-		@param msg may be null for no additional message.
-	*/
-	public EvalError toEvalError( 
-		String msg, SimpleNode node, CallStack callstack  ) 
-	{
-		if ( Interpreter.DEBUG )
-			printStackTrace();
-
-		if ( msg == null )
-			msg = "";
-		else
-			msg = msg + ": ";
-		return new EvalError( msg+getMessage(), node, callstack, this );
-	}
-
-	public EvalError toEvalError ( SimpleNode node, CallStack callstack ) 
-	{
-		return toEvalError( null, node, callstack );
-	}
+    public EvalError toEvalError(SimpleNode node, CallStack callstack) {
+        return toEvalError(null, node, callstack);
+    }
 
 }
-

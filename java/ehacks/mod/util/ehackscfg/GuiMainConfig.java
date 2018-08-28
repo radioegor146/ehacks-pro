@@ -3,26 +3,16 @@ package ehacks.mod.util.ehackscfg;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ehacks.mod.main.Main;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.SoundCategory;
-import net.minecraft.client.audio.SoundEventAccessorComposite;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.gui.stream.GuiStreamOptions;
-import net.minecraft.client.gui.stream.GuiStreamUnavailable;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.stream.IStream;
 
 @SideOnly(Side.CLIENT)
-public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback
-{
+public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback {
+
     private final GuiScreen backScreen;
 
-    public GuiMainConfig(GuiScreen backScreen)
-    {
+    public GuiMainConfig(GuiScreen backScreen) {
         this.backScreen = backScreen;
     }
 
@@ -30,11 +20,11 @@ public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback
      * Adds the buttons (and other controls) to the screen in question.
      */
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         GuiButton modidbutton = new GuiButton(100, this.width / 2 - 100, this.height / 6 + 72 - 6, "ModID");
-        if (Main.isInjected)
+        if (Main.isInjected) {
             modidbutton.enabled = false;
+        }
         this.buttonList.add(modidbutton);
         GuiButton reauthbutton = new GuiButton(101, this.width / 2 - 100, this.height / 6 + 96 - 6, "Reauthorization");
         reauthbutton.enabled = false;
@@ -43,10 +33,8 @@ public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback
     }
 
     @Override
-    protected void actionPerformed(GuiButton button)
-    {
-        if (button.enabled)
-        {
+    protected void actionPerformed(GuiButton button) {
+        if (button.enabled) {
             if (button.id == 200) {
                 this.mc.displayGuiScreen(this.backScreen);
             }
@@ -60,8 +48,7 @@ public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback
      * Draws the screen and all the components in it.
      */
     @Override
-    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
-    {
+    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, "EHacks config and utils", this.width / 2, 15, 16777215);
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);

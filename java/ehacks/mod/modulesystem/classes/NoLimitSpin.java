@@ -1,57 +1,28 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.material.Material
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.PlayerControllerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.item.Item
- *  net.minecraft.item.ItemStack
- *  net.minecraft.item.ItemSword
- *  net.minecraft.world.World
- */
 package ehacks.mod.modulesystem.classes;
 
-import java.util.List;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.world.World;
-import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.window.WindowPlayerIds;
-import ehacks.mod.modulesystem.classes.AimBot;
-import ehacks.mod.modulesystem.classes.AutoBlock;
-import ehacks.mod.modulesystem.classes.Criticals;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
+import java.util.List;
 import java.util.Random;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class NoLimitSpin
-extends Module {
+        extends Module {
+
     public Random R = new Random();
-    
+
     public NoLimitSpin() {
         super(ModuleCategory.EHACKS);
     }
-    
+
     @Override
     public String getDescription() {
         return "Rotates all entities around you randomly";
@@ -66,8 +37,7 @@ extends Module {
     public void onEnableMod() {
         try {
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketRotateRocket").getConstructor();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             this.off();
             EHacksClickGui.log("[NoLimitSpin] Not working");
         }
@@ -82,33 +52,24 @@ extends Module {
             return ModStatus.NOTWORKING;
         }
     }
-    
+
     @Override
     public void onDisableMod() {
-        
-    }
 
-    private float getDistanceToEntity(Entity from, Entity to) {
-        return from.getDistanceToEntity(to);
     }
-
-    private boolean isWithinRange(float range, Entity e) {
-        return this.getDistanceToEntity(e, (Entity)Wrapper.INSTANCE.player()) <= range;
-    }
-
+    
     @Override
     public void onTicks() {
         try {
             List<EntityPlayer> players = WindowPlayerIds.useIt ? WindowPlayerIds.getPlayers() : Wrapper.INSTANCE.world().playerEntities;
             for (Object o : players) {
-                spinEntity(((Entity)o).getEntityId());
+                spinEntity(((Entity) o).getEntityId());
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void spinEntity(int entityId) {
         ByteBuf buf = Unpooled.buffer(0);
         buf.writeByte(1);
@@ -116,12 +77,11 @@ extends Module {
         buf.writeFloat(R.nextFloat() * 180f - 90f);
         buf.writeFloat(R.nextFloat() * 360f);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("GalacticraftCore", buf);
-        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+        Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
     }
-    
+
     @Override
     public String getModName() {
         return "Galacticraft";
     }
 }
-

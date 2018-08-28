@@ -1,12 +1,10 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.util.nbtedit;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Node<T> {
+
     private List<Node<T>> children;
     private Node<T> parent;
     private T obj;
@@ -55,6 +53,7 @@ public class Node<T> {
         return this.obj;
     }
 
+    @Override
     public String toString() {
         return "" + this.obj;
     }
@@ -67,4 +66,3 @@ public class Node<T> {
         return this.parent != null;
     }
 }
-

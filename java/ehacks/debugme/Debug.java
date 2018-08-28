@@ -11,33 +11,33 @@ import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.Mappings;
-import ehacks.mod.wrapper.Wrapper;
-import java.util.List;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import ehacks.mod.util.Random;
+import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.material.MaterialTransparent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C14PacketTabComplete;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -46,10 +46,11 @@ import net.minecraft.world.chunk.IChunkProvider;
  * @author radioegor146
  */
 public class Debug {
+
     public static Debug INSTANCE = new Debug();
-    
+
     public Random random = new Random();
-    
+
     public int[] getMop() {
         MovingObjectPosition preMop = Wrapper.INSTANCE.mc().objectMouseOver;
         Entity ent = Wrapper.INSTANCE.mc().pointedEntity;
@@ -64,11 +65,11 @@ public class Debug {
     }
 
     public int[] getMyCoords() {
-        return getCoords((Entity)getPlayer());
+        return getCoords((Entity) getPlayer());
     }
 
     public int[] getCoords(Entity entity) {
-        int[] coords = new int[]{(int)Math.floor(entity.posX), (int)Math.floor(entity.posY) - 2, (int)Math.floor(entity.posZ)};
+        int[] coords = new int[]{(int) Math.floor(entity.posX), (int) Math.floor(entity.posY) - 2, (int) Math.floor(entity.posZ)};
         return coords;
     }
 
@@ -82,7 +83,7 @@ public class Debug {
     }
 
     public EntityPlayer getPlayer() {
-        return Wrapper.INSTANCE.mc().thePlayer;
+        return Wrapper.INSTANCE.player();
     }
 
     public String getUUID(Entity entity) {
@@ -92,17 +93,17 @@ public class Debug {
     public void log(String data) {
         EHacksClickGui.log("[DebugMe] [Log] " + data);
     }
-    
+
     public int getEntityId(Entity entity) {
         return entity.getEntityId();
     }
 
     public int getMyEntityId() {
-        return getEntityId((Entity)getPlayer());
+        return getEntityId((Entity) getPlayer());
     }
 
     public World getWorld() {
-        return Wrapper.INSTANCE.mc().theWorld;
+        return Wrapper.INSTANCE.world();
     }
 
     public int getDimensionId() {
@@ -112,12 +113,11 @@ public class Debug {
     public NBTTagCompound jsonToNBT(String json) {
         NBTBase nbtTag = null;
         try {
-            nbtTag = JsonToNBT.func_150315_a((String)json.replaceAll("'", "\""));
-        }
-        catch (Exception err) {
+            nbtTag = JsonToNBT.func_150315_a((String) json.replaceAll("'", "\""));
+        } catch (Exception err) {
             return null;
         }
-        return (NBTTagCompound)nbtTag;
+        return (NBTTagCompound) nbtTag;
     }
 
     public String NBTToJson(NBTTagCompound nbt) {
@@ -194,13 +194,13 @@ public class Debug {
     public String getLongString(String text, int len) {
         String out = text;
         for (int i = 1; i <= len; ++i) {
-            out = out + random.str();
+            out += random.str();
         }
         return out;
     }
 
     public void sendServerChatMessage(Object serverChatMessageText) {
-        Wrapper.INSTANCE.mc().thePlayer.sendChatMessage(serverChatMessageText.toString());
+        Wrapper.INSTANCE.player().sendChatMessage(serverChatMessageText.toString());
     }
 
     public int getWindowId() {
@@ -208,7 +208,7 @@ public class Debug {
     }
 
     public void sendTabComplete(String in) {
-        Wrapper.INSTANCE.mc().thePlayer.sendQueue.addToSendQueue((Packet)new C14PacketTabComplete(in));
+        Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet) new C14PacketTabComplete(in));
     }
 
     public void setFakeSlot(ItemStack item, int slot) {
@@ -220,7 +220,7 @@ public class Debug {
     }
 
     public GuiContainer getGuiContainer(GuiScreen screen) {
-        return screen instanceof GuiContainer ? (GuiContainer)screen : null;
+        return screen instanceof GuiContainer ? (GuiContainer) screen : null;
     }
 
     public boolean isDoubleChest(TileEntity tile) {
@@ -228,10 +228,7 @@ public class Debug {
         int z;
         int[] pos;
         int x;
-        if (tile instanceof TileEntityChest && (getTileEntity((x = (pos = getCoords(tile))[0]) - 1, y = pos[1], z = pos[2]) instanceof TileEntityChest || getTileEntity(x + 1, y, z) instanceof TileEntityChest || getTileEntity(x, y, z - 1) instanceof TileEntityChest || getTileEntity(x, y, z + 1) instanceof TileEntityChest)) {
-            return true;
-        }
-        return false;
+        return tile instanceof TileEntityChest && (getTileEntity((x = (pos = getCoords(tile))[0]) - 1, y = pos[1], z = pos[2]) instanceof TileEntityChest || getTileEntity(x + 1, y, z) instanceof TileEntityChest || getTileEntity(x, y, z - 1) instanceof TileEntityChest || getTileEntity(x, y, z + 1) instanceof TileEntityChest);
     }
 
     public void dropSlots(int range) {
@@ -258,7 +255,7 @@ public class Debug {
 
     public int getSlots(TileEntity tile) {
         if (tile instanceof IInventory) {
-            IInventory inventory = (IInventory)tile;
+            IInventory inventory = (IInventory) tile;
             return inventory.isUseableByPlayer(getPlayer()) ? inventory.getSizeInventory() : 0;
         }
         return 0;
@@ -272,11 +269,13 @@ public class Debug {
         ArrayList<TileEntity> out = new ArrayList<TileEntity>();
         IChunkProvider chunkProvider = getWorld().getChunkProvider();
         if (chunkProvider instanceof ChunkProviderClient) {
-            List<Chunk> chunks = ReflectionHelper.getPrivateValue(ChunkProviderClient.class, (ChunkProviderClient)chunkProvider, Mappings.chunkListing);
+            List<Chunk> chunks = ReflectionHelper.getPrivateValue(ChunkProviderClient.class, (ChunkProviderClient) chunkProvider, Mappings.chunkListing);
             for (Chunk chunk : chunks) {
                 for (Object entityObj : chunk.chunkTileEntityMap.values()) {
-                    if (!(entityObj instanceof TileEntity)) continue;
-                    out.add((TileEntity)entityObj);
+                    if (!(entityObj instanceof TileEntity)) {
+                        continue;
+                    }
+                    out.add((TileEntity) entityObj);
                 }
             }
         }
@@ -285,36 +284,38 @@ public class Debug {
 
     public NBTTagCompound getPackageNbt(ItemStack item) {
         NBTTagCompound ROOT = new NBTTagCompound();
-        ROOT.setTag("Package", (NBTBase)new NBTTagCompound());
+        ROOT.setTag("Package", (NBTBase) new NBTTagCompound());
         NBTTagCompound Package2 = ROOT.getCompoundTag("Package");
         NBTTagList list = new NBTTagList();
-        list.appendTag((NBTBase)getNbtItem(item));
-        Package2.setTag("Items", (NBTBase)list);
+        list.appendTag((NBTBase) getNbtItem(item));
+        Package2.setTag("Items", (NBTBase) list);
         return ROOT;
     }
 
     public NBTTagCompound getNbtItem(ItemStack item) {
         NBTTagCompound itemTag = new NBTTagCompound();
-        itemTag.setByte("Count", (byte)item.stackSize);
-        itemTag.setByte("Slot", (byte)0);
+        itemTag.setByte("Count", (byte) item.stackSize);
+        itemTag.setByte("Slot", (byte) 0);
         item.getItem();
-        itemTag.setShort("id", (short)Item.getIdFromItem((Item)item.getItem()));
-        itemTag.setShort("Damage", (short)item.getItemDamage());
+        itemTag.setShort("id", (short) Item.getIdFromItem((Item) item.getItem()));
+        itemTag.setShort("Damage", (short) item.getItemDamage());
         if (item.hasTagCompound()) {
-            itemTag.setTag("tag", (NBTBase)item.getTagCompound());
+            itemTag.setTag("tag", (NBTBase) item.getTagCompound());
         }
         return itemTag;
     }
 
     public List<int[]> getNukerList(int[] center, int radius) {
         ArrayList<int[]> list = new ArrayList<int[]>();
-        for (int i = radius; i >= - radius; --i) {
-            for (int k = radius; k >= - radius; --k) {
-                for (int j = - radius; j <= radius; ++j) {
+        for (int i = radius; i >= -radius; --i) {
+            for (int k = radius; k >= -radius; --k) {
+                for (int j = -radius; j <= radius; ++j) {
                     int x = center[0] + i;
                     int y = center[1] + j;
                     int z = center[2] + k;
-                    if (getWorld().getBlock(x, y, z).getMaterial() instanceof MaterialTransparent) continue;
+                    if (getWorld().getBlock(x, y, z).getMaterial() instanceof MaterialTransparent) {
+                        continue;
+                    }
                     list.add(new int[]{x, y, z});
                 }
             }
@@ -327,49 +328,57 @@ public class Debug {
         List<Entity> near = getNearEntities();
         for (Entity entity : near) {
             if (filter.equals("pl")) {
-                if (entity == getPlayer() || !(entity instanceof EntityPlayer)) continue;
+                if (entity == getPlayer() || !(entity instanceof EntityPlayer)) {
+                    continue;
+                }
                 nearCoords.add(getCoords(entity));
                 continue;
             }
             if (filter.equals("ent")) {
-                if (entity == getPlayer() || entity instanceof EntityLightningBolt) continue;
+                if (entity == getPlayer() || entity instanceof EntityLightningBolt) {
+                    continue;
+                }
                 nearCoords.add(getCoords(entity));
                 continue;
             }
             EntityPlayer player = getPlayer(filter);
-            if (player == null) continue;
-            nearCoords.add(getCoords((Entity)player));
+            if (player == null) {
+                continue;
+            }
+            nearCoords.add(getCoords((Entity) player));
             break;
         }
         return nearCoords;
     }
 
-    public void sendProxyPacket(String channel, Object ... data) {
+    public void sendProxyPacket(String channel, Object... data) {
         ByteBuf buf = Unpooled.buffer();
         for (Object o : data) {
             if (o instanceof Integer) {
-                buf.writeInt(((Integer)o).intValue());
+                buf.writeInt(((Integer) o).intValue());
                 continue;
             }
             if (o instanceof Byte) {
-                buf.writeByte((int)((Byte)o).byteValue());
+                buf.writeByte((int) ((Byte) o).byteValue());
                 continue;
             }
             if (o instanceof Short) {
-                buf.writeShort((int)((Short)o).shortValue());
+                buf.writeShort((int) ((Short) o).shortValue());
                 continue;
             }
             if (o instanceof String) {
-                ByteBufUtils.writeUTF8String((ByteBuf)buf, (String)((String)o));
+                ByteBufUtils.writeUTF8String((ByteBuf) buf, (String) ((String) o));
                 continue;
             }
             if (o instanceof ItemStack) {
-                ByteBufUtils.writeItemStack((ByteBuf)buf, (ItemStack)((ItemStack)o));
+                ByteBufUtils.writeItemStack((ByteBuf) buf, (ItemStack) ((ItemStack) o));
                 continue;
             }
-            if (!(o instanceof NBTTagCompound)) continue;
-            ByteBufUtils.writeTag((ByteBuf)buf, (NBTTagCompound)((NBTTagCompound)o));
+            if (!(o instanceof NBTTagCompound)) {
+                continue;
+            }
+            ByteBufUtils.writeTag((ByteBuf) buf, (NBTTagCompound) ((NBTTagCompound) o));
         }
-        NetworkDispatcher.get((NetworkManager)Wrapper.INSTANCE.mc().getNetHandler().getNetworkManager()).sendProxy(new FMLProxyPacket(buf, channel));
+        NetworkDispatcher.get((NetworkManager) Wrapper.INSTANCE.mc().getNetHandler().getNetworkManager()).sendProxy(new FMLProxyPacket(buf, channel));
     }
 }

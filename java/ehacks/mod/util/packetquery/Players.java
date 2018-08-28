@@ -11,9 +11,8 @@ import java.util.List;
  *
  * @author radioegor146
  */
-
-    
 public class Players {
+
     private int max;
     private int online;
     private List<Player> sample;
@@ -28,5 +27,5 @@ public class Players {
 
     public List<Player> getSample() {
         return sample;
-    }        
+    }
 }

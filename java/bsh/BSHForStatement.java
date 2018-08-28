@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,16 +29,14 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
 /**
-	Implementation of the for(;;) statement.
-*/
-class BSHForStatement extends SimpleNode implements ParserConstants
-{
+ * Implementation of the for(;;) statement.
+ */
+class BSHForStatement extends SimpleNode implements ParserConstants {
+
     public boolean hasForInit;
     public boolean hasExpression;
     public boolean hasForUpdate;
@@ -50,25 +48,32 @@ class BSHForStatement extends SimpleNode implements ParserConstants
 
     private boolean parsed;
 
-    BSHForStatement(int id) { super(id); }
+    BSHForStatement(int id) {
+        super(id);
+    }
 
-    public Object eval(CallStack callstack , Interpreter interpreter)  
-		throws EvalError
-    {
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
         int i = 0;
-        if(hasForInit)
-            forInit = ((SimpleNode)jjtGetChild(i++));
-        if(hasExpression)
-            expression = ((SimpleNode)jjtGetChild(i++));
-        if(hasForUpdate)
-            forUpdate = ((SimpleNode)jjtGetChild(i++));
-        if(i < jjtGetNumChildren()) // should normally be
-            statement = ((SimpleNode)jjtGetChild(i));
+        if (hasForInit) {
+            forInit = ((SimpleNode) jjtGetChild(i++));
+        }
+        if (hasExpression) {
+            expression = ((SimpleNode) jjtGetChild(i++));
+        }
+        if (hasForUpdate) {
+            forUpdate = ((SimpleNode) jjtGetChild(i++));
+        }
+        if (i < jjtGetNumChildren()) // should normally be
+        {
+            statement = ((SimpleNode) jjtGetChild(i));
+        }
 
-		NameSpace enclosingNameSpace= callstack.top();
-		BlockNameSpace forNameSpace = new BlockNameSpace( enclosingNameSpace );
+        NameSpace enclosingNameSpace = callstack.top();
+        BlockNameSpace forNameSpace = new BlockNameSpace(enclosingNameSpace);
 
-		/*
+        /*
 			Note: some interesting things are going on here.
 
 			1) We swap instead of push...  The primary mode of operation 
@@ -81,42 +86,39 @@ class BSHForStatement extends SimpleNode implements ParserConstants
 			still works through the chain, but the block's child cleans the 
 			state between iteration.  
 			(which is correct Java behavior... see forscope4.bsh)
-		*/
-
-		// put forNameSpace it on the top of the stack
-		// Note: it's important that there is only one exit point from this
-		// method so that we can swap back the namespace.
-		callstack.swap( forNameSpace );
+         */
+        // put forNameSpace it on the top of the stack
+        // Note: it's important that there is only one exit point from this
+        // method so that we can swap back the namespace.
+        callstack.swap(forNameSpace);
 
         // Do the for init
-        if ( hasForInit ) 
-            forInit.eval( callstack, interpreter );
+        if (hasForInit) {
+            forInit.eval(callstack, interpreter);
+        }
 
-		Object returnControl = Primitive.VOID;
-        while(true)
-        {
-            if ( hasExpression ) 
-			{
-				boolean cond = BSHIfStatement.evaluateCondition(
-					expression, callstack, interpreter );
+        Object returnControl = Primitive.VOID;
+        while (true) {
+            if (hasExpression) {
+                boolean cond = BSHIfStatement.evaluateCondition(
+                        expression, callstack, interpreter);
 
-				if ( !cond ) 
-					break;
-			}
+                if (!cond) {
+                    break;
+                }
+            }
 
             boolean breakout = false; // switch eats a multi-level break here?
-            if ( statement != null ) // not empty statement
+            if (statement != null) // not empty statement
             {
-				// do *not* invoke special override for block... (see above)
-                Object ret = statement.eval( callstack, interpreter );
+                // do *not* invoke special override for block... (see above)
+                Object ret = statement.eval(callstack, interpreter);
 
-                if (ret instanceof ReturnControl)
-                {
-                    switch(((ReturnControl)ret).kind)
-                    {
+                if (ret instanceof ReturnControl) {
+                    switch (((ReturnControl) ret).kind) {
                         case RETURN:
-							returnControl = ret;
-							breakout = true;
+                            returnControl = ret;
+                            breakout = true;
                             break;
 
                         case CONTINUE:
@@ -129,14 +131,16 @@ class BSHForStatement extends SimpleNode implements ParserConstants
                 }
             }
 
-            if ( breakout )
+            if (breakout) {
                 break;
+            }
 
-            if ( hasForUpdate )
-                forUpdate.eval( callstack, interpreter );
+            if (hasForUpdate) {
+                forUpdate.eval(callstack, interpreter);
+            }
         }
 
-		callstack.swap( enclosingNameSpace );  // put it back
+        callstack.swap(enclosingNameSpace);  // put it back
         return returnControl;
     }
 

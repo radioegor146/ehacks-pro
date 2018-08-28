@@ -10,6 +10,7 @@ package ehacks.mod.util.packetquery;
  * @author radioegor146
  */
 public class Player {
+
     private String name;
     private String id;
 

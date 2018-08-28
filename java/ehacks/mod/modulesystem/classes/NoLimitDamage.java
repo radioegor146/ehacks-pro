@@ -5,28 +5,14 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import ehacks.api.module.Module;
 import ehacks.api.module.ModStatus;
+import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.MouseEvent;
 
 /**
@@ -48,13 +34,12 @@ public class NoLimitDamage extends Module {
     public String getDescription() {
         return "Gives Float.MAX_VALUE to attacked entity";
     }
-    
+
     public boolean lastPressed = false;
-    
+
     @Override
     public void onMouse(MouseEvent event) {
-        if (Wrapper.INSTANCE.mc().objectMouseOver.entityHit != null && event.button == 0 && !lastPressed)
-        {
+        if (Wrapper.INSTANCE.mc().objectMouseOver.entityHit != null && event.button == 0 && !lastPressed) {
             int playerId = Wrapper.INSTANCE.player().getEntityId();
             int entityId = Wrapper.INSTANCE.mc().objectMouseOver.entityHit.getEntityId();
             int dimensionId = Wrapper.INSTANCE.player().dimension;
@@ -66,13 +51,14 @@ public class NoLimitDamage extends Module {
             buf.writeFloat(Float.MAX_VALUE);
             buf.writeBoolean(false);
             C17PacketCustomPayload packet = new C17PacketCustomPayload("taintedmagic", buf);
-            Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
+            Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
             lastPressed = true;
         }
-        if (lastPressed && event.button == 0 && !event.buttonstate)
+        if (lastPressed && event.button == 0 && !event.buttonstate) {
             lastPressed = false;
+        }
     }
-    
+
     @Override
     public ModStatus getModStatus() {
         try {
@@ -82,18 +68,17 @@ public class NoLimitDamage extends Module {
             return ModStatus.NOTWORKING;
         }
     }
-    
+
     @Override
     public void onEnableMod() {
         try {
             Class.forName("taintedmagic.common.network.PacketKatanaAttack");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             this.off();
             EHacksClickGui.log("[NoLimitDamage] Not working");
         }
     }
-    
+
     @Override
     public String getModName() {
         return "Tainted Magic";

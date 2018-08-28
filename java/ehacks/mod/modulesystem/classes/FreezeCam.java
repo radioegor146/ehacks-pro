@@ -1,33 +1,16 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  com.mojang.authlib.GameProfile
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.player.InventoryPlayer
- *  net.minecraft.world.World
- */
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
+import ehacks.mod.util.EntityFakePlayer;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import com.mojang.authlib.GameProfile;
-import ehacks.mod.util.EntityFakePlayer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.world.World;
 
 public class FreezeCam
-extends Module {
+        extends Module {
+
     LocationHelper location;
 
     public FreezeCam() {
@@ -56,11 +39,11 @@ extends Module {
 
     public void doFreezeCam() {
         if (Wrapper.INSTANCE.world() instanceof WorldClient) {
-            this.location = new LocationHelper((Entity)Wrapper.INSTANCE.player());
-            EntityFakePlayer spectator = new EntityFakePlayer((World)Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
+            this.location = new LocationHelper((Entity) Wrapper.INSTANCE.player());
+            EntityFakePlayer spectator = new EntityFakePlayer((World) Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
             spectator.setPositionAndRotation(this.location.posX, this.location.posY - 1.5, this.location.posZ, this.location.rotationYaw, this.location.rotationPitch);
             spectator.inventory.copyInventory(Wrapper.INSTANCE.player().inventory);
-            Wrapper.INSTANCE.world().addEntityToWorld(-1, (Entity)spectator);
+            Wrapper.INSTANCE.world().addEntityToWorld(-1, (Entity) spectator);
             Wrapper.INSTANCE.mc().renderViewEntity = spectator;
         }
     }
@@ -70,7 +53,8 @@ extends Module {
         Wrapper.INSTANCE.mc().renderViewEntity = Wrapper.INSTANCE.player();
     }
 
-    class LocationHelper {
+    class LocationHelper implements Cloneable {
+
         public double posX;
         public double posY;
         public double posZ;
@@ -78,7 +62,8 @@ extends Module {
         public float rotationPitch;
         public String name;
 
-        public LocationHelper clone() {
+        @Override
+        public LocationHelper clone() throws CloneNotSupportedException {
             return new LocationHelper(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.name);
         }
 
@@ -159,4 +144,3 @@ extends Module {
     }
 
 }
-

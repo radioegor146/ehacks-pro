@@ -1,26 +1,14 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.network.NetHandlerPlayClient
- *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.C03PacketPlayer
- *  net.minecraft.util.FoodStats
- */
 package ehacks.mod.modulesystem.classes;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.util.FoodStats;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class Regen
-extends Module {
+        extends Module {
+
     public Regen() {
         super(ModuleCategory.PLAYER);
     }
@@ -29,7 +17,7 @@ extends Module {
     public String getName() {
         return "Regen";
     }
-    
+
     @Override
     public String getDescription() {
         return "Regenerates you";
@@ -45,9 +33,8 @@ extends Module {
         boolean bl = shouldHeal = Wrapper.INSTANCE.player().getHealth() <= 18.5f && Wrapper.INSTANCE.player().getFoodStats().getFoodLevel() > 8;
         if (canHeal && shouldHeal) {
             for (int i = 0; i < 1000; ++i) {
-                Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet)new C03PacketPlayer(false));
+                Wrapper.INSTANCE.player().sendQueue.addToSendQueue((Packet) new C03PacketPlayer(false));
             }
         }
     }
 }
-

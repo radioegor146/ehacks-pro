@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,27 +29,27 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
-class BSHReturnStatement extends SimpleNode implements ParserConstants
-{
-	public int kind;
+class BSHReturnStatement extends SimpleNode implements ParserConstants {
 
-	BSHReturnStatement(int id) { super(id); }
+    public int kind;
 
-	public Object eval(CallStack callstack, Interpreter interpreter)  
-		throws EvalError
-	{
-		Object value;
-		if(jjtGetNumChildren() > 0)
-			value = ((SimpleNode)jjtGetChild(0)).eval(callstack, interpreter);
-		else
-			value = Primitive.VOID;
+    BSHReturnStatement(int id) {
+        super(id);
+    }
 
-		return new ReturnControl( kind, value, this );
-	}
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        Object value;
+        if (jjtGetNumChildren() > 0) {
+            value = ((SimpleNode) jjtGetChild(0)).eval(callstack, interpreter);
+        } else {
+            value = Primitive.VOID;
+        }
+
+        return new ReturnControl(kind, value, this);
+    }
 }
-

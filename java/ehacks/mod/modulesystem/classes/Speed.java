@@ -1,18 +1,12 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.util.Timer
- */
 package ehacks.mod.modulesystem.classes;
 
-import net.minecraft.util.Timer;
 import ehacks.api.module.Module;
 import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 
 public class Speed
-extends Module {
+        extends Module {
+
     public Speed() {
         super(ModuleCategory.PLAYER);
     }
@@ -21,7 +15,7 @@ extends Module {
     public String getName() {
         return "Speed";
     }
-    
+
     @Override
     public String getDescription() {
         return "Your game will run 3x faster";
@@ -37,4 +31,3 @@ extends Module {
         TimerUtils.getTimer().timerSpeed = 1.0f;
     }
 }
-

@@ -1,36 +1,25 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.client.renderer.entity.RenderManager
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.monster.EntityMob
- *  net.minecraft.entity.passive.EntityAnimal
- *  org.lwjgl.opengl.GL11
- */
 package ehacks.mod.modulesystem.classes;
 
-import java.util.List;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Module;
-import ehacks.mod.external.axis.AltAxisAlignedBB;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
+import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
+import java.util.List;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
+import static net.minecraft.client.renderer.entity.RenderManager.renderPosX;
+import static net.minecraft.client.renderer.entity.RenderManager.renderPosY;
+import static net.minecraft.client.renderer.entity.RenderManager.renderPosZ;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.passive.EntityAmbientCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import org.lwjgl.opengl.GL11;
 
 public class MobESP
-extends Module {
+        extends Module {
+
     public MobESP() {
         super(ModuleCategory.RENDER);
     }
@@ -39,36 +28,78 @@ extends Module {
     public String getName() {
         return "MobESP";
     }
-    
+
     @Override
     public String getDescription() {
         return "Allows you to see all mobs around you";
     }
 
     @Override
-    public void onWorldRender(RenderWorldLastEvent event) {            
-        GL11.glPushMatrix();
-        GL11.glClear((int)256);
-        GL11.glEnable((int)3553);
-        GL11.glEnable((int)2884);
-        GL11.glEnable((int)3042); 
-        RenderHelper.enableStandardItemLighting();
+    public void onWorldRender(RenderWorldLastEvent event) {
+        if (!Statics.hasClearedDepth) {
+            GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+            Statics.hasClearedDepth = true;
+        }
+        List<Entity> entities = Wrapper.INSTANCE.world().loadedEntityList;
+        for (Entity ent : entities) {
+            if (!(ent instanceof EntityLivingBase))
+                continue;
+            if (ent == Wrapper.INSTANCE.player())
+                continue;
+            if (!ent.isInRangeToRender3d(Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mcSettings().thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping())
+                continue;
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+            float f1 = ent.prevRotationYaw + (ent.rotationYaw - ent.prevRotationYaw) * event.partialTicks;
+            RenderHelper.enableStandardItemLighting();
+            //RenderManager.instance.renderEntitySimple(ent, event.partialTicks);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)240 / 1.0F, (float)240 / 1.0F);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderManager.instance.func_147939_a(ent, xPos - renderPosX, yPos - renderPosY, zPos - renderPosZ, f1, event.partialTicks, false);
+        }
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+        GL11.glDisable(GL11.GL_LIGHTING);
         for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
-            Entity ent = (Entity)o;
-            if (ent instanceof EntityMob || ent instanceof EntityCreature || ent instanceof EntityAmbientCreature)
-            {
-                double d0;
-                double d1;
-                double d2;
-                if (!ent.isInRangeToRender3d(d0 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, d1 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, d2 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mc().gameSettings.thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping()) continue;
-                RenderManager.instance.renderEntitySimple(ent, event.partialTicks);
-            }
-        }                 
-        RenderHelper.disableStandardItemLighting();
-        GL11.glEnable((int)3553);
-        GL11.glEnable((int)2884);
-        GL11.glDisable((int)3042);  
-        GL11.glPopMatrix();
+            Entity entObj = (Entity) o;
+            if (!(entObj instanceof EntityLivingBase))
+                continue;
+            EntityLivingBase ent = (EntityLivingBase)entObj;
+            float labelScale = 0.04F;
+            GL11.glPushMatrix();
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glDepthMask(true);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            //GL11.glDisable(GL11.GL_DEPTH_TEST);
+            //GL11.glDepthMask(false);
+
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+
+            
+            double xEnd = xPos - RenderManager.renderPosX;
+            double yEnd = yPos + ent.height / 2 - RenderManager.renderPosY;
+            double zEnd = zPos - RenderManager.renderPosZ;
+
+            GL11.glTranslatef((float) xEnd, (float) yEnd + ent.height / 2 + .8f, (float) zEnd);
+            GL11.glRotatef(-RenderManager.instance.playerViewY, 0, 1, 0);
+            GL11.glRotatef(RenderManager.instance.playerViewX, 1, 0, 0);
+            GL11.glScalef(-labelScale, -labelScale, labelScale);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GLUtils.drawRect(-26f, -1f, 26f, 12f, GLUtils.getColor(255, 64, 64, 64));
+            GL11.glTranslatef(0f, 0f, -0.1f);
+            GLUtils.drawRect(-25f, 6f, -25f + (50f * ent.getHealth() / ent.getMaxHealth()), 11f, GLUtils.getColor(255, 0, 255, 0));
+            GLUtils.drawRect(-25f + (50f * ent.getHealth() / ent.getMaxHealth()), 6f, 25f, 11f, GLUtils.getColor(255, 255, 0, 0));
+            GL11.glScalef(Wrapper.INSTANCE.fontRenderer().FONT_HEIGHT / 17f, Wrapper.INSTANCE.fontRenderer().FONT_HEIGHT / 17f, 1f);
+            GL11.glTranslatef(0f, 0f, -0.1f);
+            Wrapper.INSTANCE.fontRenderer().drawString(String.format("%.2f", Math.round(ent.getHealth() * 100) / 100f), -Wrapper.INSTANCE.fontRenderer().getStringWidth(String.format("%.2f", Math.round(ent.getHealth() * 100) / 100f)) / 2, 12, GLUtils.getColor(255, 255, 255, 255), true);
+            Wrapper.INSTANCE.fontRenderer().drawString(String.valueOf(ent.getCommandSenderName()), -47, 1, GLUtils.getColor(255, 255, 255, 255), true);
+            GL11.glPopMatrix();
+        }
     }
 }
-

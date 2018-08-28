@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,87 +29,85 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
+ **************************************************************************** */
 package bsh;
 
-class BSHFormalParameters extends SimpleNode
-{
-	private String [] paramNames;
-	/**
-		For loose type parameters the paramTypes are null.
-	*/
-	// unsafe caching of types
-	Class [] paramTypes;
-	int numArgs;
-	String [] typeDescriptors;
+class BSHFormalParameters extends SimpleNode {
 
-	BSHFormalParameters(int id) { super(id); }
+    private String[] paramNames;
+    /**
+     * For loose type parameters the paramTypes are null.
+     */
+    // unsafe caching of types
+    Class[] paramTypes;
+    int numArgs;
+    String[] typeDescriptors;
 
-	void insureParsed() 
-	{
-		if ( paramNames != null )
-			return;
+    BSHFormalParameters(int id) {
+        super(id);
+    }
 
-		this.numArgs = jjtGetNumChildren();
-		String [] paramNames = new String[numArgs];
+    void insureParsed() {
+        if (paramNames != null) {
+            return;
+        }
 
-		for(int i=0; i<numArgs; i++)
-		{
-			BSHFormalParameter param = (BSHFormalParameter)jjtGetChild(i);
-			paramNames[i] = param.name;
-		}
+        this.numArgs = jjtGetNumChildren();
+        String[] paramNames = new String[numArgs];
 
-		this.paramNames = paramNames;
-	}
+        for (int i = 0; i < numArgs; i++) {
+            BSHFormalParameter param = (BSHFormalParameter) jjtGetChild(i);
+            paramNames[i] = param.name;
+        }
 
-	public String [] getParamNames() { 
-		insureParsed();
-		return paramNames;
-	}
+        this.paramNames = paramNames;
+    }
 
-	public String [] getTypeDescriptors( 
-		CallStack callstack, Interpreter interpreter, String defaultPackage )
-	{
-		if ( typeDescriptors != null )
-			return typeDescriptors;
+    public String[] getParamNames() {
+        insureParsed();
+        return paramNames;
+    }
 
-		insureParsed();
-		String [] typeDesc = new String[numArgs];
+    public String[] getTypeDescriptors(
+            CallStack callstack, Interpreter interpreter, String defaultPackage) {
+        if (typeDescriptors != null) {
+            return typeDescriptors;
+        }
 
-		for(int i=0; i<numArgs; i++)
-		{
-			BSHFormalParameter param = (BSHFormalParameter)jjtGetChild(i);
-			typeDesc[i] = param.getTypeDescriptor( 
-				callstack, interpreter, defaultPackage );
-		}
+        insureParsed();
+        String[] typeDesc = new String[numArgs];
 
-		this.typeDescriptors = typeDesc;
-		return typeDesc;
-	}
+        for (int i = 0; i < numArgs; i++) {
+            BSHFormalParameter param = (BSHFormalParameter) jjtGetChild(i);
+            typeDesc[i] = param.getTypeDescriptor(
+                    callstack, interpreter, defaultPackage);
+        }
 
-	/**
-		Evaluate the types.  
-		Note that type resolution does not require the interpreter instance.
-	*/
-	public Object eval( CallStack callstack, Interpreter interpreter )  
-		throws EvalError
-	{
-		if ( paramTypes != null )
-			return paramTypes;
+        this.typeDescriptors = typeDesc;
+        return typeDesc;
+    }
 
-		insureParsed();
-		Class [] paramTypes = new Class[numArgs];
+    /**
+     * Evaluate the types. Note that type resolution does not require the
+     * interpreter instance.
+     */
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        if (paramTypes != null) {
+            return paramTypes;
+        }
 
-		for(int i=0; i<numArgs; i++)
-		{
-			BSHFormalParameter param = (BSHFormalParameter)jjtGetChild(i);
-			paramTypes[i] = (Class)param.eval( callstack, interpreter );
-		}
+        insureParsed();
+        Class[] paramTypes = new Class[numArgs];
 
-		this.paramTypes = paramTypes;
+        for (int i = 0; i < numArgs; i++) {
+            BSHFormalParameter param = (BSHFormalParameter) jjtGetChild(i);
+            paramTypes[i] = (Class) param.eval(callstack, interpreter);
+        }
 
-		return paramTypes;
-	}
+        this.paramTypes = paramTypes;
+
+        return paramTypes;
+    }
 }
-

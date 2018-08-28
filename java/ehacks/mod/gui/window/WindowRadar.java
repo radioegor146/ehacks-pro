@@ -1,42 +1,45 @@
 package ehacks.mod.gui.window;
 
-import net.minecraft.client.Minecraft;
+import ehacks.mod.gui.element.SimpleWindow;
+import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import ehacks.mod.gui.element.ModButton;
-import ehacks.mod.gui.element.ModWindow;
-import ehacks.mod.gui.element.SimpleWindow;
-import ehacks.mod.util.GLUtils;
-import java.util.ArrayList;
 
 public class WindowRadar
-extends SimpleWindow {
+        extends SimpleWindow {
+
     public WindowRadar() {
         super("Radar", 94, 300);
-        this.width = 88;
+        this.setClientSize(88, 0);
     }
 
     @Override
     public void draw(int x, int y) {
         if (this.isOpen()) {
-            if (this.dragging) {
-                this.windowDragged(x, y);
-            }
-            if (this.isExtended)
-            {
+            if (this.isExtended()) {
                 int rect = 0;
-                for (Object o : Minecraft.getMinecraft().theWorld.playerEntities) {
-                    EntityPlayer e = (EntityPlayer)o;
-                    if (e == Minecraft.getMinecraft().thePlayer || e.isDead) continue;
+                for (Object o : Wrapper.INSTANCE.world().playerEntities) {
+                    EntityPlayer e = (EntityPlayer) o;
+                    if (e == Wrapper.INSTANCE.player() || e.isDead) {
+                        continue;
+                    }
                     rect += 12;
                 }
-                this.height = rect;
+                if (rect == 0) {
+                    this.setClientSize(88, 10);
+                    super.draw(x, y);
+                    Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("No one in range.", this.getClientX() + 1, this.getClientY() + 1, 5636095);
+                    return;
+                }
+                this.setClientSize(88, rect - 2);
                 super.draw(x, y);
                 int count = 0;
-                for (Object o : Minecraft.getMinecraft().theWorld.playerEntities) {
-                    EntityPlayer e = (EntityPlayer)o;
-                    if (e == Minecraft.getMinecraft().thePlayer || e.isDead) continue;
-                    int distance = (int)Minecraft.getMinecraft().thePlayer.getDistanceToEntity((Entity)e);
+                for (Object o : Wrapper.INSTANCE.world().playerEntities) {
+                    EntityPlayer e = (EntityPlayer) o;
+                    if (e == Wrapper.INSTANCE.player() || e.isDead) {
+                        continue;
+                    }
+                    int distance = (int) Wrapper.INSTANCE.player().getDistanceToEntity((Entity) e);
                     String text = "";
                     if (distance <= 20) {
                         text = "\u00a7c" + e.getDisplayName() + "\u00a7f: " + distance;
@@ -45,19 +48,14 @@ extends SimpleWindow {
                     } else if (distance > 50) {
                         text = "\u00a7a" + e.getDisplayName() + "\u00a7f: " + distance;
                     }
-                    int xPosition = this.getX() + 2 + this.dragX;
-                    int yPosition = this.getY() + 12 * count + 16 + this.dragY;
-                    Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, xPosition, yPosition, 5636095);
+                    int xPosition = this.getClientX() + 1;
+                    int yPosition = this.getClientY() + 12 * count + 1;
+                    Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(text, xPosition, yPosition, 5636095);
                     ++count;
                 }
-                if (rect == 0 && count == 0) {
-                    GLUtils.drawGradientBorderedRect(this.getX() + this.dragX, this.getY() + 14 + this.dragY, this.getX() + 90 + this.dragX, (double)this.getY() + 26 + (double)this.dragY, 0.5f, -16777216, -6710887, -8947849);
-                    Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("No one in range.", this.getX() + 2 + this.dragX, this.getY() + 16 + this.dragY, 5636095);
-                }
-            }
-            else
+            } else {
                 super.draw(x, y);
+            }
         }
     }
 }
-

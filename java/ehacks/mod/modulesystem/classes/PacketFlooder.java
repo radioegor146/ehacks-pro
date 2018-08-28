@@ -1,30 +1,5 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.block.Block
- *  net.minecraft.block.material.Material
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.PlayerControllerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.client.network.NetHandlerPlayClient
- *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.C07PacketPlayerDigging
- */
 package ehacks.mod.modulesystem.classes;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import ehacks.api.module.Module;
@@ -32,13 +7,22 @@ import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.Random;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import java.util.ArrayList;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public class PacketFlooder
-extends Module {
-    private ArrayList<FakePacket> validPackets = new ArrayList<FakePacket>();
-    
-    private Random rand = new Random();
-    
+        extends Module {
+
+    private final ArrayList<FakePacket> validPackets = new ArrayList<FakePacket>();
+
+    private final Random rand = new Random();
+
     public PacketFlooder() {
         super(ModuleCategory.EHACKS);
     }
@@ -47,7 +31,7 @@ extends Module {
     public String getName() {
         return "PacketFlooder";
     }
-    
+
     @Override
     public String getDescription() {
         return "Floods a lot of random packets to server\n\u00A7cTURN IT ON EVERY TIME YOU USE PACKETHACKS!";
@@ -57,12 +41,13 @@ extends Module {
     public void onEnableMod() {
         validPackets.clear();
         for (FakePacket packet : FakePacket.values()) {
-            if (checkClass(packet.clazz()))
+            if (checkClass(packet.clazz())) {
                 validPackets.add(packet);
+            }
         }
         EHacksClickGui.log("[PacketFlooder] Enabled: " + String.valueOf(validPackets.size()) + "/" + String.valueOf(FakePacket.values().length) + " packets");
     }
-    
+
     public boolean checkClass(String clazz) {
         try {
             Class.forName(clazz);
@@ -78,111 +63,98 @@ extends Module {
 
     private int tempTimeout = 0;
     private int nextSet = 2;
-    
+
     @Override
     public void onTicks() {
-        if (tempTimeout == 0)
+        if (tempTimeout == 0) {
             sendRandomPacket();
+        }
         tempTimeout++;
         if (tempTimeout == nextSet) {
             tempTimeout = 0;
             nextSet = rand.num(2, 16);
         }
     }
-    
+
     enum FakePacket {
-        
+
         NEI_SendLoginState("codechicken.lib.packet.PacketCustom"),
         NEI_SpawnerID("codechicken.lib.packet.PacketCustom"),
-
         CRAYFISH_MessageTVServer("com.mrcrayfish.furniture.network.message.MessageTVServer"),
         CRAYFISH_MessageEmptyBin("com.mrcrayfish.furniture.network.message.MessageEmptyBin"),
         CRAYFISH_MessageMicrowave("com.mrcrayfish.furniture.network.message.MessageMicrowave"),
-        
         FORESTRY_PacketBeeLogicEntityRequest("forestry.apiculture.network.packets.PacketBeeLogicEntityRequest"),
         FORESTRY_PacketGuiSelectRequest("forestry.core.network.packets.PacketGuiSelectRequest"),
         FORESTRY_PacketPipetteClick("forestry.core.network.packets.PacketPipetteClick"),
         FORESTRY_PacketLetterTextSet("forestry.mail.network.packets.PacketLetterTextSet"),
-        
         ADVSOLAR_PacketGUIPressButton("advsolar.network.PacketGUIPressButton"),
-        
         AE2_PacketValueConfig("appeng.core.sync.packets.PacketValueConfig"),
         AE2_PacketPartialItem("appeng.core.sync.packets.PacketPartialItem"),
         AE2_PacketCompassRequest("appeng.core.sync.packets.PacketCompassRequest"),
-        
         BUILDCRAFT_PacketTabletMessage("buildcraft.core.tablet.PacketTabletMessage"),
         BUILDCRAFT_PacketSlotChange("buildcraft.core.lib.network.PacketSlotChange"),
-        
         CARPENTER_PacketEnrichPlant("com.carpentersblocks.network.PacketEnrichPlant"),
         CARPENTER_PacketSlopeSelect("com.carpentersblocks.network.PacketSlopeSelect"),
-        
         CODECHICKEN_ChunkLoaderCPH("codechicken.chunkloader.ChunkLoaderCPH"),
-        
         ENDERIO_PacketSlotVisibility("crazypants.enderio.conduit.gui.PacketSlotVisibility"),
         ENDERIO_PacketMoveItems("crazypants.enderio.machine.invpanel.PacketMoveItems"),
         ENDERIO_PacketDrainPlayerXP("crazypants.enderio.xp.PacketDrainPlayerXP"),
-        
         EXTRACELLS_PacketFluidStorage("extracells.network.packet.part.PacketFluidStorage"),
-        
         FLANS_PacketDriveableGUI("com.flansmod.common.network.PacketDriveableGUI"),
         FLANS_PacketDriveableKey("com.flansmod.common.network.PacketDriveableKey"),
         FLANS_PacketDriveableKeyHeld("com.flansmod.common.network.PacketDriveableKeyHeld"),
-        
         IC2NC_PacketServerUpdate("shedar.mods.ic2.nuclearcontrol.network.message.PacketServerUpdate"),
         IC2NC_PacketClientSound("shedar.mods.ic2.nuclearcontrol.network.message.PacketClientSound"),
         IC2NC_PacketClientRequest("shedar.mods.ic2.nuclearcontrol.network.message.PacketClientRequest"),
-        
         MALISISDOORS_DoorFactoryMessage("net.malisis.doors.network.DoorFactoryMessage$Packet"),
-        
         MEKANISM_PacketTileEntity("mekanism.common.network.PacketTileEntity$TileEntityMessage"),
         MEKANISM_PacketNewFilter("mekanism.common.network.PacketNewFilter$NewFilterMessage"),
         MEKANISM_PacketEditFilter("mekanism.common.network.PacketEditFilter$EditFilterMessage"),
-        
         OPENBLOCKS_PlayerActionEvent("openblocks.events.PlayerActionEvent$Type"),
         OPENBLOCKS_PlayerMovementEvent("openmods.movement.PlayerMovementEvent$Type"),
-        
         OC_SendClipboard("li.cil.oc.client.PacketSender"),
         OC_SendCopyToAnalyzer("li.cil.oc.client.PacketSender"),
         OC_SendRobotStateRequest("li.cil.oc.client.PacketSender"),
-        
         TINKER_SignDataPacket("tconstruct.util.network.SignDataPacket"),
         TINKER_SmelteryPacket("tconstruct.util.network.SmelteryPacket"),
         TINKER_ToolStationPacket("tconstruct.util.network.ToolStationPacket"),
-        
         THERMAL_TeleportChannelRegistry("cofh.thermalexpansion.core.TeleportChannelRegistry"),
         THERMAL_SendLexiconStudyPacketToServer("cofh.thermalfoundation.network.PacketTFBase"),
         THERMAL_SendLexiconStudySelectPacketToServer("cofh.thermalfoundation.network.PacketTFBase"),
-        
         WRADDON_SendOpenSniffer("codechicken.wirelessredstone.addons.WRAddonCPH"),
         WRADDON_SendCloseSniffer("codechicken.wirelessredstone.addons.WRAddonCPH"),
-        WRADDON_SendResetMap("codechicken.wirelessredstone.addons.WRAddonCPH"),        
-        
+        WRADDON_SendResetMap("codechicken.wirelessredstone.addons.WRAddonCPH"),
         BIBLIOCRAFT_BiblioClipBlock("jds.bibliocraft.BiblioCraft"),
         BIBLIOCRAFT_BiblioPaintingC("jds.bibliocraft.BiblioCraft"),
         BIBLIOCRAFT_BiblioTypeGui("jds.bibliocraft.BiblioCraft"),
-        
         PROJECTRED_TileAutoCrafter("mrtjp.projectred.expansion.TileAutoCrafter"),
         PROJECTRED_TileFilteredImporter("mrtjp.projectred.expansion.TileFilteredImporter"),
         PROJECTRED_TileProjectBench("mrtjp.projectred.expansion.TileProjectBench"),
-        
         THAUMCRAFT_Note("thaumcraft.common.lib.network.misc.PacketNote"),
         THAUMCRAFT_FocusChange("thaumcraft.common.lib.network.misc.PacketFocusChangeToServer"),
         THAUMCRAFT_ItemKey("thaumcraft.common.lib.network.misc.PacketItemKeyToServer");
-        
-        private String clazz;
-        private FakePacket(String clazz) { this.clazz = clazz; }
-        public String clazz() { return clazz; }
-        
+
+        private final String clazz;
+
+        private FakePacket(String clazz) {
+            this.clazz = clazz;
+        }
+
+        public String clazz() {
+            return clazz;
+        }
+
     }
-    
+
     public void sendRandomPacket() {
-        if (validPackets.isEmpty())
+        if (validPackets.isEmpty()) {
             return;
+        }
         FakePacket packet = validPackets.get(rand.num(validPackets.size()));
         try {
             Class packetClass = Class.forName(packet.clazz());
             for (int i = 0; i < rand.num(10, 30); i++) {
-                switch(packet) {
+                switch (packet) {
                     case NEI_SendLoginState:
                         packetClass.getDeclaredMethod("sendToServer").invoke(packetClass.getDeclaredConstructor(Object.class, int.class).newInstance("NEI", 10));
                         break;
@@ -221,7 +193,7 @@ extends Module {
                         Class.forName("appeng.core.sync.network.NetworkHandler").getDeclaredMethod("sendToServer", Class.forName("appeng.core.sync.AppEngPacket")).invoke(Class.forName("appeng.core.sync.network.NetworkHandler").getDeclaredField("instance").get(null), packetClass.getDeclaredConstructor(int.class, int.class, byte[].class).newInstance(rand.num(), rand.num(), new byte[0]));
                         break;
                     case AE2_PacketCompassRequest:
-                        Class.forName("appeng.core.sync.network.NetworkHandler").getDeclaredMethod("sendToServer", Class.forName("appeng.core.sync.AppEngPacket")).invoke(Class.forName("appeng.core.sync.network.NetworkHandler").getDeclaredField("instance").get(null), packetClass.getDeclaredConstructor(long.class, int.class, int.class, int.class).newInstance((long)rand.num(), rand.x(), rand.y(), rand.z()));
+                        Class.forName("appeng.core.sync.network.NetworkHandler").getDeclaredMethod("sendToServer", Class.forName("appeng.core.sync.AppEngPacket")).invoke(Class.forName("appeng.core.sync.network.NetworkHandler").getDeclaredField("instance").get(null), packetClass.getDeclaredConstructor(long.class, int.class, int.class, int.class).newInstance((long) rand.num(), rand.x(), rand.y(), rand.z()));
                         break;
                     case BUILDCRAFT_PacketTabletMessage:
                         Class.forName("buildcraft.BuildCraftMod").getDeclaredMethod("sendToServer", Class.forName("buildcraft.core.lib.network.Packet")).invoke(Class.forName("buildcraft.BuildCraftCore").getDeclaredField("instance").get(null), packetClass.getDeclaredConstructor(NBTTagCompound.class).newInstance(rand.nbt()));
@@ -261,7 +233,7 @@ extends Module {
                         SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("shedar.mods.ic2.nuclearcontrol.network.ChannelHandler").getDeclaredField("network").get(null), packetClass.getDeclaredConstructor(ItemStack.class).newInstance(rand.item()));
                         break;
                     case IC2NC_PacketClientSound:
-                        SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("shedar.mods.ic2.nuclearcontrol.network.ChannelHandler").getDeclaredField("network").get(null), packetClass.getDeclaredConstructor(int.class, int.class, int.class, byte.class, String.class).newInstance(rand.x(), rand.y(), rand.z(), (byte)0, rand.str()));
+                        SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("shedar.mods.ic2.nuclearcontrol.network.ChannelHandler").getDeclaredField("network").get(null), packetClass.getDeclaredConstructor(int.class, int.class, int.class, byte.class, String.class).newInstance(rand.x(), rand.y(), rand.z(), (byte) 0, rand.str()));
                         break;
                     case IC2NC_PacketClientRequest:
                         SimpleNetworkWrapper.class.getDeclaredMethod("sendToServer", IMessage.class).invoke(Class.forName("shedar.mods.ic2.nuclearcontrol.network.ChannelHandler").getDeclaredField("network").get(null), packetClass.getDeclaredConstructor(int.class, int.class, int.class).newInstance(rand.x(), rand.y(), rand.z()));
@@ -349,12 +321,12 @@ extends Module {
                         break;
                 }
             }
-        } catch(Exception e) {}
+        } catch (Exception e) {
+        }
     }
-    
+
     @Override
     public String getModName() {
         return "Forge";
     }
 }
-

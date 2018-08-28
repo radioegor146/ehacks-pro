@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.packetlogger;
 
 import java.awt.Dimension;
@@ -26,10 +23,11 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 public class Gui
-extends JFrame
-implements ActionListener,
-WindowListener,
-KeyListener {
+        extends JFrame
+        implements ActionListener,
+        WindowListener,
+        KeyListener {
+
     public final Font FONT = new Font("Lucida Console", 0, 12);
     private final JButton editBlackList = new JButton("Edit blacklist");
     public final JCheckBox logInPackets = new JCheckBox("Log");
@@ -146,4 +144,3 @@ KeyListener {
     public void keyPressed(KeyEvent e) {
     }
 }
-

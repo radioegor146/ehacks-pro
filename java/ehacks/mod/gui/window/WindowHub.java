@@ -1,62 +1,52 @@
 package ehacks.mod.gui.window;
 
-import net.minecraft.client.Minecraft;
+import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.gui.element.ModWindow;
+import ehacks.mod.gui.element.SimpleButton;
 import ehacks.mod.gui.element.SimpleWindow;
-import ehacks.mod.util.GLUtils;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WindowHub
-extends SimpleWindow {
+        extends SimpleWindow {
+
+    private final List<SimpleButton> buttons = new ArrayList();
+
     public WindowHub() {
         super("Gui Hub", 2, 2);
-        this.width = 88;
-        this.height = EHacksClickGui.unFocusedWindows.size() * 11;
+        this.setOpen(true);
+        this.setExtended(true);
+        int y = 0;
+        for (SimpleWindow window : EHacksClickGui.windows) {
+            if (window != this) {
+                buttons.add(new SimpleButton(this, window, window.getTitle(), ModStatus.DEFAULT.color, 1, 1 + y * 13, 86, 12));
+                y++;
+            }
+        }
     }
 
     @Override
     public void draw(int x, int y) {
-        if (this.dragging) {
-            this.windowDragged(x, y);
-        }
-        if (this.isExtended)
-        {
-            this.width = 88;
-            this.height = EHacksClickGui.unFocusedWindows.size() * 11 - 5.5;
-            super.draw(x, y);
-            int size = 0;
-            for (SimpleWindow window : EHacksClickGui.unFocusedWindows) {
-                if (window.getTitle().equalsIgnoreCase(this.getTitle())) continue;
-
-                GLUtils.drawGradientBorderedRect(
-                        (double)this.getX() + 2 + 0.5 + (double)this.dragX, 
-                        (double)this.getY() + 11 * size + 16 + 0.5 + (double)this.dragY, 
-                        (double)this.getY() + 2 + 86.5 + (double)this.dragX, 
-                        this.getY() + 11 * size + 16 + 12 + this.dragY, 
-                0.5f, -12303292, !window.isOpen() ? -8947849 : -11184811, !window.isOpen() ? -11184811 : -10066330);
-                Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(window.getTitle(), this.getX() + 2 + this.dragX + 86 / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(window.getTitle()) / 2, this.getY() + 11 * size + 16 + 2 + this.dragY, window.isOpen() ? 5636095 : 12303291);
-
-                ++size;
+        this.setOpen(true);
+        this.setClientSize(88, buttons.size() * 13 + 1);
+        super.draw(x, y);
+        if (this.isExtended()) {
+            for (SimpleButton button : buttons) {
+                button.setState(((SimpleWindow) button.getHandler()).isOpen());
+                button.draw();
             }
         }
-        else
-            super.draw(x, y);
     }
 
     @Override
     public boolean mouseClicked(int x, int y, int button) {
         boolean retval = super.mouseClicked(x, y, button);
-        int size = 0;
-        for (SimpleWindow window : EHacksClickGui.unFocusedWindows) {
-            if (window.getTitle().equalsIgnoreCase(this.getTitle())) continue;
-            if (x >= ((double)this.getX() + 2 + 0.5 + (double)this.dragX) && y >= ((double)this.getY() + 11 * size + 16 + 0.5 + (double)this.dragY) && x <= ((double)this.getY() + 2 + 86.5 + (double)this.dragX) && y <= (this.getY() + 11 * size + 16 + 12 + this.dragY)) {
-                window.setOpen(!window.isOpen());
+        for (SimpleButton xbutton : buttons) {
+            if (xbutton.mouseClicked(x, y, button)) {
                 retval = true;
+                break;
             }
-            ++size;
         }
         return retval;
     }
 }
-

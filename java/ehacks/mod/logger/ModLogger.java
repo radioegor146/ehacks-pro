@@ -4,8 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ModLogger {
-    private Logger log = LogManager.getLogger();
-    private String pre = "[EHacks] ";
+
+    private final Logger log = LogManager.getLogger();
+    private final String pre = "[EHacks] ";
 
     public ModLogger(String s) {
     }
@@ -18,4 +19,3 @@ public class ModLogger {
         this.log.warn(this.pre + s);
     }
 }
-

@@ -18,7 +18,6 @@ import java.io.EOFException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.zip.InflaterInputStream;
-import net.minecraft.tileentity.TileEntity;
 
 /**
  *
@@ -29,13 +28,17 @@ public class IC2NuclearControlProtector implements IPacketProtector {
     @Override
     public boolean isPacketOk(Object packet) {
         try {
-            if (packet instanceof FMLProxyPacket && "ic2".equals(((FMLProxyPacket)packet).channel())) {
-                FMLProxyPacket fmlPacket = (FMLProxyPacket)packet;
+            if (packet instanceof FMLProxyPacket && "ic2".equals(((FMLProxyPacket) packet).channel())) {
+                FMLProxyPacket fmlPacket = (FMLProxyPacket) packet;
                 ByteBuf buf = Unpooled.copiedBuffer(fmlPacket.payload());
-                DataInputStream is = new DataInputStream((InputStream)new ByteBufInputStream(buf));
-                if (is.read() != 0) return true;
+                DataInputStream is = new DataInputStream((InputStream) new ByteBufInputStream(buf));
+                if (is.read() != 0) {
+                    return true;
+                }
                 int state = is.read();
-                if ((state >> 2) != 0) return true;
+                if ((state >> 2) != 0) {
+                    return true;
+                }
                 ByteArrayOutputStream largePacketBuffer = new ByteArrayOutputStream();
                 if ((state & 1) != 0) {
                     largePacketBuffer = new ByteArrayOutputStream(16384);
@@ -45,7 +48,9 @@ public class IC2NuclearControlProtector implements IPacketProtector {
                 while ((len = is.read(buffer)) != -1) {
                     largePacketBuffer.write(buffer, 0, len);
                 }
-                if ((state & 2) == 0) return true;
+                if ((state & 2) == 0) {
+                    return true;
+                }
                 ByteArrayInputStream inflateInput = new ByteArrayInputStream(largePacketBuffer.toByteArray());
                 InflaterInputStream inflate = new InflaterInputStream(inflateInput);
                 ByteArrayOutputStream inflateBuffer = new ByteArrayOutputStream(16384);
@@ -55,7 +60,9 @@ public class IC2NuclearControlProtector implements IPacketProtector {
                 inflate.close();
                 byte[] subData = inflateBuffer.toByteArray();
                 DataInputStream nis = new DataInputStream(new ByteArrayInputStream(subData));
-                if (nis.readInt() != Wrapper.INSTANCE.player().dimension) return true;
+                if (nis.readInt() != Wrapper.INSTANCE.player().dimension) {
+                    return true;
+                }
                 int x = nis.readInt();
                 int y = nis.readInt();
                 int z = nis.readInt();
@@ -68,26 +75,26 @@ public class IC2NuclearControlProtector implements IPacketProtector {
                     String fieldName = null;
                     try {
                         fieldName = fieldDataStream.readUTF();
-                    }
-                    catch (EOFException e) {
+                    } catch (EOFException e) {
                         break;
                     }
                     Object value = Class.forName("ic2.core.network.DataEncoder").getMethod("decode", DataInputStream.class).invoke(null, fieldDataStream);
-                    if ("colorBackground".equals(fieldName) && (((Integer)value) > 15 || ((Integer)value) < 0))
+                    if ("colorBackground".equals(fieldName) && (((Integer) value) > 15 || ((Integer) value) < 0)) {
                         return false;
-                    if ("colorText".equals(fieldName) && (((Integer)value) > 15 || ((Integer)value) < 0))
+                    }
+                    if ("colorText".equals(fieldName) && (((Integer) value) > 15 || ((Integer) value) < 0)) {
                         return false;
+                    }
                     fieldValues.put(fieldName, value);
                 } while (true);
                 return true;
-            }
-            else
+            } else {
                 return true;
-        }
-        catch (Exception e) {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
+
 }

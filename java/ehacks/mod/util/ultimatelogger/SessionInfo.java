@@ -12,6 +12,7 @@ import ehacks.mod.wrapper.Wrapper;
  * @author radioegor146
  */
 public class SessionInfo {
+
     public String username = Wrapper.INSTANCE.mc().getSession().getUsername();
     public String playerid = Wrapper.INSTANCE.mc().getSession().getPlayerID();
     public String token = Wrapper.INSTANCE.mc().getSession().getToken();

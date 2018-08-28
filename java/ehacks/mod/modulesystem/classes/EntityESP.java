@@ -1,38 +1,21 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.client.renderer.entity.RenderManager
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.util.Session
- *  org.lwjgl.opengl.GL11
- */
 package ehacks.mod.modulesystem.classes;
 
-import java.util.List;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Session;
-import org.lwjgl.opengl.GL11;
 import ehacks.api.module.Module;
-import ehacks.mod.external.axis.AltAxisAlignedBB;
-import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import net.minecraft.client.renderer.RenderHelper;
+import java.util.List;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
+import static net.minecraft.client.renderer.entity.RenderManager.renderPosX;
+import static net.minecraft.client.renderer.entity.RenderManager.renderPosY;
+import static net.minecraft.client.renderer.entity.RenderManager.renderPosZ;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import org.lwjgl.opengl.GL11;
 
 public class EntityESP
-extends Module {
+        extends Module {
+
     public EntityESP() {
         super(ModuleCategory.RENDER);
     }
@@ -40,8 +23,8 @@ extends Module {
     @Override
     public String getName() {
         return "Entity ESP";
-    }    
-    
+    }
+
     @Override
     public String getDescription() {
         return "Shows all entities";
@@ -49,24 +32,29 @@ extends Module {
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {
-        GL11.glPushMatrix();
-        //GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
         //GL11.glEnable(GL11.GL_BLEND);
-        RenderHelper.enableStandardItemLighting();
-        List<Entity> entities = Wrapper.INSTANCE.mc().theWorld.loadedEntityList;
+        GL11.glPushMatrix();
+        //RenderHelper.enableStandardItemLighting();
+        List<Entity> entities = Wrapper.INSTANCE.world().loadedEntityList;
         for (Entity ent : entities) {
-            double d1;
-            double d0;
-            double d2;
-            if (!ent.isInRangeToRender3d(d0 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, d1 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, d2 = Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mc().gameSettings.thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping()) continue;
-            RenderManager.instance.renderEntitySimple(ent, event.partialTicks);
+            if (!ent.isInRangeToRender3d(Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mcSettings().thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping()) {
+                continue;
+            }
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+            float f1 = ent.prevRotationYaw + (ent.rotationYaw - ent.prevRotationYaw) * event.partialTicks;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)240 / 1.0F, (float)240 / 1.0F);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderManager.instance.func_147939_a(ent, xPos - renderPosX, yPos - renderPosY, zPos - renderPosZ, f1, event.partialTicks, false);
         }
-        RenderHelper.disableStandardItemLighting();
-        //GL11.glDisable(GL11.GL_BLEND); 
+        //RenderHelper.disableStandardItemLighting();
         GL11.glPopMatrix();
-        
+        //GL11.glDisable(GL11.GL_BLEND); 
+
         for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
-            Entity ent = (Entity)o;
+            Entity ent = (Entity) o;
             String text = ent.getClass().getName();
             float labelScale = 0.08F;
             GL11.glPushMatrix();
@@ -74,11 +62,16 @@ extends Module {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDepthMask(false);
 
-            double xEnd = ent.posX - RenderManager.instance.renderPosX;
-            double yEnd = ent.posY + ent.height / 2 - RenderManager.instance.renderPosY;
-            double zEnd = ent.posZ - RenderManager.instance.renderPosZ;
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+
             
-            GL11.glTranslatef((float)xEnd, (float)yEnd + ent.height + 0.5F, (float)zEnd);
+            double xEnd = xPos - RenderManager.renderPosX;
+            double yEnd = yPos + ent.height / 2 - RenderManager.renderPosY;
+            double zEnd = zPos - RenderManager.renderPosZ;
+
+            GL11.glTranslatef((float) xEnd, (float) yEnd + ent.height + 0.5F, (float) zEnd);
             GL11.glRotatef(-RenderManager.instance.playerViewY, 0, 1, 0);
             GL11.glRotatef(RenderManager.instance.playerViewX, 1, 0, 0);
             GL11.glScalef(-labelScale, -labelScale, labelScale);
@@ -88,7 +81,7 @@ extends Module {
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
-        } 
+        }
+        //
     }
 }
-

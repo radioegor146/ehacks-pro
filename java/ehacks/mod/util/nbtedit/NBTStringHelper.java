@@ -1,22 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  com.google.common.base.Strings
- *  net.minecraft.nbt.NBTBase
- *  net.minecraft.nbt.NBTTagByte
- *  net.minecraft.nbt.NBTTagByteArray
- *  net.minecraft.nbt.NBTTagCompound
- *  net.minecraft.nbt.NBTTagDouble
- *  net.minecraft.nbt.NBTTagEnd
- *  net.minecraft.nbt.NBTTagFloat
- *  net.minecraft.nbt.NBTTagInt
- *  net.minecraft.nbt.NBTTagIntArray
- *  net.minecraft.nbt.NBTTagList
- *  net.minecraft.nbt.NBTTagLong
- *  net.minecraft.nbt.NBTTagShort
- *  net.minecraft.nbt.NBTTagString
- */
 package ehacks.mod.util.nbtedit;
 
 import com.google.common.base.Strings;
@@ -35,20 +16,21 @@ import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
 
 public class NBTStringHelper {
+
     public static final char SECTION_SIGN = '\u00a7';
 
     public static String getNBTName(NamedNBT namedNBT) {
         String name = namedNBT.getName();
         NBTBase obj = namedNBT.getNBT();
         String s = NBTStringHelper.toString(obj);
-        return Strings.isNullOrEmpty((String)name) ? "" + s : name + ": " + s;
+        return Strings.isNullOrEmpty((String) name) ? "" + s : name + ": " + s;
     }
 
     public static String getNBTNameSpecial(NamedNBT namedNBT) {
         String name = namedNBT.getName();
         NBTBase obj = namedNBT.getNBT();
         String s = NBTStringHelper.toString(obj);
-        return Strings.isNullOrEmpty((String)name) ? "" + s : name + ": " + s + '\u00a7' + 'r';
+        return Strings.isNullOrEmpty((String) name) ? "" + s : name + ": " + s + '\u00a7' + 'r';
     }
 
     public static NBTBase newTag(byte type) {
@@ -60,7 +42,7 @@ public class NBTStringHelper {
                 return new NBTTagCompound();
             }
             case 2: {
-                return new NBTTagByte((byte)0);
+                return new NBTTagByte((byte) 0);
             }
             case 3: {
                 return new NBTTagShort();
@@ -94,30 +76,30 @@ public class NBTStringHelper {
     }
 
     public static String toString(NBTBase base) {
-        switch (GuiNBTNode.iconMapping[base.getId() - 1]) {
+        switch (GuiNBTNode.NBT_ICON_MAPPING[base.getId() - 1]) {
             case 0: {
                 return "(TagCompound)";
             }
             case 1: {
-                return "" + ((NBTTagByte)base).func_150290_f();
+                return "" + ((NBTTagByte) base).func_150290_f();
             }
             case 2: {
-                return "" + ((NBTTagShort)base).func_150289_e();
+                return "" + ((NBTTagShort) base).func_150289_e();
             }
             case 3: {
-                return "" + ((NBTTagInt)base).func_150287_d();
+                return "" + ((NBTTagInt) base).func_150287_d();
             }
             case 4: {
-                return "" + ((NBTTagLong)base).func_150291_c();
+                return "" + ((NBTTagLong) base).func_150291_c();
             }
             case 5: {
-                return "" + ((NBTTagFloat)base).func_150288_h();
+                return "" + ((NBTTagFloat) base).func_150288_h();
             }
             case 6: {
-                return "" + ((NBTTagDouble)base).func_150286_g();
+                return "" + ((NBTTagDouble) base).func_150286_g();
             }
             case 7: {
-                return ((NBTTagString)base).func_150285_a_();
+                return ((NBTTagString) base).func_150285_a_();
             }
             case 8: {
                 return "(TagList)";
@@ -186,4 +168,3 @@ public class NBTStringHelper {
         return "Unknown";
     }
 }
-

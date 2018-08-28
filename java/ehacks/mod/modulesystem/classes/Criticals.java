@@ -1,13 +1,11 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 
 public class Criticals
-extends Module {
+        extends Module {
+
     public static boolean isActive = false;
 
     public Criticals() {
@@ -17,8 +15,8 @@ extends Module {
     @Override
     public String getName() {
         return "Criticals";
-    }    
-    
+    }
+
     @Override
     public String getDescription() {
         return "Jumps on left click";
@@ -34,4 +32,3 @@ extends Module {
         isActive = false;
     }
 }
-

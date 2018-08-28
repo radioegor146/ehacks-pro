@@ -5,13 +5,12 @@ package ehacks.mod.util.packetquery;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author radioegor146
  */
-    
 public class StatusResponse {
+
     private String description;
     private Players players;
     private Version version;
@@ -36,7 +35,7 @@ public class StatusResponse {
 
     public int getTime() {
         return time;
-    }      
+    }
 
     public void setTime(int time) {
         this.time = time;

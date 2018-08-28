@@ -10,5 +10,6 @@ package ehacks.api.module;
  * @author radioegor146
  */
 public interface IIncludable {
+
     boolean shouldInclude();
 }

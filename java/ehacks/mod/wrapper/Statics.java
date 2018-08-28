@@ -5,7 +5,6 @@
  */
 package ehacks.mod.wrapper;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -14,7 +13,10 @@ import net.minecraft.nbt.NBTTagCompound;
  * @author radioegor146
  */
 public class Statics {
+
     public static NBTTagCompound STATIC_NBT = new NBTTagCompound();
     public static ItemStack STATIC_ITEMSTACK = null;
     public static int STATIC_INT = 0;
+    
+    public static boolean hasClearedDepth = false;
 }

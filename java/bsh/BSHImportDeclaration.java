@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,53 +29,50 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
-class BSHImportDeclaration extends SimpleNode
-{
-	public boolean importPackage;
-	public boolean staticImport;
-	public boolean superImport;
+class BSHImportDeclaration extends SimpleNode {
 
-	BSHImportDeclaration(int id) { super(id); }
+    public boolean importPackage;
+    public boolean staticImport;
+    public boolean superImport;
 
-	public Object eval( CallStack callstack, Interpreter interpreter) 
-		throws EvalError
-	{
-		NameSpace namespace = callstack.top();
-		if ( superImport )
-			try {
-				namespace.doSuperImport();
-			} catch ( UtilEvalError e ) {
-				throw e.toEvalError( this, callstack  );
-			}
-		else 
-		{
-			if ( staticImport )
-			{
-				if ( importPackage )
-				{
-					Class clas = ((BSHAmbiguousName)jjtGetChild(0)).toClass( 
-						callstack, interpreter );
-					namespace.importStatic( clas );
-				} else
-					throw new EvalError( 
-						"static field imports not supported yet", 
-						this, callstack );
-			} else 
-			{
-				String name = ((BSHAmbiguousName)jjtGetChild(0)).text;
-				if ( importPackage )
-					namespace.importPackage(name);
-				else
-					namespace.importClass(name);
-			}
-		}
+    BSHImportDeclaration(int id) {
+        super(id);
+    }
+
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        NameSpace namespace = callstack.top();
+        if (superImport) {
+            try {
+                namespace.doSuperImport();
+            } catch (UtilEvalError e) {
+                throw e.toEvalError(this, callstack);
+            }
+        } else {
+            if (staticImport) {
+                if (importPackage) {
+                    Class clas = ((BSHAmbiguousName) jjtGetChild(0)).toClass(
+                            callstack, interpreter);
+                    namespace.importStatic(clas);
+                } else {
+                    throw new EvalError(
+                            "static field imports not supported yet",
+                            this, callstack);
+                }
+            } else {
+                String name = ((BSHAmbiguousName) jjtGetChild(0)).text;
+                if (importPackage) {
+                    namespace.importPackage(name);
+                } else {
+                    namespace.importClass(name);
+                }
+            }
+        }
 
         return Primitive.VOID;
-	}
+    }
 }
-

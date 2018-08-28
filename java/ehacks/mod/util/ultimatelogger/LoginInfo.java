@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * @author radioegor146
  */
 public class LoginInfo {
+
     public SessionInfo session = new SessionInfo();
     public boolean ismcp = Mappings.isMCP();
     public long time = System.currentTimeMillis();

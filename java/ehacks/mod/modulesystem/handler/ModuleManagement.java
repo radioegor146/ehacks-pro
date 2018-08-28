@@ -1,16 +1,13 @@
 package ehacks.mod.modulesystem.handler;
 
-import ehacks.api.module.ModController;
 import ehacks.api.module.Module;
-import ehacks.mod.modulesystem.classes.*;
+import ehacks.api.module.ModuleController;
 import ehacks.mod.commands.*;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import ehacks.mod.modulesystem.classes.*;
 import net.minecraftforge.client.ClientCommandHandler;
-import com.google.common.reflect.ClassPath;
 
 public class ModuleManagement {
+
     public static volatile ModuleManagement INSTANCE = new ModuleManagement();
 
     public ModuleManagement() {
@@ -18,11 +15,11 @@ public class ModuleManagement {
     }
 
     private void add(Module mod) {
-        ModController.INSTANCE.enable(mod);
+        ModuleController.INSTANCE.enable(mod);
     }
 
     public void initModules() {
-        
+
         this.add(new MetaHackAdd());
         this.add(new MetaHackSub());
         this.add(new PrivateNuker());
@@ -42,7 +39,6 @@ public class ModuleManagement {
         this.add(new NoLimitSpin());
         this.add(new GalaxyTeleport());
         this.add(new IC2SignEdit());
-        //this.add(new SpaceTransport());
         this.add(new RocketChaos());
         this.add(new NoLimitRocket());
         this.add(new ContainerClear());
@@ -57,18 +53,17 @@ public class ModuleManagement {
         this.add(new NoLimitSpell());
         this.add(new NoLimitBuffs());
         this.add(new NoLimitClear());
-        //this.add(new Test());
         this.add(new DebugMe());
         this.add(new PacketLogger());
         this.add(new CellViewer());
         this.add(new RedHack());
-        
+
         this.add(new FakeDestroy());
         this.add(new NBTView());
         this.add(new Blink());
         this.add(new CreativeGive());
         //this.add(new ShowContainer());
-        
+
         this.add(new PacketFlooder());
         this.add(new Step());
         this.add(new Speed());
@@ -80,7 +75,6 @@ public class ModuleManagement {
         this.add(new FreeCam());
         this.add(new FastEat());
         this.add(new AntiFire());
-        //this.add(new AutoTool());
         this.add(new FastPlace());
         this.add(new AntiPotion());
         this.add(new DynamicFly());
@@ -91,12 +85,12 @@ public class ModuleManagement {
         this.add(new MobESP());
         this.add(new PlayerESP());
         this.add(new ItemESP());
-        this.add(new EntityESP());
+        //this.add(new EntityESP());
         this.add(new NoWeather());
         this.add(new BlockSmash());
         this.add(new Fullbright());
         this.add(new Breadcrumb());
-        this.add(new NameProtect());
+        //this.add(new NameProtect());
         this.add(new Projectiles());
         this.add(new ChestFinder());
         this.add(new BlockOverlay());
@@ -108,7 +102,6 @@ public class ModuleManagement {
         this.add(new Criticals());
         this.add(new FastClick());
         this.add(new AutoBlock());
-        //this.add(new SeeHealth());
         this.add(new TriggerBot());
         this.add(new Forcefield());
         this.add(new ProphuntESP());
@@ -119,16 +112,20 @@ public class ModuleManagement {
         this.add(new WaterFall());
         this.add(new WaterWalk());
         this.add(new DamagePopOffs());
-        this.add(new FastBreak());
         this.add(new ResearchGod());
         this.add(new PipeGive());
         this.add(new MusicalCrash());
         this.add(new GuiXRaySettings());
+        this.add(new HotGive());
+        this.add(new DiffRegistry());
+        this.add(new MagicGod());
+        this.add(new SkillResearch());
+        this.add(new ShowArmor());
         
-        ModController.INSTANCE.sort();
-        
+        ModuleController.INSTANCE.sort();
+
         this.add(new Gui());
-        
+
         ClientCommandHandler.instance.registerCommand(new ItemSelectCommand());
     }
 
@@ -136,4 +133,3 @@ public class ModuleManagement {
         return INSTANCE;
     }
 }
-

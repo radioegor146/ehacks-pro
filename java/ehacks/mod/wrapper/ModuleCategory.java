@@ -8,9 +8,7 @@ public enum ModuleCategory {
     NOCHEATPLUS,
     NONE,
     EHACKS;
-    
 
     private ModuleCategory() {
     }
 }
-

@@ -5,17 +5,16 @@
  */
 package ehacks.mod.gui;
 
-import net.minecraft.client.gui.GuiScreen;
-
 /**
  *
  * @author radioegor146
  */
 public class Tooltip {
+
     public String text;
     public int x;
     public int y;
-    
+
     public Tooltip(String text, int x, int y) {
         this.text = text;
         this.x = x;

@@ -16,10 +16,10 @@ public enum ModStatus {
     WORKING(GLUtils.getColor(0, 255, 0)),
     NOTWORKING(GLUtils.getColor(255, 100, 100)),
     CATEGORY(GLUtils.getColor(255, 255, 255));
-    
-    public int Color;
-    
+
+    public int color;
+
     ModStatus(int color) {
-        Color = color;
+        this.color = color;
     }
 }

@@ -1,22 +1,14 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.potion.Potion
- *  net.minecraft.potion.PotionEffect
- */
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public class HighJump
-extends Module {
+        extends Module {
+
     public HighJump() {
         super(ModuleCategory.PLAYER);
     }
@@ -41,4 +33,3 @@ extends Module {
         Wrapper.INSTANCE.player().removePotionEffect(Potion.jump.getId());
     }
 }
-

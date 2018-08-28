@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,66 +29,66 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
+ **************************************************************************** */
 package bsh;
 
 /**
- * This class handles both {@code while} statements and {@code do..while} statements.
-*/
+ * This class handles both {@code while} statements and {@code do..while}
+ * statements.
+ */
 class BSHWhileStatement extends SimpleNode implements ParserConstants {
 
-	/**
-	 * Set by Parser, default {@code false}
-	 */
-	boolean isDoStatement;
+    /**
+     * Set by Parser, default {@code false}
+     */
+    boolean isDoStatement;
 
     BSHWhileStatement(int id) {
-		super(id);
-	}
+        super(id);
+    }
 
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter) throws EvalError {
+        int numChild = jjtGetNumChildren();
 
-    public Object eval( CallStack callstack, Interpreter interpreter) throws EvalError {
-		int numChild = jjtGetNumChildren();
-
-		// Order of body and condition is swapped for do / while
+        // Order of body and condition is swapped for do / while
         final SimpleNode condExp;
-		final SimpleNode body;
+        final SimpleNode body;
 
-		if ( isDoStatement ) {
-			condExp = (SimpleNode) jjtGetChild(1);
-			body = (SimpleNode) jjtGetChild(0);
-		} else {
-			condExp = (SimpleNode) jjtGetChild(0);
-			if ( numChild > 1 )	{
-				body = (SimpleNode) jjtGetChild(1);
-			} else {
-				body = null;
-			}
-		}
+        if (isDoStatement) {
+            condExp = (SimpleNode) jjtGetChild(1);
+            body = (SimpleNode) jjtGetChild(0);
+        } else {
+            condExp = (SimpleNode) jjtGetChild(0);
+            if (numChild > 1) {
+                body = (SimpleNode) jjtGetChild(1);
+            } else {
+                body = null;
+            }
+        }
 
-		boolean doOnceFlag = isDoStatement;
+        boolean doOnceFlag = isDoStatement;
 
         while (doOnceFlag || BSHIfStatement.evaluateCondition(condExp, callstack, interpreter)) {
-			doOnceFlag = false;
-			// no body?
-			if ( body == null ) {
-				continue;
-			}
-			Object ret = body.eval(callstack, interpreter);
-			if (ret instanceof ReturnControl) {
-				switch(( (ReturnControl)ret).kind ) {
-					case RETURN:
-						return ret;
+            doOnceFlag = false;
+            // no body?
+            if (body == null) {
+                continue;
+            }
+            Object ret = body.eval(callstack, interpreter);
+            if (ret instanceof ReturnControl) {
+                switch (((ReturnControl) ret).kind) {
+                    case RETURN:
+                        return ret;
 
-					case CONTINUE:
-						break;
+                    case CONTINUE:
+                        break;
 
-					case BREAK:
-						return Primitive.VOID;
-				}
-			}
-		}
+                    case BREAK:
+                        return Primitive.VOID;
+                }
+            }
+        }
         return Primitive.VOID;
     }
 

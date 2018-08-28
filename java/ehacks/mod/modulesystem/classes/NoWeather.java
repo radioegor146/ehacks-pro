@@ -1,18 +1,12 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.multiplayer.WorldClient
- */
 package ehacks.mod.modulesystem.classes;
 
-import net.minecraft.client.multiplayer.WorldClient;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 
 public class NoWeather
-extends Module {
+        extends Module {
+
     public NoWeather() {
         super(ModuleCategory.RENDER);
     }
@@ -34,4 +28,3 @@ extends Module {
         }
     }
 }
-

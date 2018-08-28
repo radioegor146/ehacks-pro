@@ -1,34 +1,17 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  com.mojang.authlib.GameProfile
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.client.multiplayer.WorldClient
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.player.InventoryPlayer
- *  net.minecraft.util.AxisAlignedBB
- *  net.minecraft.world.World
- */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.ModController;
 import ehacks.api.module.Module;
-import ehacks.mod.modulesystem.classes.DynamicFly;
-import ehacks.mod.modulesystem.handler.ModuleManagement;
+import ehacks.api.module.ModuleController;
+import ehacks.mod.util.EntityFakePlayer;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import com.mojang.authlib.GameProfile;
-import ehacks.mod.util.EntityFakePlayer;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class Spectate
-extends Module {
+        extends Module {
+
     private LocationHelper loc;
 
     public Spectate() {
@@ -47,24 +30,24 @@ extends Module {
 
     @Override
     public void onEnableMod() {
-        ModController.INSTANCE.call(DynamicFly.class).toggle();
+        ModuleController.INSTANCE.call(DynamicFly.class).toggle();
         this.doSpectate();
     }
 
     @Override
     public void onDisableMod() {
-        ModController.INSTANCE.call(DynamicFly.class).toggle();
+        ModuleController.INSTANCE.call(DynamicFly.class).toggle();
         this.undoSpectate();
     }
 
     public void doSpectate() {
         if (Wrapper.INSTANCE.world() instanceof WorldClient) {
-            this.loc = new LocationHelper((Entity)Wrapper.INSTANCE.player());
-            EntityFakePlayer spectator = new EntityFakePlayer((World)Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
+            this.loc = new LocationHelper((Entity) Wrapper.INSTANCE.player());
+            EntityFakePlayer spectator = new EntityFakePlayer((World) Wrapper.INSTANCE.world(), Wrapper.INSTANCE.player().getGameProfile());
             spectator.setPositionAndRotation(this.loc.posX, this.loc.posY - 1.5, this.loc.posZ, this.loc.rotationYaw, this.loc.rotationPitch);
             spectator.boundingBox.setBB(Wrapper.INSTANCE.player().boundingBox.copy());
             spectator.inventory.copyInventory(Wrapper.INSTANCE.player().inventory);
-            Wrapper.INSTANCE.world().addEntityToWorld(-1, (Entity)spectator);
+            Wrapper.INSTANCE.world().addEntityToWorld(-1, (Entity) spectator);
         }
     }
 
@@ -73,7 +56,8 @@ extends Module {
         Wrapper.INSTANCE.player().setPositionAndRotation(this.loc.posX, this.loc.posY, this.loc.posZ, this.loc.rotationYaw, this.loc.rotationPitch);
     }
 
-    public class LocationHelper {
+    public class LocationHelper implements Cloneable {
+
         public double posX;
         public double posY;
         public double posZ;
@@ -81,7 +65,8 @@ extends Module {
         public float rotationPitch;
         public String name;
 
-        public LocationHelper clone() {
+        @Override
+        public LocationHelper clone() throws CloneNotSupportedException {
             return new LocationHelper(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.name);
         }
 
@@ -162,4 +147,3 @@ extends Module {
     }
 
 }
-

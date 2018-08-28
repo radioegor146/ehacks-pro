@@ -10,5 +10,5 @@ package ehacks.mod.gui.window;
  * @author radioegor146
  */
 public class WindowIPLogger {
-    
+
 }

@@ -5,6 +5,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class AltAxisAlignedBB {
+
     private static final ThreadLocal theAABBLocalPool = new AltAABBLocalPool();
     public double minX;
     public double minY;
@@ -18,7 +19,7 @@ public class AltAxisAlignedBB {
     }
 
     public static AxisAlignedBB getAABBPool() {
-        return (AxisAlignedBB)theAABBLocalPool.get();
+        return (AxisAlignedBB) theAABBLocalPool.get();
     }
 
     public AltAxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11) {
@@ -66,7 +67,7 @@ public class AltAxisAlignedBB {
             var17 += par5;
         }
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((double)var7, (double)var9, (double)var11, (double)var13, (double)var15, (double)var17);
+        return AxisAlignedBB.getBoundingBox((double) var7, (double) var9, (double) var11, (double) var13, (double) var15, (double) var17);
     }
 
     public AxisAlignedBB expand(double par1, double par3, double par5) {
@@ -77,7 +78,7 @@ public class AltAxisAlignedBB {
         double var15 = this.maxY + par3;
         double var17 = this.maxZ + par5;
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((double)var7, (double)var9, (double)var11, (double)var13, (double)var15, (double)var17);
+        return AxisAlignedBB.getBoundingBox((double) var7, (double) var9, (double) var11, (double) var13, (double) var15, (double) var17);
     }
 
     public AxisAlignedBB func_111270_a(AltAxisAlignedBB par1AxisAlignedBB) {
@@ -88,12 +89,12 @@ public class AltAxisAlignedBB {
         double var10 = Math.max(this.maxY, par1AxisAlignedBB.maxY);
         double var12 = Math.max(this.maxZ, par1AxisAlignedBB.maxZ);
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((double)var2, (double)var4, (double)var6, (double)var8, (double)var10, (double)var12);
+        return AxisAlignedBB.getBoundingBox((double) var2, (double) var4, (double) var6, (double) var8, (double) var10, (double) var12);
     }
 
     public AxisAlignedBB getOffsetBoundingBox(double par1, double par3, double par5) {
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((double)(this.minX + par1), (double)(this.minY + par3), (double)(this.minZ + par5), (double)(this.maxX + par1), (double)(this.maxY + par3), (double)(this.maxZ + par5));
+        return AxisAlignedBB.getBoundingBox((double) (this.minX + par1), (double) (this.minY + par3), (double) (this.minZ + par5), (double) (this.maxX + par1), (double) (this.maxY + par3), (double) (this.maxZ + par5));
     }
 
     public double calculateXOffset(AltAxisAlignedBB par1AxisAlignedBB, double par2) {
@@ -180,12 +181,12 @@ public class AltAxisAlignedBB {
         double var15 = this.maxY - par3;
         double var17 = this.maxZ - par5;
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((double)var7, (double)var9, (double)var11, (double)var13, (double)var15, (double)var17);
+        return AxisAlignedBB.getBoundingBox((double) var7, (double) var9, (double) var11, (double) var13, (double) var15, (double) var17);
     }
 
     public AxisAlignedBB copy() {
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((double)this.minX, (double)this.minY, (double)this.minZ, (double)this.maxX, (double)this.maxY, (double)this.maxZ);
+        return AxisAlignedBB.getBoundingBox((double) this.minX, (double) this.minY, (double) this.minZ, (double) this.maxX, (double) this.maxY, (double) this.maxZ);
     }
 
     public MovingObjectPosition calculateIntercept(Vec3 par1Vec3, Vec3 par2Vec3) {
@@ -278,8 +279,8 @@ public class AltAxisAlignedBB {
         this.maxZ = par1AxisAlignedBB.maxZ;
     }
 
+    @Override
     public String toString() {
         return "box[" + this.minX + ", " + this.minY + ", " + this.minZ + " -> " + this.maxX + ", " + this.maxY + ", " + this.maxZ + "]";
     }
 }
-

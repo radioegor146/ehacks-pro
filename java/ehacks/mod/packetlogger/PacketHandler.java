@@ -1,14 +1,14 @@
 package ehacks.mod.packetlogger;
 
+import ehacks.mod.wrapper.PacketHandler.Side;
 import io.netty.buffer.ByteBuf;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import ehacks.mod.wrapper.PacketHandler.Side;
-import java.lang.reflect.Modifier;
-import org.apache.commons.lang3.StringUtils;
 
 public class PacketHandler {
+
     public static List<String> inBlackList = new ArrayList<String>();
     public static List<String> logBlackList = new ArrayList<String>();
     public static List<String> outBlackList = new ArrayList<String>();
@@ -46,8 +46,8 @@ public class PacketHandler {
         logBlackList.add("ic2");
     }
 
-    private Gui gui;
-    
+    private final Gui gui;
+
     public PacketHandler(Gui gui) {
         this.gui = gui;
         PacketHandler.newList();
@@ -58,40 +58,46 @@ public class PacketHandler {
         ArrayList<String> outMessages = new ArrayList<String>();
         String packetClassName = packetClass.getCanonicalName().replaceAll("\\$", ".");
         if (!blackList.contains(packetClassName)) {
-            if (side != null)
+            if (side != null) {
                 outMessages.add("[" + side.toString() + "] " + packetClassName);
+            }
             int fieldsCount = 0;
-            for (Field f : packetClass.getDeclaredFields())
-                if ((f.getModifiers() & Modifier.STATIC) == 0)
+            for (Field f : packetClass.getDeclaredFields()) {
+                if ((f.getModifiers() & Modifier.STATIC) == 0) {
                     fieldsCount++;
+                }
+            }
             int fieldsReady = 0;
             for (int i = 0; i < packetClass.getDeclaredFields().length; i++) {
                 Field field = packetClass.getDeclaredFields()[i];
-                if ((field.getModifiers() & Modifier.STATIC) != 0)
+                if ((field.getModifiers() & Modifier.STATIC) != 0) {
                     continue;
+                }
                 fieldsReady++;
                 field.setAccessible(true);
                 String fieldName = field.getName();
                 Object fieldValue = field.get(packet);
-                if ((!(fieldValue instanceof String)) || (!blackList.contains((String)fieldValue))) {
-                    if (side == null) 
+                if ((!(fieldValue instanceof String)) || (!blackList.contains((String) fieldValue))) {
+                    if (side == null) {
                         continue;
+                    }
                     String outMessage = "";
                     outMessages.add((fieldsReady == fieldsCount ? "  \u2514 " : "  \u251C ") + fieldName + ": " + fieldValue);
                     if (fieldValue instanceof String[]) {
                         String[] stringArray;
-                        for (String s : stringArray = (String[])fieldValue) {
+                        for (String s : stringArray = (String[]) fieldValue) {
                             outMessage = outMessage + (outMessage.isEmpty() ? "" : ", ") + s;
                         }
                         outMessages.add((fieldsReady == fieldsCount ? "    " : "  \u2502 ") + "   \u2514 String[]: " + outMessage);
                         continue;
                     }
-                    if (fieldValue instanceof ByteBuf)
-                    {
-                        ByteBuf buf = (ByteBuf)fieldValue;
+                    if (fieldValue instanceof ByteBuf) {
+                        ByteBuf buf = (ByteBuf) fieldValue;
                         for (byte b : buf.array()) {
-                            if ((outMessage = outMessage + String.format("%02X ", b)).length() <= 80) continue;
-                            outMessage = outMessage + "...";
+                            if ((outMessage += String.format("%02X ", b)).length() <= 80) {
+                                continue;
+                            }
+                            outMessage += "...";
                             break;
                         }
                         outMessages.add((fieldsReady == fieldsCount ? "    " : "  \u2502 ") + "   \u2514 ByteBuf: " + outMessage);
@@ -106,8 +112,9 @@ public class PacketHandler {
         if (side != null && ((side == Side.IN && gui.logInPackets.isSelected()) || (side == Side.OUT && gui.logOutPackets.isSelected()))) {
             for (String message : outMessages) {
                 gui.logMessage(message);
-                if (gui.moreInfo.isSelected()) 
+                if (gui.moreInfo.isSelected()) {
                     continue;
+                }
                 break;
             }
             gui.logMessage("");
@@ -115,4 +122,3 @@ public class PacketHandler {
         return true;
     }
 }
-

@@ -1,62 +1,28 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityClientPlayerMP
- *  net.minecraft.item.Item
- *  net.minecraft.item.ItemFood
- *  net.minecraft.item.ItemStack
- */
 package ehacks.mod.modulesystem.classes;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Module;
-import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.logger.ModLogger;
-import ehacks.mod.main.Main;
-import static ehacks.mod.modulesystem.classes.BlockDestroy.isActive;
 import ehacks.mod.util.GLUtils;
-import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class ShowContainer
-extends Module {
+        extends Module {
+
     public ShowContainer() {
         super(ModuleCategory.EHACKS);
     }
@@ -70,76 +36,73 @@ extends Module {
     public String getDescription() {
         return "Fake destroyer";
     }
-    
+
     private boolean prevState = false;
-    
+
     @Override
     public void onMouse(MouseEvent event) {
-        try
-        {
+        try {
             boolean nowState = Mouse.isButtonDown(1);
             MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
-            if (position.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && !prevState && nowState)
-            {
+            if (position.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && !prevState && nowState) {
                 TileEntity tileEntity = Wrapper.INSTANCE.world().getTileEntity(position.blockX, position.blockY, position.blockZ);
-                if (tileEntity != null && tileEntity instanceof IInventory)
-                {
+                if (tileEntity != null && tileEntity instanceof IInventory) {
                     ItemStack[] stacks = new ItemStack[0];
                     Wrapper.INSTANCE.mc().displayGuiScreen(new ShowContainerGui(new ShowContainerContainer(stacks, tileEntity.getClass().getSimpleName())));
-                    if (event.isCancelable())
+                    if (event.isCancelable()) {
                         event.setCanceled(true);
-                }
-                else
+                    }
+                } else {
                     EHacksClickGui.log("[ShowContainer] Not a container");
+                }
             }
             prevState = nowState;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
-    
+
     private class ShowContainerGui extends GuiContainer {
 
-        private ShowContainerContainer container;
+        private final ShowContainerContainer container;
         private GuiButton buttonLeft;
         private GuiButton buttonRight;
-        
+
         public ShowContainerGui(ShowContainerContainer container) {
             super(container);
             this.container = container;
             this.xSize = 256;
             this.ySize = 256;
-            
+
         }
 
         @Override
         protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
             Wrapper.INSTANCE.mc().renderEngine.bindTexture(new ResourceLocation("ehacks", "textures/gui/container.png"));
-            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            GL11.glEnable((int)3042);
+            GL11.glColor4f((float) 1.0f, (float) 1.0f, (float) 1.0f, (float) 1.0f);
+            GL11.glEnable((int) 3042);
             int startX = (this.width - this.xSize) / 2;
             int startY = (this.height - this.ySize) / 2;
             this.drawTexturedModalRect(startX, startY, 0, 0, this.xSize, this.ySize);
-            GL11.glDisable((int)3042);
+            GL11.glDisable((int) 3042);
             int x = 0;
             int y = 0;
             for (int i = 0; i < 143; i++) {
-                if (i >= container.slots.get(container.currentPage).size())
+                if (i >= container.slots.get(container.currentPage).size()) {
                     GLUtils.drawRect(startX + 11 + x * 18, startY + 17 + y * 18, startX + 11 + x * 18 + 18, startY + 17 + y * 18 + 18, GLUtils.getColor(198, 198, 198));
+                }
                 x++;
                 y += x / 13;
-                x = x % 13;
+                x %= 13;
             }
         }
-        
+
         @Override
         protected void drawGuiContainerForegroundLayer(int p1, int p2) {
             Wrapper.INSTANCE.fontRenderer().drawString(container.containerName + " - " + String.valueOf(container.inventorySlots.size()) + " slots", 12, 6, GLUtils.getColor(64, 64, 64));
             Wrapper.INSTANCE.fontRenderer().drawString("Page " + String.valueOf(container.currentPage + 1), 128 - Wrapper.INSTANCE.fontRenderer().getStringWidth("Page " + String.valueOf(container.currentPage + 1)) / 2, 230, GLUtils.getColor(64, 64, 64));
         }
-        
+
         @Override
         public void initGui() {
             super.initGui();
@@ -152,10 +115,9 @@ extends Module {
             buttonRight.enabled = container.currentPage < (container.slots.size() - 1);
             this.buttonList.add(buttonRight);
         }
-        
+
         @Override
-        protected void actionPerformed(GuiButton b)
-        {
+        protected void actionPerformed(GuiButton b) {
             if (b.id == 1) {
                 container.setPage(container.currentPage - 1);
                 buttonLeft.enabled = container.currentPage > 0;
@@ -167,132 +129,125 @@ extends Module {
                 buttonRight.enabled = container.currentPage < (container.slots.size() - 1);
             }
         }
-        
+
         @Override
         protected void handleMouseClick(Slot p_146984_1_, int p_146984_2_, int p_146984_3_, int p_146984_4_) {
-            
+
         }
-        
+
     }
-    
+
     private class ShowContainerContainer extends Container {
 
         public int currentPage = 0;
-        
+
         public ItemStack[] inventory;
-        
+
         public ArrayList<ArrayList<Slot>> slots = new ArrayList();
-        
+
         public String containerName = "";
-        
+
         public ShowContainerContainer(ItemStack[] inventory, String containerName) {
             this.containerName = containerName;
             this.inventory = inventory;
             int x = 0;
             int y = 0;
             int page = 0;
-            for (int i = 0; i < inventory.length; i++)
-            {
-                if (slots.size() == page)
+            for (int i = 0; i < inventory.length; i++) {
+                if (slots.size() == page) {
                     slots.add(new ArrayList());
+                }
                 Slot slot = new ShowContainerSlot(inventory[i], i, page == currentPage ? 12 + x * 18 : -2000, page == currentPage ? 18 + y * 18 : -2000);
                 slots.get(page).add(slot);
                 this.addSlotToContainer(slot);
                 this.putStackInSlot(i, inventory[i]);
                 x++;
                 y += x / 13;
-                x = x % 13;
+                x %= 13;
                 page += y / 11;
-                y = y % 11;
+                y %= 11;
             }
-            if (slots.isEmpty())
+            if (slots.isEmpty()) {
                 slots.add(new ArrayList());
+            }
         }
-        
+
         @Override
-        public void putStackInSlot(int p_75141_1_, ItemStack p_75141_2_)
-        {
-            return;
+        public void putStackInSlot(int p_75141_1_, ItemStack p_75141_2_) {
         }
-        
+
         public void setPage(int pageId) {
-            if (pageId < 0 || pageId >= slots.size())
+            if (pageId < 0 || pageId >= slots.size()) {
                 return;
-            for (Slot s : slots.get(currentPage))
-            {
+            }
+            for (Slot s : slots.get(currentPage)) {
                 s.xDisplayPosition = -2000;
                 s.yDisplayPosition = -2000;
             }
             currentPage = pageId;
             int x = 0;
             int y = 0;
-            for (int i = 0; i < slots.get(currentPage).size(); i++)
-            {
+            for (int i = 0; i < slots.get(currentPage).size(); i++) {
                 slots.get(currentPage).get(i).xDisplayPosition = 12 + x * 18;
                 slots.get(currentPage).get(i).yDisplayPosition = 18 + y * 18;
                 x++;
                 y += x / 13;
-                x = x % 13;
+                x %= 13;
             }
         }
-        
+
         @Override
         public boolean canInteractWith(EntityPlayer p_75145_1_) {
             return true;
         }
-        
+
     }
-    
+
     private class ShowContainerSlot extends Slot {
-        
-        private ItemStack is;
-        
+
+        private final ItemStack is;
+
         public ShowContainerSlot(ItemStack is, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_) {
             super(null, p_i1824_2_, p_i1824_3_, p_i1824_4_);
             this.is = is;
         }
-        
+
         public boolean isValidItem(ItemStack is) {
             return true;
         }
-        
+
         @Override
         public ItemStack getStack() {
             return is;
         }
-        
+
         @Override
-        public void putStack(ItemStack p_75215_1_)
-        {
-            
-        }
-        
-        @Override
-        public void onSlotChanged()
-        {
-            
+        public void putStack(ItemStack p_75215_1_) {
+
         }
 
         @Override
-        public int getSlotStackLimit()
-        {
+        public void onSlotChanged() {
+
+        }
+
+        @Override
+        public int getSlotStackLimit() {
             return is.getMaxStackSize();
         }
 
         /**
-         * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg. Returns the new
-         * stack.
+         * Decrease the size of the stack in slot (first int arg) by the amount
+         * of the second int arg. Returns the new stack.
          */
-        public ItemStack decrStackSize(int p_75209_1_)
-        {
+        @Override
+        public ItemStack decrStackSize(int p_75209_1_) {
             return is;
         }
 
-        public boolean isSlotInInventory(IInventory p_75217_1_, int p_75217_2_)
-        {
+        @Override
+        public boolean isSlotInInventory(IInventory p_75217_1_, int p_75217_2_) {
             return true;
         }
     }
 }
-
- 

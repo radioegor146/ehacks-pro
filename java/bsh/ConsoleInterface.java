@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,27 +29,31 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
 import java.io.*;
 
 /**
-	The capabilities of a minimal console for BeanShell.
-	Stream I/O and optimized print for output.
-
-	A simple console may ignore some of these or map them to trivial
-	implementations.  e.g. print() with color can be mapped to plain text.
-	@see bsh.util.GUIConsoleInterface
-*/
+ * The capabilities of a minimal console for BeanShell. Stream I/O and optimized
+ * print for output.
+ *
+ * A simple console may ignore some of these or map them to trivial
+ * implementations. e.g. print() with color can be mapped to plain text.
+ *
+ * @see bsh.util.GUIConsoleInterface
+ */
 public interface ConsoleInterface {
-	public Reader getIn();
-	public PrintStream getOut();
-	public PrintStream getErr();
-	public void println( Object o );
-	public void print( Object o );
-	public void error( Object o );
-}
 
+    public Reader getIn();
+
+    public PrintStream getOut();
+
+    public PrintStream getErr();
+
+    public void println(Object o);
+
+    public void print(Object o);
+
+    public void error(Object o);
+}

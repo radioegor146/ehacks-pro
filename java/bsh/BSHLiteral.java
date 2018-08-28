@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,118 +29,113 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
-public final class BSHLiteral extends SimpleNode
-{
-	public static volatile boolean internStrings = true;
+public final class BSHLiteral extends SimpleNode {
 
-	public Object value;
+    public static volatile boolean internStrings = true;
 
-	BSHLiteral(int id) { super(id); }
+    public Object value;
 
-	public Object eval( CallStack callstack, Interpreter interpreter )
-		throws EvalError
-	{
-		if ( value == null )
-			throw new InterpreterError("Null in bsh literal: "+value);
+    BSHLiteral(int id) {
+        super(id);
+    }
 
-		return value;
-	}
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        if (value == null) {
+            throw new InterpreterError("Null in bsh literal: " + value);
+        }
 
-	private char getEscapeChar(char ch)
-	{
-		switch(ch)
-		{
-			case 'b':
-				ch = '\b';
-				break;
+        return value;
+    }
 
-			case 't':
-				ch = '\t';
-				break;
+    private char getEscapeChar(char ch) {
+        switch (ch) {
+            case 'b':
+                ch = '\b';
+                break;
 
-			case 'n':
-				ch = '\n';
-				break;
+            case 't':
+                ch = '\t';
+                break;
 
-			case 'f':
-				ch = '\f';
-				break;
+            case 'n':
+                ch = '\n';
+                break;
 
-			case 'r':
-				ch = '\r';
-				break;
+            case 'f':
+                ch = '\f';
+                break;
 
-			// do nothing - ch already contains correct character
-			case '"':
-			case '\'':
-			case '\\':
-				break;
-		}
+            case 'r':
+                ch = '\r';
+                break;
 
-		return ch;
-	}
+            // do nothing - ch already contains correct character
+            case '"':
+            case '\'':
+            case '\\':
+                break;
+        }
 
-	public void charSetup(String str)
-	{
-		char ch = str.charAt(0);
-		if(ch == '\\')
-		{
-			// get next character
-			ch = str.charAt(1);
+        return ch;
+    }
 
-			if(Character.isDigit(ch))
-				ch = (char)Integer.parseInt(str.substring(1), 8);
-			else
-				ch = getEscapeChar(ch);
-		}
+    public void charSetup(String str) {
+        char ch = str.charAt(0);
+        if (ch == '\\') {
+            // get next character
+            ch = str.charAt(1);
 
-		value = new Primitive(new Character(ch).charValue());
-	}
+            if (Character.isDigit(ch)) {
+                ch = (char) Integer.parseInt(str.substring(1), 8);
+            } else {
+                ch = getEscapeChar(ch);
+            }
+        }
 
-	void stringSetup(String str)
-	{
-		StringBuilder buffer = new StringBuilder();
-		int len = str.length();
-		for(int i = 0; i < len; i++)
-		{
-			char ch = str.charAt(i);
-			if(ch == '\\')
-			{
-				// get next character
-				ch = str.charAt(++i);
+        value = new Primitive(new Character(ch).charValue());
+    }
 
-				if(Character.isDigit(ch))
-				{
-					int endPos = i;
+    void stringSetup(String str) {
+        StringBuilder buffer = new StringBuilder();
+        int len = str.length();
+        for (int i = 0; i < len; i++) {
+            char ch = str.charAt(i);
+            if (ch == '\\') {
+                // get next character
+                ch = str.charAt(++i);
 
-					// check the next two characters
-					int max = Math.min( i + 2, len - 1 );
-					while(endPos < max)
-					{
-						if(Character.isDigit(str.charAt(endPos + 1)))
-							endPos++;
-						else
-							break;
-					}
+                if (Character.isDigit(ch)) {
+                    int endPos = i;
 
-					ch = (char)Integer.parseInt(str.substring(i, endPos + 1), 8);
-					i = endPos;
-				}
-				else
-					ch = getEscapeChar(ch);
-			}
+                    // check the next two characters
+                    int max = Math.min(i + 2, len - 1);
+                    while (endPos < max) {
+                        if (Character.isDigit(str.charAt(endPos + 1))) {
+                            endPos++;
+                        } else {
+                            break;
+                        }
+                    }
 
-			buffer.append(ch);
-		}
+                    ch = (char) Integer.parseInt(str.substring(i, endPos + 1), 8);
+                    i = endPos;
+                } else {
+                    ch = getEscapeChar(ch);
+                }
+            }
 
-		String s = buffer.toString();
-		if( internStrings )
-			s = s.intern();
-		value = s;
-	}
+            buffer.append(ch);
+        }
+
+        String s = buffer.toString();
+        if (internStrings) {
+            s = s.intern();
+        }
+        value = s;
+    }
 }

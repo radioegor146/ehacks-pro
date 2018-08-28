@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,28 +29,28 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
-
+ **************************************************************************** */
 package bsh;
 
-class BSHThrowStatement extends SimpleNode
-{
-	BSHThrowStatement(int id) { super(id); }
+class BSHThrowStatement extends SimpleNode {
 
-	public Object eval( CallStack callstack, Interpreter interpreter)  
-		throws EvalError
-	{
-		Object obj = ((SimpleNode)jjtGetChild(0)).eval(callstack, interpreter);
+    BSHThrowStatement(int id) {
+        super(id);
+    }
 
-		// need to loosen this to any throwable... do we need to handle
-		// that in interpreter somewhere?  check first...
-		if(!(obj instanceof Exception))
-			throw new EvalError("Expression in 'throw' must be Exception type",
-				this, callstack );
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        Object obj = ((SimpleNode) jjtGetChild(0)).eval(callstack, interpreter);
 
-		// wrap the exception in a TargetException to propogate it up
-		throw new TargetError( (Exception)obj, this, callstack );
-	}
+        // need to loosen this to any throwable... do we need to handle
+        // that in interpreter somewhere?  check first...
+        if (!(obj instanceof Exception)) {
+            throw new EvalError("Expression in 'throw' must be Exception type",
+                    this, callstack);
+        }
+
+        // wrap the exception in a TargetException to propogate it up
+        throw new TargetError((Exception) obj, this, callstack);
+    }
 }
-

@@ -10,6 +10,7 @@ package ehacks.mod.util;
  * @author radioegor146
  */
 public class ExceptionUtils {
+
     public static String getStringException(Exception e) {
         StringBuilder sb = new StringBuilder();
         sb.append(e.toString()).append("\n");

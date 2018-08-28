@@ -1,14 +1,9 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.nbt.NBTBase
- */
 package ehacks.mod.util.nbtedit;
 
 import net.minecraft.nbt.NBTBase;
 
 public class NamedNBT {
+
     protected String name;
     protected NBTBase nbt;
 
@@ -41,4 +36,3 @@ public class NamedNBT {
         return new NamedNBT(this.name, this.nbt.copy());
     }
 }
-

@@ -1,26 +1,17 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.nbt.NBTBase
- *  net.minecraft.nbt.NBTTagCompound
- *  net.minecraft.nbt.NBTTagList
- */
 package ehacks.mod.util.nbtedit;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 public class NBTTree {
-    private NBTTagCompound baseTag;
+
+    private final NBTTagCompound baseTag;
     private Node<NamedNBT> root;
     public static final NBTNodeSorter SORTER = new NBTNodeSorter();
 
@@ -53,14 +44,16 @@ public class NBTTree {
                 return true;
             }
             boolean flag = this.deleteNode(toDelete, child);
-            if (!flag) continue;
+            if (!flag) {
+                continue;
+            }
             return true;
         }
         return false;
     }
 
     private void construct() {
-        this.root = new Node<NamedNBT>(new NamedNBT("ROOT", (NBTBase)((NBTTagCompound)this.baseTag.copy())));
+        this.root = new Node<NamedNBT>(new NamedNBT("ROOT", (NBTBase) ((NBTTagCompound) this.baseTag.copy())));
         this.addChildrenToTree(this.root);
         this.sort(this.root);
     }
@@ -73,12 +66,16 @@ public class NBTTree {
     }
 
     public void addChildrenToTree(Node<NamedNBT> parent) {
-        block3 : {
+        block3:
+        {
             NBTBase tag;
-            block2 : {
+            block2:
+            {
                 tag = parent.getObject().getNBT();
-                if (!(tag instanceof NBTTagCompound)) break block2;
-                Map<String, NBTBase> map = NBTHelper.getMap((NBTTagCompound)tag);
+                if (!(tag instanceof NBTTagCompound)) {
+                    break block2;
+                }
+                Map<String, NBTBase> map = NBTHelper.getMap((NBTTagCompound) tag);
                 for (Map.Entry<String, NBTBase> entry : map.entrySet()) {
                     NBTBase base = entry.getValue();
                     Node<NamedNBT> child = new Node<NamedNBT>(parent, new NamedNBT(entry.getKey(), base));
@@ -87,8 +84,10 @@ public class NBTTree {
                 }
                 break block3;
             }
-            if (!(tag instanceof NBTTagList)) break block3;
-            NBTTagList list = (NBTTagList)tag;
+            if (!(tag instanceof NBTTagList)) {
+                break block3;
+            }
+            NBTTagList list = (NBTTagList) tag;
             for (int i = 0; i < list.tagCount(); ++i) {
                 NBTBase base = NBTHelper.getTagAt(list, i);
                 Node<NamedNBT> child = new Node<NamedNBT>(parent, new NamedNBT(base));
@@ -111,13 +110,13 @@ public class NBTTree {
             if (base instanceof NBTTagCompound) {
                 NBTTagCompound newTag = new NBTTagCompound();
                 this.addChildrenToTag(child, newTag);
-                tag.setTag(name, (NBTBase)newTag);
+                tag.setTag(name, (NBTBase) newTag);
                 continue;
             }
             if (base instanceof NBTTagList) {
                 NBTTagList list = new NBTTagList();
                 this.addChildrenToList(child, list);
-                tag.setTag(name, (NBTBase)list);
+                tag.setTag(name, (NBTBase) list);
                 continue;
             }
             tag.setTag(name, base.copy());
@@ -130,13 +129,13 @@ public class NBTTree {
             if (base instanceof NBTTagCompound) {
                 NBTTagCompound newTag = new NBTTagCompound();
                 this.addChildrenToTag(child, newTag);
-                list.appendTag((NBTBase)newTag);
+                list.appendTag((NBTBase) newTag);
                 continue;
             }
             if (base instanceof NBTTagList) {
                 NBTTagList newList = new NBTTagList();
                 this.addChildrenToList(child, newList);
-                list.appendTag((NBTBase)newList);
+                list.appendTag((NBTBase) newList);
                 continue;
             }
             list.appendTag(base.copy());
@@ -175,4 +174,3 @@ public class NBTTree {
         return b.toString();
     }
 }
-

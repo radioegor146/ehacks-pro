@@ -1,18 +1,12 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.entity.EntityClientPlayerMP
- */
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 
 public class Unpushable
-extends Module {
+        extends Module {
+
     public Unpushable() {
         super(ModuleCategory.PLAYER);
     }
@@ -35,4 +29,3 @@ extends Module {
         }
     }
 }
-

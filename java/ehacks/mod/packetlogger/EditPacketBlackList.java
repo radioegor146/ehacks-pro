@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- */
 package ehacks.mod.packetlogger;
 
 import java.awt.FlowLayout;
@@ -15,8 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class EditPacketBlackList
-extends JFrame
-implements ActionListener {
+        extends JFrame
+        implements ActionListener {
+
     private final JButton accept = new JButton("Save");
     private final JButton reset = new JButton("Close");
     private final JTextArea[] areas = new JTextArea[3];
@@ -83,7 +81,9 @@ implements ActionListener {
             String[] newList;
             this.getList(i).clear();
             for (String newCrit : newList = this.areas[i].getText().split("\n")) {
-                if (newCrit.isEmpty()) continue;
+                if (newCrit.isEmpty()) {
+                    continue;
+                }
                 this.getList(i).add(newCrit);
             }
         }
@@ -101,4 +101,3 @@ implements ActionListener {
         }
     }
 }
-

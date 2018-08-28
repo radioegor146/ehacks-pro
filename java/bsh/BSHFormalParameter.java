@@ -1,4 +1,4 @@
-/*****************************************************************************
+/** ***************************************************************************
  *                                                                           *
  *  This file is part of the BeanShell Java Scripting distribution.          *
  *  Documentation and updates may be found at http://www.beanshell.org/      *
@@ -7,7 +7,7 @@
  *                                                                           *
  *  The contents of this file are subject to the Sun Public License Version  *
  *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    * 
+ *  the License. A copy of the License is available at http://www.sun.com    *
  *                                                                           *
  *  The Original Code is BeanShell. The Initial Developer of the Original    *
  *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
@@ -29,46 +29,46 @@
  *  Author of Learning Java, O'Reilly & Associates                           *
  *  http://www.pat.net/~pat/                                                 *
  *                                                                           *
- *****************************************************************************/
-
+ **************************************************************************** */
 package bsh;
 
 /**
-	A formal parameter declaration.
-	For loose variable declaration type is null.
-*/
-class BSHFormalParameter extends SimpleNode
-{
-	public static final Class UNTYPED = null;
-	public String name;
-	// unsafe caching of type here
-	public Class type;
+ * A formal parameter declaration. For loose variable declaration type is null.
+ */
+class BSHFormalParameter extends SimpleNode {
 
-	BSHFormalParameter(int id) { super(id); }
+    public static final Class UNTYPED = null;
+    public String name;
+    // unsafe caching of type here
+    public Class type;
 
-	public String getTypeDescriptor( 
-		CallStack callstack, Interpreter interpreter, String defaultPackage ) 
-	{
-		if ( jjtGetNumChildren() > 0 )
-			return ((BSHType)jjtGetChild(0)).getTypeDescriptor( 
-				callstack, interpreter, defaultPackage );
-		else
-			// this will probably not get used
-			return "Ljava/lang/Object;";  // Object type
-	}
+    BSHFormalParameter(int id) {
+        super(id);
+    }
 
-	/**
-		Evaluate the type.
-	*/
-	public Object eval( CallStack callstack, Interpreter interpreter) 
-		throws EvalError
-	{
-		if ( jjtGetNumChildren() > 0 )
-			type = ((BSHType)jjtGetChild(0)).getType( callstack, interpreter );
-		else
-			type = UNTYPED;
+    public String getTypeDescriptor(
+            CallStack callstack, Interpreter interpreter, String defaultPackage) {
+        if (jjtGetNumChildren() > 0) {
+            return ((BSHType) jjtGetChild(0)).getTypeDescriptor(
+                    callstack, interpreter, defaultPackage);
+        } else // this will probably not get used
+        {
+            return "Ljava/lang/Object;";  // Object type
+        }
+    }
 
-		return type;
-	}
+    /**
+     * Evaluate the type.
+     */
+    @Override
+    public Object eval(CallStack callstack, Interpreter interpreter)
+            throws EvalError {
+        if (jjtGetNumChildren() > 0) {
+            type = ((BSHType) jjtGetChild(0)).getType(callstack, interpreter);
+        } else {
+            type = UNTYPED;
+        }
+
+        return type;
+    }
 }
-

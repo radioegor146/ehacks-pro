@@ -1,25 +1,15 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  cpw.mods.fml.relauncher.ReflectionHelper
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.settings.GameSettings
- *  net.minecraft.client.settings.KeyBinding
- */
 package ehacks.mod.modulesystem.classes;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import java.lang.reflect.Method;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import java.lang.reflect.Method;
+import net.minecraft.client.Minecraft;
 
 public class FastPlace
-extends Module {
+        extends Module {
+
     public FastPlace() {
         super(ModuleCategory.PLAYER);
     }
@@ -27,8 +17,8 @@ extends Module {
     @Override
     public String getName() {
         return "FastPlace";
-    }    
-    
+    }
+
     @Override
     public String getDescription() {
         return "You can place blocks instantly";
@@ -36,15 +26,13 @@ extends Module {
 
     @Override
     public void onTicks() {
-        if (Wrapper.INSTANCE.mc().gameSettings.keyBindUseItem.getIsKeyPressed()) {
+        if (Wrapper.INSTANCE.mcSettings().keyBindUseItem.getIsKeyPressed()) {
             try {
-                Method m = ReflectionHelper.findMethod(Minecraft.class, Wrapper.INSTANCE.mc(), (String[])new String[]{"func_147121_ag"}, (Class[])null);
-                m.invoke((Object)Minecraft.getMinecraft(), new Object[0]);
-            }
-            catch (Exception e) {
+                Method m = ReflectionHelper.findMethod(Minecraft.class, Wrapper.INSTANCE.mc(), (String[]) new String[]{"func_147121_ag"}, (Class[]) null);
+                m.invoke((Object) Wrapper.INSTANCE.mc(), new Object[0]);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 }
-

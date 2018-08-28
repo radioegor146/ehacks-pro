@@ -1,13 +1,3 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  cpw.mods.fml.relauncher.ReflectionHelper
- *  net.minecraft.nbt.CompressedStreamTools
- *  net.minecraft.nbt.NBTBase
- *  net.minecraft.nbt.NBTTagCompound
- *  net.minecraft.nbt.NBTTagList
- */
 package ehacks.mod.util.nbtedit;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -22,21 +12,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 public class NBTHelper {
+
     public static NBTTagCompound nbtRead(DataInputStream in) throws IOException {
-        return CompressedStreamTools.read((DataInputStream)in);
+        return CompressedStreamTools.read((DataInputStream) in);
     }
 
     public static void nbtWrite(NBTTagCompound compound, DataOutput out) throws IOException {
-        CompressedStreamTools.write((NBTTagCompound)compound, (DataOutput)out);
+        CompressedStreamTools.write((NBTTagCompound) compound, (DataOutput) out);
     }
 
     public static Map<String, NBTBase> getMap(NBTTagCompound tag) {
-        return (Map)ReflectionHelper.getPrivateValue(NBTTagCompound.class, tag, (int)1);
+        return (Map) ReflectionHelper.getPrivateValue(NBTTagCompound.class, tag, (int) 1);
     }
 
     public static NBTBase getTagAt(NBTTagList tag, int index) {
-        List list = (List)ReflectionHelper.getPrivateValue(NBTTagList.class, tag, (int)0);
-        return (NBTBase)list.get(index);
+        List list = (List) ReflectionHelper.getPrivateValue(NBTTagList.class, tag, (int) 0);
+        return (NBTBase) list.get(index);
     }
 }
-

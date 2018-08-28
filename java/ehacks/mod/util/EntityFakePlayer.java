@@ -6,7 +6,8 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.world.World;
 
 public class EntityFakePlayer
-extends EntityOtherPlayerMP {
+        extends EntityOtherPlayerMP {
+
     private static MovementInput movementInput = null;
 
     public EntityFakePlayer(World world, GameProfile gameProfile) {
@@ -21,16 +22,19 @@ extends EntityOtherPlayerMP {
         super.moveEntityWithHeading(movementInput.moveStrafe, movementInput.moveForward);
     }
 
+    @Override
     public void moveEntity(double x, double y, double z) {
         this.onGround = true;
         super.moveEntity(x, y, z);
         this.onGround = true;
     }
 
+    @Override
     public boolean isSneaking() {
         return false;
     }
 
+    @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
         this.noClip = true;
@@ -40,4 +44,3 @@ extends EntityOtherPlayerMP {
         this.noClip = false;
     }
 }
-

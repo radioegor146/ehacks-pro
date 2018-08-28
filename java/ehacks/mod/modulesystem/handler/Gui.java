@@ -1,22 +1,15 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.GuiScreen
- */
 package ehacks.mod.modulesystem.handler;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.client.gui.GuiScreen;
 
 public class Gui
-extends Module {
-    private EHacksClickGui click = new EHacksClickGui();
+        extends Module {
+
+    private final EHacksClickGui click = new EHacksClickGui();
 
     public Gui() {
         super(ModuleCategory.NONE);
@@ -30,7 +23,6 @@ extends Module {
 
     @Override
     public void toggle() {
-        Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen)this.click);
+        Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) this.click);
     }
 }
-

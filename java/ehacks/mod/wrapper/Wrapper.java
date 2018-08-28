@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
 public class Wrapper {
+
     public static volatile Wrapper INSTANCE = new Wrapper();
 
     public Minecraft mc() {
@@ -18,24 +19,24 @@ public class Wrapper {
     }
 
     public EntityClientPlayerMP player() {
-        return Minecraft.getMinecraft().thePlayer;
+        return Wrapper.INSTANCE.mc().thePlayer;
     }
 
     public WorldClient world() {
-        return Minecraft.getMinecraft().theWorld;
+        return Wrapper.INSTANCE.mc().theWorld;
     }
 
     public GameSettings mcSettings() {
-        return Minecraft.getMinecraft().gameSettings;
+        return Wrapper.INSTANCE.mc().gameSettings;
     }
 
     public FontRenderer fontRenderer() {
-        return Minecraft.getMinecraft().fontRenderer;
+        return Wrapper.INSTANCE.mc().fontRenderer;
     }
 
     public void addChatMessage(String tosend) {
         ChatComponentText chatcomponent = new ChatComponentText(tosend.replace("&", "\u00a7"));
-        this.player().addChatMessage((IChatComponent)chatcomponent);
+        this.player().addChatMessage((IChatComponent) chatcomponent);
     }
 
     public void copy(String str) {
@@ -46,10 +47,8 @@ public class Wrapper {
         try {
             Class.forName(className);
             return true;
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             return false;
         }
     }
 }
-

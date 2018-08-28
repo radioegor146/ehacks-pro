@@ -1,29 +1,16 @@
-/*
- * Decompiled with CFR 0_128.
- * 
- * Could not load the following classes:
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.Gui
- *  net.minecraft.client.renderer.texture.TextureManager
- *  net.minecraft.util.ResourceLocation
- *  org.lwjgl.opengl.GL11
- */
 package ehacks.mod.util.nbtedit;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiCharacterButton
-extends Gui {
+        extends Gui {
+
     public static final int WIDTH = 14;
     public static final int HEIGHT = 14;
-    private Minecraft mc = Minecraft.getMinecraft();
-    private byte id;
-    private int x;
-    private int y;
+    private final byte id;
+    private final int x;
+    private final int y;
     private boolean enabled;
 
     public GuiCharacterButton(byte id, int x, int y) {
@@ -34,12 +21,12 @@ extends Gui {
 
     public void draw(int mx, int my) {
         if (this.inBounds(mx, my)) {
-            Gui.drawRect((int)this.x, (int)this.y, (int)(this.x + 14), (int)(this.y + 14), (int)-2130706433);
+            Gui.drawRect((int) this.x, (int) this.y, (int) (this.x + 14), (int) (this.y + 14), (int) -2130706433);
         }
-        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        GL11.glColor4f((float) 1.0f, (float) 1.0f, (float) 1.0f, (float) 1.0f);
         //this.drawTexturedModalRect(this.x, this.y, this.id * 14, 27, 14, 14);
         if (!this.enabled) {
-            GuiCharacterButton.drawRect((int)this.x, (int)this.y, (int)(this.x + 14), (int)(this.y + 14), (int)-1071504862);
+            GuiCharacterButton.drawRect((int) this.x, (int) this.y, (int) (this.x + 14), (int) (this.y + 14), (int) -1071504862);
         }
     }
 
@@ -59,4 +46,3 @@ extends Gui {
         return this.id;
     }
 }
-
