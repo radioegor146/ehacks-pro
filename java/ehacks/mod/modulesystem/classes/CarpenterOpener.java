@@ -35,7 +35,6 @@ public class CarpenterOpener extends Module {
             Class.forName("com.carpentersblocks.network.PacketActivateBlock");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.logData.add(new Tuple<String, Integer>("[Container Opener] Not working", 0));
         }
     }
 

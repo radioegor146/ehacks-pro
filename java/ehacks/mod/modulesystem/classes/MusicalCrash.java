@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -36,7 +37,6 @@ public class MusicalCrash
             Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[MusicalCrash] Not working");
         }
     }
 
@@ -85,13 +85,13 @@ public class MusicalCrash
                     buf.writeDouble(0);
                     C17PacketCustomPayload packet = new C17PacketCustomPayload("DragonsRadioMod", buf);
                     Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
-                    EHacksClickGui.log("[MusicalCrash] Crash sent");
+                    InteropUtils.log("Crash sent", this);
                     if (event.isCancelable()) {
                         event.setCanceled(true);
                     }
                 }
             } catch (Exception ex) {
-                EHacksClickGui.log("[MusicalCrash] Error happened");
+                InteropUtils.log("Error happened", this);
                 ex.printStackTrace();
             }
         }

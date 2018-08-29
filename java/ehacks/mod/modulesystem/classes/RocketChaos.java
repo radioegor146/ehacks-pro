@@ -36,7 +36,6 @@ public class RocketChaos
             Class.forName("powercrystals.minefactoryreloaded.entity.EntityRocket");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[RocketChaos] Not working");
         }
     }
 

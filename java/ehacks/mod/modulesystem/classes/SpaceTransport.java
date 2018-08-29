@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -127,7 +128,7 @@ public class SpaceTransport
         try {
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate").getConstructor();
             if (Wrapper.INSTANCE.player().ridingEntity == null || !Class.forName("micdoodle8.mods.galacticraft.core.network.PacketEntityUpdate$IEntityFullSync").isInstance(Wrapper.INSTANCE.player().ridingEntity)) {
-                EHacksClickGui.log("[Space Transport] Wrong entity");
+                InteropUtils.log("Wrong entity", this);
                 this.off();
             }
             try {
@@ -138,7 +139,6 @@ public class SpaceTransport
             //changer.setState(true);
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[Space Transport] Not working");
         }
     }
 

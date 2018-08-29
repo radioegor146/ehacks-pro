@@ -38,9 +38,9 @@ public class ItemESP
 
     @Override
     public void onWorldRender(RenderWorldLastEvent event) {
-        if (!Statics.hasClearedDepth) {
+        if (!GLUtils.hasClearedDepth) {
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-            Statics.hasClearedDepth = true;
+            GLUtils.hasClearedDepth = true;
         }
         List<Entity> entities = Wrapper.INSTANCE.world().loadedEntityList;
         for (Entity ent : entities) {

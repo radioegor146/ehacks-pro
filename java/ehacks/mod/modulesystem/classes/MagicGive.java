@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -35,7 +36,6 @@ public class MagicGive
             Class.forName("am2.blocks.tileentities.TileEntityInscriptionTable");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[MagicGive] Not working");
         }
     }
 
@@ -80,7 +80,7 @@ public class MagicGive
         buf.writeInt(Wrapper.INSTANCE.player().getEntityId());
         C17PacketCustomPayload packet = new C17PacketCustomPayload("AM2DataTunnel", buf);
         Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
-        EHacksClickGui.log("[MagicGive] Gived");
+        InteropUtils.log("Gived", this);
     }
 
     @Override

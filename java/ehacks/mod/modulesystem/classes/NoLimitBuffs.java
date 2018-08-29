@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Field;
@@ -35,7 +36,6 @@ public class NoLimitBuffs
             Class.forName("am2.blocks.tileentities.TileEntityInscriptionTable");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitBuffs] Not working");
         }
     }
 
@@ -93,7 +93,7 @@ public class NoLimitBuffs
                 }
             }
         } catch (Exception e) {
-            EHacksClickGui.log("[NoLimitBuffs] Error");
+            InteropUtils.log("&cError", this);
             e.printStackTrace();
         }
     }

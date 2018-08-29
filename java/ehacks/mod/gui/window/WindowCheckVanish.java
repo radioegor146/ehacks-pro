@@ -58,7 +58,7 @@ public class WindowCheckVanish
                 Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("You are in singleplayer", this.getClientX() + 1, this.getClientY() + 1, 5636095);
                 return;
             }
-            Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Server IP: " + serverData.serverIP, this.getClientX(), this.getClientY(), 5636095);
+            Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Server IP: " + serverData.serverIP, this.getClientX() + 1, this.getClientY() + 1, 5636095);
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("TAB-List: " + String.valueOf(Wrapper.INSTANCE.player().sendQueue.playerInfoList.size()), this.getClientX() + 1, this.getClientY() + 13, 5636095);
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("PacketQuery: " + (lastCvResult < 0 ? (lastCvResult == -1 ? "Error" : "Not working") : String.valueOf(lastCvResult)) + (cvThreadStarted.get() ? " [U]" : ""), this.getClientX() + 1, this.getClientY() + 25, 5636095);
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Legacy: " + (lastLpResult < 0 ? (lastLpResult == -1 ? "Error" : "Not working") : String.valueOf(lastLpResult)) + (lpThreadStarted.get() ? " [U]" : ""), this.getClientX() + 1, this.getClientY() + 37, 5636095);

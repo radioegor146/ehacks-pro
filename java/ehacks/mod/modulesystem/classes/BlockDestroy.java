@@ -4,15 +4,20 @@ import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.Tuple;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Events;
-import static ehacks.mod.wrapper.Events.selectedBlock;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C17PacketCustomPayload;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import org.lwjgl.input.Mouse;
 
 public class BlockDestroy
         extends Module {
@@ -47,9 +52,7 @@ public class BlockDestroy
             obj = Class.forName("openmodularturrets.ModularTurrets").getDeclaredField("networking").get(new Object[0]);
         } catch (Exception ex) {
             isActive = false;
-            Events.selectedBlock = null;
             this.off();
-            EHacksClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Not working", 0));
         }
 
         isActive = true;
@@ -73,40 +76,20 @@ public class BlockDestroy
     public void onDisableMod() {
         isActive = false;
     }
-
+    
+    private boolean prevState;
+    
     @Override
-    public void onClick(PlayerInteractEvent event) {
-        Block block = Wrapper.INSTANCE.world().getBlock(event.x, event.y, event.z);
-        if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && PrivateNuker.isActive) {
-            Block previous = selectedBlock;
-            selectedBlock = block;
-            if (previous == null || previous != null && !previous.getLocalizedName().equalsIgnoreCase(selectedBlock.getLocalizedName())) {
-                EHacksClickGui.logData.add(new Tuple<String, Integer>("[Block Destroyer] Selected block: " + selectedBlock.getLocalizedName(), 0));
+    public void onTicks() {
+        try {
+            MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
+            boolean nowState = Mouse.isButtonDown(0);
+            if (position.sideHit != -1 && nowState && !prevState) {
+                snd.invoke(obj, msg.newInstance(position.blockX, position.blockY, position.blockZ));
             }
-        } else if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && AutoTool.isActive) {
-            int blockId = Block.getIdFromBlock((Block) block);
-            int slot = 0;
-            float fl = 0.1f;
-            for (int looper = 36; looper < 45; ++looper) {
-                try {
-                    ItemStack currentSlotThatIsSelected = Wrapper.INSTANCE.player().inventoryContainer.getSlot(looper).getStack();
-                    if (currentSlotThatIsSelected.func_150997_a(Block.getBlockById((int) blockId)) <= fl) {
-                        continue;
-                    }
-                    slot = looper - 36;
-                    fl = currentSlotThatIsSelected.func_150997_a(Block.getBlockById((int) blockId));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            Wrapper.INSTANCE.player().inventory.currentItem = slot;
-        } else if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && BlockDestroy.isActive) {
+            prevState = nowState;
+        } catch (Exception e) {
 
-            try {
-                snd.invoke(obj, msg.newInstance(event.x, event.y, event.z));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
     }
 

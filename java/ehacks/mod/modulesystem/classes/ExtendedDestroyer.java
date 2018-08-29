@@ -35,7 +35,6 @@ public class ExtendedDestroyer
             Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[Extended Destroyer] Not working");
         }
     }
 
@@ -49,11 +48,14 @@ public class ExtendedDestroyer
         }
     }
 
+    public boolean prevState;
+    
     @Override
     public void onMouse(MouseEvent event) {
         try {
             MovingObjectPosition position = Wrapper.INSTANCE.mc().objectMouseOver;
-            if (position.sideHit != -1 && Mouse.isButtonDown(0)) {
+            boolean nowState = Mouse.isButtonDown(0);
+            if (position.sideHit != -1 && nowState && !prevState) {
                 ByteBuf buf = Unpooled.buffer(0);
                 buf.writeByte(14);
                 buf.writeInt(position.blockX);
@@ -62,6 +64,7 @@ public class ExtendedDestroyer
                 C17PacketCustomPayload packet = new C17PacketCustomPayload("cfm", buf);
                 Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
             }
+            prevState = nowState;
         } catch (Exception e) {
 
         }

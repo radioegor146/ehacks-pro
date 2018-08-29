@@ -38,7 +38,6 @@ public class IC2SignEdit
             Class.forName("shedar.mods.ic2.nuclearcontrol.network.message.PacketClientSensor").getConstructor();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[IC2 Sign Edit] Not working");
         }
     }
 

@@ -2,6 +2,7 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -15,8 +16,6 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class ExtendedNuker
         extends Module {
-
-    public int radius = 5;
 
     public ExtendedNuker() {
         super(ModuleCategory.EHACKS);
@@ -38,7 +37,6 @@ public class ExtendedNuker
             Class.forName("com.mrcrayfish.furniture.network.message.MessageTakeWater").getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[Extended Nuker] Not working");
         }
     }
 
@@ -54,6 +52,7 @@ public class ExtendedNuker
 
     @Override
     public void onTicks() {
+        int radius = CheatConfiguration.config.nukerradius;
         if (Wrapper.INSTANCE.mc().playerController.isInCreativeMode()) {
             for (int i = radius; i >= -radius; --i) {
                 for (int k = radius; k >= -radius; --k) {

@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,7 +32,6 @@ public class ImageFuck
             Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.Gui.NGuiRadio");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[ImageFuck] Not working");
         }
     }
 
@@ -63,7 +63,7 @@ public class ImageFuck
             try {
                 if (entity != null && Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.BlockRadio").isInstance(entity)) {
                     Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.Gui.NGuiRadio").getConstructor(Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio")).newInstance(entity));
-                    EHacksClickGui.log("[ImageFuck] Gui opened");
+                    InteropUtils.log("Gui opened", this);
                 }
             } catch (Exception ex) {
 

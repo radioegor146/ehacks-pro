@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -38,7 +39,6 @@ public class HotGive
             Class.forName("cofh.core.network.PacketHandler");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[HotGive] Not working");
         }
     }
 
@@ -71,7 +71,7 @@ public class HotGive
                 TileEntity entity = Wrapper.INSTANCE.world().getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                 if (entity != null && Class.forName("cofh.thermalexpansion.block.cache.TileCache").isInstance(entity)) {
                     setSlot(entity, Statics.STATIC_ITEMSTACK);
-                    EHacksClickGui.log("[HotGive] Set");
+                    InteropUtils.log("Set", this);
                 }
             }
             prevState = newState;

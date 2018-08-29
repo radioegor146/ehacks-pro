@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -64,10 +65,9 @@ public class SkillResearch
             packet = new C17PacketCustomPayload("AM2DataTunnel", buf);
             Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
             this.off();
-            EHacksClickGui.log("[SkillResearch] Gived");
+            InteropUtils.log("Gived", this);
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[SkillResearch] Not working");
         }
     }
 

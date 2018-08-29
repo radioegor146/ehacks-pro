@@ -2,6 +2,7 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.nbtedit.GuiNBTEdit;
 import ehacks.mod.wrapper.Keybinds;
@@ -65,7 +66,7 @@ public class NBTView extends Module {
                         }
                     }
                 } catch (Exception ex) {
-                    EHacksClickGui.log("[NBTView] Error");
+                    InteropUtils.log("&cError", this);
                     ex.printStackTrace();
                 }
             }

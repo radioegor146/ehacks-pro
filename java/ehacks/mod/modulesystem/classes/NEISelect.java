@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -34,7 +35,6 @@ public class NEISelect extends Module {
             Class.forName("codechicken.nei.guihook.GuiContainerManager");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NEISelect] Not working");
         }
     }
 
@@ -67,7 +67,7 @@ public class NEISelect extends Module {
                     Statics.STATIC_ITEMSTACK = item.copy().splitStack(count);
                     Statics.STATIC_NBT = Statics.STATIC_ITEMSTACK.getTagCompound() == null ? new NBTTagCompound() : Statics.STATIC_ITEMSTACK.getTagCompound();
                 }
-                EHacksClickGui.log("[NEISelect] ItemStack selected");
+                InteropUtils.log("ItemStack selected", this);
             } catch (Exception ex) {
 
             }

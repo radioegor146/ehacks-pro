@@ -4,6 +4,7 @@ import ehacks.api.module.ModStatus;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.SimpleButton;
 import ehacks.mod.gui.element.SimpleWindow;
+import ehacks.mod.modulesystem.handler.EHacksGui;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class WindowHub
         this.setOpen(true);
         this.setExtended(true);
         int y = 0;
-        for (SimpleWindow window : EHacksClickGui.windows) {
+        for (SimpleWindow window : EHacksGui.clickGui.windows) {
             if (window != this) {
                 buttons.add(new SimpleButton(this, window, window.getTitle(), ModStatus.DEFAULT.color, 1, 1 + y * 13, 86, 12));
                 y++;

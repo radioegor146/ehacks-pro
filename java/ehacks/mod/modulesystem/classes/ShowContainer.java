@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class ShowContainer
                         event.setCanceled(true);
                     }
                 } else {
-                    EHacksClickGui.log("[ShowContainer] Not a container");
+                    InteropUtils.log("Not a container", this);
                 }
             }
             prevState = nowState;

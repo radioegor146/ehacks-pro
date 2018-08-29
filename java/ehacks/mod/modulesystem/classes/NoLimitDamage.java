@@ -75,7 +75,6 @@ public class NoLimitDamage extends Module {
             Class.forName("taintedmagic.common.network.PacketKatanaAttack");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitDamage] Not working");
         }
     }
 

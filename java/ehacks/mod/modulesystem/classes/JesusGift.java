@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -39,7 +40,6 @@ public class JesusGift
             Class.forName("jds.bibliocraft.BiblioCraft");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[JesusGift] Not working");
         }
     }
 
@@ -94,10 +94,10 @@ public class JesusGift
             try {
                 Class.forName("cpw.mods.fml.common.network.FMLEventChannel").getDeclaredMethod("sendToServer", Class.forName("cpw.mods.fml.common.network.internal.FMLProxyPacket")).invoke(Class.forName("jds.bibliocraft.BiblioCraft").getDeclaredField("ch_BiblioAtlasGUIswap").get(null), Class.forName("cpw.mods.fml.common.network.internal.FMLProxyPacket").getDeclaredConstructor(ByteBuf.class, String.class).newInstance(buf, "BiblioAtlasSWP"));
             } catch (Exception e) {
-                EHacksClickGui.log("[JesusGift] Mod error");
+                InteropUtils.log("Mod error", this);
             }
         } else {
-            EHacksClickGui.log("[JesusGift] Wrong item in hand");
+            InteropUtils.log("Wrong item in hand", this);
         }
     }
 

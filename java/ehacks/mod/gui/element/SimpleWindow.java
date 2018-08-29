@@ -7,6 +7,7 @@ package ehacks.mod.gui.element;
 
 import ehacks.api.module.IIncludable;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.ScaledResolution;
@@ -100,7 +101,7 @@ public class SimpleWindow implements IIncludable, IClickable {
             retval = true;
         }
         if (x >= this.xPos && y >= this.yPos && x <= this.xPos + width - 19 && y <= this.yPos + 12) {
-            EHacksClickGui.sendPanelToFront(this);
+            EHacksGui.clickGui.sendPanelToFront(this);
             this.dragging = !this.dragging;
             this.prevXPos = this.xPos;
             this.prevYPos = this.yPos;

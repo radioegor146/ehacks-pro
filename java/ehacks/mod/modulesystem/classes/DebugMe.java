@@ -4,6 +4,7 @@ import bsh.EvalError;
 import bsh.Interpreter;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.OpenFileFilter;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -51,18 +52,18 @@ public class DebugMe
         }
         if (!dialogOpened.get() && scriptFile == null) {
             this.off();
-            EHacksClickGui.log("[DebugMe] Script load canceled");
+            InteropUtils.log("Script load canceled", this);
             return;
         } else if (!set) {
-            EHacksClickGui.log("[DebugMe] Script loaded: " + scriptFile.getPath());
+            InteropUtils.log("Script loaded: " + scriptFile.getPath(), this);
             set = true;
         }
         boolean newState5 = Keyboard.isKeyDown(Keybinds.tickingDebug);
         if (!prevState5 && newState5) {
-            EHacksClickGui.log("[DebugMe] Script tick started");
+            InteropUtils.log("Script tick started", this);
         }
         if (!newState5 && prevState5) {
-            EHacksClickGui.log("[DebugMe] Script tick stopped");
+            InteropUtils.log("Script tick stopped", this);
         }
         prevState5 = newState5;
         if (newState5) {
@@ -77,9 +78,9 @@ public class DebugMe
         if (!prevState && newState) {
             prevState = newState;
             try {
-                EHacksClickGui.log("[DebugMe] Script executed with result: \"" + runScript() + "\"");
+                InteropUtils.log("Script executed with result: \"" + runScript() + "\"", this);
             } catch (Exception e) {
-                EHacksClickGui.log("[DebugMe] Exception on eval: \"" + e.getMessage() + "\"");
+                InteropUtils.log("Exception on eval: \"" + e.getMessage() + "\"", this);
             }
             return;
         }

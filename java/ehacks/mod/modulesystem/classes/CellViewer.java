@@ -4,6 +4,7 @@ import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.GLUtils;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.MinecraftGuiUtils;
 import ehacks.mod.wrapper.Keybinds;
@@ -84,7 +85,7 @@ public class CellViewer extends Module {
                             }
                         }
                     } catch (Exception ex) {
-                        EHacksClickGui.log("[CellViewer] Error");
+                        InteropUtils.log("&cError", this);
                         ex.printStackTrace();
                     }
                 }
@@ -92,12 +93,12 @@ public class CellViewer extends Module {
                     return;
                 }
                 if (!(Class.forName("appeng.items.storage.ItemBasicStorageCell").isInstance(cell.getItem()))) {
-                    EHacksClickGui.log("[CellViewer] Not a cell");
+                    InteropUtils.log("&cNot a cell", this);
                     return;
                 }
                 NBTTagCompound tag = cell.stackTagCompound;
                 if (tag == null) {
-                    EHacksClickGui.log("[CellViewer] Cell is empty (new)");
+                    InteropUtils.log("&cCell is empty (new)", this);
                     return;
                 }
                 try {
@@ -114,7 +115,7 @@ public class CellViewer extends Module {
                     }
                     Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) new CellViewerGui(new CellViewerContainer(stacks.toArray(new ItemStack[stacks.size()]), cell.getDisplayName())));
                 } catch (Exception e) {
-                    EHacksClickGui.log("[CellViewer] Error");
+                    InteropUtils.log("&cError", this);
                     e.printStackTrace();
                 }
             }

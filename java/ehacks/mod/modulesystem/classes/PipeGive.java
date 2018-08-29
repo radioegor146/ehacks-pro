@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -44,7 +45,6 @@ public class PipeGive
             }
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[PipeGive] Not working");
         }
     }
 
@@ -81,7 +81,7 @@ public class PipeGive
                 TileEntity entity = Wrapper.INSTANCE.world().getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
                 if (entity != null && Class.forName("buildcraft.builders.TileConstructionMarker").isInstance(entity)) {
                     setSlot(mop.blockX, mop.blockY, mop.blockZ);
-                    EHacksClickGui.log("[PipeGive] Set");
+                    InteropUtils.log("Set", this);
                 }
             }
             prevState = newState;

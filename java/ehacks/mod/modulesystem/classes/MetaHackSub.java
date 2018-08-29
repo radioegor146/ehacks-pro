@@ -47,7 +47,6 @@ public class MetaHackSub extends Module {
             this.off();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[MetaHack-Sub] Not working");
         }
     }
 

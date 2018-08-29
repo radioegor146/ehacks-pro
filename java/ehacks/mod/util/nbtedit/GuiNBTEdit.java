@@ -2,6 +2,7 @@ package ehacks.mod.util.nbtedit;
 
 import ehacks.debugme.Debug;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.GuiButton;
@@ -118,7 +119,7 @@ public class GuiNBTEdit
                         NBTTagCompound check = Debug.INSTANCE.jsonToNBT(this.nbtString.getText());
                         Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) new GuiNBTEdit(check));
                     } catch (Exception e) {
-                        EHacksClickGui.log("[NBTView] Invalid JSON");
+                        InteropUtils.log("Invalid JSON", "NBTView");
                     }
                 }
                 case 3: {

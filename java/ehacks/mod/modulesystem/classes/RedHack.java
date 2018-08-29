@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -34,7 +35,6 @@ public class RedHack
             Class.forName("codechicken.lib.packet.PacketCustom");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[ChestMagic] Not working");
         }
     }
 
@@ -66,7 +66,7 @@ public class RedHack
                 return;
             }
             setRed(Statics.STATIC_ITEMSTACK, slotId);
-            EHacksClickGui.log("[RedHack] Set");
+            InteropUtils.log("Set", this);
         }
         prevState = newState;
     }

@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.GuiScreen;
@@ -35,7 +36,6 @@ public class DragonsFuck
             Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.Gui.NGuiRadio");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[DragonsFuck] Not working");
         }
     }
 
@@ -66,13 +66,13 @@ public class DragonsFuck
             try {
                 if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && entity != null && Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio").isInstance(entity)) {
                     Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.Gui.NGuiRadio").getConstructor(Class.forName("eu.thesociety.DragonbornSR.DragonsRadioMod.Block.TileEntity.TileEntityRadio")).newInstance(entity));
-                    EHacksClickGui.log("[DragonsFuck] Gui opened");
+                    InteropUtils.log("Gui opened", this);
                     if (event.isCancelable()) {
                         event.setCanceled(true);
                     }
                 }
             } catch (Exception ex) {
-                EHacksClickGui.log("[DragonsFuck]     Error happened");
+                InteropUtils.log("&cError", this);
                 ex.printStackTrace();
             }
         }

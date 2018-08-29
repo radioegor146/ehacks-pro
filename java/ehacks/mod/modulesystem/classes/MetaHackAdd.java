@@ -47,7 +47,6 @@ public class MetaHackAdd extends Module {
             this.off();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[MetaHack-Add] Not working");
         }
     }
 

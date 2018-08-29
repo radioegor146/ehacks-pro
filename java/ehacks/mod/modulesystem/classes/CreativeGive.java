@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -60,7 +61,7 @@ public class CreativeGive
             } else {
                 setCreative(Statics.STATIC_ITEMSTACK, slotId);
             }
-            EHacksClickGui.log("[CreativeGive] Set");
+            InteropUtils.log("Set", this);
         }
         prevState = newState;
     }

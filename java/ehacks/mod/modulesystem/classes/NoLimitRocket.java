@@ -36,7 +36,6 @@ public class NoLimitRocket
             Class.forName("powercrystals.minefactoryreloaded.entity.EntityRocket");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitRocket] Not working");
         }
     }
 

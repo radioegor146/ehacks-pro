@@ -7,6 +7,7 @@ package ehacks.mod.packetprotector;
 
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.packetprotector.modules.*;
+import ehacks.mod.util.InteropUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class MainProtector {
         protectors.add(new DragonsRadioProtector());
         protectors.add(new IC2NuclearControlProtector());
 
-        EHacksClickGui.log("[PacketProtector] Inited " + protectors.size() + " protectors");
+        InteropUtils.log("Inited " + protectors.size() + " protectors", "PacketProtector");
     }
 
     public boolean isPacketOk(Object packet) {

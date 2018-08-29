@@ -33,7 +33,6 @@ public class NoLimitAura
             Class.forName("taintedmagic.common.network.PacketKatanaAttack");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitAura] Not working");
         }
     }
 

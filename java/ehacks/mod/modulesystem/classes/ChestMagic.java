@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -38,7 +39,6 @@ public class ChestMagic
             Class.forName("powercrystals.minefactoryreloaded.net.ServerPacketHandler");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[ChestMagic] Not working");
         }
     }
 
@@ -78,7 +78,7 @@ public class ChestMagic
                         setSlot(i, mop.blockX, mop.blockY, mop.blockZ, playerId == -1 ? Wrapper.INSTANCE.player().getEntityId() : playerId);
                     }
                 }
-                EHacksClickGui.log("[ChestMagic] Set");
+                InteropUtils.log("Set", this);
             }
         }
         prevState = newState;
@@ -88,11 +88,11 @@ public class ChestMagic
             MovingObjectPosition mop = Wrapper.INSTANCE.mc().objectMouseOver;
             if (mop.entityHit != null && mop.entityHit instanceof EntityPlayer) {
                 playerId = mop.entityHit.getEntityId();
-                EHacksClickGui.log("[ChestMagic] Set to player");
+                InteropUtils.log("Set to player", this);
                 return;
             }
             playerId = -1;
-            EHacksClickGui.log("[ChestMagic] Player cleared");
+            InteropUtils.log("Player cleared", this);
         }
         prevStateT = newStateT;
     }

@@ -22,7 +22,6 @@ public class ByteBufTester
     @Override
     public void onEnableMod() {
         ByteBuf buf = Unpooled.buffer();
-        EHacksClickGui.log(String.valueOf(buf.array().length));
         this.off();
     }
 

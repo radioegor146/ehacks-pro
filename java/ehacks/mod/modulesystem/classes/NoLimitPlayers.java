@@ -2,6 +2,7 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.AuraConfiguration;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.window.WindowPlayerIds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -36,7 +37,6 @@ public class NoLimitPlayers
             Class.forName("taintedmagic.common.network.PacketKatanaAttack");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitPlayers] Not working");
         }
     }
 
@@ -55,7 +55,7 @@ public class NoLimitPlayers
         try {
             List<EntityPlayer> players = WindowPlayerIds.useIt ? WindowPlayerIds.getPlayers() : Wrapper.INSTANCE.world().playerEntities;
             for (Object o : players) {
-                if (((Entity) o).getEntityId() != Wrapper.INSTANCE.player().getEntityId()) {
+                if (((Entity) o).getEntityId() != Wrapper.INSTANCE.player().getEntityId() && !AuraConfiguration.config.friends.contains(((Entity)o).getCommandSenderName())) {
                     killEntity(((Entity) o).getEntityId());
                 }
             }

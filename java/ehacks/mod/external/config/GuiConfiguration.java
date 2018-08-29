@@ -3,6 +3,7 @@ package ehacks.mod.external.config;
 import com.google.gson.Gson;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.SimpleWindow;
+import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.wrapper.Wrapper;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +28,7 @@ public class GuiConfiguration implements IConfiguration {
             FileWriter filewriter = new FileWriter(this.guiConfig);
             BufferedWriter buffered = new BufferedWriter(filewriter);
             GuiConfigJson configJson = new GuiConfigJson();
-            for (SimpleWindow window : EHacksClickGui.windows) {
+            for (SimpleWindow window : EHacksGui.clickGui.windows) {
                 configJson.windows.put(window.getTitle().toLowerCase(), new WindowInfoJson(window));
             }
             buffered.write(new Gson().toJson(configJson));
@@ -44,7 +45,7 @@ public class GuiConfiguration implements IConfiguration {
             DataInputStream data = new DataInputStream(input);
             BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(data));
             GuiConfigJson configJson = new Gson().fromJson(bufferedreader.readLine(), GuiConfigJson.class);
-            for (SimpleWindow window : EHacksClickGui.windows) {
+            for (SimpleWindow window : EHacksGui.clickGui.windows) {
                 if (!configJson.windows.containsKey(window.getTitle().toLowerCase())) {
                     continue;
                 }

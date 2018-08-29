@@ -1,6 +1,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.block.material.Material;
@@ -57,7 +58,7 @@ public class MobAura
                 }
                 for (int i = 0; i < Wrapper.INSTANCE.world().loadedEntityList.size(); ++i) {
                     Entity e = (Entity) Wrapper.INSTANCE.world().getLoadedEntityList().get(i);
-                    if (e == Wrapper.INSTANCE.player() || e.isDead || Wrapper.INSTANCE.player().getDistanceToEntity(e) >= 6 || !(e instanceof EntityLiving)) {
+                    if (e == Wrapper.INSTANCE.player() || e.isDead || Wrapper.INSTANCE.player().getDistanceToEntity(e) >= CheatConfiguration.config.auraradius || !(e instanceof EntityLiving)) {
                         continue;
                     }
                     if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {

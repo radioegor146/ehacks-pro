@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -57,11 +58,10 @@ public class ContainerClear
                     setSlot(i, mop.blockX, mop.blockY, mop.blockZ);
                 }
             }
-            EHacksClickGui.log("[ContainerClear] Cleared");
+            InteropUtils.log("Cleared", this);
             this.off();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[ContainerClear] Not working");
         }
     }
 

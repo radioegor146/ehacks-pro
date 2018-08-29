@@ -1,8 +1,10 @@
 package ehacks.mod.gui.element;
 
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.client.gui.GuiChat;
 
 public class SimpleButton {
 
@@ -42,7 +44,7 @@ public class SimpleButton {
 
     public boolean mouseClicked(int x, int y, int button) {
         if (x >= this.getX() && y >= this.getY() && x <= this.getX() + sizeX && y <= this.getY() + sizeY && button == 0 && this.window.isOpen() && this.window.isExtended()) {
-            EHacksClickGui.sendPanelToFront(this.window);
+            EHacksGui.clickGui.sendPanelToFront(this.window);
             if (this.handler != null) {
                 this.handler.onButtonClick();
             }

@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -31,10 +32,9 @@ public class VerticalGui
     public void onEnableMod() {
         try {
             Class.forName("com.kentington.thaumichorizons.common.lib.PacketFingersToServer");
-            EHacksClickGui.log("[VerticalGui] Press Y for GUI");
+            InteropUtils.log("Press Y for GUI", this);
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[VerticalGui] Not working");
         }
     }
 
@@ -71,7 +71,7 @@ public class VerticalGui
         buf.writeInt(Wrapper.INSTANCE.player().dimension);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("thaumichorizons", buf);
         Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
-        EHacksClickGui.log("[VerticalGui] Opened");
+        InteropUtils.log("Opened", this);
     }
 
     @Override

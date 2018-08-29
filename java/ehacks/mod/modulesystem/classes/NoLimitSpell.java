@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import java.lang.reflect.Field;
@@ -32,7 +33,6 @@ public class NoLimitSpell
             Class.forName("am2.blocks.tileentities.TileEntityInscriptionTable");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[MagicGive] Not working");
         }
     }
 
@@ -75,7 +75,7 @@ public class NoLimitSpell
                 setFinalStatic(Class.forName("am2.guis.GuiInscriptionTable").getDeclaredField("knownModifiers"), currentScreen, getIntArray((ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllModifiers").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))));
             }
         } catch (Exception e) {
-            EHacksClickGui.log("[NoLimitSpell] Error");
+            InteropUtils.log("&cError", this);
             e.printStackTrace();
         }
     }

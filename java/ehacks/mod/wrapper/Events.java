@@ -6,6 +6,8 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Module;
 import ehacks.api.module.ModuleController;
+import ehacks.mod.commands.ConsoleGui;
+import ehacks.mod.commands.ConsoleInputGui;
 import ehacks.mod.external.config.ConfigurationManager;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.Tuple;
@@ -23,6 +25,7 @@ import ehacks.mod.modulesystem.classes.MobAura;
 import ehacks.mod.modulesystem.classes.ProphuntAura;
 import ehacks.mod.modulesystem.classes.SeeHealth;
 import ehacks.mod.modulesystem.classes.TriggerBot;
+import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.UltimateLogger;
@@ -47,7 +50,6 @@ import org.lwjgl.opengl.GL11;
 public class Events {
 
     public static boolean cheatEnabled = true;
-    public static Block selectedBlock = null;
     FontRenderer fontRender;
     private final boolean[] keyStates;
 
@@ -55,7 +57,7 @@ public class Events {
         this.fontRender = Wrapper.INSTANCE.fontRenderer();
         this.keyStates = new boolean[256];
     }
-
+    
     public boolean onPacket(Object packet, PacketHandler.Side side) {
         if (!cheatEnabled) {
             return true;
@@ -78,9 +80,11 @@ public class Events {
     }
 
     public boolean prevState = false;
+    public boolean prevCState = false;
 
     @SubscribeEvent
     public void onTicks(TickEvent.ClientTickEvent event) {
+        EHacksGui.clickGui.canInputConsole = Wrapper.INSTANCE.mc().currentScreen instanceof ConsoleInputGui;
         boolean nowState = Keyboard.isKeyDown(Keybinds.hideCheat);
         if (!prevState && nowState) {
             cheatEnabled = !cheatEnabled;
@@ -90,6 +94,11 @@ public class Events {
         if (!cheatEnabled) {
             return;
         }
+        boolean nowCState = Keyboard.isKeyDown(Keybinds.openConsole);
+        if (!prevCState && nowCState && (Wrapper.INSTANCE.mc().currentScreen == null)) {
+            Wrapper.INSTANCE.mc().displayGuiScreen(new ConsoleInputGui("/"));
+        }
+        prevCState = nowCState;
         Wrapper.INSTANCE.mcSettings().viewBobbing = false;
         if (Wrapper.INSTANCE.player() != null) {
             if (!ready) {
@@ -176,7 +185,7 @@ public class Events {
         if (!cheatEnabled) {
             return;
         }
-        Statics.hasClearedDepth = false;
+        GLUtils.hasClearedDepth = false;
         for (Module mod : ModuleController.INSTANCE.modules) {
             if (!mod.isActive() || Wrapper.INSTANCE.world() == null) {
                 continue;
@@ -194,15 +203,7 @@ public class Events {
             this.fontRender.drawString(Copyright2, 2, 12, GLUtils.getColor(255, 0, 0));
             GL11.glPopMatrix();
         }
-        if (Wrapper.INSTANCE.mc().currentScreen == null || (!(Wrapper.INSTANCE.mc().currentScreen instanceof EHacksClickGui))) {
-            for (SimpleWindow windows : EHacksClickGui.windows) {
-                if (!windows.isPinned()) {
-                    continue;
-                }
-                windows.draw(0, 0);
-            }
-        }
-        EHacksClickGui.drawLog();
+        EHacksGui.clickGui.drawBack();
     }
 
     public static Color rainbowEffect_Text(long offset, float fade) {

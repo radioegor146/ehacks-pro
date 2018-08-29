@@ -3,6 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -31,11 +32,10 @@ public class VisibleHack
         try {
             Class.forName("com.kentington.thaumichorizons.common.lib.PacketToggleInvisibleToServer");
             toggleVisiblity();
-            EHacksClickGui.log("[VisibleHack] Toggled");
+            InteropUtils.log("Toggled", this);
             this.off();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[VisibleHack] Not working");
         }
     }
 

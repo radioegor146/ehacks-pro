@@ -33,7 +33,6 @@ public class NoLimitFire
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketSimple").getConstructor();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitFire] Not working");
         }
     }
 

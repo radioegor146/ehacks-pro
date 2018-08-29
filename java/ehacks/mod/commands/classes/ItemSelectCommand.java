@@ -3,42 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ehacks.mod.commands;
+package ehacks.mod.commands.classes;
 
+import ehacks.mod.commands.CommandManager;
+import ehacks.mod.commands.ICommand;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.modulesystem.handler.EHacksGui;
+import ehacks.mod.util.InteropUtils;
+import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Statics;
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ChatComponentText;
 
 /**
  *
  * @author radioegor146
  */
-public class ItemSelectCommand extends CommandBase {
+public class ItemSelectCommand implements ICommand {
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "iselect";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender p_71518_1_) {
-        return "Item give command";
-    }
-
-    @Override
-    public List getCommandAliases() {
-        return new ArrayList();
-    }
-
-    @Override
-    public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_) {
+    public void process(String[] p_71515_2_) {
         if (p_71515_2_.length > 0) {
             try {
                 int enchant;
@@ -92,30 +84,27 @@ public class ItemSelectCommand extends CommandBase {
                 Statics.STATIC_ITEMSTACK = toGive;
                 Statics.STATIC_NBT = Statics.STATIC_ITEMSTACK.getTagCompound() == null ? new NBTTagCompound() : Statics.STATIC_ITEMSTACK.getTagCompound();
 
-                EHacksClickGui.log("[Item Selector] ItemStack selected");
+                InteropUtils.log("ItemStack selected", "Item Selector");
             } catch (Exception e) {
-                EHacksClickGui.log("[Item Selector] Wrong item");
+                InteropUtils.log("&cWrong item", "Item Selector");
             }
+            return;
         }
+        EHacksGui.clickGui.consoleGui.printChatMessage(new ChatComponentText("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
-        return true;
+    public String getCommandDescription() {
+        return "Selects an itemstack by id";
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
-        return new ArrayList();
+    public String getCommandArgs() {
+        return "<id>[:damage] [e1|e2]";
     }
 
     @Override
-    public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_) {
-        return false;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
+    public String[] autoComplete(String[] args) {
+        return new String[0];
     }
 }

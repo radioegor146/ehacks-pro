@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Statics;
@@ -74,7 +75,7 @@ public class ItemCreator
                 return;
             }
             giveItem(Statics.STATIC_ITEMSTACK);
-            EHacksClickGui.log("[Item Creator] Gived");
+            InteropUtils.log("Gived", this);
         }
         prevState = newState;
     }
@@ -85,7 +86,7 @@ public class ItemCreator
             Class.forName("com.mrcrayfish.furniture.network.message.MessagePackage");
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[Item Creator] Not working");
+            InteropUtils.log("Not working", this);
         }
     }
 

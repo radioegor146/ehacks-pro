@@ -2,6 +2,7 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.Tuple;
 import ehacks.mod.wrapper.Events;
@@ -18,7 +19,6 @@ public class PrivateNuker
         extends Module {
 
     public static boolean isActive = false;
-    private static final int radius = 5;
 
     public PrivateNuker() {
         super(ModuleCategory.EHACKS);
@@ -49,9 +49,7 @@ public class PrivateNuker
             obj = Class.forName("openmodularturrets.ModularTurrets").getDeclaredField("networking").get(new Object[0]);
         } catch (Exception ex) {
             isActive = false;
-            Events.selectedBlock = null;
             this.off();
-            EHacksClickGui.logData.add(new Tuple<String, Integer>("[Private Nuker] Not working", 0));
         }
     }
 
@@ -68,15 +66,15 @@ public class PrivateNuker
     @Override
     public void onDisableMod() {
         isActive = false;
-        Events.selectedBlock = null;
     }
 
     @Override
     public void onTicks() {
+        int radius = CheatConfiguration.config.nukerradius;
         if (Wrapper.INSTANCE.mc().playerController.isInCreativeMode()) {
-            for (int i = PrivateNuker.radius; i >= -radius; --i) {
-                for (int k = PrivateNuker.radius; k >= -radius; --k) {
-                    for (int j = -PrivateNuker.radius; j <= radius; ++j) {
+            for (int i = radius; i >= -radius; --i) {
+                for (int k = radius; k >= -radius; --k) {
+                    for (int j = -radius; j <= radius; ++j) {
                         int x = (int) (Wrapper.INSTANCE.player().posX + (double) i);
                         int y = (int) (Wrapper.INSTANCE.player().posY + (double) j);
                         int z = (int) (Wrapper.INSTANCE.player().posZ + (double) k);
@@ -90,9 +88,9 @@ public class PrivateNuker
             }
         }
         if (Wrapper.INSTANCE.mc().playerController.isNotCreative()) {
-            for (int i = PrivateNuker.radius; i >= -radius; --i) {
-                for (int k = PrivateNuker.radius; k >= -radius; --k) {
-                    for (int j = -PrivateNuker.radius; j <= radius; ++j) {
+            for (int i = radius; i >= -radius; --i) {
+                for (int k = radius; k >= -radius; --k) {
+                    for (int j = -radius; j <= radius; ++j) {
                         int x = (int) (Wrapper.INSTANCE.player().posX + (double) i);
                         int y = (int) (Wrapper.INSTANCE.player().posY + (double) j);
                         int z = (int) (Wrapper.INSTANCE.player().posZ + (double) k);
@@ -104,7 +102,6 @@ public class PrivateNuker
                             snd.invoke(obj, msg.newInstance(x, y, z));
                         } catch (Exception ex) {
                             isActive = false;
-                            Events.selectedBlock = null;
                             this.off();
                             ex.printStackTrace();
                         }

@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -17,6 +18,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -32,7 +34,7 @@ public class ShowArmor
         extends Module {
 
     public ShowArmor() {
-        super(ModuleCategory.EHACKS);
+        super(ModuleCategory.RENDER);
     }
 
     @Override
@@ -48,8 +50,23 @@ public class ShowArmor
     @Override
     public void onGameOverlay(RenderGameOverlayEvent.Text event) {
         if (event.type == RenderGameOverlayEvent.ElementType.TEXT) {
-            //if (Keyboard.isKeyDown(Keybinds.showArmor)) {
-            Entity entityHit = getMouseOver(event.partialTicks, 50000, false);
+            Entity entityHit = getMouseOver(event.partialTicks, 5000, false);
+            if (entityHit != null && entityHit instanceof EntityPlayer) {
+                EntityPlayer entity = (EntityPlayer) entityHit;
+                int t = 0;
+                for (int i = 3; i >= 0; i--) {
+                    if (entity.inventory.armorInventory[i] == null) {
+                        continue;
+                    }
+                    drawItemStack(entity.inventory.armorInventory[i], 4 + 8, 30 + t);
+                    t += Math.max(drawHoveringText(getItemToolTip(entity.inventory.armorInventory[i]), 4 + 16 + 4 + 4, 34 + t, Wrapper.INSTANCE.fontRenderer()), 16) + 10;
+                }
+                if (entity.inventory.getCurrentItem() != null) {
+                    drawItemStack(entity.inventory.getCurrentItem(), 4 + 8, 30 + t);
+                    t += Math.max(drawHoveringText(getItemToolTip(entity.inventory.getCurrentItem()), 4 + 16 + 4 + 4, 34 + t, Wrapper.INSTANCE.fontRenderer()), 16) + 10;
+                }
+                return;
+            }
             if (entityHit != null && entityHit instanceof EntityLiving) {
                 EntityLiving entity = (EntityLiving) entityHit;
                 int t = 0;
@@ -60,16 +77,14 @@ public class ShowArmor
                     drawItemStack(entity.getEquipmentInSlot(i), 4 + 8, 30 + t);
                     t += Math.max(drawHoveringText(getItemToolTip(entity.getEquipmentInSlot(i)), 4 + 16 + 4 + 4, 34 + t, Wrapper.INSTANCE.fontRenderer()), 16) + 10;
                 }
-                //drawPotionEffects(entity);
+                return;
             }
             if (entityHit != null && entityHit instanceof EntityItem && ((EntityItem) entityHit).getEntityItem() != null) {
                 EntityItem entity = (EntityItem) entityHit;
                 int t = 0;
                 drawItemStack(entity.getEntityItem(), 4 + 8, 30 + t);
                 t += Math.max(drawHoveringText(getItemToolTip(entity.getEntityItem()), 4 + 16 + 4 + 4, 34 + t, Wrapper.INSTANCE.fontRenderer()), 16) + 10;
-                //drawPotionEffects(entity);
             }
-            //}
         }
     }
 
@@ -81,36 +96,18 @@ public class ShowArmor
         if (mc.renderViewEntity != null) {
             if (mc.theWorld != null) {
                 Vec3 positionVec = mc.renderViewEntity.getPosition(partialTicks);
-                double distanceToVec3 = distance;
-
-                if (rayTrace != null) {
-                    distanceToVec3 = rayTrace.hitVec.distanceTo(positionVec);
-                }
-
                 Vec3 lookVec = mc.renderViewEntity.getLook(partialTicks);
                 Vec3 posDistVec = positionVec.addVector(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance);
-                Vec3 tempVec = null;
                 double boxExpand = 1.0F;
                 List<Entity> entities = mc.theWorld.getEntitiesWithinAABBExcludingEntity(mc.renderViewEntity, mc.renderViewEntity.boundingBox.addCoord(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance).expand(boxExpand, boxExpand, boxExpand));
-                double vecInsideDist = distanceToVec3;
-
                 double mincalc = Double.MAX_VALUE;
-                
                 for (int i = 0; i < entities.size(); i++) {
                     Entity entity = entities.get(i);
-
                     if (!canBeCollidedWith || entity.canBeCollidedWith()) {
                         double borderSize = entity.getCollisionBorderSize();
                         AxisAlignedBB expEntityBox = entity.boundingBox.expand(borderSize, borderSize, borderSize);
                         MovingObjectPosition calculateInterceptPos = expEntityBox.calculateIntercept(positionVec, posDistVec);
-
-                        if (expEntityBox.isVecInside(positionVec)) {
-                            if (0.0D < vecInsideDist || vecInsideDist == 0.0D) {
-                                pointedEntity = entity;
-                                tempVec = calculateInterceptPos == null ? positionVec : calculateInterceptPos.hitVec;
-                                vecInsideDist = 0.0D;
-                            }
-                        } else if (calculateInterceptPos != null) {
+                        if (calculateInterceptPos != null) {
                             double calcInterceptPosDist = positionVec.distanceTo(calculateInterceptPos.hitVec);
                             if (mincalc > calcInterceptPosDist)
                             {
@@ -120,7 +117,6 @@ public class ShowArmor
                         }
                     }
                 }
-
                 if (pointedEntity != null) {
                     return pointedEntity;
                 }

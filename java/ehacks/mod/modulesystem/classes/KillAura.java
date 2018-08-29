@@ -1,6 +1,8 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.AuraConfiguration;
+import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.block.material.Material;
@@ -57,9 +59,11 @@ public class KillAura
                 }
                 for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
                     EntityPlayer e;
-                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer) o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity) e) > 6 || e.isDead) {
+                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer) o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity) e) > CheatConfiguration.config.auraradius || e.isDead) {
                         continue;
                     }
+                    if (AuraConfiguration.config.friends.contains(e.getCommandSenderName().trim()))
+                        continue;
                     if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         ItemStack lel = Wrapper.INSTANCE.player().getCurrentEquippedItem();
                         lel.useItemRightClick((World) Wrapper.INSTANCE.world(), (EntityPlayer) Wrapper.INSTANCE.player());

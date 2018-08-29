@@ -15,6 +15,8 @@ public class ConfigurationManager {
         configurations.add(new GuiConfiguration());
         configurations.add(new NBTConfiguration());
         configurations.add(new ModIdConfiguration());
+        configurations.add(new CheatConfiguration());
+        configurations.add(new AuraConfiguration());
     }
 
     public static ConfigurationManager instance() {

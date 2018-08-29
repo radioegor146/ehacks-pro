@@ -1,6 +1,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 
@@ -23,7 +24,7 @@ public class Speed
 
     @Override
     public void onTicks() {
-        TimerUtils.getTimer().timerSpeed = 3.0f;
+        TimerUtils.getTimer().timerSpeed = (float)CheatConfiguration.config.speedhack;
     }
 
     @Override

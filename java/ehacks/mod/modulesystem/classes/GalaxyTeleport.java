@@ -52,7 +52,6 @@ public class GalaxyTeleport
         } catch (Exception ex) {
             this.off();
             ex.printStackTrace();
-            EHacksClickGui.log("[GalaxyTeleport] Not working");
         }
     }
 

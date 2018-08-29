@@ -6,6 +6,7 @@
 package ehacks.mod.external.config;
 
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Wrapper;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,9 +43,9 @@ public class LocalConfigStorage {
                 config.read();
                 config.write();
             }
-            EHacksClickGui.log("[ConfigStorage] Local config has been imported");
+            InteropUtils.log("Local config has been imported", "ConfigStorage");
         } catch (Exception e) {
-            EHacksClickGui.log("[ConfigStorage] Can't import local config");
+            InteropUtils.log("Can't import local config", "ConfigStorage");
             e.printStackTrace();
         }
     }
@@ -69,9 +70,9 @@ public class LocalConfigStorage {
                 out.closeEntry();
             }
             out.close();
-            EHacksClickGui.log("[ConfigStorage] Local config has been exported");
+            InteropUtils.log("Local config has been exported", "ConfigStorage");
         } catch (Exception e) {
-            EHacksClickGui.log("[ConfigStorage] Can't export local config");
+            InteropUtils.log("Can't export local config", "ConfigStorage");
             e.printStackTrace();
         }
     }

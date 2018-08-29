@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -70,11 +71,10 @@ public class NoLimitClear
                     }
                 }
             }
-            EHacksClickGui.log("[NoLimitClear] Cleared " + String.valueOf(count) + " containers");
+            InteropUtils.log("Cleared " + String.valueOf(count) + " containers", this);
             this.off();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitClear] Not working");
             ex.printStackTrace();
         }
     }

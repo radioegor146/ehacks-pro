@@ -39,7 +39,6 @@ public class NoLimitSpin
             Class.forName("micdoodle8.mods.galacticraft.core.network.PacketRotateRocket").getConstructor();
         } catch (Exception ex) {
             this.off();
-            EHacksClickGui.log("[NoLimitSpin] Not working");
         }
     }
 

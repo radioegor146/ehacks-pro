@@ -1,9 +1,12 @@
 package ehacks.mod.gui;
 
+import ehacks.api.module.Module;
+import ehacks.mod.commands.ConsoleGui;
 import ehacks.mod.external.config.ConfigurationManager;
 import ehacks.mod.gui.element.SimpleWindow;
 import ehacks.mod.gui.window.*;
 import ehacks.mod.util.GLUtils;
+import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -11,21 +14,17 @@ import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 
 public class EHacksClickGui
         extends GuiScreen {
 
-    public static ArrayList<SimpleWindow> windows = new ArrayList();
-    public static boolean isDark = false;
-    public static ArrayList OrgName = new ArrayList();
-    public static ArrayList NameP = new ArrayList();
-    private int updateCounter = 0;
-    private static final char[] allowedCharacters = ChatAllowedCharacters.allowedCharacters;
-    private final boolean var6 = false;
+    public ArrayList<SimpleWindow> windows = new ArrayList();
+    public ConsoleGui consoleGui = new ConsoleGui(Wrapper.INSTANCE.mc());
+    public boolean canInputConsole = false;
 
     public EHacksClickGui() {
-        this.initWindows();
     }
 
     public void initWindows() {
@@ -58,7 +57,7 @@ public class EHacksClickGui
         ConfigurationManager.instance().saveConfigs();
     }
 
-    public static void sendPanelToFront(SimpleWindow window) {
+    public void sendPanelToFront(SimpleWindow window) {
         if (windows.contains(window)) {
             int panelIndex = windows.indexOf(window);
             windows.remove(panelIndex);
@@ -66,7 +65,7 @@ public class EHacksClickGui
         }
     }
 
-    public static SimpleWindow getFocusedPanel() {
+    public SimpleWindow getFocusedPanel() {
         return windows.get(windows.size() - 1);
     }
 
@@ -84,46 +83,21 @@ public class EHacksClickGui
         }
     }
 
-    public static ArrayDeque<Tuple<String, Integer>> logData = new ArrayDeque<Tuple<String, Integer>>();
-
-    public static void drawLog() {
-        int ti = 0;
-        for (int i = logData.size() - 1; i >= 0; i--) {
-            Tuple<String, Integer> log = (Tuple<String, Integer>) logData.toArray()[i];
-            ScaledResolution get = new ScaledResolution(Wrapper.INSTANCE.mc(), Wrapper.INSTANCE.mc().displayWidth, Wrapper.INSTANCE.mc().displayHeight);
-            int twidth = Wrapper.INSTANCE.mc().displayWidth / get.getScaleFactor();
-            int theight = Wrapper.INSTANCE.mc().displayHeight / get.getScaleFactor();
-            List<String> strings = Wrapper.INSTANCE.fontRenderer().listFormattedStringToWidth(log.x, 324);
-            if (log.y < 320) {
-                for (int j = 0; j < strings.size(); j++) {
-                    if (ti + j < 20) {
-                        GLUtils.drawRect(twidth - 326, theight - 9 * ti - 9 * j - 28 - 9 + 1, twidth - 2, theight - 9 * ti - 9 * j - 28 + 1, GLUtils.getColor(128, 0, 0, 0));
-                        Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(strings.get(strings.size() - j - 1).replaceAll("[\u0000-\u001f]", ""), twidth - 326, theight - 9 * ti - 9 * j - 28 - 9 + 2, GLUtils.getColor(0, 255, 255));
-                    }
-                }
-            } else {
-                for (int j = 0; j < strings.size(); j++) {
-                    if (ti + j < 20) {
-                        GLUtils.drawRect(twidth - 326, theight - 9 * ti - 9 * j - 28 - 9 + 1, twidth - 2, theight - 9 * ti - 9 * j - 28 + 1, GLUtils.getColor(Math.max(0, (int) ((80 - (log.y - 320)) / 80.0 * 128.0)), 0, 0, 0));
-                        Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(strings.get(strings.size() - j - 1).replaceAll("[\u0000-\u001f]", ""), twidth - 326, theight - 9 * ti - 9 * j - 28 - 9 + 2, GLUtils.getColor(Math.max(0, (int) ((80 - (log.y - 320)) / 80.0 * 255.0)), 0, 255, 255));
-                    }
-                }
-            }
-            ti += strings.size();
-            log.y++;
+    public void log(String data, Object from) {
+        if (from == null) {
+            data = data;
         }
-        while (!logData.isEmpty() && logData.peek().y == 390) {
-            logData.poll();
+        else if (from instanceof Module) {
+            data = "[&b" + ((Module) from).getName() + "&f] &e" + data;
+        } 
+        else if (from instanceof String) {
+            data = "[&b" + ((String) from) + "&f] &e" + data;
         }
-    }
-
-    public static void log(String data) {
-        EHacksClickGui.logData.add(new Tuple<String, Integer>(data, 0));
+        consoleGui.printChatMessage(new ChatComponentText(data.replace("&", "\u00a7").replace("\u00a7\u00a7", "&")));
     }
 
     @Override
     public void updateScreen() {
-        ++this.updateCounter;
         super.updateScreen();
     }
 
@@ -153,5 +127,17 @@ public class EHacksClickGui
     @Override
     public boolean doesGuiPauseGame() {
         return false;
+    }
+    
+    public void drawBack() {
+        if (Wrapper.INSTANCE.mc().currentScreen == null || (!(Wrapper.INSTANCE.mc().currentScreen instanceof EHacksClickGui))) {
+            for (SimpleWindow windows : windows) {
+                if (!windows.isPinned()) {
+                    continue;
+                }
+                windows.draw(0, 0);
+            }
+        }
+        consoleGui.drawChat(Wrapper.INSTANCE.mc().ingameGUI.getUpdateCounter());
     }
 }

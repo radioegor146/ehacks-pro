@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import ehacks.api.module.Module;
 import ehacks.mod.gui.EHacksClickGui;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Random;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -45,7 +46,7 @@ public class PacketFlooder
                 validPackets.add(packet);
             }
         }
-        EHacksClickGui.log("[PacketFlooder] Enabled: " + String.valueOf(validPackets.size()) + "/" + String.valueOf(FakePacket.values().length) + " packets");
+        InteropUtils.log("Enabled: " + String.valueOf(validPackets.size()) + "/" + String.valueOf(FakePacket.values().length) + " packets", this);
     }
 
     public boolean checkClass(String clazz) {

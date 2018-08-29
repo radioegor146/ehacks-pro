@@ -5,15 +5,18 @@ import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
 
-public class Gui
+public class EHacksGui
         extends Module {
 
-    private final EHacksClickGui click = new EHacksClickGui();
+    public static final EHacksClickGui clickGui = new EHacksClickGui();
 
-    public Gui() {
+    public EHacksGui() {
         super(ModuleCategory.NONE);
         this.setKeybinding(34);
+        clickGui.initWindows();
+        ItemStack a;
     }
 
     @Override
@@ -23,6 +26,6 @@ public class Gui
 
     @Override
     public void toggle() {
-        Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen) this.click);
+        Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen)this.clickGui);
     }
 }

@@ -16,6 +16,8 @@ import org.lwjgl.util.glu.Sphere;
 
 public class GLUtils {
 
+    public static boolean hasClearedDepth = false;
+    
     private static final Minecraft mc = Wrapper.INSTANCE.mc();
     private static final RenderItem itemRenderer = new RenderItem();
     private static final Sphere sphere = new Sphere();
@@ -325,18 +327,18 @@ public class GLUtils {
     }
 
     public static void drawGradientBorderedRect(double x, double y, double x2, double y2, float l1, int col1, int col2, int col3) {
-
         float f = (float) (col1 >> 24 & 255) / 255.0f;
         float f1 = (float) (col1 >> 16 & 255) / 255.0f;
         float f2 = (float) (col1 >> 8 & 255) / 255.0f;
         float f3 = (float) (col1 & 255) / 255.0f;
+        GLUtils.drawRect((float)x, (float)y, (float)x2, (float)y2, col3);
         GL11.glDisable((int) 3553);
         GL11.glBlendFunc((int) 770, (int) 771);
         GL11.glEnable((int) 2848);
         GL11.glDisable((int) 3042);
         GL11.glPushMatrix();
         GL11.glColor4f((float) f1, (float) f2, (float) f3, (float) f);
-        GL11.glLineWidth((float) 1.0f);
+        GL11.glLineWidth((float) 0f);
         GL11.glBegin((int) 1);
         GL11.glVertex2d((double) x, (double) y);
         GL11.glVertex2d((double) x, (double) y2);
@@ -348,7 +350,7 @@ public class GLUtils {
         GL11.glVertex2d((double) x2, (double) y2);
         GL11.glEnd();
         GL11.glPopMatrix();
-        GLUtils.drawGradientRect(x, y, x2, y2, col2, col3);
+        //GLUtils.drawGradientRect(x, y, x2, y2, col2, col3);
         GL11.glEnable((int) 3042);
         GL11.glEnable((int) 3553);
         GL11.glDisable((int) 2848);

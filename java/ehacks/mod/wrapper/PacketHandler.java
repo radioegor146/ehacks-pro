@@ -7,6 +7,7 @@ package ehacks.mod.wrapper;
 
 import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.packetprotector.MainProtector;
+import ehacks.mod.util.InteropUtils;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,10 +27,10 @@ public class PacketHandler extends ChannelDuplexHandler {
         try {
             ChannelPipeline pipeline = Wrapper.INSTANCE.mc().getNetHandler().getNetworkManager().channel().pipeline();
             pipeline.addBefore("packet_handler", "PacketHandler", (ChannelHandler) this);
-            EHacksClickGui.log("[PacketHandler] Attached");
+            InteropUtils.log("Attached", "PacketHandler");
             MainProtector.INSTANCE.init();
         } catch (Exception exception) {
-            EHacksClickGui.log("[PacketHandler] Error on attaching");
+            InteropUtils.log("Error on attaching", "PacketHandler");
             exception.printStackTrace();
         }
     }
