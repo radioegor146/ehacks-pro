@@ -2,21 +2,11 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
-import ehacks.mod.gui.Tuple;
-import ehacks.mod.util.InteropUtils;
-import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Mouse;
 
 public class BlockDestroy

@@ -15,7 +15,7 @@ public class HighJump
 
     @Override
     public String getName() {
-        return "High Jump";
+        return "HighJump";
     }
 
     @Override

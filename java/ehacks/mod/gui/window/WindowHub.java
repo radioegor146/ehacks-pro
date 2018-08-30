@@ -1,7 +1,6 @@
 package ehacks.mod.gui.window;
 
 import ehacks.api.module.ModStatus;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.SimpleButton;
 import ehacks.mod.gui.element.SimpleWindow;
 import ehacks.mod.modulesystem.handler.EHacksGui;

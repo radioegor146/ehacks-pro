@@ -3,7 +3,6 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -31,7 +30,7 @@ public class JesusGift
 
     @Override
     public String getDescription() {
-        return "Gives you items through Atlas item from BiblioCraft\nUsage:\n  Numpad2 - perform give";
+        return "Gives you items through Atlas item from BiblioCraft\nUsage:\n  Numpad0 - perform give";
     }
 
     @Override

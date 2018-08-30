@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -30,7 +29,7 @@ public class ChestMagic
 
     @Override
     public String getDescription() {
-        return "You can fill containers with an item that player is holding in inventory\nUsage: \n  Numpad3 - Select player\n  Numpad2 - Perform action on container";
+        return "You can fill containers with an item that player is holding in inventory\nUsage: \n  Numpad3 - Select player\n  Numpad0 - Perform action on container";
     }
 
     @Override

@@ -5,19 +5,13 @@
  */
 package ehacks.mod.modulesystem.classes;
 
-import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.external.config.AuraConfiguration;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.MouseEvent;
 import org.lwjgl.input.Mouse;
 
 /**

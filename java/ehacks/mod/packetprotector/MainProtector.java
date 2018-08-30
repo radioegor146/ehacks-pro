@@ -5,7 +5,6 @@
  */
 package ehacks.mod.packetprotector;
 
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.packetprotector.modules.*;
 import ehacks.mod.util.InteropUtils;
 import java.util.ArrayList;

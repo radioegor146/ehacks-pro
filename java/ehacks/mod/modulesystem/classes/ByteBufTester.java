@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

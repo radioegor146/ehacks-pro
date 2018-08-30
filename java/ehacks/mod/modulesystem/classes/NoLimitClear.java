@@ -3,7 +3,6 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.wrapper.ModuleCategory;

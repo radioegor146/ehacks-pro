@@ -26,6 +26,6 @@ public class EHacksGui
 
     @Override
     public void toggle() {
-        Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen)this.clickGui);
+        Wrapper.INSTANCE.mc().displayGuiScreen((GuiScreen)EHacksGui.clickGui);
     }
 }

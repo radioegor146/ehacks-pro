@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -25,7 +24,7 @@ public class CreativeGive
 
     @Override
     public String getDescription() {
-        return "You can give selected ItemStack when you are in creative mode\nUsage: \n  Numpad2 - perform give";
+        return "You can give selected ItemStack when you are in creative mode\nUsage: \n  Numpad0 - perform give";
     }
 
     @Override

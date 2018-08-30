@@ -6,7 +6,6 @@ import com.google.common.collect.Sets;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ehacks.mod.modulesystem.handler.EHacksGui;
-import ehacks.mod.wrapper.Events;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +17,8 @@ import static net.minecraft.client.gui.Gui.drawRect;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
 import static net.minecraft.client.gui.GuiScreen.isShiftKeyDown;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.stream.GuiTwitchUserMode;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -26,7 +27,6 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
@@ -41,8 +41,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import tv.twitch.chat.ChatUserInfo;
-import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.gui.GuiTextField;
 
 @SideOnly(Side.CLIENT)
 public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
@@ -77,6 +75,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @Override
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -92,6 +91,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
+    @Override
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -101,6 +101,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Called from the main game loop to update the screen.
      */
+    @Override
     public void updateScreen()
     {
         this.inputField.updateCursorCounter();
@@ -111,6 +112,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
+    @Override
     protected void keyTyped(char p_73869_1_, int key)
     {
         if (!EHacksGui.clickGui.canInputConsole) return;
@@ -131,25 +133,22 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
         }
         else if (key != 28 && key != 156)
         {
-            if (key == 200)
-            {
-                this.getSentHistory(-1);
-            }
-            else if (key == 208)
-            {
-                this.getSentHistory(1);
-            }
-            else if (key == 201)
-            {
-                EHacksGui.clickGui.consoleGui.scroll(EHacksGui.clickGui.consoleGui.getShownMessagesCount() - 1);
-            }
-            else if (key == 209)
-            {
-                EHacksGui.clickGui.consoleGui.scroll(-EHacksGui.clickGui.consoleGui.getShownMessagesCount()  + 1);
-            }
-            else
-            {
-                this.inputField.textboxKeyTyped(p_73869_1_, key);
+            switch (key) {
+                case 200:
+                    this.getSentHistory(-1);
+                    break;
+                case 208:
+                    this.getSentHistory(1);
+                    break;
+                case 201:
+                    EHacksGui.clickGui.consoleGui.scroll(EHacksGui.clickGui.consoleGui.getShownMessagesCount() - 1);
+                    break;
+                case 209:
+                    EHacksGui.clickGui.consoleGui.scroll(-EHacksGui.clickGui.consoleGui.getShownMessagesCount()  + 1);
+                    break;
+                default:
+                    this.inputField.textboxKeyTyped(p_73869_1_, key);
+                    break;
             }
         }
         else
@@ -174,6 +173,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Handles mouse input.
      */
+    @Override
     public void handleMouseInput()
     {
         super.handleMouseInput();
@@ -203,6 +203,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Called when the mouse is clicked.
      */
+    @Override
     protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_)
     {
         if (p_73864_3_ == 0 && this.mc.gameSettings.chatLinks)
@@ -223,61 +224,58 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
                     {
                         URI uri;
 
-                        if (clickevent.getAction() == ClickEvent.Action.OPEN_URL)
+                        if (null == clickevent.getAction())
                         {
-                            try
-                            {
-                                uri = new URI(clickevent.getValue());
-
-                                if (!field_152175_f.contains(uri.getScheme().toLowerCase()))
+                            logger.error("Don\'t know how to handle " + clickevent);
+                        }
+                        else switch (clickevent.getAction()) {
+                            case OPEN_URL:
+                                try
                                 {
-                                    throw new URISyntaxException(clickevent.getValue(), "Unsupported protocol: " + uri.getScheme().toLowerCase());
+                                    uri = new URI(clickevent.getValue());
+                                    
+                                    if (!field_152175_f.contains(uri.getScheme().toLowerCase()))
+                                    {
+                                        throw new URISyntaxException(clickevent.getValue(), "Unsupported protocol: " + uri.getScheme().toLowerCase());
+                                    }
+                                    
+                                    if (this.mc.gameSettings.chatLinksPrompt)
+                                    {
+                                        this.clickedURI = uri;
+                                        this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, clickevent.getValue(), 0, false));
+                                    }
+                                    else
+                                    {
+                                        this.openLink(uri);
+                                    }
                                 }
-
-                                if (this.mc.gameSettings.chatLinksPrompt)
+                                catch (URISyntaxException urisyntaxexception)
                                 {
-                                    this.clickedURI = uri;
-                                    this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, clickevent.getValue(), 0, false));
+                                    logger.error("Can\'t open url for " + clickevent, urisyntaxexception);
+                                }   break;
+                            case OPEN_FILE:
+                                uri = (new File(clickevent.getValue())).toURI();
+                                this.openLink(uri);
+                                break;
+                            case SUGGEST_COMMAND:
+                                this.inputField.setText(clickevent.getValue());
+                                break;
+                            case RUN_COMMAND:
+                                this.sendMessage(clickevent.getValue());
+                                break;
+                            case TWITCH_USER_INFO:
+                                ChatUserInfo chatuserinfo = this.mc.func_152346_Z().func_152926_a(clickevent.getValue());
+                                if (chatuserinfo != null)
+                                {
+                                    this.mc.displayGuiScreen(new GuiTwitchUserMode(this.mc.func_152346_Z(), chatuserinfo));
                                 }
                                 else
                                 {
-                                    this.openLink(uri);
-                                }
-                            }
-                            catch (URISyntaxException urisyntaxexception)
-                            {
-                                logger.error("Can\'t open url for " + clickevent, urisyntaxexception);
-                            }
-                        }
-                        else if (clickevent.getAction() == ClickEvent.Action.OPEN_FILE)
-                        {
-                            uri = (new File(clickevent.getValue())).toURI();
-                            this.openLink(uri);
-                        }
-                        else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND)
-                        {
-                            this.inputField.setText(clickevent.getValue());
-                        }
-                        else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND)
-                        {
-                            this.sendMessage(clickevent.getValue());
-                        }
-                        else if (clickevent.getAction() == ClickEvent.Action.TWITCH_USER_INFO)
-                        {
-                            ChatUserInfo chatuserinfo = this.mc.func_152346_Z().func_152926_a(clickevent.getValue());
-
-                            if (chatuserinfo != null)
-                            {
-                                this.mc.displayGuiScreen(new GuiTwitchUserMode(this.mc.func_152346_Z(), chatuserinfo));
-                            }
-                            else
-                            {
-                                logger.error("Tried to handle twitch user but couldn\'t find them!");
-                            }
-                        }
-                        else
-                        {
-                            logger.error("Don\'t know how to handle " + clickevent);
+                                    logger.error("Tried to handle twitch user but couldn\'t find them!");
+                                }   break;
+                            default:
+                                logger.error("Don\'t know how to handle " + clickevent);
+                                break;
                         }
                     }
 
@@ -290,6 +288,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
         super.mouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
     }
 
+    @Override
     public void confirmClicked(boolean p_73878_1_, int p_73878_2_)
     {
         if (p_73878_2_ == 0)
@@ -420,6 +419,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Draws the screen and all the components in it.
      */
+    @Override
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
@@ -434,60 +434,53 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
         {
             HoverEvent hoverevent = ichatcomponent.getChatStyle().getChatHoverEvent();
 
-            if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM)
-            {
-                ItemStack itemstack = null;
-
-                try
-                {
-                    NBTBase nbtbase = JsonToNBT.func_150315_a(hoverevent.getValue().getUnformattedText());
-
-                    if (nbtbase != null && nbtbase instanceof NBTTagCompound)
-                    {
-                        itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbtbase);
+            if (null != hoverevent.getAction())
+            switch (hoverevent.getAction()) {
+                case SHOW_ITEM:
+                    ItemStack itemstack = null;
+                    try {
+                        NBTBase nbtbase = JsonToNBT.func_150315_a(hoverevent.getValue().getUnformattedText());
+                        
+                        if (nbtbase != null && nbtbase instanceof NBTTagCompound)
+                        {
+                            itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbtbase);
+                        }
+                    } catch (NBTException nbtexception) {
                     }
-                }
-                catch (NBTException nbtexception)
-                {
-                    ;
-                }
-
-                if (itemstack != null)
-                {
-                    this.renderToolTip(itemstack, p_73863_1_, p_73863_2_);
-                }
-                else
-                {
-                    this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", p_73863_1_, p_73863_2_);
-                }
-            }
-            else if (hoverevent.getAction() == HoverEvent.Action.SHOW_TEXT)
-            {
-                this.func_146283_a(Splitter.on("\n").splitToList(hoverevent.getValue().getFormattedText()), p_73863_1_, p_73863_2_);
-            }
-            else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT)
-            {
-                StatBase statbase = StatList.func_151177_a(hoverevent.getValue().getUnformattedText());
-
-                if (statbase != null)
-                {
-                    IChatComponent ichatcomponent1 = statbase.func_150951_e();
-                    ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic"), new Object[0]);
-                    chatcomponenttranslation.getChatStyle().setItalic(Boolean.valueOf(true));
-                    String s = statbase instanceof Achievement ? ((Achievement)statbase).getDescription() : null;
-                    ArrayList arraylist = Lists.newArrayList(new String[] {ichatcomponent1.getFormattedText(), chatcomponenttranslation.getFormattedText()});
-
-                    if (s != null)
+                    if (itemstack != null)
                     {
-                        arraylist.addAll(this.fontRendererObj.listFormattedStringToWidth(s, 150));
+                        this.renderToolTip(itemstack, p_73863_1_, p_73863_2_);
                     }
-
-                    this.func_146283_a(arraylist, p_73863_1_, p_73863_2_);
-                }
-                else
-                {
-                    this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", p_73863_1_, p_73863_2_);
-                }
+                    else
+                    {
+                        this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", p_73863_1_, p_73863_2_);
+                    }   break;
+                case SHOW_TEXT:
+                    this.func_146283_a(Splitter.on("\n").splitToList(hoverevent.getValue().getFormattedText()), p_73863_1_, p_73863_2_);
+                    break;
+                case SHOW_ACHIEVEMENT:
+                    StatBase statbase = StatList.func_151177_a(hoverevent.getValue().getUnformattedText());
+                    if (statbase != null)
+                    {
+                        IChatComponent ichatcomponent1 = statbase.func_150951_e();
+                        ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic"), new Object[0]);
+                        chatcomponenttranslation.getChatStyle().setItalic(Boolean.valueOf(true));
+                        String s = statbase instanceof Achievement ? ((Achievement)statbase).getDescription() : null;
+                        ArrayList arraylist = Lists.newArrayList(new String[] {ichatcomponent1.getFormattedText(), chatcomponenttranslation.getFormattedText()});
+                        
+                        if (s != null)
+                        {
+                            arraylist.addAll(this.fontRendererObj.listFormattedStringToWidth(s, 150));
+                        }
+                        
+                        this.func_146283_a(arraylist, p_73863_1_, p_73863_2_);
+                    }
+                    else
+                    {
+                        this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", p_73863_1_, p_73863_2_);
+                    }   break;
+                default:
+                    break;
             }
 
             GL11.glDisable(GL11.GL_LIGHTING);
@@ -534,6 +527,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback
     /**
      * Returns true if this GUI should pause the game when it is displayed in single-player
      */
+    @Override
     public boolean doesGuiPauseGame()
     {
         return false;

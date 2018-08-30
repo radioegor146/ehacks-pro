@@ -5,7 +5,6 @@
  */
 package ehacks.mod.wrapper;
 
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.packetprotector.MainProtector;
 import ehacks.mod.util.InteropUtils;
 import io.netty.channel.ChannelDuplexHandler;

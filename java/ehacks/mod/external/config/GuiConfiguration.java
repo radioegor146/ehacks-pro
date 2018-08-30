@@ -1,7 +1,6 @@
 package ehacks.mod.external.config;
 
 import com.google.gson.Gson;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.element.SimpleWindow;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.wrapper.Wrapper;

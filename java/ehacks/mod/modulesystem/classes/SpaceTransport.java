@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;

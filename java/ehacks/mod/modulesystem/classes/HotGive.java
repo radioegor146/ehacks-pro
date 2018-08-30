@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -28,7 +27,7 @@ public class HotGive
 
     @Override
     public String getDescription() {
-        return "You can fill TileCache with any itemstack\nUsage: \n  Numpad2 - Perform action on container";
+        return "You can fill TileCache with any itemstack\nUsage: \n  Numpad0 - Perform action on container";
     }
 
     @Override

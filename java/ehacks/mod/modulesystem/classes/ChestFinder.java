@@ -20,7 +20,7 @@ public class ChestFinder
 
     @Override
     public String getName() {
-        return "Chest Finder";
+        return "ChestFinder";
     }
 
     @Override
@@ -63,10 +63,10 @@ public class ChestFinder
             if (!(o instanceof TileEntityEnderChest)) {
                 continue;
             }
-            chest = (TileEntityChest) o;
-            renderX = (double) chest.xCoord - RenderManager.renderPosX;
-            renderY = (double) chest.yCoord - RenderManager.renderPosY;
-            renderZ = (double) chest.zCoord - RenderManager.renderPosZ;
+            TileEntityEnderChest chestEnder = (TileEntityEnderChest) o;
+            renderX = (double) chestEnder.xCoord - RenderManager.renderPosX;
+            renderY = (double) chestEnder.yCoord - RenderManager.renderPosY;
+            renderZ = (double) chestEnder.zCoord - RenderManager.renderPosZ;
             GL11.glPushMatrix();
             GL11.glTranslated((double) renderX, (double) renderY, (double) renderZ);
             GL11.glColor3f((float) 1.0f, (float) 1.0f, (float) 0.0f);

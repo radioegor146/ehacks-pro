@@ -21,7 +21,7 @@ public class XRayBlock {
     public String id = "";
     public boolean enabled = true;
 
-    public XRayBlock() {
+        public XRayBlock() {
     }
 
     public XRayBlock(int r, int g, int b2, int a2, int meta, String id, boolean enabled) {

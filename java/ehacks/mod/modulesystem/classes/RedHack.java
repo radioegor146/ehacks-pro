@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -25,7 +24,7 @@ public class RedHack
 
     @Override
     public String getDescription() {
-        return "Allows you to give any ItemStack to your hand\nUsage:\n  Numpad2 - Gives an item";
+        return "Allows you to give any ItemStack to your hand\nUsage:\n  Numpad0 - Gives an item";
     }
 
     @Override

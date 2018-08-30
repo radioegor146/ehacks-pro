@@ -13,7 +13,7 @@ public class AutoRespawn
 
     @Override
     public String getName() {
-        return "Auto Respawn";
+        return "AutoRespawn";
     }
 
     @Override

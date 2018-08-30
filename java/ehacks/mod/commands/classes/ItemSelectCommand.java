@@ -5,12 +5,9 @@
  */
 package ehacks.mod.commands.classes;
 
-import ehacks.mod.commands.CommandManager;
 import ehacks.mod.commands.ICommand;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.InteropUtils;
-import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Statics;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

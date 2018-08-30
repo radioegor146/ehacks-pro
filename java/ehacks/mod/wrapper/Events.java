@@ -6,12 +6,9 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.api.module.Module;
 import ehacks.api.module.ModuleController;
-import ehacks.mod.commands.ConsoleGui;
 import ehacks.mod.commands.ConsoleInputGui;
 import ehacks.mod.external.config.ConfigurationManager;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.gui.Tuple;
-import ehacks.mod.gui.element.SimpleWindow;
 import static ehacks.mod.gui.window.WindowCheckVanish.cvLastUpdate;
 import static ehacks.mod.gui.window.WindowCheckVanish.cvThreadStarted;
 import static ehacks.mod.gui.window.WindowCheckVanish.lpLastUpdate;
@@ -27,11 +24,11 @@ import ehacks.mod.modulesystem.classes.SeeHealth;
 import ehacks.mod.modulesystem.classes.TriggerBot;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.GLUtils;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.UltimateLogger;
 import ehacks.mod.util.ehackscfg.GuiMainConfig;
 import java.awt.Color;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -228,7 +225,7 @@ public class Events {
         if (event.target instanceof EntityPlayer) {
             EntityPlayer e = (EntityPlayer) event.target;
             if (SeeHealth.isActive) {
-                Wrapper.INSTANCE.addChatMessage("&9[&bEHacks Console&9] &fPlayer health &e" + e.getCommandSenderName() + "&f: &e" + e.getHealth());
+                InteropUtils.log("Player health &e" + e.getCommandSenderName() + "&f: &e" + e.getHealth(), "SeeHealth");
             }
         }
     }

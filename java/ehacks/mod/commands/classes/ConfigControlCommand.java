@@ -6,15 +6,12 @@
 package ehacks.mod.commands.classes;
 
 import ehacks.mod.commands.ICommand;
-import ehacks.mod.external.config.AuraConfiguration;
 import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.external.config.ConfigurationManager;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.InteropUtils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.minecraft.util.ChatComponentText;
 
 

@@ -7,13 +7,12 @@ package ehacks.mod.commands.classes;
 
 import ehacks.mod.commands.ICommand;
 import ehacks.mod.external.config.AuraConfiguration;
-import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.external.config.ConfigurationManager;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Wrapper;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.gui.GuiPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;

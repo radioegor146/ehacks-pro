@@ -22,7 +22,7 @@ public class EntityESP
 
     @Override
     public String getName() {
-        return "Entity ESP";
+        return "EntityESP";
     }
 
     @Override

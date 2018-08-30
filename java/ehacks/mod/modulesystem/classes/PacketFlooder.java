@@ -3,7 +3,6 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Random;
 import ehacks.mod.wrapper.ModuleCategory;

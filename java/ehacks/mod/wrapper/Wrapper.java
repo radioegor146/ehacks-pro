@@ -7,8 +7,6 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 
 public class Wrapper {
 
@@ -32,11 +30,6 @@ public class Wrapper {
 
     public FontRenderer fontRenderer() {
         return Wrapper.INSTANCE.mc().fontRenderer;
-    }
-
-    public void addChatMessage(String tosend) {
-        ChatComponentText chatcomponent = new ChatComponentText(tosend.replace("&", "\u00a7"));
-        this.player().addChatMessage((IChatComponent) chatcomponent);
     }
 
     public void copy(String str) {

@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ehacks.mod.commands;
 
 import ehacks.mod.commands.classes.*;
 import ehacks.mod.modulesystem.handler.EHacksGui;
-import ehacks.mod.wrapper.Events;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.TreeMap;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -29,6 +23,7 @@ public class CommandManager {
         add(new HelpCommand());
         add(new FriendsCommand());
         add(new ConfigControlCommand());
+        add(new KeybindCommand());
     }
     
     private void add(ICommand command) {
@@ -88,8 +83,7 @@ public class CommandManager {
         
         if (commands.containsKey(commandName)) {
             ArrayList<String> targs = new ArrayList();
-            for (String s : args)
-                targs.add(s);
+            targs.addAll(Arrays.asList(args));
             if (message.endsWith(" "))
                 targs.add("");
             return commands.get(commandName).autoComplete(targs.toArray(new String[targs.size()]));

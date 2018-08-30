@@ -19,7 +19,7 @@ public class FreezeCam
 
     @Override
     public String getName() {
-        return "Freeze Cam";
+        return "FreezeCam";
     }
 
     @Override

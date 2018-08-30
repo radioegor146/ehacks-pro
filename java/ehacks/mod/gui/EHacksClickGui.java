@@ -6,14 +6,9 @@ import ehacks.mod.external.config.ConfigurationManager;
 import ehacks.mod.gui.element.SimpleWindow;
 import ehacks.mod.gui.window.*;
 import ehacks.mod.util.GLUtils;
-import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Wrapper;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 
@@ -23,6 +18,7 @@ public class EHacksClickGui
     public ArrayList<SimpleWindow> windows = new ArrayList();
     public ConsoleGui consoleGui = new ConsoleGui(Wrapper.INSTANCE.mc());
     public boolean canInputConsole = false;
+    public static int mainColor = GLUtils.getColor(255, 255, 255);
 
     public EHacksClickGui() {
     }

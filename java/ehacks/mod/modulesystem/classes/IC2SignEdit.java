@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.PacketHandler.Side;
 import ehacks.mod.wrapper.Wrapper;
@@ -24,7 +23,7 @@ public class IC2SignEdit
 
     @Override
     public String getName() {
-        return "IC2 Sign Edit";
+        return "IC2SignEdit";
     }
 
     @Override

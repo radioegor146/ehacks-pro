@@ -15,7 +15,7 @@ public class CreativeFly
 
     @Override
     public String getName() {
-        return "Creative Fly";
+        return "CreativeFly";
     }
 
     @Override

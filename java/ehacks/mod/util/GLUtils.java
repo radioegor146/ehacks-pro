@@ -338,7 +338,7 @@ public class GLUtils {
         GL11.glDisable((int) 3042);
         GL11.glPushMatrix();
         GL11.glColor4f((float) f1, (float) f2, (float) f3, (float) f);
-        GL11.glLineWidth((float) 0f);
+        GL11.glLineWidth((float) 1f);
         GL11.glBegin((int) 1);
         GL11.glVertex2d((double) x, (double) y);
         GL11.glVertex2d((double) x, (double) y2);
@@ -350,7 +350,7 @@ public class GLUtils {
         GL11.glVertex2d((double) x2, (double) y2);
         GL11.glEnd();
         GL11.glPopMatrix();
-        //GLUtils.drawGradientRect(x, y, x2, y2, col2, col3);
+        GLUtils.drawGradientRect(x, y, x2, y2, col2, col3);
         GL11.glEnable((int) 3042);
         GL11.glEnable((int) 3553);
         GL11.glDisable((int) 2848);

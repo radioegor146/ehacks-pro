@@ -3,7 +3,6 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.Module;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
-import ehacks.mod.wrapper.Statics;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.List;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -27,7 +26,7 @@ public class PlayerESP
 
     @Override
     public String getName() {
-        return "Player ESP";
+        return "PlayerESP";
     }
 
     @Override

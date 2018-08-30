@@ -2,7 +2,6 @@ package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
@@ -17,7 +16,7 @@ public class MetaHackAdd extends Module {
 
     @Override
     public String getName() {
-        return "MetaHack-Add";
+        return "MetaHackAdd";
     }
 
     @Override

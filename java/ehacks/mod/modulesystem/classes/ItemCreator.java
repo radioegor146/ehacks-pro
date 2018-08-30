@@ -3,7 +3,6 @@ package ehacks.mod.modulesystem.classes;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Keybinds;
 import ehacks.mod.wrapper.ModuleCategory;
@@ -29,12 +28,12 @@ public class ItemCreator
 
     @Override
     public String getName() {
-        return "Item Creator";
+        return "ItemCreator";
     }
 
     @Override
     public String getDescription() {
-        return "Gives you any ItemStack you want\nUsage:\n  Numpad2 - perform give";
+        return "Gives you any ItemStack you want\nUsage:\n  Numpad0 - perform give";
     }
 
     public void giveItem(ItemStack stack) {

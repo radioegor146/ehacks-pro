@@ -5,7 +5,6 @@
  */
 package ehacks.mod.external.config;
 
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Wrapper;
 import java.io.File;

@@ -1,11 +1,8 @@
 package ehacks.mod.modulesystem.handler;
 
-import ehacks.mod.commands.classes.ItemSelectCommand;
 import ehacks.api.module.Module;
 import ehacks.api.module.ModuleController;
-import ehacks.mod.commands.*;
 import ehacks.mod.modulesystem.classes.*;
-import net.minecraftforge.client.ClientCommandHandler;
 
 public class ModuleManagement {
 
@@ -123,6 +120,7 @@ public class ModuleManagement {
         this.add(new SkillResearch());
         this.add(new ShowArmor());
         this.add(new FriendClick());
+        this.add(new SeeHealth());
         
         ModuleController.INSTANCE.sort();
 

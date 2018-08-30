@@ -8,9 +8,7 @@ package ehacks.mod.commands.classes;
 import ehacks.mod.commands.CommandManager;
 import static ehacks.mod.commands.CommandManager.format;
 import ehacks.mod.commands.ICommand;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.handler.EHacksGui;
-import ehacks.mod.wrapper.Events;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 

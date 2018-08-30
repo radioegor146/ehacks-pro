@@ -13,7 +13,7 @@ public class InvisiblePlayer
 
     @Override
     public String getName() {
-        return "Invisible Player";
+        return "InvisiblePlayer";
     }
 
     @Override

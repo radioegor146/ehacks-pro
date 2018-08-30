@@ -6,7 +6,6 @@
 package ehacks.mod.external.config;
 
 import com.google.gson.Gson;
-import ehacks.mod.main.Main;
 import ehacks.mod.wrapper.Wrapper;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,7 +24,7 @@ public class CheatConfiguration implements IConfiguration {
     private final File configFile;
 
     public CheatConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/cheat.txt");
+        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehackslite/cheat.txt");
     }
 
     @Override
@@ -66,5 +65,6 @@ public class CheatConfiguration implements IConfiguration {
         public double flyspeed = 1;
         public double speedhack = 3;
         public int nukerradius = 4;
+        public double aimbotdistance = 6;
     }
 }   

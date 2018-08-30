@@ -3,7 +3,6 @@ package ehacks.mod.modulesystem.classes;
 import bsh.EvalError;
 import bsh.Interpreter;
 import ehacks.api.module.Module;
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.OpenFileFilter;
 import ehacks.mod.wrapper.Keybinds;

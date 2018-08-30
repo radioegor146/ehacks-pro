@@ -1,10 +1,8 @@
 package ehacks.mod.gui.element;
 
-import ehacks.mod.gui.EHacksClickGui;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
-import net.minecraft.client.gui.GuiChat;
 
 public class SimpleButton {
 

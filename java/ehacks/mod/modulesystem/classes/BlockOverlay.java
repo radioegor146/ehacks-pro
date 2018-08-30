@@ -22,7 +22,7 @@ public class BlockOverlay
 
     @Override
     public String getName() {
-        return "Block Overlay";
+        return "BlockOverlay";
     }
 
     @Override
