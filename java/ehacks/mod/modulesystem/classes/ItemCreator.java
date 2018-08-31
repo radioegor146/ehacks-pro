@@ -11,6 +11,7 @@ import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import java.util.UUID;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -38,26 +39,23 @@ public class ItemCreator
 
     public void giveItem(ItemStack stack) {
         ByteBuf buf = Unpooled.buffer(0);
-        buf.writeByte(3);
+        buf.writeByte(10);
 
-        ItemStack mail = new ItemStack(Item.getItemById(4123));
+        ItemStack mail = new ItemStack(Items.stick);
         NBTTagList tagList = new NBTTagList();
 
-        NBTTagCompound item = new NBTTagCompound();
-        item.setByte("Slot", (byte) 0);
-        stack.writeToNBT(item);
-        tagList.appendTag((NBTBase) item);
-
-        NBTTagCompound item2 = new NBTTagCompound();
-        item2.setByte("Slot", (byte) 1);
-        stack.writeToNBT(item2);
-        tagList.appendTag((NBTBase) item2);
+        for (int i = 0; i < 6; i++) {
+            NBTTagCompound item = new NBTTagCompound();
+            item.setByte("Slot", (byte)i);
+            stack.writeToNBT(item);
+            tagList.appendTag((NBTBase)item);
+        }
 
         NBTTagCompound inv = new NBTTagCompound();
-        inv.setTag("Items", (NBTBase) tagList);
+        inv.setTag("Items", (NBTBase)tagList);
         inv.setString("UniqueID", UUID.randomUUID().toString());
         mail.stackTagCompound = new NBTTagCompound();
-        mail.stackTagCompound.setTag("Envelope", inv);
+        mail.stackTagCompound.setTag("Package", inv);
         ByteBufUtils.writeItemStack(buf, mail);
         C17PacketCustomPayload packet = new C17PacketCustomPayload("cfm", buf);
         Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
