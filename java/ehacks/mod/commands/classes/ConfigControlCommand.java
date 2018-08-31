@@ -39,7 +39,7 @@ public class ConfigControlCommand implements ICommand {
                 return;
             }
             if (args[0].equals("reload")) {
-                ConfigurationManager.instance().saveConfigs();
+                ConfigurationManager.instance().initConfigs();
                 InteropUtils.log("Successfully reloaded", "ConfigControl");
                 return;
             }

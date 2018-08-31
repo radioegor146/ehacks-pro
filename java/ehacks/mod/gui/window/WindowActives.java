@@ -23,9 +23,9 @@ public class WindowActives
                         tsz++;
                     }
                 }
+                this.setClientSize(88, tsz * 12 - 2);
+                super.draw(x, y);
                 if (tsz > 0) {
-                    this.setClientSize(88, tsz * 12 - 2);
-                    super.draw(x, y);
                     int ti = 0;
                     for (i = 0; i < ModuleController.INSTANCE.modules.size(); i++) {
                         if (ModuleController.INSTANCE.modules.get(i).isActive()) {

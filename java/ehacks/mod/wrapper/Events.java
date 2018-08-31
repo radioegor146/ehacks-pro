@@ -33,6 +33,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -134,7 +135,6 @@ public class Events {
                 continue;
             }
             mod.toggle();
-            break;
         }
     }
 
@@ -251,7 +251,7 @@ public class Events {
 
     @SubscribeEvent
     public void onGuiScreenInit(GuiScreenEvent.InitGuiEvent event) {
-        if (event.gui instanceof GuiMainMenu) {
+        if (event.gui instanceof GuiOptions) {
             Wrapper.INSTANCE.mc().getSession();
             ConfigurationManager.instance().initConfigs();
             event.buttonList.add(new GuiButton(1337, 0, 0, 100, 20, "EHacks"));
@@ -260,7 +260,7 @@ public class Events {
 
     @SubscribeEvent
     public void onGuiScreenAction(GuiScreenEvent.ActionPerformedEvent event) {
-        if (event.gui instanceof GuiMainMenu && event.button.id == 1337) {
+        if (event.gui instanceof GuiOptions && event.button.id == 1337) {
             Wrapper.INSTANCE.mc().displayGuiScreen(new GuiMainConfig(event.gui));
         }
     }

@@ -24,7 +24,7 @@ public class CheatConfiguration implements IConfiguration {
     private final File configFile;
 
     public CheatConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehackslite/cheat.txt");
+        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/cheat.txt");
     }
 
     @Override
