@@ -1,6 +1,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.AuraConfiguration;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
 import java.util.ArrayList;
@@ -42,11 +43,13 @@ public class AimAssist
         Entity entity;
         this.targetlist.clear();
         for (Object e : Wrapper.INSTANCE.world().playerEntities) {
-            if (!this.isAttackable((Entity) e)) {
+            if (!this.isAttackable((Entity) e) || (AuraConfiguration.config.friends.contains(((Entity)e).getCommandSenderName()))) {
                 continue;
             }
             this.targetlist.add((EntityPlayer) e);
         }
+        if (Wrapper.INSTANCE.mc().objectMouseOver == null)
+            return;
         if (Wrapper.INSTANCE.mc().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && (entity = Wrapper.INSTANCE.mc().objectMouseOver.entityHit) instanceof EntityPlayer) {
             this.curtarget = (EntityPlayer) entity;
             return;

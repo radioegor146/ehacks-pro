@@ -29,7 +29,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 
-@Mod(modid = "EHacks", name = "EHacks", version = "3.6.4")
+@Mod(modid = "EHacks", name = "EHacks", version = "3.6.5")
 public class Main {
 
     @Mod.Instance(value = "EHacks")
@@ -37,7 +37,7 @@ public class Main {
 
     public static boolean isInjected;
 
-    public static final String REAL_VERSION = "3.6.4";
+    public static final String REAL_VERSION = "3.6.5";
     public static String tempSession = "";
 
     public static String modId = "BESTHACKSEVER";

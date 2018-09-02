@@ -1,6 +1,7 @@
 package ehacks.mod.modulesystem.classes;
 
 import ehacks.api.module.Module;
+import ehacks.mod.external.config.AuraConfiguration;
 import ehacks.mod.external.config.CheatConfiguration;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
@@ -60,7 +61,7 @@ public class AimBot
                 }
                 for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
                     EntityPlayer e;
-                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer) o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity) e) > CheatConfiguration.config.aimbotdistance || e.isDead || !Wrapper.INSTANCE.player().canEntityBeSeen((Entity) e) || !e.isEntityAlive() || e.isDead) {
+                    if (!(o instanceof EntityPlayer) || (e = (EntityPlayer) o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity) e) > CheatConfiguration.config.aimbotdistance || e.isDead || !Wrapper.INSTANCE.player().canEntityBeSeen((Entity) e) || !e.isEntityAlive() || e.isDead || AuraConfiguration.config.friends.contains(e.getCommandSenderName())) {
                         continue;
                     }
                     AimBot.faceEntity((Entity) e);
