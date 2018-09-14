@@ -39,6 +39,13 @@ public class PacketLogger
     }
 
     @Override
+    public void onTicks() {
+        if (!gui.isVisible()) {
+            this.off();
+        }
+    }
+
+    @Override
     public boolean onPacket(Object packet, PacketSide side) {
         try {
             if (side == PacketSide.IN && !handler.handlePacket(packet, null, PacketHandler.inBlackList)) {

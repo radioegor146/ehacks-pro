@@ -61,7 +61,7 @@ public class Gui
     }
 
     private void configurate() {
-        this.setDefaultCloseOperation(0);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.inPackets.setBorder(this.customTitledBorder("Inbound packets", 2));
         this.packetLoggerConfig.setBorder(this.customTitledBorder("Packet logger settings", 2));
         this.outPackets.setBorder(this.customTitledBorder("Outbound packets", 2));
