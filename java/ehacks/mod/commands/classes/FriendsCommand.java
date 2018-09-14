@@ -36,8 +36,7 @@ public class FriendsCommand implements ICommand {
                 if (!AuraConfiguration.config.friends.contains(args[1])) {
                     AuraConfiguration.config.friends.add(args[1]);
                     InteropUtils.log("Successfully added", "Friends");
-                }
-                else {
+                } else {
                     InteropUtils.log("&cFriend already exists", "Friends");
                 }
                 ConfigurationManager.instance().saveConfigs();
@@ -50,8 +49,9 @@ public class FriendsCommand implements ICommand {
                     InteropUtils.log(i + ". &f" + nick, "Friends");
                     i++;
                 }
-                if (i == 1)
+                if (i == 1) {
                     InteropUtils.log("&cYou have no friends", "Friends");
+                }
                 InteropUtils.log("&aTip: you can use FriendClick to add friends", "Friends");
                 return;
             }
@@ -65,8 +65,7 @@ public class FriendsCommand implements ICommand {
                 if (AuraConfiguration.config.friends.contains(args[1])) {
                     AuraConfiguration.config.friends.remove(args[1]);
                     InteropUtils.log("Succesfully removed", "Friends");
-                }
-                else {
+                } else {
                     InteropUtils.log("&cNo such nick in friends", "Friends");
                 }
                 ConfigurationManager.instance().saveConfigs();
@@ -75,9 +74,8 @@ public class FriendsCommand implements ICommand {
         }
         EHacksGui.clickGui.consoleGui.printChatMessage(new ChatComponentText("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
     }
-    
-    public static ChatComponentTranslation format(EnumChatFormatting color, String str, Object... args)
-    {
+
+    public static ChatComponentTranslation format(EnumChatFormatting color, String str, Object... args) {
         ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
         ret.getChatStyle().setColor(color);
         return ret;
@@ -92,14 +90,16 @@ public class FriendsCommand implements ICommand {
     public String getCommandArgs() {
         return "<add|list|remove|clear> [nickname]";
     }
-    
+
     private boolean contains(Object[] array, Object object) {
-        for (Object o : array)
-            if (o.equals(object))
+        for (Object o : array) {
+            if (o.equals(object)) {
                 return true;
+            }
+        }
         return false;
     }
-    
+
     private String[] getTabList() {
         List<GuiPlayerInfo> players = Wrapper.INSTANCE.player().sendQueue.playerInfoList;
         ArrayList<String> playerNicks = new ArrayList();
@@ -112,22 +112,25 @@ public class FriendsCommand implements ICommand {
     @Override
     public String[] autoComplete(String[] args) {
         if (args.length == 0) {
-            return new String[] { "add", "list", "remove", "clear" };
+            return new String[]{"add", "list", "remove", "clear"};
         }
         if (args.length == 1) {
-            if (contains(new String[] { "add", "list", "remove", "clear" }, args[0])) {
-                if ("add".equals(args[0]))
+            if (contains(new String[]{"add", "list", "remove", "clear"}, args[0])) {
+                if ("add".equals(args[0])) {
                     return getTabList();
-                if ("add".equals(args[0]))
+                }
+                if ("add".equals(args[0])) {
                     return new String[0];
-                if ("clear".equals(args[0]))
+                }
+                if ("clear".equals(args[0])) {
                     return new String[0];
-                if ("remove".equals(args[0]))
+                }
+                if ("remove".equals(args[0])) {
                     return AuraConfiguration.config.friends.toArray(new String[AuraConfiguration.config.friends.size()]);
-            }
-            else {
+                }
+            } else {
                 ArrayList<String> avaibleNames = new ArrayList();
-                for (String name : new String[] { "add", "list", "remove", "clear" }) {
+                for (String name : new String[]{"add", "list", "remove", "clear"}) {
                     if (name.startsWith(args[0])) {
                         avaibleNames.add(name);
                     }
@@ -157,5 +160,5 @@ public class FriendsCommand implements ICommand {
         }
         return new String[0];
     }
-    
+
 }

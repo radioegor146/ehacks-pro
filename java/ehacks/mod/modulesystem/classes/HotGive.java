@@ -81,29 +81,29 @@ public class HotGive
 
     public void setSlot(TileEntity tileEntity, ItemStack itemstack) throws Exception {
         Object packetTile = Class.forName("cofh.core.network.PacketTile").getConstructor(TileEntity.class).newInstance(tileEntity);
-        
+
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addString", String.class).invoke(packetTile, "");
-        
-        Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByte", Byte.TYPE).invoke(packetTile, (byte)0);
+
+        Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByte", Byte.TYPE).invoke(packetTile, (byte) 0);
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addUUID", UUID.class).invoke(packetTile, UUID.randomUUID());
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addString", String.class).invoke(packetTile, "");
-        
+
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addBool", Boolean.TYPE).invoke(packetTile, true);
-        Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByte", Byte.TYPE).invoke(packetTile, (byte)0);
+        Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByte", Byte.TYPE).invoke(packetTile, (byte) 0);
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addBool", Boolean.TYPE).invoke(packetTile, true);
-        
+
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addInt", Integer.TYPE).invoke(packetTile, 0);
-        
+
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByteArray", byte[].class).invoke(packetTile, new Object[]{new byte[6]});
-        Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByte", Byte.TYPE).invoke(packetTile, (byte)0);
-        
+        Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addByte", Byte.TYPE).invoke(packetTile, (byte) 0);
+
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addBool", Boolean.TYPE).invoke(packetTile, false);
-        
+
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addItemStack", ItemStack.class).invoke(packetTile, itemstack);
         Class.forName("cofh.core.network.PacketCoFHBase").getMethod("addInt", Integer.TYPE).invoke(packetTile, 1024);
-        
+
         Class.forName("cofh.core.network.PacketHandler").getMethod("sendToServer", Class.forName("cofh.core.network.PacketBase")).invoke(null, packetTile);
-        
+
     }
 
     @Override

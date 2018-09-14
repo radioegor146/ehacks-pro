@@ -24,7 +24,7 @@ public class Speed
 
     @Override
     public void onTicks() {
-        TimerUtils.getTimer().timerSpeed = (float)CheatConfiguration.config.speedhack;
+        TimerUtils.getTimer().timerSpeed = (float) CheatConfiguration.config.speedhack;
     }
 
     @Override

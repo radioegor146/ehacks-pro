@@ -43,16 +43,18 @@ public class ItemESP
         }
         List<Entity> entities = Wrapper.INSTANCE.world().loadedEntityList;
         for (Entity ent : entities) {
-            if (!(ent instanceof EntityItem))
+            if (!(ent instanceof EntityItem)) {
                 continue;
-            if (ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mcSettings().thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping())
+            }
+            if (ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mcSettings().thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping()) {
                 continue;
-            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
-            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
-            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+            }
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double) event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double) event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double) event.partialTicks;
             float f1 = ent.prevRotationYaw + (ent.rotationYaw - ent.prevRotationYaw) * event.partialTicks;
             RenderHelper.enableStandardItemLighting();
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)240 / 1.0F, (float)240 / 1.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             RenderManager.instance.func_147939_a(ent, xPos - renderPosX, yPos - renderPosY, zPos - renderPosZ, f1, event.partialTicks, false);
             this.renderDebugBoundingBox(ent, xPos - renderPosX, yPos - renderPosY, zPos - renderPosZ, f1, event.partialTicks);
@@ -63,9 +65,10 @@ public class ItemESP
         GL11.glDisable(GL11.GL_LIGHTING);
         for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
             Entity entObj = (Entity) o;
-            if (!(entObj instanceof EntityItem))
+            if (!(entObj instanceof EntityItem)) {
                 continue;
-            EntityItem ent = (EntityItem)entObj;
+            }
+            EntityItem ent = (EntityItem) entObj;
             float labelScale = 0.04F;
             GL11.glPushMatrix();
             GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -73,11 +76,10 @@ public class ItemESP
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
-            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
-            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double) event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double) event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double) event.partialTicks;
 
-            
             double xEnd = xPos - RenderManager.renderPosX;
             double yEnd = yPos + ent.height / 2 - RenderManager.renderPosY;
             double zEnd = zPos - RenderManager.renderPosZ;
@@ -87,22 +89,21 @@ public class ItemESP
             GL11.glRotatef(RenderManager.instance.playerViewX, 1, 0, 0);
             GL11.glScalef(-labelScale, -labelScale, labelScale);
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);          
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glScalef(.7f, .7f, 1f);
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(ent.getEntityItem().stackSize + "x[" + ent.getEntityItem().getRarity().rarityColor + ent.getEntityItem().getDisplayName() + "\u00a7f]", -Wrapper.INSTANCE.fontRenderer().getStringWidth(ent.getEntityItem().stackSize + "x[" + ent.getEntityItem().getDisplayName() + "]") / 2, 0, GLUtils.getColor(255, 255, 255));
             GL11.glPopMatrix();
         }
     }
-    
-    private void renderDebugBoundingBox(Entity p_85094_1_, double p_85094_2_, double p_85094_4_, double p_85094_6_, float p_85094_8_, float p_85094_9_)
-    {
+
+    private void renderDebugBoundingBox(Entity p_85094_1_, double p_85094_2_, double p_85094_4_, double p_85094_6_, float p_85094_8_, float p_85094_9_) {
         GL11.glDepthMask(false);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_BLEND);
         float f2 = p_85094_1_.width / 2.0F;
-        AxisAlignedBB axisalignedbb = AxisAlignedBB.getBoundingBox(p_85094_2_ - (double)f2, p_85094_4_, p_85094_6_ - (double)f2, p_85094_2_ + (double)f2, p_85094_4_ + (double)p_85094_1_.height, p_85094_6_ + (double)f2);
+        AxisAlignedBB axisalignedbb = AxisAlignedBB.getBoundingBox(p_85094_2_ - (double) f2, p_85094_4_, p_85094_6_ - (double) f2, p_85094_2_ + (double) f2, p_85094_4_ + (double) p_85094_1_.height, p_85094_6_ + (double) f2);
         GL11.glLineWidth(1f);
         RenderGlobal.drawOutlinedBoundingBox(axisalignedbb, 16777215);
         GL11.glEnable(GL11.GL_TEXTURE_2D);

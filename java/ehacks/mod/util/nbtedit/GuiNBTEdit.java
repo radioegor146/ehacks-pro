@@ -65,17 +65,21 @@ public class GuiNBTEdit
                     this.guiTree.arrowKeyPressed(false);
                     break;
                 case Keyboard.KEY_C:
-                    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
+                    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
                         this.guiTree.copy();
+                    }
                     break;
                 case Keyboard.KEY_V:
-                    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
-                        if (this.guiTree.canPaste())
+                    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
+                        if (this.guiTree.canPaste()) {
                             this.guiTree.paste();
+                        }
+                    }
                     break;
                 case Keyboard.KEY_X:
-                    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
+                    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
                         this.guiTree.cut();
+                    }
                     break;
             }
         }

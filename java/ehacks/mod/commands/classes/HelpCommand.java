@@ -45,16 +45,16 @@ public class HelpCommand implements ICommand {
                         return;
                     }
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 EHacksGui.clickGui.consoleGui.printChatMessage(format(EnumChatFormatting.RED, "commands.generic.notFound"));
                 return;
             }
         }
         String[] keys = CommandManager.INSTANCE.commands.keySet().toArray(new String[CommandManager.INSTANCE.commands.size()]);
         EHacksGui.clickGui.consoleGui.printChatMessage(format(EnumChatFormatting.DARK_GREEN, "commands.help.header", page + 1, keys.length / 6 + 1));
-        for (int i = page * 6; i < Math.min(page * 6 + 6, keys.length); i++)
+        for (int i = page * 6; i < Math.min(page * 6 + 6, keys.length); i++) {
             EHacksGui.clickGui.consoleGui.printChatMessage(new ChatComponentText("/" + keys[i] + " " + CommandManager.INSTANCE.commands.get(keys[i]).getCommandArgs() + " - " + CommandManager.INSTANCE.commands.get(keys[i]).getCommandDescription()));
+        }
     }
 
     @Override
@@ -71,5 +71,5 @@ public class HelpCommand implements ICommand {
     public String[] autoComplete(String[] args) {
         return new String[0];
     }
-    
+
 }

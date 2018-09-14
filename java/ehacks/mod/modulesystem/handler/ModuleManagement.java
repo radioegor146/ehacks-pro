@@ -121,7 +121,10 @@ public class ModuleManagement {
         this.add(new ShowArmor());
         this.add(new FriendClick());
         this.add(new SeeHealth());
-        
+        this.add(new EndPort());
+        this.add(new SelfEnd());
+        this.add(new Magnendo());
+
         ModuleController.INSTANCE.sort();
 
         this.add(new EHacksGui());

@@ -38,23 +38,27 @@ public class SkillResearch
             buf.writeInt(31);
             buf.writeBoolean(false);
             buf.writeInt(((ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllShapes").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))).size());
-            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllShapes").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null)))
+            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllShapes").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))) {
                 buf.writeInt(i);
+            }
             buf.writeInt(((ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllComponents").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))).size());
-            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllComponents").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null)))
+            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllComponents").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))) {
                 buf.writeInt(i);
+            }
             buf.writeInt(((ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllModifiers").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))).size());
-            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllModifiers").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null)))
+            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllModifiers").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))) {
                 buf.writeInt(i);
+            }
             buf.writeInt(((ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllTalents").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))).size());
-            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllTalents").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null)))
+            for (Integer i : (ArrayList<Integer>) Class.forName("am2.spell.SkillManager").getMethod("getAllTalents").invoke(Class.forName("am2.spell.SkillManager").getField("instance").get(null))) {
                 buf.writeInt(i);
+            }
             buf.writeInt(1337);
             buf.writeInt(1337);
             buf.writeInt(1337);
             C17PacketCustomPayload packet = new C17PacketCustomPayload("AM2DataTunnel", buf);
             Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
-            
+
             buf = Unpooled.buffer(0);
             buf.writeByte(27);
             buf.writeByte(1);
@@ -84,7 +88,7 @@ public class SkillResearch
     public void onDisableMod() {
 
     }
-    
+
     static Integer[] getIntArray(ArrayList<Integer> arrayList) {
         return arrayList.toArray(new Integer[arrayList.size()]);
     }

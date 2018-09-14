@@ -24,12 +24,12 @@ public class MagicGod extends Module {
     @Override
     public void onEnableMod() {
         try {
-            ArrayList aspects = (ArrayList)Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getCompoundAspects").invoke(null);
+            ArrayList aspects = (ArrayList) Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getCompoundAspects").invoke(null);
             for (Object aspect : aspects) {
-                Object aspect1 = ((Object[])Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getComponents").invoke(aspect))[0];
-                Object aspect2 = ((Object[])Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getComponents").invoke(aspect))[1];
-                String a1 = (String)Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getTag").invoke(aspect1);
-                String a2 = (String)Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getTag").invoke(aspect2);
+                Object aspect1 = ((Object[]) Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getComponents").invoke(aspect))[0];
+                Object aspect2 = ((Object[]) Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getComponents").invoke(aspect))[1];
+                String a1 = (String) Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getTag").invoke(aspect1);
+                String a2 = (String) Class.forName("thaumcraft.api.aspects.Aspect").getMethod("getTag").invoke(aspect2);
                 doGive(a1, a2);
             }
             this.off();
@@ -65,17 +65,17 @@ public class MagicGod extends Module {
 
     private void doGive(String a1, String a2) {
         ByteBuf buf = Unpooled.buffer(0);
-	buf.writeByte(13);
-	buf.writeInt(Wrapper.INSTANCE.player().dimension);
-	buf.writeInt(Wrapper.INSTANCE.player().getEntityId());
-	buf.writeInt(0);
-	buf.writeInt(0);
-	buf.writeInt(0);
-	ByteBufUtils.writeUTF8String(buf, a1);
-	ByteBufUtils.writeUTF8String(buf, a2);
-	buf.writeBoolean(true);
-	buf.writeBoolean(true);
-	C17PacketCustomPayload packet = new C17PacketCustomPayload("thaumcraft", buf);
+        buf.writeByte(13);
+        buf.writeInt(Wrapper.INSTANCE.player().dimension);
+        buf.writeInt(Wrapper.INSTANCE.player().getEntityId());
+        buf.writeInt(0);
+        buf.writeInt(0);
+        buf.writeInt(0);
+        ByteBufUtils.writeUTF8String(buf, a1);
+        ByteBufUtils.writeUTF8String(buf, a2);
+        buf.writeBoolean(true);
+        buf.writeBoolean(true);
+        C17PacketCustomPayload packet = new C17PacketCustomPayload("thaumcraft", buf);
         Wrapper.INSTANCE.player().sendQueue.addToSendQueue(packet);
     }
 }

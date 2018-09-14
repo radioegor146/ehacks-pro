@@ -79,7 +79,7 @@ public class NBTView extends Module {
     public String getModName() {
         return "Minecraft";
     }
-    
+
     @Override
     public boolean canOnOnStart() {
         return true;

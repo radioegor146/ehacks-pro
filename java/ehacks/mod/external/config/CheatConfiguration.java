@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
  * @author radioegor146
  */
 public class CheatConfiguration implements IConfiguration {
-    
+
     public static CheatConfigJson config = new CheatConfigJson();
     private final File configFile;
 
@@ -61,10 +61,11 @@ public class CheatConfiguration implements IConfiguration {
     }
 
     public static class CheatConfigJson {
+
         public double auraradius = 4;
         public double flyspeed = 1;
         public double speedhack = 3;
         public int nukerradius = 4;
         public double aimbotdistance = 6;
     }
-}   
+}

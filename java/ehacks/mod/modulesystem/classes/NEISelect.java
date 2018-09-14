@@ -78,7 +78,7 @@ public class NEISelect extends Module {
     public String getModName() {
         return "NEI";
     }
-    
+
     @Override
     public boolean canOnOnStart() {
         return true;

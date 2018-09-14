@@ -20,8 +20,9 @@ import java.util.HashSet;
  * @author radioegor146
  */
 public class AuraConfiguration implements IConfiguration {
+
     public static AuraConfigJson config = new AuraConfigJson();
-    
+
     private final File configFile;
 
     public AuraConfiguration() {
@@ -60,8 +61,9 @@ public class AuraConfiguration implements IConfiguration {
     public boolean isConfigUnique() {
         return false;
     }
-    
+
     public static class AuraConfigJson {
+
         public HashSet<String> friends = new HashSet();
     }
 }

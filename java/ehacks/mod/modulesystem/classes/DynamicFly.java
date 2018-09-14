@@ -28,7 +28,7 @@ public class DynamicFly
         Wrapper.INSTANCE.player().motionX = 0.0;
         Wrapper.INSTANCE.player().motionY = 0.0;
         Wrapper.INSTANCE.player().motionZ = 0.0;
-        Wrapper.INSTANCE.player().jumpMovementFactor *= (float)CheatConfiguration.config.flyspeed * 3f;
+        Wrapper.INSTANCE.player().jumpMovementFactor *= (float) CheatConfiguration.config.flyspeed * 3f;
         if (Wrapper.INSTANCE.mcSettings().keyBindJump.getIsKeyPressed()) {
             Wrapper.INSTANCE.player().motionY += CheatConfiguration.config.flyspeed;
         }

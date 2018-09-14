@@ -12,7 +12,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import java.util.UUID;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,13 +45,13 @@ public class ItemCreator
 
         for (int i = 0; i < 6; i++) {
             NBTTagCompound item = new NBTTagCompound();
-            item.setByte("Slot", (byte)i);
+            item.setByte("Slot", (byte) i);
             stack.writeToNBT(item);
-            tagList.appendTag((NBTBase)item);
+            tagList.appendTag((NBTBase) item);
         }
 
         NBTTagCompound inv = new NBTTagCompound();
-        inv.setTag("Items", (NBTBase)tagList);
+        inv.setTag("Items", (NBTBase) tagList);
         inv.setString("UniqueID", UUID.randomUUID().toString());
         mail.stackTagCompound = new NBTTagCompound();
         mail.stackTagCompound.setTag("Package", inv);

@@ -12,13 +12,13 @@ public class Test
     }
 
     @Override
-    public String getName() {   
+    public String getName() {
         return "Test";
     }
 
     @Override
     public void onEnableMod() {
-        
+
     }
 
     @Override
@@ -32,8 +32,8 @@ public class Test
     }
 
     @Override
-    public boolean onPacket(Object packet, PacketHandler.Side side) {
-        return !(side == PacketHandler.Side.OUT && (packet instanceof net.minecraft.network.play.client.C07PacketPlayerDigging));
+    public boolean onPacket(Object packet, PacketHandler.PacketSide side) {
+        return !(side == PacketHandler.PacketSide.OUT && (packet instanceof net.minecraft.network.play.client.C07PacketPlayerDigging));
     }
 
     @Override

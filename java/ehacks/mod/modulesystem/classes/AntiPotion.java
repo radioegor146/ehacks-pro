@@ -11,7 +11,7 @@ public class AntiPotion
         extends Module {
 
     private final Potion[] badEffects = new Potion[]{Potion.moveSlowdown, Potion.digSlowdown, Potion.harm, Potion.confusion, Potion.blindness, Potion.hunger, Potion.weakness, Potion.poison, Potion.wither};
-    
+
     public AntiPotion() {
         super(ModuleCategory.PLAYER);
     }

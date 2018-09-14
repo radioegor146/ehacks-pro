@@ -77,7 +77,7 @@ public class NoLimitClear
             ex.printStackTrace();
         }
     }
-    
+
     public void setSlot(int slotId, int x, int y, int z) {
         int playerId = Wrapper.INSTANCE.player().getEntityId();
         ByteBuf buf = Unpooled.buffer(0);

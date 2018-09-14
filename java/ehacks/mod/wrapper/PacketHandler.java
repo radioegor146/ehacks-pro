@@ -36,7 +36,7 @@ public class PacketHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
-        if (!eventHandler.onPacket(packet, Side.IN) || !MainProtector.INSTANCE.isPacketOk(packet)) {
+        if (!eventHandler.onPacket(packet, PacketSide.IN) || !MainProtector.INSTANCE.isPacketOk(packet)) {
             return;
         }
         super.channelRead(ctx, packet);
@@ -44,13 +44,13 @@ public class PacketHandler extends ChannelDuplexHandler {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object packet, ChannelPromise promise) throws Exception {
-        if (!eventHandler.onPacket(packet, Side.OUT)) {
+        if (!eventHandler.onPacket(packet, PacketSide.OUT)) {
             return;
         }
         super.write(ctx, packet, promise);
     }
 
-    public static enum Side {
+    public static enum PacketSide {
         IN,
         OUT;
     }

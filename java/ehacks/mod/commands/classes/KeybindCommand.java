@@ -29,24 +29,24 @@ public class KeybindCommand implements ICommand {
     private String escape(String text) {
         return text.replace("&", "&&");
     }
-    
+
     @Override
     public void process(String[] args) {
         if (args.length > 0) {
             Module smod = null;
             for (Module mod : ModuleController.INSTANCE.modules) {
-                if (mod.getName().toLowerCase().replace(" ", "").equals(args[0])) 
+                if (mod.getName().toLowerCase().replace(" ", "").equals(args[0])) {
                     smod = mod;
+                }
             }
             if (smod == null) {
                 InteropUtils.log("&cNo such module '" + escape(args[0]) + "'", "Keybind");
                 return;
             }
-            if (args.length == 1)
-            {
+            if (args.length == 1) {
                 smod.setKeybinding(0);
                 InteropUtils.log("Keybinding cleared", "Keybind");
-                ConfigurationManager.instance().saveConfigs(); 
+                ConfigurationManager.instance().saveConfigs();
                 return;
             }
             if (Keyboard.getKeyIndex(args[1].toUpperCase()) == 0) {
@@ -62,12 +62,14 @@ public class KeybindCommand implements ICommand {
     }
 
     private boolean contains(Object[] array, Object object) {
-        for (Object o : array)
-            if (o.equals(object))
+        for (Object o : array) {
+            if (o.equals(object)) {
                 return true;
+            }
+        }
         return false;
     }
-    
+
     @Override
     public String getCommandDescription() {
         return "Sets keybinds";
@@ -83,12 +85,13 @@ public class KeybindCommand implements ICommand {
         if (args.length == 1) {
             ArrayList<String> allModules = new ArrayList();
             for (Module mod : ModuleController.INSTANCE.modules) {
-                if (mod.getName().toLowerCase().replace(" ", "").startsWith(args[0].toLowerCase()))
+                if (mod.getName().toLowerCase().replace(" ", "").startsWith(args[0].toLowerCase())) {
                     allModules.add(mod.getName().toLowerCase().replace(" ", ""));
+                }
             }
             return allModules.toArray(new String[allModules.size()]);
         }
         return new String[0];
     }
-    
+
 }

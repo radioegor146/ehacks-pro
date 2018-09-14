@@ -66,9 +66,9 @@ public class BlockDestroy
     public void onDisableMod() {
         isActive = false;
     }
-    
+
     private boolean prevState;
-    
+
     @Override
     public void onTicks() {
         try {

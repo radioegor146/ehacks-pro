@@ -48,7 +48,7 @@ public class ExtendedDestroyer
     }
 
     public boolean prevState;
-    
+
     @Override
     public void onMouse(MouseEvent event) {
         try {

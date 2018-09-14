@@ -56,8 +56,8 @@ public class Blink
     }
 
     @Override
-    public boolean onPacket(Object packet, PacketHandler.Side side) {
-        return !(side == PacketHandler.Side.OUT && (packet instanceof net.minecraft.network.play.client.C03PacketPlayer
+    public boolean onPacket(Object packet, PacketHandler.PacketSide side) {
+        return !(side == PacketHandler.PacketSide.OUT && (packet instanceof net.minecraft.network.play.client.C03PacketPlayer
                 || packet instanceof net.minecraft.network.play.client.C03PacketPlayer.C04PacketPlayerPosition
                 || packet instanceof net.minecraft.network.play.client.C03PacketPlayer.C05PacketPlayerLook
                 || packet instanceof net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook));

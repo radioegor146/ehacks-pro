@@ -59,9 +59,8 @@ public class ModuleStateConfiguration implements IConfiguration {
                 if (moduleStateConfig.states.get(module.getName().toLowerCase())) {
                     try {
                         module.on();
-                    }
-                    catch (Exception e) {
-                        
+                    } catch (Exception e) {
+
                     }
                 }
             }

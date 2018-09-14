@@ -92,9 +92,9 @@ public class PipeGive
     public void setSlot(int x, int y, int z) throws Exception {
         ByteBuf buf = Unpooled.buffer(0);
         buf.writeShort(0);
-        buf.writeInt(x); 
-        buf.writeShort(y); 
-        buf.writeInt(z); 
+        buf.writeInt(x);
+        buf.writeShort(y);
+        buf.writeInt(z);
         Class.forName("buildcraft.core.Box").getMethod("writeData", ByteBuf.class).invoke(Class.forName("buildcraft.core.Box").getConstructor().newInstance(), buf);
         buf.writeByte(2);
         try {

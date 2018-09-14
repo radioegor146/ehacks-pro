@@ -37,9 +37,9 @@ public class ProphuntESP
                 EntityFallingBlock e = (EntityFallingBlock) o;
                 float halfWidth = e.width / 2.0f;
                 AltAxisAlignedBB aaabb = AltAxisAlignedBB.getBoundingBox(e.width - halfWidth, e.height, e.width - halfWidth, e.width + halfWidth, e.height + e.height, e.width + halfWidth);
-                double renderX = e.lastTickPosX + (e.posX - e.lastTickPosX) - RenderManager.renderPosX - (double) e.width;
-                double renderY = e.lastTickPosY + (e.posY - e.lastTickPosY) - RenderManager.renderPosY - (double) e.height;
-                double renderZ = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) - RenderManager.renderPosZ - (double) e.width;
+                double renderX = e.lastTickPosX + (e.posX - e.lastTickPosX) * event.partialTicks - RenderManager.renderPosX - (double) e.width;
+                double renderY = e.lastTickPosY + (e.posY - e.lastTickPosY) * event.partialTicks - RenderManager.renderPosY - (double) e.height * 1.5;
+                double renderZ = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * event.partialTicks - RenderManager.renderPosZ - (double) e.width;
                 GL11.glPushMatrix();
                 GL11.glTranslated((double) renderX, (double) renderY, (double) renderZ);
                 GL11.glColor4f((float) 0.27f, (float) 0.7f, (float) 0.92f, (float) 1.0f);

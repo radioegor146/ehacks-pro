@@ -108,8 +108,7 @@ public class ShowArmor
                         MovingObjectPosition calculateInterceptPos = expEntityBox.calculateIntercept(positionVec, posDistVec);
                         if (calculateInterceptPos != null) {
                             double calcInterceptPosDist = positionVec.distanceTo(calculateInterceptPos.hitVec);
-                            if (mincalc > calcInterceptPosDist)
-                            {
+                            if (mincalc > calcInterceptPosDist) {
                                 mincalc = calcInterceptPosDist;
                                 pointedEntity = entity;
                             }

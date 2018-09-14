@@ -55,7 +55,7 @@ public class NoLimitSpin
     public void onDisableMod() {
 
     }
-    
+
     @Override
     public void onTicks() {
         try {

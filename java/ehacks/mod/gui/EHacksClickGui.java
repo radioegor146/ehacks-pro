@@ -82,11 +82,9 @@ public class EHacksClickGui
     public void log(String data, Object from) {
         if (from == null) {
             data = data;
-        }
-        else if (from instanceof Module) {
+        } else if (from instanceof Module) {
             data = "[&b" + ((Module) from).getName() + "&f] &e" + data;
-        } 
-        else if (from instanceof String) {
+        } else if (from instanceof String) {
             data = "[&b" + ((String) from) + "&f] &e" + data;
         }
         consoleGui.printChatMessage(new ChatComponentText(data.replace("&", "\u00a7").replace("\u00a7\u00a7", "&")));
@@ -124,7 +122,7 @@ public class EHacksClickGui
     public boolean doesGuiPauseGame() {
         return false;
     }
-    
+
     public void drawBack() {
         if (Wrapper.INSTANCE.mc().currentScreen == null || (!(Wrapper.INSTANCE.mc().currentScreen instanceof EHacksClickGui))) {
             for (SimpleWindow windows : windows) {

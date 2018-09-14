@@ -23,7 +23,9 @@ public class EnchantmentsRegistry extends javax.swing.JFrame {
         initComponents();
         ArrayList<EnchantmentInfo> enchantmentInfos = new ArrayList();
         for (Enchantment enchantment : Enchantment.enchantmentsList) {
-            if (enchantment == null) continue;
+            if (enchantment == null) {
+                continue;
+            }
             enchantmentInfos.add(new EnchantmentInfo(enchantment));
         }
         int maxIdLength = 2;
@@ -39,34 +41,41 @@ public class EnchantmentsRegistry extends javax.swing.JFrame {
         maxClassNameLength += margin;
         maxNameLength += margin;
         int overallLength = maxIdLength + maxClassNameLength + maxNameLength;
-        ((DefaultListModel)this.enchantmentsList.getModel()).clear();
+        ((DefaultListModel) this.enchantmentsList.getModel()).clear();
         StringBuilder infoString = new StringBuilder();
         infoString.append("ID");
-        for (int i = 0; i < maxIdLength - 2; i++)
+        for (int i = 0; i < maxIdLength - 2; i++) {
             infoString.append(' ');
+        }
         infoString.append("Name");
-        for (int i = 0; i < maxNameLength - 4; i++)
+        for (int i = 0; i < maxNameLength - 4; i++) {
             infoString.append(' ');
+        }
         infoString.append("Class");
-        for (int i = 0; i < maxClassNameLength - 5; i++)
+        for (int i = 0; i < maxClassNameLength - 5; i++) {
             infoString.append(' ');
-        ((DefaultListModel)this.enchantmentsList.getModel()).addElement(infoString.toString());
+        }
+        ((DefaultListModel) this.enchantmentsList.getModel()).addElement(infoString.toString());
         StringBuilder delimString = new StringBuilder();
-        for (int i = 0; i < overallLength; i++)
+        for (int i = 0; i < overallLength; i++) {
             delimString.append("-");
-        ((DefaultListModel)this.enchantmentsList.getModel()).addElement(delimString.toString());
+        }
+        ((DefaultListModel) this.enchantmentsList.getModel()).addElement(delimString.toString());
         for (EnchantmentInfo enchantment : enchantmentInfos) {
             StringBuilder enchantmentString = new StringBuilder();
             enchantmentString.append(enchantment.id);
-            for (int i = 0; i < maxIdLength - enchantment.id.length(); i++)
+            for (int i = 0; i < maxIdLength - enchantment.id.length(); i++) {
                 enchantmentString.append(' ');
+            }
             enchantmentString.append(enchantment.name);
-            for (int i = 0; i < maxNameLength - enchantment.name.length(); i++)
+            for (int i = 0; i < maxNameLength - enchantment.name.length(); i++) {
                 enchantmentString.append(' ');
+            }
             enchantmentString.append(enchantment.className);
-            for (int i = 0; i < maxClassNameLength - enchantment.className.length(); i++)
+            for (int i = 0; i < maxClassNameLength - enchantment.className.length(); i++) {
                 enchantmentString.append(' ');
-            ((DefaultListModel)this.enchantmentsList.getModel()).addElement(enchantmentString.toString()); 
+            }
+            ((DefaultListModel) this.enchantmentsList.getModel()).addElement(enchantmentString.toString());
         }
     }
 
@@ -92,31 +101,32 @@ public class EnchantmentsRegistry extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(enchantmentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(enchantmentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(enchantmentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(enchantmentsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>                        
-    
+
     public class EnchantmentInfo {
+
         public String className;
         public String name;
         public String id;
-        
+
         public EnchantmentInfo(Enchantment enchantment) {
             className = enchantment.getClass().getName();
-            name =  I18n.format(enchantment.getName());
+            name = I18n.format(enchantment.getName());
             id = String.valueOf(enchantment.effectId);
         }
     }

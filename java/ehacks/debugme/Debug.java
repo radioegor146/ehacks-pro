@@ -104,6 +104,7 @@ public class Debug {
 
     public World getWorld() {
         return Wrapper.INSTANCE.world();
+
     }
 
     public int getDimensionId() {

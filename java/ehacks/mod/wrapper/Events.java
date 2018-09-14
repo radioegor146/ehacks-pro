@@ -55,8 +55,8 @@ public class Events {
         this.fontRender = Wrapper.INSTANCE.fontRenderer();
         this.keyStates = new boolean[256];
     }
-    
-    public boolean onPacket(Object packet, PacketHandler.Side side) {
+
+    public boolean onPacket(Object packet, PacketHandler.PacketSide side) {
         if (!cheatEnabled) {
             return true;
         }

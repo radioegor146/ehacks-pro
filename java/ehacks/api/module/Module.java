@@ -130,7 +130,7 @@ public abstract class Module implements Comparable, IIncludable, IClickable {
         return (this.category != ModuleCategory.EHACKS && this.category != ModuleCategory.NONE);
     }
 
-    public boolean onPacket(Object packet, PacketHandler.Side side) {
+    public boolean onPacket(Object packet, PacketHandler.PacketSide side) {
         return true;
     }
 
@@ -149,7 +149,7 @@ public abstract class Module implements Comparable, IIncludable, IClickable {
         }
         this.toggle();
     }
-    
+
     public void onGameOverlay(RenderGameOverlayEvent.Text event) {
     }
 }

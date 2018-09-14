@@ -1,6 +1,6 @@
 package ehacks.mod.packetlogger;
 
-import ehacks.mod.wrapper.PacketHandler.Side;
+import ehacks.mod.wrapper.PacketHandler.PacketSide;
 import io.netty.buffer.ByteBuf;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -53,7 +53,7 @@ public class PacketHandler {
         PacketHandler.newList();
     }
 
-    public boolean handlePacket(Object packet, Side side, List blackList) throws Exception {
+    public boolean handlePacket(Object packet, PacketSide side, List blackList) throws Exception {
         Class packetClass = packet.getClass();
         ArrayList<String> outMessages = new ArrayList<String>();
         String packetClassName = packetClass.getCanonicalName().replaceAll("\\$", ".");
@@ -109,7 +109,7 @@ public class PacketHandler {
         } else {
             return false;
         }
-        if (side != null && ((side == Side.IN && gui.logInPackets.isSelected()) || (side == Side.OUT && gui.logOutPackets.isSelected()))) {
+        if (side != null && ((side == PacketSide.IN && gui.logInPackets.isSelected()) || (side == PacketSide.OUT && gui.logOutPackets.isSelected()))) {
             for (String message : outMessages) {
                 gui.logMessage(message);
                 if (gui.moreInfo.isSelected()) {

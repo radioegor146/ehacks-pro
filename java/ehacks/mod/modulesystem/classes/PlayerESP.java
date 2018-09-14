@@ -42,19 +42,25 @@ public class PlayerESP
         }
         List<Entity> entities = Wrapper.INSTANCE.world().loadedEntityList;
         for (Entity ent : entities) {
-            if (!(ent instanceof EntityPlayer))
+            if (!(ent instanceof EntityPlayer)) {
                 continue;
-            if (ent == Wrapper.INSTANCE.player())
+            }
+            if (ent == Wrapper.INSTANCE.player()) {
                 continue;
-            if (!ent.isInRangeToRender3d(Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mcSettings().thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping())
+            }
+            if (!ent.isInRangeToRender3d(Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).xCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).yCoord, Wrapper.INSTANCE.mc().renderViewEntity.getPosition(event.partialTicks).zCoord) || ent == Wrapper.INSTANCE.mc().renderViewEntity && Wrapper.INSTANCE.mcSettings().thirdPersonView == 0 && !Wrapper.INSTANCE.mc().renderViewEntity.isPlayerSleeping()) {
                 continue;
-            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
-            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
-            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+            }
+            if (ent.getEntityId() == -2) {
+                continue;
+            }
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double) event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double) event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double) event.partialTicks;
             float f1 = ent.prevRotationYaw + (ent.rotationYaw - ent.prevRotationYaw) * event.partialTicks;
             RenderHelper.enableStandardItemLighting();
             //RenderManager.instance.renderEntitySimple(ent, event.partialTicks);
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)240 / 1.0F, (float)240 / 1.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             RenderManager.instance.func_147939_a(ent, xPos - renderPosX, yPos - renderPosY, zPos - renderPosZ, f1, event.partialTicks, false);
         }
@@ -64,11 +70,16 @@ public class PlayerESP
         GL11.glDisable(GL11.GL_LIGHTING);
         for (Object o : Wrapper.INSTANCE.world().loadedEntityList) {
             Entity entObj = (Entity) o;
-            if (!(entObj instanceof EntityPlayer))
+            if (!(entObj instanceof EntityPlayer)) {
                 continue;
-            if (entObj == Wrapper.INSTANCE.player())
+            }
+            if (entObj == Wrapper.INSTANCE.player()) {
                 continue;
-            EntityLivingBase ent = (EntityLivingBase)entObj;
+            }
+            if (entObj.getEntityId() == -2) {
+                continue;
+            }
+            EntityLivingBase ent = (EntityLivingBase) entObj;
             float labelScale = 0.04F;
             GL11.glPushMatrix();
             GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -78,11 +89,10 @@ public class PlayerESP
             //GL11.glDisable(GL11.GL_DEPTH_TEST);
             //GL11.glDepthMask(false);
 
-            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double)event.partialTicks;
-            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double)event.partialTicks;
-            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double)event.partialTicks;
+            double xPos = ent.lastTickPosX + (ent.posX - ent.lastTickPosX) * (double) event.partialTicks;
+            double yPos = ent.lastTickPosY + (ent.posY - ent.lastTickPosY) * (double) event.partialTicks;
+            double zPos = ent.lastTickPosZ + (ent.posZ - ent.lastTickPosZ) * (double) event.partialTicks;
 
-            
             double xEnd = xPos - RenderManager.renderPosX;
             double yEnd = yPos + ent.height / 2 - RenderManager.renderPosY;
             double zEnd = zPos - RenderManager.renderPosZ;

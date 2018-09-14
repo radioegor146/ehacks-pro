@@ -29,7 +29,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 
-@Mod(modid = "EHacks", name = "EHacks", version = "3.6.5")
+@Mod(modid = "EHacks", name = "EHacks", version = "3.7.2")
 public class Main {
 
     @Mod.Instance(value = "EHacks")
@@ -37,7 +37,7 @@ public class Main {
 
     public static boolean isInjected;
 
-    public static final String REAL_VERSION = "3.6.5";
+    public static final String REAL_VERSION = "3.7.2";
     public static String tempSession = "";
 
     public static String modId = "BESTHACKSEVER";
@@ -150,25 +150,10 @@ public class Main {
             ModuleManagement.instance();
             FMLCommonHandler.instance().bus().register((Object) new Events());
             MinecraftForge.EVENT_BUS.register((Object) new Events());
-            /*Wrapper.INSTANCE.mc().fontRenderer = new FontRendererUtils(Wrapper.INSTANCE.mcSettings(), new ResourceLocation("textures/font/ascii.png"), Wrapper.INSTANCE.mc().renderEngine, false);
-            if (Wrapper.INSTANCE.mcSettings().language != null) {
-                Wrapper.INSTANCE.fontRenderer().setUnicodeFlag(Wrapper.INSTANCE.mc().func_152349_b());
-                Wrapper.INSTANCE.fontRenderer().setBidiFlag(Wrapper.INSTANCE.mcSettings().forceUnicodeFont);
-            }
-            try {
-                for (Method m : SimpleReloadableResourceManager.class.getDeclaredMethods()) {
-                    if (!m.getName().equals(Mappings.registerReloadListener)) {
-                        continue;
-                    }
-                    m.invoke((Object) Wrapper.INSTANCE.mc().getResourceManager(), new Object[]{Wrapper.INSTANCE.fontRenderer()});
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }*/
             ReflectionHelper.setPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), (Object) ((Object) new TimerUtils(20.0f)), (String[]) new String[]{Mappings.timer});
             new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks").mkdirs();
-            FMLCommonHandler.instance().bus().register((Object)this);
-            MinecraftForge.EVENT_BUS.register((Object)this);
+            FMLCommonHandler.instance().bus().register((Object) this);
+            MinecraftForge.EVENT_BUS.register((Object) this);
             XRayBlock.init();
             XRay.displayListid = GL11.glGenLists((int) 5) + 3;
             ConfigurationManager.instance().initConfigs();

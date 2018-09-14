@@ -62,8 +62,9 @@ public class KillAura
                     if (!(o instanceof EntityPlayer) || (e = (EntityPlayer) o) instanceof EntityPlayerSP || Wrapper.INSTANCE.player().getDistanceToEntity((Entity) e) > CheatConfiguration.config.auraradius || e.isDead) {
                         continue;
                     }
-                    if (AuraConfiguration.config.friends.contains(e.getCommandSenderName().trim()))
+                    if (AuraConfiguration.config.friends.contains(e.getCommandSenderName().trim())) {
                         continue;
+                    }
                     if (AutoBlock.isActive && Wrapper.INSTANCE.player().getCurrentEquippedItem() != null && Wrapper.INSTANCE.player().getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         ItemStack lel = Wrapper.INSTANCE.player().getCurrentEquippedItem();
                         lel.useItemRightClick((World) Wrapper.INSTANCE.world(), (EntityPlayer) Wrapper.INSTANCE.player());

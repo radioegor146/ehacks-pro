@@ -17,7 +17,7 @@ import org.lwjgl.util.glu.Sphere;
 public class GLUtils {
 
     public static boolean hasClearedDepth = false;
-    
+
     private static final Minecraft mc = Wrapper.INSTANCE.mc();
     private static final RenderItem itemRenderer = new RenderItem();
     private static final Sphere sphere = new Sphere();
@@ -331,7 +331,7 @@ public class GLUtils {
         float f1 = (float) (col1 >> 16 & 255) / 255.0f;
         float f2 = (float) (col1 >> 8 & 255) / 255.0f;
         float f3 = (float) (col1 & 255) / 255.0f;
-        GLUtils.drawRect((float)x, (float)y, (float)x2, (float)y2, col3);
+        GLUtils.drawRect((float) x, (float) y, (float) x2, (float) y2, col3);
         GL11.glDisable((int) 3553);
         GL11.glBlendFunc((int) 770, (int) 771);
         GL11.glEnable((int) 2848);

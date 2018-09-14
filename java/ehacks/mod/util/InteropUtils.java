@@ -12,6 +12,7 @@ import ehacks.mod.modulesystem.handler.EHacksGui;
  * @author radioegor146
  */
 public class InteropUtils {
+
     public static void log(String data, Object from) {
         EHacksGui.clickGui.log(data, from);
     }

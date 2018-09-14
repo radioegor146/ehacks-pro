@@ -10,13 +10,14 @@ package ehacks.mod.commands;
  * @author radioegor146
  */
 public interface ICommand {
+
     public String getName();
-    
+
     public void process(String[] args);
-    
+
     public String getCommandDescription();
-    
+
     public String getCommandArgs();
-    
+
     public String[] autoComplete(String[] args);
 }

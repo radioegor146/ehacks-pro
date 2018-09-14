@@ -14,7 +14,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import net.minecraft.util.ChatComponentText;
 
-
 /**
  *
  * @author radioegor146
@@ -25,7 +24,7 @@ public class ConfigControlCommand implements ICommand {
     public String getName() {
         return "cfg";
     }
-    
+
     private String escape(String text) {
         return text.replace("&", "&&");
     }
@@ -63,7 +62,7 @@ public class ConfigControlCommand implements ICommand {
                 try {
                     InteropUtils.log("Value of '" + f.getName() + "': " + f.get(CheatConfiguration.config), "ConfigControl");
                 } catch (Exception ex) {
-                    
+
                 }
                 return;
             }
@@ -108,21 +107,23 @@ public class ConfigControlCommand implements ICommand {
     public String getCommandArgs() {
         return "<save|reload|list|set|get> [field] [value]";
     }
-    
+
     private boolean contains(Object[] array, Object object) {
-        for (Object o : array)
-            if (o.equals(object))
+        for (Object o : array) {
+            if (o.equals(object)) {
                 return true;
+            }
+        }
         return false;
     }
-    
+
     @Override
     public String[] autoComplete(String[] args) {
         if (args.length == 0) {
-            return new String[] { "save", "reload", "list", "set", "get" };
+            return new String[]{"save", "reload", "list", "set", "get"};
         }
         if (args.length == 1) {
-            if (contains(new String[] { "save", "reload", "list", "set", "get" }, args[0])) {
+            if (contains(new String[]{"save", "reload", "list", "set", "get"}, args[0])) {
                 if ("set".equals(args[0]) || "get".equals(args[0])) {
                     ArrayList<String> avaible = new ArrayList();
                     for (Field nick : CheatConfiguration.CheatConfigJson.class.getFields()) {
@@ -130,10 +131,9 @@ public class ConfigControlCommand implements ICommand {
                     }
                     return avaible.toArray(new String[avaible.size()]);
                 }
-            }
-            else {
+            } else {
                 ArrayList<String> avaibleNames = new ArrayList();
-                for (String name : new String[] { "save", "reload", "list", "set", "get" }) {
+                for (String name : new String[]{"save", "reload", "list", "set", "get"}) {
                     if (name.startsWith(args[0])) {
                         avaibleNames.add(name);
                     }
@@ -154,5 +154,5 @@ public class ConfigControlCommand implements ICommand {
         }
         return new String[0];
     }
-    
+
 }

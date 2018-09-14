@@ -46,9 +46,8 @@ public class FriendClick extends Module {
                     if (AuraConfiguration.config.friends.contains(position.entityHit.getCommandSenderName())) {
                         AuraConfiguration.config.friends.remove(position.entityHit.getCommandSenderName());
                         InteropUtils.log("Player " + position.entityHit.getCommandSenderName() + " was removed from aura friend list", this);
-                    }
-                    else {
-                        AuraConfiguration.config.friends.add(position.entityHit.getCommandSenderName()); 
+                    } else {
+                        AuraConfiguration.config.friends.add(position.entityHit.getCommandSenderName());
                         InteropUtils.log("Player " + position.entityHit.getCommandSenderName() + " was added to aura friend list", this);
                     }
                 }

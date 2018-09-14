@@ -4,7 +4,7 @@ import ehacks.api.module.Module;
 import ehacks.mod.packetlogger.Gui;
 import ehacks.mod.packetlogger.PacketHandler;
 import ehacks.mod.wrapper.ModuleCategory;
-import ehacks.mod.wrapper.PacketHandler.Side;
+import ehacks.mod.wrapper.PacketHandler.PacketSide;
 
 public class PacketLogger
         extends Module {
@@ -39,12 +39,12 @@ public class PacketLogger
     }
 
     @Override
-    public boolean onPacket(Object packet, Side side) {
+    public boolean onPacket(Object packet, PacketSide side) {
         try {
-            if (side == Side.IN && !handler.handlePacket(packet, null, PacketHandler.inBlackList)) {
+            if (side == PacketSide.IN && !handler.handlePacket(packet, null, PacketHandler.inBlackList)) {
                 return false;
             }
-            if (side == Side.OUT && !handler.handlePacket(packet, null, PacketHandler.outBlackList)) {
+            if (side == PacketSide.OUT && !handler.handlePacket(packet, null, PacketHandler.outBlackList)) {
                 return false;
             }
             handler.handlePacket(packet, side, PacketHandler.logBlackList);

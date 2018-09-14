@@ -22,5 +22,6 @@ public class Keybinds {
     public static int oneDebug = Keyboard.KEY_NUMPAD6;
     public static int openNbtEdit = Keyboard.KEY_NUMPAD7;
     public static int openAeViewer = Keyboard.KEY_NUMPAD4;
+    public static int magnet = Keyboard.KEY_NUMPAD1;
     public static int openConsole = Keyboard.KEY_GRAVE;
 }

@@ -23,7 +23,9 @@ public class PotionsRegistry extends javax.swing.JFrame {
         initComponents();
         ArrayList<PotionsRegistry.PotionInfo> potionInfos = new ArrayList();
         for (Potion potion : Potion.potionTypes) {
-            if (potion == null) continue;
+            if (potion == null) {
+                continue;
+            }
             potionInfos.add(new PotionInfo(potion));
         }
         int maxIdLength = 2;
@@ -39,34 +41,41 @@ public class PotionsRegistry extends javax.swing.JFrame {
         maxClassNameLength += margin;
         maxNameLength += margin;
         int overallLength = maxIdLength + maxClassNameLength + maxNameLength;
-        ((DefaultListModel)this.potionsList.getModel()).clear();
+        ((DefaultListModel) this.potionsList.getModel()).clear();
         StringBuilder infoString = new StringBuilder();
         infoString.append("ID");
-        for (int i = 0; i < maxIdLength - 2; i++)
+        for (int i = 0; i < maxIdLength - 2; i++) {
             infoString.append(' ');
+        }
         infoString.append("Name");
-        for (int i = 0; i < maxNameLength - 4; i++)
+        for (int i = 0; i < maxNameLength - 4; i++) {
             infoString.append(' ');
+        }
         infoString.append("Class");
-        for (int i = 0; i < maxClassNameLength - 5; i++)
+        for (int i = 0; i < maxClassNameLength - 5; i++) {
             infoString.append(' ');
-        ((DefaultListModel)this.potionsList.getModel()).addElement(infoString.toString());
+        }
+        ((DefaultListModel) this.potionsList.getModel()).addElement(infoString.toString());
         StringBuilder delimString = new StringBuilder();
-        for (int i = 0; i < overallLength; i++)
+        for (int i = 0; i < overallLength; i++) {
             delimString.append("-");
-        ((DefaultListModel)this.potionsList.getModel()).addElement(delimString.toString());
+        }
+        ((DefaultListModel) this.potionsList.getModel()).addElement(delimString.toString());
         for (PotionInfo potion : potionInfos) {
             StringBuilder potionString = new StringBuilder();
             potionString.append(potion.id);
-            for (int i = 0; i < maxIdLength - potion.id.length(); i++)
+            for (int i = 0; i < maxIdLength - potion.id.length(); i++) {
                 potionString.append(' ');
+            }
             potionString.append(potion.name);
-            for (int i = 0; i < maxNameLength - potion.name.length(); i++)
+            for (int i = 0; i < maxNameLength - potion.name.length(); i++) {
                 potionString.append(' ');
+            }
             potionString.append(potion.className);
-            for (int i = 0; i < maxClassNameLength - potion.className.length(); i++)
+            for (int i = 0; i < maxClassNameLength - potion.className.length(); i++) {
                 potionString.append(' ');
-            ((DefaultListModel)this.potionsList.getModel()).addElement(potionString.toString()); 
+            }
+            ((DefaultListModel) this.potionsList.getModel()).addElement(potionString.toString());
         }
     }
 
@@ -92,31 +101,32 @@ public class PotionsRegistry extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(potionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(potionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(potionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(potionsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>                        
-    
+
     public class PotionInfo {
+
         public String className;
         public String name;
         public String id;
-        
+
         public PotionInfo(Potion potion) {
             className = potion.getClass().getName();
-            name =  I18n.format(potion.getName());
+            name = I18n.format(potion.getName());
             id = String.valueOf(potion.id);
         }
     }

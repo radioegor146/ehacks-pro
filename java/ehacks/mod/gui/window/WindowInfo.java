@@ -21,7 +21,7 @@ public class WindowInfo
                 Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("X: " + (int) Wrapper.INSTANCE.player().posX, this.getClientX() + 1, this.getClientY() + 12 + 1, 5636095);
                 Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Y: " + (int) Wrapper.INSTANCE.player().posY, this.getClientX() + 1, this.getClientY() + 24 + 1, 5636095);
                 Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Z: " + (int) Wrapper.INSTANCE.player().posZ, this.getClientX() + 1, this.getClientY() + 36 + 1, 5636095);
-        } else {
+            } else {
                 super.draw(x, y);
             }
         }

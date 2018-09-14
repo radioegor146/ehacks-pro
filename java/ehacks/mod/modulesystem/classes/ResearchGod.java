@@ -74,7 +74,7 @@ public class ResearchGod extends Module {
         try {
             Field f = Class.forName("thaumcraft.client.gui.GuiResearchPopup").getDeclaredField("theResearch");
             f.setAccessible(true);
-            ((ArrayList)f.get(Class.forName("thaumcraft.client.lib.ClientTickEventsFML").getField("researchPopup").get(null))).clear();
+            ((ArrayList) f.get(Class.forName("thaumcraft.client.lib.ClientTickEventsFML").getField("researchPopup").get(null))).clear();
             LinkedHashMap<String, Object> researchCategories
                     = (LinkedHashMap<String, Object>) getPrivateValue("thaumcraft.api.research.ResearchCategories", "researchCategories", null);
             for (Object listObj : researchCategories.values()) {

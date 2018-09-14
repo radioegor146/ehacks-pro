@@ -3,7 +3,7 @@ package ehacks.mod.modulesystem.classes;
 import ehacks.api.module.ModStatus;
 import ehacks.api.module.Module;
 import ehacks.mod.wrapper.ModuleCategory;
-import ehacks.mod.wrapper.PacketHandler.Side;
+import ehacks.mod.wrapper.PacketHandler.PacketSide;
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -164,10 +164,10 @@ public class IC2SignEdit
     }
 
     @Override
-    public boolean onPacket(Object packet, Side side) {
+    public boolean onPacket(Object packet, PacketSide side) {
         return false;
     }
-    
+
     @Override
     public boolean canOnOnStart() {
         return true;

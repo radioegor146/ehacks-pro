@@ -54,7 +54,7 @@ public class NoLimitPlayers
         try {
             List<EntityPlayer> players = WindowPlayerIds.useIt ? WindowPlayerIds.getPlayers() : Wrapper.INSTANCE.world().playerEntities;
             for (Object o : players) {
-                if (((Entity) o).getEntityId() != Wrapper.INSTANCE.player().getEntityId() && !AuraConfiguration.config.friends.contains(((Entity)o).getCommandSenderName())) {
+                if (((Entity) o).getEntityId() != Wrapper.INSTANCE.player().getEntityId() && !AuraConfiguration.config.friends.contains(((Entity) o).getCommandSenderName())) {
                     killEntity(((Entity) o).getEntityId());
                 }
             }
