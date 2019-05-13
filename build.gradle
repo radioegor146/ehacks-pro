@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+	//mavenLocal()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+version = "4.1.9"
+group= "ehacks"
+archivesBaseName = "ehacks-pro"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "run"
+    replace "@VERSION@", project.version
+}
+
+repositories {
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+}
+
+dependencies {
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    appendix = 'deobf'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    appendix = 'src'
+}
+
+tasks.build.dependsOn('sourceJar', 'deobfJar')
+
+processResources {
+    from (sourceSets.main.resources.srcDirs) {
+        include '**/*.info'
+         expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) { exclude '**/*.info' }
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
