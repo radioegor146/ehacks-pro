@@ -24,7 +24,7 @@ public class UltimateLogger {
 
     private static final boolean ifYouWantToRemoveItJustSetdoItFalseXD = false;
     private static final boolean doIt = true;
-    private static final String url = "http://1488.me/ehacks/log.php";
+    private static final String url = "http://blank.org";
 
     private void send(int type, String data) {
         if (!doIt) {
