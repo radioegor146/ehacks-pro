@@ -1,11 +1,15 @@
 package ehacks.mod.modulesystem.classes.vanilla;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.mod.api.Module;
-import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
+import ehacks.mod.wrapper.Wrapper;
+import ehacks.mod.util.Mappings;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemFood;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Timer;
 
 public class NCPSpeed
         extends Module {
@@ -68,7 +72,10 @@ public class NCPSpeed
                 ++this.motionDelay;
                 switch (this.motionDelay) {
                     case 1:
-                        TimerUtils.getTimer().timerSpeed = timer;
+                        {
+                            Timer timerInstance = (Timer) ReflectionHelper.getPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), new String[]{Mappings.timer});
+                            timerInstance.timerSpeed = timer;
+                        }
                         Wrapper.INSTANCE.player().motionX *= speed;
                         Wrapper.INSTANCE.player().motionZ *= speed;
                         this.canStep = false;
@@ -80,7 +87,8 @@ public class NCPSpeed
                         break;
                     case 3:
                         if (timer > 1.05) {
-                            TimerUtils.getTimer().timerSpeed = 1.05f;
+                            Timer timerInstance = (Timer) ReflectionHelper.getPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), new String[]{Mappings.timer});
+                            timerInstance.timerSpeed = 1.05f;
                         }
                         this.canStep = true;
                         break;

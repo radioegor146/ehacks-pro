@@ -1,9 +1,13 @@
 package ehacks.mod.modulesystem.classes.vanilla;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.mod.api.Module;
 import ehacks.mod.config.CheatConfiguration;
-import ehacks.mod.util.TimerUtils;
 import ehacks.mod.wrapper.ModuleCategory;
+import ehacks.mod.wrapper.Wrapper;
+import ehacks.mod.util.Mappings;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Timer;
 
 public class Speed
         extends Module {
@@ -24,11 +28,13 @@ public class Speed
 
     @Override
     public void onTicks() {
-        TimerUtils.getTimer().timerSpeed = (float) CheatConfiguration.config.speedhack;
+        Timer timer = (Timer) ReflectionHelper.getPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), new String[]{Mappings.timer});
+        timer.timerSpeed = (float) CheatConfiguration.config.speedhack;
     }
 
     @Override
     public void onModuleDisabled() {
-        TimerUtils.getTimer().timerSpeed = 1.0f;
+        Timer timer = (Timer) ReflectionHelper.getPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), new String[]{Mappings.timer});
+        timer.timerSpeed = 1.0f;
     }
 }

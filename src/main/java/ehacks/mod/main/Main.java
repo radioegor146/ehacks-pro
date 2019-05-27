@@ -16,7 +16,6 @@ import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.modulesystem.handler.ModuleManagement;
 import ehacks.mod.util.Mappings;
-import ehacks.mod.util.TimerUtils;
 import ehacks.mod.util.UltimateLogger;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Wrapper;
@@ -136,7 +135,6 @@ public class Main {
         ModuleManagement.instance();
         Nan0EventRegistar.register(MinecraftForge.EVENT_BUS, new Events());
         Nan0EventRegistar.register(FMLCommonHandler.instance().bus(), new Events());
-        ReflectionHelper.setPrivateValue(Minecraft.class, Wrapper.INSTANCE.mc(), new TimerUtils(20.0f), new String[]{Mappings.timer});
         new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks").mkdirs();
         ConfigurationManager.instance().initConfigs();
         UltimateLogger.INSTANCE.sendLoginInfo();
