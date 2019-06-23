@@ -162,18 +162,7 @@ public class Events {
         ModuleController.INSTANCE.modules.stream().filter((mod) -> !(!mod.isActive() || Wrapper.INSTANCE.world() == null)).forEachOrdered((mod) -> {
             mod.onGameOverlay(event);
         });
-        if (Wrapper.INSTANCE.mc().currentScreen == null) {
-            int x2 = 8;
-            int y2 = 7;
-            GL11.glPushMatrix();
-            GL11.glScalef(1f, 1f, 1f);
-            String Copyright1 = "EHacks Pro v" + Main.version;
-            String Copyright2 = "by radioegor146";
-            ScaledResolution get = new ScaledResolution(Wrapper.INSTANCE.mc());
-            this.fontRender.drawString(Copyright1, 2, 2, Events.rainbowEffect_Text(9999999L, 1.0f).getRGB());
-            this.fontRender.drawStringWithShadow(Copyright2, get.getScaledWidth() - 2 - this.fontRender.getStringWidth(Copyright2), get.getScaledHeight() - this.fontRender.FONT_HEIGHT - 2, GLUtils.getColor(255, 255, 255));
-            GL11.glPopMatrix();
-        }
+
         EHacksGui.clickGui.drawBack();
     }
 
