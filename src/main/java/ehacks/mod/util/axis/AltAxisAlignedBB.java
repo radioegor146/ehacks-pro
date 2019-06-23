@@ -1,8 +1,9 @@
 package ehacks.mod.util.axis;
 
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 public class AltAxisAlignedBB {
 
@@ -14,14 +15,6 @@ public class AltAxisAlignedBB {
     public double maxY;
     public double maxZ;
 
-    public static AltAxisAlignedBB getBoundingBox(double par0, double par2, double par4, double par6, double par8, double par10) {
-        return new AltAxisAlignedBB(par0, par2, par4, par6, par8, par10);
-    }
-
-    public static AxisAlignedBB getAABBPool() {
-        return (AxisAlignedBB) theAABBLocalPool.get();
-    }
-
     public AltAxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11) {
         this.minX = par1;
         this.minY = par3;
@@ -29,6 +22,14 @@ public class AltAxisAlignedBB {
         this.maxX = par7;
         this.maxY = par9;
         this.maxZ = par11;
+    }
+
+    public static AltAxisAlignedBB getBoundingBox(double par0, double par2, double par4, double par6, double par8, double par10) {
+        return new AltAxisAlignedBB(par0, par2, par4, par6, par8, par10);
+    }
+
+    public static AxisAlignedBB getAABBPool() {
+        return (AxisAlignedBB) theAABBLocalPool.get();
     }
 
     public AltAxisAlignedBB setBounds(double par1, double par3, double par5, double par7, double par9, double par11) {
@@ -67,7 +68,7 @@ public class AltAxisAlignedBB {
             var17 += par5;
         }
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox(var7, var9, var11, var13, var15, var17);
+        return new AxisAlignedBB(var7, var9, var11, var13, var15, var17);
     }
 
     public AxisAlignedBB expand(double par1, double par3, double par5) {
@@ -78,7 +79,7 @@ public class AltAxisAlignedBB {
         double var15 = this.maxY + par3;
         double var17 = this.maxZ + par5;
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox(var7, var9, var11, var13, var15, var17);
+        return new AxisAlignedBB(var7, var9, var11, var13, var15, var17);
     }
 
     public AxisAlignedBB func_111270_a(AltAxisAlignedBB par1AxisAlignedBB) {
@@ -89,12 +90,12 @@ public class AltAxisAlignedBB {
         double var10 = Math.max(this.maxY, par1AxisAlignedBB.maxY);
         double var12 = Math.max(this.maxZ, par1AxisAlignedBB.maxZ);
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox(var2, var4, var6, var8, var10, var12);
+        return new AxisAlignedBB(var2, var4, var6, var8, var10, var12);
     }
 
     public AxisAlignedBB getOffsetBoundingBox(double par1, double par3, double par5) {
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox((this.minX + par1), (this.minY + par3), (this.minZ + par5), (this.maxX + par1), (this.maxY + par3), (this.maxZ + par5));
+        return new AxisAlignedBB((this.minX + par1), (this.minY + par3), (this.minZ + par5), (this.maxX + par1), (this.maxY + par3), (this.maxZ + par5));
     }
 
     public double calculateXOffset(AltAxisAlignedBB par1AxisAlignedBB, double par2) {
@@ -162,8 +163,8 @@ public class AltAxisAlignedBB {
         return this;
     }
 
-    public boolean isVecInside(Vec3 par1Vec3) {
-        return (par1Vec3.xCoord > this.minX && par1Vec3.xCoord < this.maxX) && ((par1Vec3.yCoord > this.minY && par1Vec3.yCoord < this.maxY) && (par1Vec3.zCoord > this.minZ && par1Vec3.zCoord < this.maxZ));
+    public boolean isVecInside(Vec3d par1Vec3) {
+        return (par1Vec3.x > this.minX && par1Vec3.x < this.maxX) && ((par1Vec3.y > this.minY && par1Vec3.y < this.maxY) && (par1Vec3.z > this.minZ && par1Vec3.z < this.maxZ));
     }
 
     public double getAverageEdgeLength() {
@@ -181,21 +182,21 @@ public class AltAxisAlignedBB {
         double var15 = this.maxY - par3;
         double var17 = this.maxZ - par5;
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox(var7, var9, var11, var13, var15, var17);
+        return new AxisAlignedBB(var7, var9, var11, var13, var15, var17);
     }
 
     public AxisAlignedBB copy() {
         AltAxisAlignedBB.getAABBPool();
-        return AxisAlignedBB.getBoundingBox(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
+        return new AxisAlignedBB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
     }
 
-    public MovingObjectPosition calculateIntercept(Vec3 par1Vec3, Vec3 par2Vec3) {
-        Vec3 var3 = par1Vec3.getIntermediateWithXValue(par2Vec3, this.minX);
-        Vec3 var4 = par1Vec3.getIntermediateWithXValue(par2Vec3, this.maxX);
-        Vec3 var5 = par1Vec3.getIntermediateWithYValue(par2Vec3, this.minY);
-        Vec3 var6 = par1Vec3.getIntermediateWithYValue(par2Vec3, this.maxY);
-        Vec3 var7 = par1Vec3.getIntermediateWithZValue(par2Vec3, this.minZ);
-        Vec3 var8 = par1Vec3.getIntermediateWithZValue(par2Vec3, this.maxZ);
+    public RayTraceResult calculateIntercept(Vec3d par1Vec3, Vec3d par2Vec3) {
+        Vec3d var3 = par1Vec3.getIntermediateWithXValue(par2Vec3, this.minX);
+        Vec3d var4 = par1Vec3.getIntermediateWithXValue(par2Vec3, this.maxX);
+        Vec3d var5 = par1Vec3.getIntermediateWithYValue(par2Vec3, this.minY);
+        Vec3d var6 = par1Vec3.getIntermediateWithYValue(par2Vec3, this.maxY);
+        Vec3d var7 = par1Vec3.getIntermediateWithZValue(par2Vec3, this.minZ);
+        Vec3d var8 = par1Vec3.getIntermediateWithZValue(par2Vec3, this.maxZ);
         if (!this.isVecInYZ(var3)) {
             var3 = null;
         }
@@ -214,7 +215,7 @@ public class AltAxisAlignedBB {
         if (!this.isVecInXY(var8)) {
             var8 = null;
         }
-        Vec3 var9 = null;
+        Vec3d var9 = null;
         if (var3 != null) {
             var9 = var3;
         }
@@ -255,19 +256,19 @@ public class AltAxisAlignedBB {
         if (var9 == var8) {
             var10 = 3;
         }
-        return new MovingObjectPosition(0, 0, 0, var10, var9);
+        return new RayTraceResult(new Vec3d(0, 0, 0), EnumFacing.DOWN); // Написал чисто на шару
     }
 
-    private boolean isVecInYZ(Vec3 par1Vec3) {
-        return par1Vec3 != null && (par1Vec3.yCoord >= this.minY && par1Vec3.yCoord <= this.maxY && par1Vec3.zCoord >= this.minZ && par1Vec3.zCoord <= this.maxZ);
+    private boolean isVecInYZ(Vec3d par1Vec3) {
+        return par1Vec3 != null && (par1Vec3.y >= this.minY && par1Vec3.y <= this.maxY && par1Vec3.z >= this.minZ && par1Vec3.z <= this.maxZ);
     }
 
-    private boolean isVecInXZ(Vec3 par1Vec3) {
-        return par1Vec3 != null && (par1Vec3.xCoord >= this.minX && par1Vec3.xCoord <= this.maxX && par1Vec3.zCoord >= this.minZ && par1Vec3.zCoord <= this.maxZ);
+    private boolean isVecInXZ(Vec3d par1Vec3) {
+        return par1Vec3 != null && (par1Vec3.x >= this.minX && par1Vec3.x <= this.maxX && par1Vec3.z >= this.minZ && par1Vec3.z <= this.maxZ);
     }
 
-    private boolean isVecInXY(Vec3 par1Vec3) {
-        return par1Vec3 != null && (par1Vec3.xCoord >= this.minX && par1Vec3.xCoord <= this.maxX && par1Vec3.yCoord >= this.minY && par1Vec3.yCoord <= this.maxY);
+    private boolean isVecInXY(Vec3d par1Vec3) {
+        return par1Vec3 != null && (par1Vec3.x >= this.minX && par1Vec3.x <= this.maxX && par1Vec3.y >= this.minY && par1Vec3.y <= this.maxY);
     }
 
     public void setBB(AltAxisAlignedBB par1AxisAlignedBB) {

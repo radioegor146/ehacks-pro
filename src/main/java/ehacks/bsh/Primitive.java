@@ -1,35 +1,37 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
 import java.io.ObjectStreamException;
@@ -39,7 +41,7 @@ import java.util.Map;
 /**
  * Wrapper for primitive types in Bsh. This is package public because it is used
  * in the implementation of some bsh commands.
- *
+ * <p>
  * See the note in LHS.java about wrapping objects.
  */
 /*
@@ -48,6 +50,17 @@ import java.util.Map;
  */
 public class Primitive implements ParserConstants, java.io.Serializable {
 
+    /*
+        NULL means "no value".
+        This ia a placeholder for primitive null value.
+     */
+    public static final Primitive NULL = new Primitive(Special.NULL_VALUE);
+    /**
+     * VOID means "no type". Strictly speaking, this makes no sense here. But
+     * for practical reasons we'll consider the lack of a type to be a special
+     * value.
+     */
+    public static final Primitive VOID = new Primitive(Special.VOID_TYPE);
     /*
 	static Hashtable primitiveToWrapper = new Hashtable();
 	static Hashtable wrapperToPrimitive = new Hashtable();
@@ -96,46 +109,6 @@ public class Primitive implements ParserConstants, java.io.Serializable {
      */
     private Object value;
 
-    private static class Special implements java.io.Serializable {
-
-        private Special() {
-        }
-
-        public static final Special NULL_VALUE = new Special() {
-            private Object readResolve() throws ObjectStreamException {
-                return Special.NULL_VALUE;
-            }
-        };
-        public static final Special VOID_TYPE = new Special() {
-            private Object readResolve() throws ObjectStreamException {
-                return Special.VOID_TYPE;
-            }
-        };
-    }
-
-    /*
-        NULL means "no value".
-        This ia a placeholder for primitive null value.
-     */
-    public static final Primitive NULL = new Primitive(Special.NULL_VALUE);
-
-    /**
-     * VOID means "no type". Strictly speaking, this makes no sense here. But
-     * for practical reasons we'll consider the lack of a type to be a special
-     * value.
-     */
-    public static final Primitive VOID = new Primitive(Special.VOID_TYPE);
-
-    private Object readResolve() throws ObjectStreamException {
-        if (value == Special.NULL_VALUE) {
-            return Primitive.NULL;
-        } else if (value == Special.VOID_TYPE) {
-            return Primitive.VOID;
-        } else {
-            return this;
-        }
-    }
-
     // private to prevent invocation with param that isn't a primitive-wrapper
     public Primitive(Object value) {
         if (value == null) {
@@ -182,50 +155,6 @@ public class Primitive implements ParserConstants, java.io.Serializable {
 
     public Primitive(double value) {
         this(new Double(value));
-    }
-
-    /**
-     * Return the primitive value stored in its java.lang wrapper class
-     */
-    public Object getValue() {
-        if (value == Special.NULL_VALUE) {
-            return null;
-        } else if (value == Special.VOID_TYPE) {
-            throw new InterpreterError("attempt to unwrap void type");
-        } else {
-            return value;
-        }
-    }
-
-    @Override
-    public String toString() {
-        if (value == Special.NULL_VALUE) {
-            return "null";
-        } else if (value == Special.VOID_TYPE) {
-            return "void";
-        } else {
-            return value.toString();
-        }
-    }
-
-    /**
-     * Get the corresponding Java primitive TYPE class for this Primitive.
-     *
-     * @return the primitive TYPE class type of the value or Void.TYPE for
-     * Primitive.VOID or null value for type of Primitive.NULL
-     */
-    public Class getType() {
-        if (this == Primitive.VOID) {
-            return Void.TYPE;
-        }
-
-        // NULL return null as type... we currently use null type to indicate 
-        // loose typing throughout bsh.
-        if (this == Primitive.NULL) {
-            return null;
-        }
-
-        return unboxType(value.getClass());
     }
 
     /**
@@ -783,68 +712,6 @@ public class Primitive implements ParserConstants, java.io.Serializable {
         }
     }
 
-    public int intValue() throws UtilEvalError {
-        if (value instanceof Number) {
-            return ((Number) value).intValue();
-        } else {
-            throw new UtilEvalError("Primitive not a number");
-        }
-    }
-
-    public boolean booleanValue() throws UtilEvalError {
-        if (value instanceof Boolean) {
-            return ((Boolean) value);
-        } else {
-            throw new UtilEvalError("Primitive not a boolean");
-        }
-    }
-
-    /**
-     * Determine if this primitive is a numeric type. i.e. not boolean, null, or
-     * void (but including char)
-     */
-    public boolean isNumber() {
-        return (!(value instanceof Boolean)
-                && !(this == NULL) && !(this == VOID));
-    }
-
-    public Number numberValue() throws UtilEvalError {
-        Object value = this.value;
-
-        // Promote character to Number type for these purposes
-        if (value instanceof Character) {
-            value = new Integer(((Character) value));
-        }
-
-        if (value instanceof Number) {
-            return (Number) value;
-        } else {
-            throw new UtilEvalError("Primitive not a number");
-        }
-    }
-
-    /**
-     * Primitives compare equal with other Primitives containing an equal
-     * wrapped value.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Primitive) {
-            return ((Primitive) obj).value.equals(this.value);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * The hash of the Primitive is tied to the hash of the wrapped value but
-     * shifted so that they are not the same.
-     */
-    @Override
-    public int hashCode() {
-        return this.value.hashCode() * 21; // arbitrary
-    }
-
     /**
      * Unwrap primitive values and map voids to nulls. Non Primitive types
      * remain unchanged.
@@ -962,21 +829,6 @@ public class Primitive implements ParserConstants, java.io.Serializable {
         }
         throw new InterpreterError(
                 "Not a primitive wrapper type: " + wrapperType);
-    }
-
-    /**
-     * Cast this bsh.Primitive value to a new bsh.Primitive value This is
-     * usually a numeric type cast. Other cases include: A boolean can be cast
-     * to boolen null can be cast to any object type and remains null Attempting
-     * to cast a void causes an exception
-     *
-     * @param toType is the java object or primitive TYPE class
-     */
-    public Primitive castToType(Class toType, int operation)
-            throws UtilEvalError {
-        return castPrimitive(
-                toType, getType()/*fromType*/, this/*fromValue*/,
-                false/*checkOnly*/, operation);
     }
 
     /*
@@ -1104,7 +956,7 @@ public class Primitive implements ParserConstants, java.io.Serializable {
      * Integer(5) to Byte(5)
      *
      * @param toType is the java TYPE type
-     * @param value is the value in java.lang wrapper. value may not be null.
+     * @param value  is the value in java.lang wrapper. value may not be null.
      */
     static Object castWrapper(
             Class toType, Object value) {
@@ -1156,6 +1008,154 @@ public class Primitive implements ParserConstants, java.io.Serializable {
         }
 
         throw new InterpreterError("error in wrapper cast");
+    }
+
+    private Object readResolve() throws ObjectStreamException {
+        if (value == Special.NULL_VALUE) {
+            return Primitive.NULL;
+        } else if (value == Special.VOID_TYPE) {
+            return Primitive.VOID;
+        } else {
+            return this;
+        }
+    }
+
+    /**
+     * Return the primitive value stored in its java.lang wrapper class
+     */
+    public Object getValue() {
+        if (value == Special.NULL_VALUE) {
+            return null;
+        } else if (value == Special.VOID_TYPE) {
+            throw new InterpreterError("attempt to unwrap void type");
+        } else {
+            return value;
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (value == Special.NULL_VALUE) {
+            return "null";
+        } else if (value == Special.VOID_TYPE) {
+            return "void";
+        } else {
+            return value.toString();
+        }
+    }
+
+    /**
+     * Get the corresponding Java primitive TYPE class for this Primitive.
+     *
+     * @return the primitive TYPE class type of the value or Void.TYPE for
+     * Primitive.VOID or null value for type of Primitive.NULL
+     */
+    public Class getType() {
+        if (this == Primitive.VOID) {
+            return Void.TYPE;
+        }
+
+        // NULL return null as type... we currently use null type to indicate
+        // loose typing throughout bsh.
+        if (this == Primitive.NULL) {
+            return null;
+        }
+
+        return unboxType(value.getClass());
+    }
+
+    public int intValue() throws UtilEvalError {
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
+        } else {
+            throw new UtilEvalError("Primitive not a number");
+        }
+    }
+
+    public boolean booleanValue() throws UtilEvalError {
+        if (value instanceof Boolean) {
+            return ((Boolean) value);
+        } else {
+            throw new UtilEvalError("Primitive not a boolean");
+        }
+    }
+
+    /**
+     * Determine if this primitive is a numeric type. i.e. not boolean, null, or
+     * void (but including char)
+     */
+    public boolean isNumber() {
+        return (!(value instanceof Boolean)
+                && !(this == NULL) && !(this == VOID));
+    }
+
+    public Number numberValue() throws UtilEvalError {
+        Object value = this.value;
+
+        // Promote character to Number type for these purposes
+        if (value instanceof Character) {
+            value = new Integer(((Character) value));
+        }
+
+        if (value instanceof Number) {
+            return (Number) value;
+        } else {
+            throw new UtilEvalError("Primitive not a number");
+        }
+    }
+
+    /**
+     * Primitives compare equal with other Primitives containing an equal
+     * wrapped value.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Primitive) {
+            return ((Primitive) obj).value.equals(this.value);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * The hash of the Primitive is tied to the hash of the wrapped value but
+     * shifted so that they are not the same.
+     */
+    @Override
+    public int hashCode() {
+        return this.value.hashCode() * 21; // arbitrary
+    }
+
+    /**
+     * Cast this bsh.Primitive value to a new bsh.Primitive value This is
+     * usually a numeric type cast. Other cases include: A boolean can be cast
+     * to boolen null can be cast to any object type and remains null Attempting
+     * to cast a void causes an exception
+     *
+     * @param toType is the java object or primitive TYPE class
+     */
+    public Primitive castToType(Class toType, int operation)
+            throws UtilEvalError {
+        return castPrimitive(
+                toType, getType()/*fromType*/, this/*fromValue*/,
+                false/*checkOnly*/, operation);
+    }
+
+    private static class Special implements java.io.Serializable {
+
+        public static final Special NULL_VALUE = new Special() {
+            private Object readResolve() throws ObjectStreamException {
+                return Special.NULL_VALUE;
+            }
+        };
+        public static final Special VOID_TYPE = new Special() {
+            private Object readResolve() throws ObjectStreamException {
+                return Special.VOID_TYPE;
+            }
+        };
+
+        private Special() {
+        }
     }
 
 }

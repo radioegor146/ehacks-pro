@@ -11,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import java.io.IOException;
+
 public class GuiNBTEdit
         extends GuiScreen {
 
@@ -26,7 +28,7 @@ public class GuiNBTEdit
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
-        this.nbtString = new GuiTextField(this.mc.fontRenderer, 274, this.height - 27, this.width - 286, 20);
+        this.nbtString = new GuiTextField(1, this.mc.fontRenderer, 274, this.height - 27, this.width - 286, 20);
         this.nbtString.setMaxStringLength(32000);
         this.nbtString.setText(Debug.NBTToJson(guiTree.getNBTTree().toNBTTagCompound()));
         this.nbtString.setCursorPositionZero();
@@ -90,7 +92,11 @@ public class GuiNBTEdit
         if (this.guiTree.getWindow() == null) {
             this.nbtString.mouseClicked(x, y, t);
         }
-        super.mouseClicked(x, y, t);
+        try {
+            super.mouseClicked(x, y, t);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (t == 0) {
             this.guiTree.mouseClicked(x, y);
         }
@@ -98,7 +104,11 @@ public class GuiNBTEdit
 
     @Override
     public void handleMouseInput() {
-        super.handleMouseInput();
+        try {
+            super.handleMouseInput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         int ofs = Mouse.getEventDWheel();
         if (ofs != 0) {
             this.guiTree.shift(ofs >= 1 ? 6 : -6);
@@ -135,7 +145,7 @@ public class GuiNBTEdit
 
     @Override
     public void updateScreen() {
-        if (!this.mc.thePlayer.isEntityAlive()) {
+        if (!this.mc.player.isEntityAlive()) {
             this.quitWithoutSaving();
         } else {
             this.guiTree.updateScreen();

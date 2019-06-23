@@ -51,12 +51,12 @@ public class GuiNBTButton
         Wrapper.INSTANCE.fontRenderer().drawString(s, mx + 5, my + 8, 16777215);
     }
 
-    public void setEnabled(boolean aFlag) {
-        this.enabled = aFlag;
-    }
-
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public void setEnabled(boolean aFlag) {
+        this.enabled = aFlag;
     }
 
     public boolean inBounds(int mx, int my) {

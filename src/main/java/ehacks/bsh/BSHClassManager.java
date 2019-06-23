@@ -1,35 +1,37 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
 import java.io.IOException;
@@ -39,23 +41,18 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
  * BshClassManager manages all classloading in BeanShell. It also supports a
  * dynamically loaded extension (bsh.classpath package) which allows classpath
  * extension and class file reloading.
- *
+ * <p>
  * Currently the extension relies on 1.2 for BshClassLoader and weak references.
  * * See http://www.beanshell.org/manual/classloading.html for details on the
  * bsh classloader architecture.
  * <p>
- *
+ * <p>
  * Bsh has a multi-tiered class loading architecture. No class loader is used
  * unless/until the classpath is modified or a class is reloaded.
  * <p>
@@ -83,17 +80,12 @@ import java.util.WeakHashMap;
  */
 public class BSHClassManager {
 
-    /**
-     * The interpreter which created the class manager This is used to load
-     * scripted classes from source files.
-     */
-    private Interpreter declaringInterpreter;
-
+    private static final Map<BSHClassManager, Object> classManagers = Collections.synchronizedMap(new WeakHashMap<BSHClassManager, Object>());
+    private final transient Set<String> definingClasses = Collections.synchronizedSet(new HashSet<String>());
     /**
      * An external classloader supplied by the setClassLoader() command.
      */
     protected ClassLoader externalClassLoader;
-
     /**
      * Global cache for things we know are classes. Note: these should probably
      * be re-implemented with Soft references. (as opposed to strong or Weak)
@@ -105,7 +97,6 @@ public class BSHClassManager {
      * Weak)
      */
     protected transient Set<String> absoluteNonClasses = Collections.synchronizedSet(new HashSet<String>());
-
     /**
      * Caches for resolved object and static methods. We keep these maps
      * separate to support fast lookup in the general case where the method may
@@ -113,11 +104,12 @@ public class BSHClassManager {
      */
     protected transient volatile Map<SignatureKey, Method> resolvedObjectMethods = new Hashtable<SignatureKey, Method>();
     protected transient volatile Map<SignatureKey, Method> resolvedStaticMethods = new Hashtable<SignatureKey, Method>();
-
-    private final transient Set<String> definingClasses = Collections.synchronizedSet(new HashSet<String>());
     protected transient Map<String, String> definingClassesBaseNames = new Hashtable<String, String>();
-
-    private static final Map<BSHClassManager, Object> classManagers = Collections.synchronizedMap(new WeakHashMap<BSHClassManager, Object>());
+    /**
+     * The interpreter which created the class manager This is used to load
+     * scripted classes from source files.
+     */
+    private Interpreter declaringInterpreter;
 
     static void clearResolveCache() {
         BSHClassManager[] managers = classManagers.keySet().toArray(new BSHClassManager[0]);
@@ -130,9 +122,6 @@ public class BSHClassManager {
     /**
      * Create a new instance of the class manager. Class manager instnaces are
      * now associated with the interpreter.
-     *
-     * @see bsh.Interpreter.getClassManager()
-     * @see bsh.Interpreter.setClassLoader( ClassLoader )
      */
     public static BSHClassManager createClassManager(Interpreter interpreter) {
         BSHClassManager manager;
@@ -146,6 +135,11 @@ public class BSHClassManager {
         manager.declaringInterpreter = interpreter;
         classManagers.put(manager, null);
         return manager;
+    }
+
+    protected static UtilEvalError cmUnavailable() {
+        return new Capabilities.Unavailable(
+                "ClassLoading features unavailable.");
     }
 
     public boolean classExists(String name) {
@@ -164,14 +158,15 @@ public class BSHClassManager {
         if (isClassBeingDefined(name)) {
             throw new InterpreterError(
                     "Attempting to load class in the process of being defined: "
-                    + name);
+                            + name);
         }
 
         Class clas = null;
         try {
             clas = plainClassForName(name);
         } catch (ClassNotFoundException e) {
-            /*ignore*/ }
+            /*ignore*/
+        }
 
         // try scripted class
         if (clas == null && declaringInterpreter.getCompatibility()) {
@@ -208,13 +203,13 @@ public class BSHClassManager {
      * classloader. If a BshClassManager implementation is loaded the call will
      * be delegated to it, to allow for additional hooks.
      * <p/>
-     *
+     * <p>
      * This simply wraps that bottom level class lookup call and provides a
      * central point for monitoring and handling certain Java version dependent
      * bugs, etc.
      *
-     * @see #classForName( String )
      * @return the class
+     * @see #classForName(String)
      */
     public Class plainClassForName(String name)
             throws ClassNotFoundException {
@@ -271,7 +266,7 @@ public class BSHClassManager {
      * Cache info about whether name is a class or not.
      *
      * @param value if value is non-null, cache the class if value is null, set
-     * the flag that it is *not* a class to speed later resolution
+     *              the flag that it is *not* a class to speed later resolution
      */
     public void cacheClassInfo(String name, Class value) {
         if (value != null) {
@@ -381,7 +376,7 @@ public class BSHClassManager {
     /**
      * Overlay the entire path with a new class loader. Set the base path to the
      * user path + base path.
-     *
+     * <p>
      * No point in including the boot class path (can't reload thos).
      */
     public void reloadAllClasses() throws UtilEvalError {
@@ -399,8 +394,16 @@ public class BSHClassManager {
     }
 
     /**
-     * Reload all classes in the specified package: e.g. "com.sun.tools"
+     * This has been removed from the interface to shield the core from the rest
+     * of the classpath package. If you need the classpath you will have to cast
+     * the classmanager to its impl.
      *
+     * public BshClassPath getClassPath() throws ClassPathException;
+     */
+
+    /**
+     * Reload all classes in the specified package: e.g. "com.sun.tools"
+     * <p>
      * The special package name "<unpackaged>" can be used to refer to
      * unpackaged classes.
      */
@@ -409,13 +412,6 @@ public class BSHClassManager {
         throw cmUnavailable();
     }
 
-    /**
-     * This has been removed from the interface to shield the core from the rest
-     * of the classpath package. If you need the classpath you will have to cast
-     * the classmanager to its impl.
-     *
-     * public BshClassPath getClassPath() throws ClassPathException;
-     */
     /**
      * Support for "import *;" Hide details in here as opposed to NameSpace.
      */
@@ -460,7 +456,7 @@ public class BSHClassManager {
 		process of defining two classes in different packages with the same
 		base name.  To remove this limitation requires that we work through
 		namespace imports in an analogous (or using the same path) as regular
-		class import resolution.  This workaround should handle most cases 
+		class import resolution.  This workaround should handle most cases
 		so we'll try it for now.
      */
     protected void definingClass(String className) {
@@ -515,19 +511,19 @@ public class BSHClassManager {
 		Old implementation injected classes into the parent classloader.
 		This was incorrect behavior for several reasons.  The biggest problem
 		is that classes could therefore only be defined once across all
-		executions of the script...  
+		executions of the script...
 
 		ClassLoader cl = this.getClass().getClassLoader();
 		Class clas;
 		try {
-			clas = (Class)Reflect.invokeObjectMethod( 
-				cl, "defineClass", 
-				new Object [] { 
-					name, code, 
-					new Primitive( (int)0 )/offset/, 
-					new Primitive( code.length )/len/ 
-				}, 
-				(Interpreter)null, (CallStack)null, (SimpleNode)null 
+			clas = (Class)Reflect.invokeObjectMethod(
+				cl, "defineClass",
+				new Object [] {
+					name, code,
+					new Primitive( (int)0 )/offset/,
+					new Primitive( code.length )/len/
+				},
+				(Interpreter)null, (CallStack)null, (SimpleNode)null
 			);
 		} catch ( Exception e ) {
 			e.printStackTrace();
@@ -539,11 +535,6 @@ public class BSHClassManager {
     }
 
     protected void classLoaderChanged() {
-    }
-
-    protected static UtilEvalError cmUnavailable() {
-        return new Capabilities.Unavailable(
-                "ClassLoading features unavailable.");
     }
 
     public static interface Listener {

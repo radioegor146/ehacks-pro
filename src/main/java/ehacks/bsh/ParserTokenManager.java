@@ -3,7 +3,138 @@ package ehacks.bsh;
 
 public class ParserTokenManager implements ParserConstants {
 
+    public static final String[] jjstrLiteralImages = {
+            "", null, null, null, null, null, null, null, null, null,
+            "\141\142\163\164\162\141\143\164", "\142\157\157\154\145\141\156", "\142\162\145\141\153",
+            "\143\154\141\163\163", "\142\171\164\145", "\143\141\163\145", "\143\141\164\143\150",
+            "\143\150\141\162", "\143\157\156\163\164", "\143\157\156\164\151\156\165\145",
+            "\144\145\146\141\165\154\164", "\144\157", "\144\157\165\142\154\145", "\145\154\163\145",
+            "\145\156\165\155", "\145\170\164\145\156\144\163", "\146\141\154\163\145",
+            "\146\151\156\141\154", "\146\151\156\141\154\154\171", "\146\154\157\141\164", "\146\157\162",
+            "\147\157\164\157", "\151\146", "\151\155\160\154\145\155\145\156\164\163",
+            "\151\155\160\157\162\164", "\151\156\163\164\141\156\143\145\157\146", "\151\156\164",
+            "\151\156\164\145\162\146\141\143\145", "\154\157\156\147", "\156\141\164\151\166\145", "\156\145\167",
+            "\156\165\154\154", "\160\141\143\153\141\147\145", "\160\162\151\166\141\164\145",
+            "\160\162\157\164\145\143\164\145\144", "\160\165\142\154\151\143", "\162\145\164\165\162\156",
+            "\163\150\157\162\164", "\163\164\141\164\151\143", "\163\164\162\151\143\164\146\160",
+            "\163\167\151\164\143\150", "\163\171\156\143\150\162\157\156\151\172\145\144",
+            "\164\162\141\156\163\151\145\156\164", "\164\150\162\157\167", "\164\150\162\157\167\163", "\164\162\165\145",
+            "\164\162\171", "\166\157\151\144", "\166\157\154\141\164\151\154\145",
+            "\167\150\151\154\145", null, null, null, null, null, null, null, null, null, null, null, null, null,
+            "\50", "\51", "\173", "\175", "\133", "\135", "\73", "\54", "\56", "\75", "\76",
+            "\100\147\164", "\74", "\100\154\164", "\41", "\176", "\77", "\72", "\75\75", "\74\75",
+            "\100\154\164\145\161", "\76\75", "\100\147\164\145\161", "\41\75", "\174\174", "\100\157\162",
+            "\46\46", "\100\141\156\144", "\53\53", "\55\55", "\53", "\55", "\52", "\57", "\46",
+            "\100\142\151\164\167\151\163\145\137\141\156\144", "\174", "\100\142\151\164\167\151\163\145\137\157\162", "\136", "\45",
+            "\74\74", "\100\154\145\146\164\137\163\150\151\146\164", "\76\76",
+            "\100\162\151\147\150\164\137\163\150\151\146\164", "\76\76\76",
+            "\100\162\151\147\150\164\137\165\156\163\151\147\156\145\144\137\163\150\151\146\164", "\53\75", "\55\75", "\52\75", "\57\75", "\46\75",
+            "\100\141\156\144\137\141\163\163\151\147\156", "\174\75", "\100\157\162\137\141\163\163\151\147\156", "\136\75", "\45\75",
+            "\74\74\75", "\100\154\145\146\164\137\163\150\151\146\164\137\141\163\163\151\147\156",
+            "\76\76\75",
+            "\100\162\151\147\150\164\137\163\150\151\146\164\137\141\163\163\151\147\156", "\76\76\76\75",
+            "\100\162\151\147\150\164\137\165\156\163\151\147\156\145\144\137\163\150\151\146\164\137\141\163\163\151\147\156",};
+    public static final String[] lexStateNames = {
+            "DEFAULT",};
+    static final long[] jjbitVec0 = {
+            0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
+    };
+    static final long[] jjbitVec1 = {
+            0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
+    };
+    static final long[] jjbitVec3 = {
+            0x1ff00000fffffffeL, 0xffffffffffffc000L, 0xffffffffL, 0x600000000000000L
+    };
+    static final long[] jjbitVec4 = {
+            0x0L, 0x0L, 0x0L, 0xff7fffffff7fffffL
+    };
+    static final long[] jjbitVec5 = {
+            0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
+    };
+    static final long[] jjbitVec6 = {
+            0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffL, 0x0L
+    };
+    static final long[] jjbitVec7 = {
+            0xffffffffffffffffL, 0xffffffffffffffffL, 0x0L, 0x0L
+    };
+    static final long[] jjbitVec8 = {
+            0x3fffffffffffL, 0x0L, 0x0L, 0x0L
+    };
+    static final int[] jjnextStates = {
+            66, 67, 69, 46, 47, 52, 53, 56, 57, 15, 65, 70, 82, 17, 19, 61,
+            63, 9, 26, 27, 29, 2, 3, 5, 11, 12, 15, 26, 27, 31, 29, 35,
+            38, 39, 35, 40, 38, 48, 49, 15, 56, 57, 15, 72, 73, 75, 78, 79,
+            81, 13, 14, 20, 21, 23, 28, 30, 32, 50, 51, 54, 55, 58, 59,};
+    static final long[] jjtoToken = {
+            0x1ffffffffffffc01L, 0xfffffffffffffe7dL, 0x7fL,};
+    static final long[] jjtoSkip = {
+            0x3feL, 0x0L, 0x0L,};
+    static final long[] jjtoSpecial = {
+            0x380L, 0x0L, 0x0L,};
+    private final int[] jjrounds = new int[83];
+    private final int[] jjstateSet = new int[166];
     public java.io.PrintStream debugStream = System.out;
+    protected JavaCharStream input_stream;
+    protected char curChar;
+    int curLexState = 0;
+    int defaultLexState = 0;
+    int jjnewStateCnt;
+    int jjround;
+    int jjmatchedPos;
+    int jjmatchedKind;
+
+    public ParserTokenManager(JavaCharStream stream) {
+        if (JavaCharStream.staticFlag) {
+            throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
+        }
+        input_stream = stream;
+    }
+
+    public ParserTokenManager(JavaCharStream stream, int lexState) {
+        this(stream);
+        SwitchTo(lexState);
+    }
+
+    private static boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2) {
+        switch (hiByte) {
+            case 0:
+                return ((jjbitVec0[i2] & l2) != 0L);
+            default:
+                return false;
+        }
+    }
+
+    private static boolean jjCanMove_1(int hiByte, int i1, int i2, long l1, long l2) {
+        switch (hiByte) {
+            case 0:
+                return ((jjbitVec0[i2] & l2) != 0L);
+            default:
+                if ((jjbitVec1[i1] & l1) != 0L) {
+                    return true;
+                }
+                return false;
+        }
+    }
+
+    private static boolean jjCanMove_2(int hiByte, int i1, int i2, long l1, long l2) {
+        switch (hiByte) {
+            case 0:
+                return ((jjbitVec4[i2] & l2) != 0L);
+            case 48:
+                return ((jjbitVec5[i2] & l2) != 0L);
+            case 49:
+                return ((jjbitVec6[i2] & l2) != 0L);
+            case 51:
+                return ((jjbitVec7[i2] & l2) != 0L);
+            case 61:
+                return ((jjbitVec8[i2] & l2) != 0L);
+            default:
+                if ((jjbitVec3[i1] & l1) != 0L) {
+                    return true;
+                }
+                return false;
+        }
+    }
 
     public void setDebugStream(java.io.PrintStream ds) {
         debugStream = ds;
@@ -1347,30 +1478,6 @@ public class ParserTokenManager implements ParserConstants {
         jjCheckNAdd(jjnextStates[start]);
         jjCheckNAdd(jjnextStates[start + 1]);
     }
-    static final long[] jjbitVec0 = {
-        0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
-    };
-    static final long[] jjbitVec1 = {
-        0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
-    };
-    static final long[] jjbitVec3 = {
-        0x1ff00000fffffffeL, 0xffffffffffffc000L, 0xffffffffL, 0x600000000000000L
-    };
-    static final long[] jjbitVec4 = {
-        0x0L, 0x0L, 0x0L, 0xff7fffffff7fffffL
-    };
-    static final long[] jjbitVec5 = {
-        0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
-    };
-    static final long[] jjbitVec6 = {
-        0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffL, 0x0L
-    };
-    static final long[] jjbitVec7 = {
-        0xffffffffffffffffL, 0xffffffffffffffffL, 0x0L, 0x0L
-    };
-    static final long[] jjbitVec8 = {
-        0x3fffffffffffL, 0x0L, 0x0L, 0x0L
-    };
 
     private int jjMoveNfa_0(int startState, int curPos) {
         int[] nextStates;
@@ -1379,7 +1486,7 @@ public class ParserTokenManager implements ParserConstants {
         int i = 1;
         jjstateSet[0] = startState;
         int j, kind = 0x7fffffff;
-        for (;;) {
+        for (; ; ) {
             if (++jjround == 0x7fffffff) {
                 ReInitRounds();
             }
@@ -2092,107 +2199,6 @@ public class ParserTokenManager implements ParserConstants {
             }
         }
     }
-    static final int[] jjnextStates = {
-        66, 67, 69, 46, 47, 52, 53, 56, 57, 15, 65, 70, 82, 17, 19, 61,
-        63, 9, 26, 27, 29, 2, 3, 5, 11, 12, 15, 26, 27, 31, 29, 35,
-        38, 39, 35, 40, 38, 48, 49, 15, 56, 57, 15, 72, 73, 75, 78, 79,
-        81, 13, 14, 20, 21, 23, 28, 30, 32, 50, 51, 54, 55, 58, 59,};
-
-    private static boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2) {
-        switch (hiByte) {
-            case 0:
-                return ((jjbitVec0[i2] & l2) != 0L);
-            default:
-                return false;
-        }
-    }
-
-    private static boolean jjCanMove_1(int hiByte, int i1, int i2, long l1, long l2) {
-        switch (hiByte) {
-            case 0:
-                return ((jjbitVec0[i2] & l2) != 0L);
-            default:
-                if ((jjbitVec1[i1] & l1) != 0L) {
-                    return true;
-                }
-                return false;
-        }
-    }
-
-    private static boolean jjCanMove_2(int hiByte, int i1, int i2, long l1, long l2) {
-        switch (hiByte) {
-            case 0:
-                return ((jjbitVec4[i2] & l2) != 0L);
-            case 48:
-                return ((jjbitVec5[i2] & l2) != 0L);
-            case 49:
-                return ((jjbitVec6[i2] & l2) != 0L);
-            case 51:
-                return ((jjbitVec7[i2] & l2) != 0L);
-            case 61:
-                return ((jjbitVec8[i2] & l2) != 0L);
-            default:
-                if ((jjbitVec3[i1] & l1) != 0L) {
-                    return true;
-                }
-                return false;
-        }
-    }
-    public static final String[] jjstrLiteralImages = {
-        "", null, null, null, null, null, null, null, null, null,
-        "\141\142\163\164\162\141\143\164", "\142\157\157\154\145\141\156", "\142\162\145\141\153",
-        "\143\154\141\163\163", "\142\171\164\145", "\143\141\163\145", "\143\141\164\143\150",
-        "\143\150\141\162", "\143\157\156\163\164", "\143\157\156\164\151\156\165\145",
-        "\144\145\146\141\165\154\164", "\144\157", "\144\157\165\142\154\145", "\145\154\163\145",
-        "\145\156\165\155", "\145\170\164\145\156\144\163", "\146\141\154\163\145",
-        "\146\151\156\141\154", "\146\151\156\141\154\154\171", "\146\154\157\141\164", "\146\157\162",
-        "\147\157\164\157", "\151\146", "\151\155\160\154\145\155\145\156\164\163",
-        "\151\155\160\157\162\164", "\151\156\163\164\141\156\143\145\157\146", "\151\156\164",
-        "\151\156\164\145\162\146\141\143\145", "\154\157\156\147", "\156\141\164\151\166\145", "\156\145\167",
-        "\156\165\154\154", "\160\141\143\153\141\147\145", "\160\162\151\166\141\164\145",
-        "\160\162\157\164\145\143\164\145\144", "\160\165\142\154\151\143", "\162\145\164\165\162\156",
-        "\163\150\157\162\164", "\163\164\141\164\151\143", "\163\164\162\151\143\164\146\160",
-        "\163\167\151\164\143\150", "\163\171\156\143\150\162\157\156\151\172\145\144",
-        "\164\162\141\156\163\151\145\156\164", "\164\150\162\157\167", "\164\150\162\157\167\163", "\164\162\165\145",
-        "\164\162\171", "\166\157\151\144", "\166\157\154\141\164\151\154\145",
-        "\167\150\151\154\145", null, null, null, null, null, null, null, null, null, null, null, null, null,
-        "\50", "\51", "\173", "\175", "\133", "\135", "\73", "\54", "\56", "\75", "\76",
-        "\100\147\164", "\74", "\100\154\164", "\41", "\176", "\77", "\72", "\75\75", "\74\75",
-        "\100\154\164\145\161", "\76\75", "\100\147\164\145\161", "\41\75", "\174\174", "\100\157\162",
-        "\46\46", "\100\141\156\144", "\53\53", "\55\55", "\53", "\55", "\52", "\57", "\46",
-        "\100\142\151\164\167\151\163\145\137\141\156\144", "\174", "\100\142\151\164\167\151\163\145\137\157\162", "\136", "\45",
-        "\74\74", "\100\154\145\146\164\137\163\150\151\146\164", "\76\76",
-        "\100\162\151\147\150\164\137\163\150\151\146\164", "\76\76\76",
-        "\100\162\151\147\150\164\137\165\156\163\151\147\156\145\144\137\163\150\151\146\164", "\53\75", "\55\75", "\52\75", "\57\75", "\46\75",
-        "\100\141\156\144\137\141\163\163\151\147\156", "\174\75", "\100\157\162\137\141\163\163\151\147\156", "\136\75", "\45\75",
-        "\74\74\75", "\100\154\145\146\164\137\163\150\151\146\164\137\141\163\163\151\147\156",
-        "\76\76\75",
-        "\100\162\151\147\150\164\137\163\150\151\146\164\137\141\163\163\151\147\156", "\76\76\76\75",
-        "\100\162\151\147\150\164\137\165\156\163\151\147\156\145\144\137\163\150\151\146\164\137\141\163\163\151\147\156",};
-    public static final String[] lexStateNames = {
-        "DEFAULT",};
-    static final long[] jjtoToken = {
-        0x1ffffffffffffc01L, 0xfffffffffffffe7dL, 0x7fL,};
-    static final long[] jjtoSkip = {
-        0x3feL, 0x0L, 0x0L,};
-    static final long[] jjtoSpecial = {
-        0x380L, 0x0L, 0x0L,};
-    protected JavaCharStream input_stream;
-    private final int[] jjrounds = new int[83];
-    private final int[] jjstateSet = new int[166];
-    protected char curChar;
-
-    public ParserTokenManager(JavaCharStream stream) {
-        if (JavaCharStream.staticFlag) {
-            throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
-        }
-        input_stream = stream;
-    }
-
-    public ParserTokenManager(JavaCharStream stream, int lexState) {
-        this(stream);
-        SwitchTo(lexState);
-    }
 
     public void ReInit(JavaCharStream stream) {
         jjmatchedPos = jjnewStateCnt = 0;
@@ -2204,7 +2210,7 @@ public class ParserTokenManager implements ParserConstants {
     private void ReInitRounds() {
         int i;
         jjround = 0x80000001;
-        for (i = 83; i-- > 0;) {
+        for (i = 83; i-- > 0; ) {
             jjrounds[i] = 0x80000000;
         }
     }
@@ -2234,13 +2240,6 @@ public class ParserTokenManager implements ParserConstants {
         return t;
     }
 
-    int curLexState = 0;
-    int defaultLexState = 0;
-    int jjnewStateCnt;
-    int jjround;
-    int jjmatchedPos;
-    int jjmatchedKind;
-
     public Token getNextToken() {
         int kind;
         Token specialToken = null;
@@ -2248,7 +2247,7 @@ public class ParserTokenManager implements ParserConstants {
         int curPos = 0;
 
         EOFLoop:
-        for (;;) {
+        for (; ; ) {
             try {
                 curChar = input_stream.BeginToken();
             } catch (java.io.IOException e) {

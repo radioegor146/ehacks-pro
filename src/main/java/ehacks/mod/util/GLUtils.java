@@ -1,26 +1,27 @@
 package ehacks.mod.util;
 
-import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.util.axis.AltAxisAlignedBB;
 import ehacks.mod.wrapper.Wrapper;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+
 public class GLUtils {
 
-    public static boolean hasClearedDepth = false;
-
     private static final Minecraft mc = Wrapper.INSTANCE.mc();
-    private static final RenderItem itemRenderer = new RenderItem();
+    private static final RenderItem itemRenderer = Wrapper.INSTANCE.mc().getRenderItem();
     private static final Sphere sphere = new Sphere();
+    public static boolean hasClearedDepth = false;
     static Sphere s = new Sphere();
     protected float zLevel;
 
@@ -56,7 +57,7 @@ public class GLUtils {
     }
 
     public static void enableDefaults() {
-        Wrapper.INSTANCE.mc().entityRenderer.disableLightmap(1.0);
+        Wrapper.INSTANCE.mc().entityRenderer.disableLightmap();
         GL11.glEnable(3042);
         GL11.glDisable(3553);
         GL11.glDisable(2896);
@@ -75,14 +76,7 @@ public class GLUtils {
         GL11.glEnable(3553);
         GL11.glEnable(2896);
         GL11.glDisable(3042);
-        Wrapper.INSTANCE.mc().entityRenderer.enableLightmap(1.0);
-    }
-
-    @SuppressWarnings("unchecked")
-    public void removeDuplicated(Collection list) {
-        HashSet set = new HashSet(list);
-        list.clear();
-        list.addAll(set);
+        Wrapper.INSTANCE.mc().entityRenderer.enableLightmap();
     }
 
     public static void renderPlayerSphere(double par3, double par5, double par7) {
@@ -113,8 +107,8 @@ public class GLUtils {
 
     public static void drawItem(int x, int y, ItemStack stack) {
 
-        itemRenderer.renderItemIntoGUI(GLUtils.mc.fontRenderer, GLUtils.mc.renderEngine, stack, x, y);
-        itemRenderer.renderItemAndEffectIntoGUI(GLUtils.mc.fontRenderer, GLUtils.mc.renderEngine, stack, x, y);
+        itemRenderer.renderItemIntoGUI(stack, x, y);
+        itemRenderer.renderItemAndEffectIntoGUI(stack, x, y);
         GL11.glDisable(2884);
         GL11.glEnable(3008);
         GL11.glDisable(3042);
@@ -128,19 +122,6 @@ public class GLUtils {
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         Wrapper.INSTANCE.fontRenderer().drawStringWithShadow(s, x * 2, y * 2, co);
         GL11.glScalef(2.0f, 2.0f, 2.0f);
-    }
-
-    public void drawTexturedModalRect(double i, double d, int par3, int par4, double e, double f) {
-
-        float var7 = 0.00390625f;
-        float var8 = 0.00390625f;
-        Tessellator var9 = Tessellator.instance;
-        var9.startDrawingQuads();
-        var9.addVertexWithUV(i + 0.0, d + f, this.zLevel, ((par3) * var7), ((float) (par4 + f) * var8));
-        var9.addVertexWithUV(i + e, d + f, this.zLevel, ((float) (par3 + e) * var7), ((float) (par4 + f) * var8));
-        var9.addVertexWithUV(i + e, d + 0.0, this.zLevel, ((float) (par3 + e) * var7), ((par4) * var8));
-        var9.addVertexWithUV(i + 0.0, d + 0.0, this.zLevel, ((par3) * var7), ((par4) * var8));
-        var9.draw();
     }
 
     public static void drawBorderRect(int x, int y, int x1, int y1, int color, int bcolor) {
@@ -466,97 +447,96 @@ public class GLUtils {
     }
 
     public static void drawOutlinedBoundingBox(AltAxisAlignedBB par1AxisAlignedBB) {
-
-        Tessellator var2 = Tessellator.instance;
-        var2.startDrawing(3);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ);
-        var2.draw();
-        var2.startDrawing(3);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ);
-        var2.draw();
-        var2.startDrawing(1);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ);
-        var2.addVertex(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ);
-        var2.draw();
+        BufferBuilder var2 = Tessellator.getInstance().getBuffer();
+        var2.begin(3, DefaultVertexFormats.BLOCK);
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ).endVertex();
+        Tessellator.getInstance().draw();
+        var2.begin(3, DefaultVertexFormats.BLOCK);
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ).endVertex();
+        Tessellator.getInstance().draw();
+        var2.begin(1, DefaultVertexFormats.BLOCK);
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.minZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.maxZ).endVertex();
+        var2.pos(par1AxisAlignedBB.minX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ).endVertex();
+        Tessellator.getInstance().draw();
     }
 
     public static void drawBoundingBox(AltAxisAlignedBB axisalignedbb) {
 
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.draw();
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.draw();
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.draw();
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.draw();
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.draw();
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ);
-        tessellator.addVertex(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ);
-        tessellator.draw();
+        BufferBuilder bb = Tessellator.getInstance().getBuffer();
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        Tessellator.getInstance().draw();
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        Tessellator.getInstance().draw();
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        Tessellator.getInstance().draw();
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        Tessellator.getInstance().draw();
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        Tessellator.getInstance().draw();
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.minZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ).endVertex();
+        bb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ).endVertex();
+        Tessellator.getInstance().draw();
     }
 
     public static void drawESP(double d, double d1, double d2, double r, double b2, double g) {
@@ -634,32 +614,23 @@ public class GLUtils {
         GL11.glPopMatrix();
     }
 
-    public static void renderBlock(int x, int y, int z, XRayBlock block) {
+    @SuppressWarnings("unchecked")
+    public void removeDuplicated(Collection list) {
+        HashSet set = new HashSet(list);
+        list.clear();
+        list.addAll(set);
+    }
 
-        GL11.glColor4ub(((byte) block.r), ((byte) block.g), ((byte) block.b), ((byte) block.a));
-        GL11.glVertex3f(x, y, z);
-        GL11.glVertex3f((x + 1), y, z);
-        GL11.glVertex3f((x + 1), y, z);
-        GL11.glVertex3f((x + 1), y, (z + 1));
-        GL11.glVertex3f(x, y, z);
-        GL11.glVertex3f(x, y, (z + 1));
-        GL11.glVertex3f(x, y, (z + 1));
-        GL11.glVertex3f((x + 1), y, (z + 1));
-        GL11.glVertex3f(x, (y + 1), z);
-        GL11.glVertex3f((x + 1), (y + 1), z);
-        GL11.glVertex3f((x + 1), (y + 1), z);
-        GL11.glVertex3f((x + 1), (y + 1), (z + 1));
-        GL11.glVertex3f(x, (y + 1), z);
-        GL11.glVertex3f(x, (y + 1), (z + 1));
-        GL11.glVertex3f(x, (y + 1), (z + 1));
-        GL11.glVertex3f((x + 1), (y + 1), (z + 1));
-        GL11.glVertex3f(x, y, z);
-        GL11.glVertex3f(x, (y + 1), z);
-        GL11.glVertex3f(x, y, (z + 1));
-        GL11.glVertex3f(x, (y + 1), (z + 1));
-        GL11.glVertex3f((x + 1), y, z);
-        GL11.glVertex3f((x + 1), (y + 1), z);
-        GL11.glVertex3f((x + 1), y, (z + 1));
-        GL11.glVertex3f((x + 1), (y + 1), (z + 1));
+    public void drawTexturedModalRect(double i, double d, int par3, int par4, double e, double f) {
+        // Надеюсь, что я правильно эту хуйню перенес.
+        float var7 = 0.00390625f;
+        float var8 = 0.00390625f;
+        BufferBuilder var9 = Tessellator.getInstance().getBuffer();
+        var9.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        var9.pos(i + 0.0, d + f, this.zLevel).tex(((par3) * var7), ((float) (par4 + f) * var8)).endVertex();
+        var9.pos(i + e, d + f, this.zLevel).tex(((float) (par3 + e) * var7), ((float) (par4 + f) * var8)).endVertex();
+        var9.pos(i + e, d + 0.0, this.zLevel).tex(((float) (par3 + e) * var7), ((par4) * var8)).endVertex();
+        var9.pos(i + 0.0, d + 0.0, this.zLevel).tex(((par3) * var7), ((par4) * var8)).endVertex();
+        Tessellator.getInstance().draw();
     }
 }

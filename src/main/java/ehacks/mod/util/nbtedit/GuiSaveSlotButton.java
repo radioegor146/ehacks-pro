@@ -2,8 +2,8 @@ package ehacks.mod.util.nbtedit;
 
 import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class GuiSaveSlotButton
@@ -12,8 +12,8 @@ public class GuiSaveSlotButton
     public static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/widgets.png");
     public final int saveId;
     private final int rightX;
-    private int x;
     private final int y;
+    private int x;
     private int width;
     private String text;
     private boolean xVisible;
@@ -68,7 +68,7 @@ public class GuiSaveSlotButton
         if (this.width % 2 == 1) {
             ++this.width;
         }
-        this.width = MathHelper.clamp_int(this.width, 82, 150);
+        this.width = MathHelper.clamp(this.width, 82, 150);
         this.x = this.rightX - this.width;
     }
 

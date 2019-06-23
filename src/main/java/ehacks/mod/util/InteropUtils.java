@@ -9,7 +9,6 @@ import ehacks.mod.modulesystem.handler.EHacksGui;
 import org.lwjgl.input.Keyboard;
 
 /**
- *
  * @author radioegor146
  */
 public class InteropUtils {

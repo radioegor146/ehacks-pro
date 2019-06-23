@@ -2,6 +2,7 @@ package ehacks.mod.packetlogger;
 
 import ehacks.mod.wrapper.PacketHandler.Side;
 import io.netty.buffer.ByteBuf;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -12,6 +13,12 @@ public class PacketHandler {
     public static List<String> inBlackList = new ArrayList<String>();
     public static List<String> logBlackList = new ArrayList<String>();
     public static List<String> outBlackList = new ArrayList<String>();
+    private final Gui gui;
+
+    public PacketHandler(Gui gui) {
+        this.gui = gui;
+        PacketHandler.newList();
+    }
 
     public static void newList() {
         inBlackList.clear();
@@ -44,13 +51,6 @@ public class PacketHandler {
         logBlackList.add("DragonsRadioMod");
         logBlackList.add("GraviSuite");
         logBlackList.add("ic2");
-    }
-
-    private final Gui gui;
-
-    public PacketHandler(Gui gui) {
-        this.gui = gui;
-        PacketHandler.newList();
     }
 
     public boolean handlePacket(Object packet, Side side, List blackList) throws Exception {

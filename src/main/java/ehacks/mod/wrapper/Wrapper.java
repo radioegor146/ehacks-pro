@@ -1,12 +1,13 @@
 package ehacks.mod.wrapper;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
+
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 
 public class Wrapper {
 
@@ -16,12 +17,12 @@ public class Wrapper {
         return Minecraft.getMinecraft();
     }
 
-    public EntityClientPlayerMP player() {
-        return Wrapper.INSTANCE.mc().thePlayer;
+    public EntityPlayerSP player() {
+        return Wrapper.INSTANCE.mc().player;
     }
 
     public WorldClient world() {
-        return Wrapper.INSTANCE.mc().theWorld;
+        return Wrapper.INSTANCE.mc().world;
     }
 
     public GameSettings mcSettings() {

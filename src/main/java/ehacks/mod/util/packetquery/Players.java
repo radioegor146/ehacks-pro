@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
  * @author radioegor146
  */
 public class Players {

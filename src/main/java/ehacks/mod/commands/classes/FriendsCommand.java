@@ -10,19 +10,22 @@ import ehacks.mod.config.AuraConfiguration;
 import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.InteropUtils;
-import ehacks.mod.wrapper.Wrapper;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.client.gui.GuiPlayerInfo;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 
 /**
- *
  * @author radioegor146
  */
 public class FriendsCommand implements ICommand {
+
+    public static TextComponentTranslation format(TextFormatting color, String str, Object... args) {
+        TextComponentTranslation ret = new TextComponentTranslation(str, args);
+        ret.getStyle().setColor(color);
+        return ret;
+    }
 
     @Override
     public String getName() {
@@ -72,13 +75,7 @@ public class FriendsCommand implements ICommand {
                 return;
             }
         }
-        EHacksGui.clickGui.consoleGui.printChatMessage(new ChatComponentText("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
-    }
-
-    public static ChatComponentTranslation format(EnumChatFormatting color, String str, Object... args) {
-        ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
-        ret.getChatStyle().setColor(color);
-        return ret;
+        EHacksGui.clickGui.consoleGui.printChatMessage(new TextComponentString("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
     }
 
     @Override
@@ -101,13 +98,9 @@ public class FriendsCommand implements ICommand {
     }
 
     private String[] getTabList() {
-        @SuppressWarnings("unchecked")
-        List<GuiPlayerInfo> players = Wrapper.INSTANCE.player().sendQueue.playerInfoList;
-        ArrayList<String> playerNicks = new ArrayList<>();
-        players.forEach((playerInfo) -> {
-            playerNicks.add(playerInfo.name);
-        });
-        return playerNicks.toArray(new String[playerNicks.size()]);
+        String[] list = {};
+
+        return list;
     }
 
     @Override

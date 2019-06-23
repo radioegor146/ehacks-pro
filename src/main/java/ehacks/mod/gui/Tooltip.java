@@ -6,7 +6,6 @@
 package ehacks.mod.gui;
 
 /**
- *
  * @author radioegor146
  */
 public class Tooltip {

@@ -8,7 +8,6 @@ package ehacks.mod.util.keygui;
 import ehacks.mod.api.Module;
 
 /**
- *
  * @author radioegor146
  */
 public class ModuleKeyBinding implements Comparable {
@@ -23,12 +22,12 @@ public class ModuleKeyBinding implements Comparable {
         this.module = module;
     }
 
-    public void setKeyCode(int keyCode) {
-        module.setKeybinding(keyCode);
-    }
-
     public int getKeyCode() {
         return module.getKeybind();
+    }
+
+    public void setKeyCode(int keyCode) {
+        module.setKeybinding(keyCode);
     }
 
     public int getKeyCodeDefault() {

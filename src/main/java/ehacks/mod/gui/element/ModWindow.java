@@ -7,15 +7,16 @@ import ehacks.mod.gui.Tooltip;
 import ehacks.mod.modulesystem.classes.keybinds.ShowGroupsKeybind;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.ModuleCategory;
+import org.lwjgl.input.Keyboard;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import org.lwjgl.input.Keyboard;
 
 public class ModWindow extends SimpleWindow {
 
+    private final ModuleCategory windowCategory;
     public ArrayList<ArrayList<SimpleButton>> buttons = new ArrayList<>();
     public ArrayList<SimpleButton> buttonsSetup = new ArrayList<>();
-    private final ModuleCategory windowCategory;
 
     public ModWindow(String title, int x, int y, ModuleCategory windowCategory) {
         super(title, x, y);

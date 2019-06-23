@@ -8,7 +8,6 @@ package ehacks.mod.api;
 import ehacks.mod.util.GLUtils;
 
 /**
- *
  * @author radioegor146
  */
 public enum ModStatus {

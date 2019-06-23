@@ -5,8 +5,8 @@ package ehacks.mod.util.packetquery;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 /**
- *
  * @author radioegor146
  */
 public class StatusResponse {

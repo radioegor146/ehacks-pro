@@ -1,25 +1,27 @@
 package ehacks.mod.commands;
 
 import com.google.common.collect.Lists;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class ConsoleGui extends Gui {
 
+    private static final String __OBFID = "CL_00000669";
     private final Minecraft mc;
     /**
      * A list of messages previously sent through the chat GUI
@@ -32,13 +34,23 @@ public class ConsoleGui extends Gui {
     private final List<ChatLine> drawnChatLines = new ArrayList<>();
     private int scrollPos;
     private boolean isScrolled;
-    private static final String __OBFID = "CL_00000669";
+    private double prevWidth = 0;
 
     public ConsoleGui(Minecraft p_i1022_1_) {
         this.mc = p_i1022_1_;
     }
 
-    private double prevWidth = 0;
+    public static int calculateChatboxWidth(float p_146233_0_) {
+        short short1 = 320;
+        byte b0 = 40;
+        return MathHelper.floor(p_146233_0_ * (short1 - b0) + b0);
+    }
+
+    public static int calculateChatboxHeight(float p_146243_0_) {
+        short short1 = 180;
+        byte b0 = 20;
+        return MathHelper.floor(p_146243_0_ * (short1 - b0) + b0);
+    }
 
     public void drawChat(int tickid) {
         if (prevWidth != this.mc.gameSettings.chatWidth) {
@@ -57,9 +69,9 @@ public class ConsoleGui extends Gui {
             }
 
             float f1 = this.getChatScale();
-            int i1 = MathHelper.ceiling_float_int(this.getChatWidth() / f1);
+            int i1 = MathHelper.ceil(this.getChatWidth() / f1);
             GL11.glPushMatrix();
-            ScaledResolution get = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+            ScaledResolution get = new ScaledResolution(this.mc);
             GL11.glTranslatef(get.getScaledWidth() - 6 - getChatWidth(), get.getScaledHeight() - 28, 0.0F);
             GL11.glScalef(f1, f1, 1.0F);
             int j1;
@@ -100,7 +112,7 @@ public class ConsoleGui extends Gui {
                             int j2 = -j1 * 9;
                             drawRect(b0, j2 - 9, b0 + i1 + 4, j2, i2 / 2 << 24);
                             GL11.glEnable(GL11.GL_BLEND); // FORGE: BugFix MC-36812 Chat Opacity Broken in 1.7.x
-                            String s = chatline.func_151461_a().getFormattedText();
+                            String s = chatline.getChatComponent().getFormattedText();
                             this.mc.fontRenderer.drawStringWithShadow(s, b0, j2 - 8, 16777215 + (i2 << 24));
                             GL11.glDisable(GL11.GL_ALPHA_TEST);
                         }
@@ -137,7 +149,7 @@ public class ConsoleGui extends Gui {
         this.sentMessages.clear();
     }
 
-    public void printChatMessage(IChatComponent p_146227_1_) {
+    public void printChatMessage(ITextComponent p_146227_1_) {
         this.printChatMessageWithOptionalDeletion(p_146227_1_, 0);
     }
 
@@ -145,32 +157,32 @@ public class ConsoleGui extends Gui {
      * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing
      * Chat Line of that ID from the GUI
      */
-    public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
+    public void printChatMessageWithOptionalDeletion(ITextComponent chatComponent, int chatLineId) {
         this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
     }
 
     private String func_146235_b(String p_146235_1_) {
-        return Minecraft.getMinecraft().gameSettings.chatColours ? p_146235_1_ : EnumChatFormatting.getTextWithoutFormattingCodes(p_146235_1_);
+        return Minecraft.getMinecraft().gameSettings.chatColours ? p_146235_1_ : TextFormatting.getTextWithoutFormattingCodes(p_146235_1_);
     }
 
-    private void setChatLine(IChatComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly) {
+    private void setChatLine(ITextComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly) {
         if (chatLineId != 0) {
             this.deleteChatLine(chatLineId);
         }
 
-        int k = MathHelper.floor_float(this.getChatWidth() / this.getChatScale());
+        int k = MathHelper.floor(this.getChatWidth() / this.getChatScale());
         int l = 0;
-        ChatComponentText chatcomponenttext = new ChatComponentText("");
-        ArrayList<IChatComponent> arraylist = Lists.newArrayList();
+        TextComponentString chatcomponenttext = new TextComponentString("");
+        ArrayList<ITextComponent> arraylist = Lists.newArrayList();
         @SuppressWarnings("unchecked")
-        ArrayList<IChatComponent> arraylist1 = Lists.newArrayList(chatComponent);
+        ArrayList<ITextComponent> arraylist1 = Lists.newArrayList(chatComponent);
 
         for (int i1 = 0; i1 < arraylist1.size(); ++i1) {
-            IChatComponent ichatcomponent1 = arraylist1.get(i1);
-            String s = this.func_146235_b(ichatcomponent1.getChatStyle().getFormattingCode() + ichatcomponent1.getUnformattedTextForChat());
+            ITextComponent ichatcomponent1 = arraylist1.get(i1);
+            String s = this.func_146235_b(ichatcomponent1.getStyle().getFormattingCode() + ichatcomponent1.getUnformattedComponentText());
             int j1 = this.mc.fontRenderer.getStringWidth(s);
-            ChatComponentText chatcomponenttext1 = new ChatComponentText(s);
-            chatcomponenttext1.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
+            TextComponentString chatcomponenttext1 = new TextComponentString(s);
+            chatcomponenttext1.setStyle(ichatcomponent1.getStyle().createShallowCopy());
             boolean flag1 = false;
 
             if (l + j1 > k) {
@@ -195,15 +207,15 @@ public class ConsoleGui extends Gui {
 
                     s2 = "\u00a7" + lastcolor + s2;
 
-                    ChatComponentText chatcomponenttext2 = new ChatComponentText(s2);
+                    TextComponentString chatcomponenttext2 = new TextComponentString(s2);
 
-                    chatcomponenttext2.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
+                    chatcomponenttext2.setStyle(ichatcomponent1.getStyle().createShallowCopy());
                     arraylist1.add(i1 + 1, chatcomponenttext2);
                 }
 
                 j1 = this.mc.fontRenderer.getStringWidth(s1);
-                chatcomponenttext1 = new ChatComponentText(s1);
-                chatcomponenttext1.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
+                chatcomponenttext1 = new TextComponentString(s1);
+                chatcomponenttext1.setStyle(ichatcomponent1.getStyle().createShallowCopy());
                 flag1 = true;
             }
 
@@ -217,16 +229,16 @@ public class ConsoleGui extends Gui {
             if (flag1) {
                 arraylist.add(chatcomponenttext);
                 l = 0;
-                chatcomponenttext = new ChatComponentText("");
+                chatcomponenttext = new TextComponentString("");
             }
         }
 
         arraylist.add(chatcomponenttext);
         boolean flag2 = this.getChatOpen();
-        IChatComponent ichatcomponent2;
+        ITextComponent ichatcomponent2;
 
         for (Iterator iterator = arraylist.iterator(); iterator.hasNext(); this.drawnChatLines.add(0, new ChatLine(updateCounter, ichatcomponent2, chatLineId))) {
-            ichatcomponent2 = (IChatComponent) iterator.next();
+            ichatcomponent2 = (ITextComponent) iterator.next();
 
             if (flag2 && this.scrollPos > 0) {
                 this.isScrolled = true;
@@ -253,7 +265,7 @@ public class ConsoleGui extends Gui {
 
         for (int i = this.chatLines.size() - 1; i >= 0; --i) {
             ChatLine chatline = this.chatLines.get(i);
-            this.setChatLine(chatline.func_151461_a(), chatline.getChatLineID(), chatline.getUpdatedCounter(), true);
+            this.setChatLine(chatline.getChatComponent(), chatline.getChatLineID(), chatline.getUpdatedCounter(), true);
         }
     }
 
@@ -300,34 +312,34 @@ public class ConsoleGui extends Gui {
     }
 
     @SuppressWarnings("unchecked")
-    public IChatComponent getChatComponent(int mouseX, int mouseY) {
+    public ITextComponent getChatComponent(int mouseX, int mouseY) {
         if (!this.getChatOpen()) {
             return null;
         } else {
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
             int k = scaledresolution.getScaleFactor();
             float f = this.getChatScale();
             int l = mouseX / k - 3;
             int i1 = mouseY / k - 27;
-            l = MathHelper.floor_float(l / f);
-            i1 = MathHelper.floor_float(i1 / f);
+            l = MathHelper.floor(l / f);
+            i1 = MathHelper.floor(i1 / f);
 
             if (l >= 0 && i1 >= 0) {
                 int j1 = Math.min(this.getLineCount(), this.drawnChatLines.size());
 
-                if (l <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && i1 < this.mc.fontRenderer.FONT_HEIGHT * j1 + j1) {
+                if (l <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && i1 < this.mc.fontRenderer.FONT_HEIGHT * j1 + j1) {
                     int k1 = i1 / this.mc.fontRenderer.FONT_HEIGHT + this.scrollPos;
 
                     if (k1 >= 0 && k1 < this.drawnChatLines.size()) {
                         ChatLine chatline = this.drawnChatLines.get(k1);
                         int l1 = 0;
 
-                        for (Object iChatComponent : chatline.func_151461_a()) {
-                            if (iChatComponent instanceof ChatComponentText) {
-                                l1 += this.mc.fontRenderer.getStringWidth(this.func_146235_b(((ChatComponentText) iChatComponent).getChatComponentText_TextValue()));
+                        for (Object iChatComponent : chatline.getChatComponent()) {
+                            if (iChatComponent instanceof TextComponentString) {
+                                l1 += this.mc.fontRenderer.getStringWidth(this.func_146235_b(((TextComponentString) iChatComponent).getText()));
 
                                 if (l1 > l) {
-                                    return (IChatComponent) iChatComponent;
+                                    return (ITextComponent) iChatComponent;
                                 }
                             }
                         }
@@ -387,18 +399,6 @@ public class ConsoleGui extends Gui {
 
     public float getChatScale() {
         return this.mc.gameSettings.chatScale;
-    }
-
-    public static int calculateChatboxWidth(float p_146233_0_) {
-        short short1 = 320;
-        byte b0 = 40;
-        return MathHelper.floor_float(p_146233_0_ * (short1 - b0) + b0);
-    }
-
-    public static int calculateChatboxHeight(float p_146243_0_) {
-        short short1 = 180;
-        byte b0 = 20;
-        return MathHelper.floor_float(p_146243_0_ * (short1 - b0) + b0);
     }
 
     public int getLineCount() {

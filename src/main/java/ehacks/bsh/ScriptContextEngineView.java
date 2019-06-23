@@ -1,15 +1,12 @@
 package ehacks.bsh;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.script.ScriptContext;
+import java.util.*;
+
 import static javax.script.ScriptContext.ENGINE_SCOPE;
 
 // 	Adopted from http://ikayzo.org/svn/beanshell/BeanShell/engine/src/bsh/engine/ScriptContextEngineView.java
+
 /**
  * This class implements an ENGINE_SCOPE centric Map view of the ScriptContext
  * for engine implementations. This class can be used to simplify engine
@@ -54,10 +51,10 @@ public class ScriptContextEngineView implements Map<String, Object> {
      * @param key key whose presence in this map is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified
      * key.
-     * @throws ClassCastException if the key is of an inappropriate type for
-     * this map (optional).
+     * @throws ClassCastException   if the key is of an inappropriate type for
+     *                              this map (optional).
      * @throws NullPointerException if the key is <tt>null</tt> and this map
-     * does not permit <tt>null</tt> keys (optional).
+     *                              does not permit <tt>null</tt> keys (optional).
      */
     @Override
     public boolean containsKey(Object key) {
@@ -79,10 +76,10 @@ public class ScriptContextEngineView implements Map<String, Object> {
      * @param value value whose presence in this map is to be tested.
      * @return <tt>true</tt> if this map maps one or more keys to the specified
      * value.
-     * @throws ClassCastException if the value is of an inappropriate type for
-     * this map (optional).
+     * @throws ClassCastException   if the value is of an inappropriate type for
+     *                              this map (optional).
      * @throws NullPointerException if the value is <tt>null</tt> and this map
-     * does not permit <tt>null</tt> values (optional).
+     *                              does not permit <tt>null</tt> values (optional).
      */
     @Override
     public boolean containsValue(Object value) {
@@ -98,10 +95,10 @@ public class ScriptContextEngineView implements Map<String, Object> {
      * @return the value to which this map maps the specified key, or
      * <tt>null</tt>
      * if the map contains no mapping for this key.
-     * @throws ClassCastException if the key is of an inappropriate type for
-     * this map (optional).
+     * @throws ClassCastException   if the key is of an inappropriate type for
+     *                              this map (optional).
      * @throws NullPointerException if the key is <tt>null</tt> and this map
-     * does not permit <tt>null</tt> keys (optional).
+     *                              does not permit <tt>null</tt> keys (optional).
      * @see #containsKey(Object)
      */
     @Override
@@ -112,20 +109,20 @@ public class ScriptContextEngineView implements Map<String, Object> {
     /**
      * Set the key, value binding in the ENGINE_SCOPE of the context.
      *
-     * @param key key with which the specified value is to be associated.
+     * @param key   key with which the specified value is to be associated.
      * @param value value to be associated with the specified key.
      * @return previous value associated with specified key, or <tt>null</tt> if
      * there was no mapping for key. A <tt>null</tt> return can also indicate
      * that the map previously associated <tt>null</tt> with the specified key,
      * if the implementation supports <tt>null</tt> values.
      * @throws UnsupportedOperationException if the <tt>put</tt> operation is
-     * not supported by this map.
-     * @throws ClassCastException	if the class of the specified key or value
-     * prevents it from being stored in this map.
-     * @throws IllegalArgumentException	if some aspect of this key or value
-     * prevents it from being stored in this map.
-     * @throws NullPointerException	if this map does not permit <tt>null</tt>
-     * keys or values, and the specified key or value is <tt>null</tt>.
+     *                                       not supported by this map.
+     * @throws ClassCastException            if the class of the specified key or value
+     *                                       prevents it from being stored in this map.
+     * @throws IllegalArgumentException      if some aspect of this key or value
+     *                                       prevents it from being stored in this map.
+     * @throws NullPointerException          if this map does not permit <tt>null</tt>
+     *                                       keys or values, and the specified key or value is <tt>null</tt>.
      */
     @Override
     public Object put(String key, Object value) {
@@ -139,14 +136,14 @@ public class ScriptContextEngineView implements Map<String, Object> {
      *
      * @param t Mappings to be stored in this map.
      * @throws UnsupportedOperationException if the <tt>putAll</tt> method is
-     * not supported by this map.
-     * @throws ClassCastException	if the class of a key or value in the
-     * specified map prevents it from being stored in this map.
-     * @throws IllegalArgumentException	some aspect of a key or value in the
-     * specified map prevents it from being stored in this map.
-     * @throws NullPointerException	if the specified map is <tt>null</tt>, or if
-     * this map does not permit <tt>null</tt> keys or values, and the specified
-     * map contains <tt>null</tt> keys or values.
+     *                                       not supported by this map.
+     * @throws ClassCastException            if the class of a key or value in the
+     *                                       specified map prevents it from being stored in this map.
+     * @throws IllegalArgumentException      some aspect of a key or value in the
+     *                                       specified map prevents it from being stored in this map.
+     * @throws NullPointerException          if the specified map is <tt>null</tt>, or if
+     *                                       this map does not permit <tt>null</tt> keys or values, and the specified
+     *                                       map contains <tt>null</tt> keys or values.
      */
     @Override
     public void putAll(Map<? extends String, ? extends Object> t) {
@@ -167,12 +164,12 @@ public class ScriptContextEngineView implements Map<String, Object> {
      * @param okey key whose mapping is to be removed from the map.
      * @return previous value associated with specified key, or <tt>null</tt> if
      * there was no mapping for key.
-     * @throws ClassCastException	if the key is of an inappropriate type for
-     * this map (optional).
-     * @throws NullPointerException	if the key is <tt>null</tt> and this map
-     * does not permit <tt>null</tt> keys (optional).
+     * @throws ClassCastException            if the key is of an inappropriate type for
+     *                                       this map (optional).
+     * @throws NullPointerException          if the key is <tt>null</tt> and this map
+     *                                       does not permit <tt>null</tt> keys (optional).
      * @throws UnsupportedOperationException if the <tt>remove</tt> method is
-     * not supported by this map.
+     *                                       not supported by this map.
      */
     // Why is the compiler complaining about this?
     //public Object remove( String key )

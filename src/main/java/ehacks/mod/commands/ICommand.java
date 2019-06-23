@@ -6,7 +6,6 @@
 package ehacks.mod.commands;
 
 /**
- *
  * @author radioegor146
  */
 public interface ICommand {

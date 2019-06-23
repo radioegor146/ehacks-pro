@@ -1,38 +1,42 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,24 +83,20 @@ public class ClassGeneratorUtil implements Constants {
      * (the callback namespace for static methods)
      */
     static final String BSHSTATIC = "_bshStatic";
-
-    /**
-     * The name of the instance field holding the reference to the bsh instance
-     * This (the callback namespace for instance methods)
-     */
-    private static final String BSHTHIS = "_bshThis";
-
     /**
      * The prefix for the name of the super delegate methods. e.g.
      * _bshSuperfoo() is equivalent to super.foo()
      */
     static final String BSHSUPER = "_bshSuper";
-
     /**
      * The bsh static namespace variable name of the instance initializer
      */
     static final String BSHINIT = "_bshInstanceInitializer";
-
+    /**
+     * The name of the instance field holding the reference to the bsh instance
+     * This (the callback namespace for instance methods)
+     */
+    private static final String BSHTHIS = "_bshThis";
     /**
      * The bsh static namespace variable that holds the constructor methods
      */
@@ -109,7 +109,8 @@ public class ClassGeneratorUtil implements Constants {
     private static final int DEFAULTCONSTRUCTOR = -1;
 
     private static final String OBJECT = "Ljava/lang/Object;";
-
+    private static final ThreadLocal<NameSpace> CONTEXT_NAMESPACE = new ThreadLocal<NameSpace>();
+    private static final ThreadLocal<Interpreter> CONTEXT_INTERPRETER = new ThreadLocal<Interpreter>();
     private final String className;
     /**
      * fully qualified class name (with package) e.g. foo/bar/Blah
@@ -172,100 +173,6 @@ public class ClassGeneratorUtil implements Constants {
         }
 
         this.isInterface = isInterface;
-    }
-
-    /**
-     * Generate the class bytecode for this class.
-     */
-    public byte[] generateClass() {
-        // Force the class public for now...
-        int classMods = getASMModifiers(classModifiers) | ACC_PUBLIC;
-        if (isInterface) {
-            classMods |= ACC_INTERFACE;
-        }
-
-        String[] interfaceNames = new String[interfaces.length + (isInterface ? 0 : 1)]; // one more interface for instance init callback
-        for (int i = 0; i < interfaces.length; i++) {
-            interfaceNames[i] = Type.getInternalName(interfaces[i]);
-        }
-        if (!isInterface) {
-            interfaceNames[interfaces.length] = Type.getInternalName(GeneratedClass.class);
-        }
-
-        String sourceFile = "BeanShell Generated via ASM (www.objectweb.org)";
-        ClassWriter cw = new ClassWriter(false);
-        cw.visit(classMods, fqClassName, superClassName, interfaceNames, sourceFile);
-
-        if (!isInterface) {
-            // Generate the bsh instance 'This' reference holder field
-            generateField(BSHTHIS + className, "Lbsh/This;", ACC_PUBLIC, cw);
-
-            // Generate the static bsh static reference holder field
-            generateField(BSHSTATIC + className, "Lbsh/This;", ACC_PUBLIC + ACC_STATIC, cw);
-        }
-
-        // Generate the fields
-        for (Variable var : vars) {
-            String type = var.getTypeDescriptor();
-
-            // Don't generate private or loosely typed fields
-            // Note: loose types aren't currently parsed anyway...
-            if (var.hasModifier("private") || type == null) {
-                continue;
-            }
-
-            int modifiers;
-            if (isInterface) {
-                modifiers = ACC_PUBLIC | ACC_STATIC | ACC_FINAL;
-            } else {
-                modifiers = getASMModifiers(var.getModifiers());
-            }
-
-            generateField(var.getName(), type, modifiers, cw);
-        }
-
-        // Generate the constructors
-        boolean hasConstructor = false;
-        for (int i = 0; i < constructors.length; i++) {
-            // Don't generate private constructors
-            if (constructors[i].hasModifier("private")) {
-                continue;
-            }
-
-            int modifiers = getASMModifiers(constructors[i].getModifiers());
-            generateConstructor(i, constructors[i].getParamTypeDescriptors(), modifiers, cw);
-            hasConstructor = true;
-        }
-
-        // If no other constructors, generate a default constructor
-        if (!isInterface && !hasConstructor) {
-            generateConstructor(DEFAULTCONSTRUCTOR/*index*/, new String[0], ACC_PUBLIC, cw);
-        }
-
-        // Generate the delegate methods
-        for (DelayedEvalBshMethod method : methods) {
-            String returnType = method.getReturnTypeDescriptor();
-
-            // Don't generate private /*or loosely return typed */ methods
-            if (method.hasModifier("private") /*|| returnType == null*/) {
-                continue;
-            }
-
-            int modifiers = getASMModifiers(method.getModifiers());
-            if (isInterface) {
-                modifiers |= (ACC_PUBLIC | ACC_ABSTRACT);
-            }
-
-            generateMethod(className, fqClassName, method.getName(), returnType, method.getParamTypeDescriptors(), modifiers, cw);
-
-            boolean isStatic = (modifiers & ACC_STATIC) > 0;
-            boolean overridden = classContainsMethod(superClass, method.getName(), method.getParamTypeDescriptors());
-            if (!isStatic && overridden) {
-                generateSuperDelegateMethod(superClassName, method.getName(), returnType, method.getParamTypeDescriptors(), modifiers, cw);
-            }
-        }
-
-        return cw.toByteArray();
     }
 
     /**
@@ -363,120 +270,6 @@ public class ClassGeneratorUtil implements Constants {
 
         // Need to calculate this... just fudging here for now.
         cv.visitMaxs(20, 20);
-    }
-
-    /**
-     * Generate a constructor.
-     */
-    void generateConstructor(int index, String[] paramTypes, int modifiers, ClassWriter cw) {
-        /**
-         * offset after params of the args object [] var
-         */
-        final int argsVar = paramTypes.length + 1;
-        /**
-         * offset after params of the ConstructorArgs var
-         */
-        final int consArgsVar = paramTypes.length + 2;
-
-        String[] exceptions = null;
-        String methodDescriptor = getMethodDescriptor("V", paramTypes);
-
-        // Create this constructor method
-        CodeVisitor cv = cw.visitMethod(modifiers, "<init>", methodDescriptor, exceptions);
-
-        // Generate code to push arguments as an object array
-        generateParameterReifierCode(paramTypes, false/*isStatic*/, cv);
-        cv.visitVarInsn(ASTORE, argsVar);
-
-        // Generate the code implementing the alternate constructor switch
-        generateConstructorSwitch(index, argsVar, consArgsVar, cv);
-
-        // Generate code to invoke the ClassGeneratorUtil initInstance() method
-        // push 'this'
-        cv.visitVarInsn(ALOAD, 0);
-
-        // Push the class/constructor name as a constant
-        cv.visitLdcInsn(className);
-
-        // Push arguments as an object array
-        cv.visitVarInsn(ALOAD, argsVar);
-
-        // invoke the initInstance() method
-        cv.visitMethodInsn(INVOKESTATIC, "bsh/ClassGeneratorUtil", "initInstance", "(L" + GeneratedClass.class.getName().replace('.', '/') + ";Ljava/lang/String;[Ljava/lang/Object;)V");
-
-        cv.visitInsn(RETURN);
-
-        // Need to calculate this... just fudging here for now.
-        cv.visitMaxs(20, 20);
-    }
-
-    /**
-     * Generate a switch with a branch for each possible alternate constructor.
-     * This includes all superclass constructors and all constructors of this
-     * class. The default branch of this switch is the default superclass
-     * constructor.
-     * <p/>
-     * This method also generates the code to call the static ClassGeneratorUtil
-     * getConstructorArgs() method which inspects the scripted constructor to
-     * find the alternate constructor signature (if any) and evalute the
-     * arguments at runtime. The getConstructorArgs() method returns the actual
-     * arguments as well as the index of the constructor to call.
-     */
-    void generateConstructorSwitch(int consIndex, int argsVar, int consArgsVar, CodeVisitor cv) {
-        Label defaultLabel = new Label();
-        Label endLabel = new Label();
-        int cases = superConstructors.length + constructors.length;
-
-        Label[] labels = new Label[cases];
-        for (int i = 0; i < cases; i++) {
-            labels[i] = new Label();
-        }
-
-        // Generate code to call ClassGeneratorUtil to get our switch index
-        // and give us args...
-        // push super class name
-        cv.visitLdcInsn(superClass.getName()); // use superClassName var?
-
-        // push class static This object
-        cv.visitFieldInsn(GETSTATIC, fqClassName, BSHSTATIC + className, "Lbsh/This;");
-
-        // push args
-        cv.visitVarInsn(ALOAD, argsVar);
-
-        // push this constructor index number onto stack
-        cv.visitIntInsn(BIPUSH, consIndex);
-
-        // invoke the ClassGeneratorUtil getConstructorsArgs() method
-        cv.visitMethodInsn(INVOKESTATIC, "bsh/ClassGeneratorUtil", "getConstructorArgs", "(Ljava/lang/String;Lbsh/This;[Ljava/lang/Object;I)" + "Lbsh/ClassGeneratorUtil$ConstructorArgs;");
-
-        // store ConstructorArgs in consArgsVar
-        cv.visitVarInsn(ASTORE, consArgsVar);
-
-        // Get the ConstructorArgs selector field from ConstructorArgs
-        // push ConstructorArgs
-        cv.visitVarInsn(ALOAD, consArgsVar);
-        cv.visitFieldInsn(GETFIELD, "bsh/ClassGeneratorUtil$ConstructorArgs", "selector", "I");
-
-        // start switch
-        cv.visitTableSwitchInsn(0/*min*/, cases - 1/*max*/, defaultLabel, labels);
-
-        // generate switch body
-        int index = 0;
-        for (int i = 0; i < superConstructors.length; i++, index++) {
-            doSwitchBranch(index, superClassName, getTypeDescriptors(superConstructors[i].getParameterTypes()), endLabel, labels, consArgsVar, cv);
-        }
-        for (int i = 0; i < constructors.length; i++, index++) {
-            doSwitchBranch(index, fqClassName, constructors[i].getParamTypeDescriptors(), endLabel, labels, consArgsVar, cv);
-        }
-
-        // generate the default branch of switch
-        cv.visitLabel(defaultLabel);
-        // default branch always invokes no args super
-        cv.visitVarInsn(ALOAD, 0); // push 'this'
-        cv.visitMethodInsn(INVOKESPECIAL, superClassName, "<init>", "()V");
-
-        // done with switch
-        cv.visitLabel(endLabel);
     }
 
     /*
@@ -593,31 +386,6 @@ public class ClassGeneratorUtil implements Constants {
         cv.visitMaxs(20, 20);
     }
 
-    boolean classContainsMethod(Class clas, String methodName, String[] paramTypes) {
-        while (clas != null) {
-            Method[] methods = clas.getDeclaredMethods();
-            for (Method method : methods) {
-                if (method.getName().equals(methodName)) {
-                    String[] methodParamTypes = getTypeDescriptors(method.getParameterTypes());
-                    boolean found = true;
-                    for (int j = 0; j < methodParamTypes.length; j++) {
-                        if (!paramTypes[j].equals(methodParamTypes[j])) {
-                            found = false;
-                            break;
-                        }
-                    }
-                    if (found) {
-                        return true;
-                    }
-                }
-            }
-
-            clas = clas.getSuperclass();
-        }
-
-        return false;
-    }
-
     /**
      * Generate return code for a normal bytecode
      */
@@ -653,7 +421,7 @@ public class ClassGeneratorUtil implements Constants {
      * method "int m (int i, String s)", this code is the bytecode corresponding
      * to the "new Object[] { new bsh.Primitive(i), s }" expression.
      *
-     * @param cv	the code visitor to be used to generate the bytecode.
+     * @param cv       the code visitor to be used to generate the bytecode.
      * @param isStatic the enclosing methods is static
      * @author Eric Bruneton
      * @author Pat Niemeyer
@@ -775,7 +543,7 @@ public class ClassGeneratorUtil implements Constants {
      * constructor for the constructor switch.
      *
      * @param consArgs the arguments to the constructor. These are necessary in
-     * the evaluation of the alt constructor args. e.g. Foo(a) { super(a); }
+     *                 the evaluation of the alt constructor args. e.g. Foo(a) { super(a); }
      * @return the ConstructorArgs object containing a constructor selector and
      * evaluated arguments for the alternate constructor
      */
@@ -881,9 +649,6 @@ public class ClassGeneratorUtil implements Constants {
 
         return new ConstructorArgs(selector, args);
     }
-
-    private static final ThreadLocal<NameSpace> CONTEXT_NAMESPACE = new ThreadLocal<NameSpace>();
-    private static final ThreadLocal<Interpreter> CONTEXT_INTERPRETER = new ThreadLocal<Interpreter>();
 
     /**
      * Register actual context, used by generated class constructor, which calls
@@ -1069,12 +834,242 @@ public class ClassGeneratorUtil implements Constants {
     }
 
     /**
+     * Generate the class bytecode for this class.
+     */
+    public byte[] generateClass() {
+        // Force the class public for now...
+        int classMods = getASMModifiers(classModifiers) | ACC_PUBLIC;
+        if (isInterface) {
+            classMods |= ACC_INTERFACE;
+        }
+
+        String[] interfaceNames = new String[interfaces.length + (isInterface ? 0 : 1)]; // one more interface for instance init callback
+        for (int i = 0; i < interfaces.length; i++) {
+            interfaceNames[i] = Type.getInternalName(interfaces[i]);
+        }
+        if (!isInterface) {
+            interfaceNames[interfaces.length] = Type.getInternalName(GeneratedClass.class);
+        }
+
+        String sourceFile = "BeanShell Generated via ASM (www.objectweb.org)";
+        ClassWriter cw = new ClassWriter(false);
+        cw.visit(classMods, fqClassName, superClassName, interfaceNames, sourceFile);
+
+        if (!isInterface) {
+            // Generate the bsh instance 'This' reference holder field
+            generateField(BSHTHIS + className, "Lbsh/This;", ACC_PUBLIC, cw);
+
+            // Generate the static bsh static reference holder field
+            generateField(BSHSTATIC + className, "Lbsh/This;", ACC_PUBLIC + ACC_STATIC, cw);
+        }
+
+        // Generate the fields
+        for (Variable var : vars) {
+            String type = var.getTypeDescriptor();
+
+            // Don't generate private or loosely typed fields
+            // Note: loose types aren't currently parsed anyway...
+            if (var.hasModifier("private") || type == null) {
+                continue;
+            }
+
+            int modifiers;
+            if (isInterface) {
+                modifiers = ACC_PUBLIC | ACC_STATIC | ACC_FINAL;
+            } else {
+                modifiers = getASMModifiers(var.getModifiers());
+            }
+
+            generateField(var.getName(), type, modifiers, cw);
+        }
+
+        // Generate the constructors
+        boolean hasConstructor = false;
+        for (int i = 0; i < constructors.length; i++) {
+            // Don't generate private constructors
+            if (constructors[i].hasModifier("private")) {
+                continue;
+            }
+
+            int modifiers = getASMModifiers(constructors[i].getModifiers());
+            generateConstructor(i, constructors[i].getParamTypeDescriptors(), modifiers, cw);
+            hasConstructor = true;
+        }
+
+        // If no other constructors, generate a default constructor
+        if (!isInterface && !hasConstructor) {
+            generateConstructor(DEFAULTCONSTRUCTOR/*index*/, new String[0], ACC_PUBLIC, cw);
+        }
+
+        // Generate the delegate methods
+        for (DelayedEvalBshMethod method : methods) {
+            String returnType = method.getReturnTypeDescriptor();
+
+            // Don't generate private /*or loosely return typed */ methods
+            if (method.hasModifier("private") /*|| returnType == null*/) {
+                continue;
+            }
+
+            int modifiers = getASMModifiers(method.getModifiers());
+            if (isInterface) {
+                modifiers |= (ACC_PUBLIC | ACC_ABSTRACT);
+            }
+
+            generateMethod(className, fqClassName, method.getName(), returnType, method.getParamTypeDescriptors(), modifiers, cw);
+
+            boolean isStatic = (modifiers & ACC_STATIC) > 0;
+            boolean overridden = classContainsMethod(superClass, method.getName(), method.getParamTypeDescriptors());
+            if (!isStatic && overridden) {
+                generateSuperDelegateMethod(superClassName, method.getName(), returnType, method.getParamTypeDescriptors(), modifiers, cw);
+            }
+        }
+
+        return cw.toByteArray();
+    }
+
+    /**
+     * Generate a constructor.
+     */
+    void generateConstructor(int index, String[] paramTypes, int modifiers, ClassWriter cw) {
+        /**
+         * offset after params of the args object [] var
+         */
+        final int argsVar = paramTypes.length + 1;
+        /**
+         * offset after params of the ConstructorArgs var
+         */
+        final int consArgsVar = paramTypes.length + 2;
+
+        String[] exceptions = null;
+        String methodDescriptor = getMethodDescriptor("V", paramTypes);
+
+        // Create this constructor method
+        CodeVisitor cv = cw.visitMethod(modifiers, "<init>", methodDescriptor, exceptions);
+
+        // Generate code to push arguments as an object array
+        generateParameterReifierCode(paramTypes, false/*isStatic*/, cv);
+        cv.visitVarInsn(ASTORE, argsVar);
+
+        // Generate the code implementing the alternate constructor switch
+        generateConstructorSwitch(index, argsVar, consArgsVar, cv);
+
+        // Generate code to invoke the ClassGeneratorUtil initInstance() method
+        // push 'this'
+        cv.visitVarInsn(ALOAD, 0);
+
+        // Push the class/constructor name as a constant
+        cv.visitLdcInsn(className);
+
+        // Push arguments as an object array
+        cv.visitVarInsn(ALOAD, argsVar);
+
+        // invoke the initInstance() method
+        cv.visitMethodInsn(INVOKESTATIC, "bsh/ClassGeneratorUtil", "initInstance", "(L" + GeneratedClass.class.getName().replace('.', '/') + ";Ljava/lang/String;[Ljava/lang/Object;)V");
+
+        cv.visitInsn(RETURN);
+
+        // Need to calculate this... just fudging here for now.
+        cv.visitMaxs(20, 20);
+    }
+
+    /**
+     * Generate a switch with a branch for each possible alternate constructor.
+     * This includes all superclass constructors and all constructors of this
+     * class. The default branch of this switch is the default superclass
+     * constructor.
+     * <p/>
+     * This method also generates the code to call the static ClassGeneratorUtil
+     * getConstructorArgs() method which inspects the scripted constructor to
+     * find the alternate constructor signature (if any) and evalute the
+     * arguments at runtime. The getConstructorArgs() method returns the actual
+     * arguments as well as the index of the constructor to call.
+     */
+    void generateConstructorSwitch(int consIndex, int argsVar, int consArgsVar, CodeVisitor cv) {
+        Label defaultLabel = new Label();
+        Label endLabel = new Label();
+        int cases = superConstructors.length + constructors.length;
+
+        Label[] labels = new Label[cases];
+        for (int i = 0; i < cases; i++) {
+            labels[i] = new Label();
+        }
+
+        // Generate code to call ClassGeneratorUtil to get our switch index
+        // and give us args...
+        // push super class name
+        cv.visitLdcInsn(superClass.getName()); // use superClassName var?
+
+        // push class static This object
+        cv.visitFieldInsn(GETSTATIC, fqClassName, BSHSTATIC + className, "Lbsh/This;");
+
+        // push args
+        cv.visitVarInsn(ALOAD, argsVar);
+
+        // push this constructor index number onto stack
+        cv.visitIntInsn(BIPUSH, consIndex);
+
+        // invoke the ClassGeneratorUtil getConstructorsArgs() method
+        cv.visitMethodInsn(INVOKESTATIC, "bsh/ClassGeneratorUtil", "getConstructorArgs", "(Ljava/lang/String;Lbsh/This;[Ljava/lang/Object;I)" + "Lbsh/ClassGeneratorUtil$ConstructorArgs;");
+
+        // store ConstructorArgs in consArgsVar
+        cv.visitVarInsn(ASTORE, consArgsVar);
+
+        // Get the ConstructorArgs selector field from ConstructorArgs
+        // push ConstructorArgs
+        cv.visitVarInsn(ALOAD, consArgsVar);
+        cv.visitFieldInsn(GETFIELD, "bsh/ClassGeneratorUtil$ConstructorArgs", "selector", "I");
+
+        // start switch
+        cv.visitTableSwitchInsn(0/*min*/, cases - 1/*max*/, defaultLabel, labels);
+
+        // generate switch body
+        int index = 0;
+        for (int i = 0; i < superConstructors.length; i++, index++) {
+            doSwitchBranch(index, superClassName, getTypeDescriptors(superConstructors[i].getParameterTypes()), endLabel, labels, consArgsVar, cv);
+        }
+        for (int i = 0; i < constructors.length; i++, index++) {
+            doSwitchBranch(index, fqClassName, constructors[i].getParamTypeDescriptors(), endLabel, labels, consArgsVar, cv);
+        }
+
+        // generate the default branch of switch
+        cv.visitLabel(defaultLabel);
+        // default branch always invokes no args super
+        cv.visitVarInsn(ALOAD, 0); // push 'this'
+        cv.visitMethodInsn(INVOKESPECIAL, superClassName, "<init>", "()V");
+
+        // done with switch
+        cv.visitLabel(endLabel);
+    }
+
+    boolean classContainsMethod(Class clas, String methodName, String[] paramTypes) {
+        while (clas != null) {
+            Method[] methods = clas.getDeclaredMethods();
+            for (Method method : methods) {
+                if (method.getName().equals(methodName)) {
+                    String[] methodParamTypes = getTypeDescriptors(method.getParameterTypes());
+                    boolean found = true;
+                    for (int j = 0; j < methodParamTypes.length; j++) {
+                        if (!paramTypes[j].equals(methodParamTypes[j])) {
+                            found = false;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        return true;
+                    }
+                }
+            }
+
+            clas = clas.getSuperclass();
+        }
+
+        return false;
+    }
+
+    /**
      * A ConstructorArgs object holds evaluated arguments for a constructor call
      * as well as the index of a possible alternate selector to invoke. This
      * object is used by the constructor switch.
-     *
-     * @see bsh.ClassGeneratorUtil#generateConstructor(int, String[], int,
-     * bsh.org.objectweb.asm.ClassWriter)
      */
     public static class ConstructorArgs {
 

@@ -32,7 +32,7 @@ package ehacks.bsh;
  * This exception is thrown when parse errors are encountered. You can
  * explicitly create objects of this exception type by calling the method
  * generateParseException in the generated parser.
- *
+ * <p>
  * You can modify this class to customize your error reporting mechanisms so
  * long as you retain the public fields.
  */
@@ -40,22 +40,39 @@ package ehacks.bsh;
 public class ParseException extends EvalError {
 // End BeanShell Modification - public, extend EvalError
 
+    /**
+     * This is the last token that has been consumed successfully. If this
+     * object has been created due to a parse error, the token followng this
+     * token will (therefore) be the first error token.
+     */
+    public Token currentToken;
+    /**
+     * Each entry in this array is an array of integers. Each array of integers
+     * represents a sequence of tokens (by their ordinal values) that is
+     * expected at this point of the parse.
+     */
+    public int[][] expectedTokenSequences;
+    /**
+     * This is a reference to the "tokenImage" array of the generated parser
+     * within which the parse error occurred. This array is defined in the
+     * generated ...Constants interface.
+     */
+    public String[] tokenImage;
+
+    // End BeanShell Modification - sourceFile
+    /**
+     * This variable determines which constructor was used to create this object
+     * and thereby affects the semantics of the "getMessage" method (see below).
+     * This is the same as "currentToken != null".
+     */
+    boolean specialConstructor;
+    /**
+     * The end of line string for this machine.
+     */
+    String eol = System.getProperty("line.separator", "\n");
     // Begin BeanShell Modification - sourceFile
     private String sourceFile = "<unknown>";
 
-    /**
-     * Used to add source file info to exception
-     */
-    public void setErrorSourceFile(String file) {
-        this.sourceFile = file;
-    }
-
-    @Override
-    public String getErrorSourceFile() {
-        return sourceFile;
-    }
-
-    // End BeanShell Modification - sourceFile
     /**
      * This constructor is used by the method "generateParseException" in the
      * generated parser. Calling this constructor generates a new object of this
@@ -67,8 +84,8 @@ public class ParseException extends EvalError {
      * in the form: ParseException: <result of getMessage>
      */
     public ParseException(Token currentTokenVal,
-            int[][] expectedTokenSequencesVal,
-            String[] tokenImageVal
+                          int[][] expectedTokenSequencesVal,
+                          String[] tokenImageVal
     ) {
         // Begin BeanShell Modification - constructor
         this();
@@ -110,40 +127,24 @@ public class ParseException extends EvalError {
         specialConstructor = false;
     }
 
-    /**
-     * This variable determines which constructor was used to create this object
-     * and thereby affects the semantics of the "getMessage" method (see below).
-     * This is the same as "currentToken != null".
-     */
-    boolean specialConstructor;
+    @Override
+    public String getErrorSourceFile() {
+        return sourceFile;
+    }
 
     /**
-     * This is the last token that has been consumed successfully. If this
-     * object has been created due to a parse error, the token followng this
-     * token will (therefore) be the first error token.
+     * Used to add source file info to exception
      */
-    public Token currentToken;
-
-    /**
-     * Each entry in this array is an array of integers. Each array of integers
-     * represents a sequence of tokens (by their ordinal values) that is
-     * expected at this point of the parse.
-     */
-    public int[][] expectedTokenSequences;
-
-    /**
-     * This is a reference to the "tokenImage" array of the generated parser
-     * within which the parse error occurred. This array is defined in the
-     * generated ...Constants interface.
-     */
-    public String[] tokenImage;
+    public void setErrorSourceFile(String file) {
+        this.sourceFile = file;
+    }
+    // End BeanShell Modification - moved body to overloaded getMessage()
 
     // Begin BeanShell Modification - moved body to overloaded getMessage()
     @Override
     public String getMessage() {
         return getMessage(false);
     }
-    // End BeanShell Modification - moved body to overloaded getMessage()
 
     /**
      * This method has the standard behavior when this object has been created
@@ -205,11 +206,6 @@ public class ParseException extends EvalError {
 
         return retval;
     }
-
-    /**
-     * The end of line string for this machine.
-     */
-    String eol = System.getProperty("line.separator", "\n");
 
     /**
      * Used to convert raw characters to their escaped version when these raw

@@ -26,10 +26,6 @@ public abstract class Module implements Comparable, IIncludable, IClickable {
         this.keybind = key;
     }
 
-    public void setCategory(ModuleCategory category) {
-        this.category = category;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -48,6 +44,10 @@ public abstract class Module implements Comparable, IIncludable, IClickable {
 
     public ModuleCategory getCategory() {
         return this.category;
+    }
+
+    public void setCategory(ModuleCategory category) {
+        this.category = category;
     }
 
     public boolean isActive() {

@@ -1,23 +1,28 @@
 package ehacks.mod.util.nbtedit;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import java.util.*;
+
 public class NBTTree {
 
+    public static final NBTNodeSorter SORTER = new NBTNodeSorter();
     private final NBTTagCompound baseTag;
     private Node<NamedNBT> root;
-    public static final NBTNodeSorter SORTER = new NBTNodeSorter();
 
     public NBTTree(NBTTagCompound tag) {
         this.baseTag = tag;
         this.construct();
+    }
+
+    public static String repeat(String c, int i) {
+        StringBuilder b = new StringBuilder(i + 1);
+        for (int j = 0; j < i; ++j) {
+            b.append(c);
+        }
+        return b.toString();
     }
 
     public Node<NamedNBT> getRoot() {
@@ -164,13 +169,5 @@ public class NBTTree {
         for (Node<NamedNBT> child : n.getChildren()) {
             this.toStrings(s, child, i + 1);
         }
-    }
-
-    public static String repeat(String c, int i) {
-        StringBuilder b = new StringBuilder(i + 1);
-        for (int j = 0; j < i; ++j) {
-            b.append(c);
-        }
-        return b.toString();
     }
 }

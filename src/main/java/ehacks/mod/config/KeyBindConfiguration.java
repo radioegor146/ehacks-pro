@@ -3,15 +3,10 @@ package ehacks.mod.config;
 import com.google.gson.Gson;
 import ehacks.mod.api.ModuleController;
 import ehacks.mod.wrapper.Wrapper;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.util.HashMap;
 import org.lwjgl.input.Keyboard;
+
+import java.io.*;
+import java.util.HashMap;
 
 public class KeyBindConfiguration implements IConfiguration {
 

@@ -30,12 +30,12 @@ public class GuiCharacterButton
         }
     }
 
-    public void setEnabled(boolean aFlag) {
-        this.enabled = aFlag;
-    }
-
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public void setEnabled(boolean aFlag) {
+        this.enabled = aFlag;
     }
 
     public boolean inBounds(int mx, int my) {

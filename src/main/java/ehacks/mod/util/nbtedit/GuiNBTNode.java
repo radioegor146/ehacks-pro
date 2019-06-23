@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiNBTNode
         extends Gui {
 
+    public static final int[] NBT_ICON_MAPPING = new int[]{1, 2, 3, 4, 5, 6, 9, 7, 8, 0, 10, 0};
     private final Node<NamedNBT> node;
     private final GuiNBTTree tree;
     protected int width;
@@ -15,7 +16,6 @@ public class GuiNBTNode
     protected int x;
     protected int y;
     private String displayString;
-    public static final int[] NBT_ICON_MAPPING = new int[]{1, 2, 3, 4, 5, 6, 9, 7, 8, 0, 10, 0};
 
     public GuiNBTNode(GuiNBTTree tree, Node<NamedNBT> node, int x, int y) {
         this.tree = tree;

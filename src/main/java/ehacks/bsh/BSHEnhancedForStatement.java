@@ -1,7 +1,8 @@
 package ehacks.bsh;
 
 // Just testing...
-import java.util.*;
+
+import java.util.Iterator;
 
 /**
  * Implementation of the enhanced for(:) statement. This statement uses Iterator

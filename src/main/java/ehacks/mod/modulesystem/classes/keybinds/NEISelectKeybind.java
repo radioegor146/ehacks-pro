@@ -11,7 +11,6 @@ import ehacks.mod.wrapper.ModuleCategory;
 import org.lwjgl.input.Keyboard;
 
 /**
- *
  * @author radioegor146
  */
 public class NEISelectKeybind extends Module {
@@ -21,6 +20,15 @@ public class NEISelectKeybind extends Module {
     public NEISelectKeybind() {
         super(ModuleCategory.KEYBIND);
         this.setKeybinding(DEFAULT_BUTTON);
+    }
+
+    public static int getKey() {
+        Module m = ModuleController.INSTANCE.call(NEISelectKeybind.class);
+        if (m == null) {
+            return DEFAULT_BUTTON;
+        } else {
+            return m.getKeybind();
+        }
     }
 
     @Override
@@ -36,15 +44,6 @@ public class NEISelectKeybind extends Module {
     @Override
     public void onModuleEnabled() {
         this.off();
-    }
-
-    public static int getKey() {
-        Module m = ModuleController.INSTANCE.call(NEISelectKeybind.class);
-        if (m == null) {
-            return DEFAULT_BUTTON;
-        } else {
-            return m.getKeybind();
-        }
     }
 
     @Override

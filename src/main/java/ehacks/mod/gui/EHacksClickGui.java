@@ -4,42 +4,31 @@ import ehacks.mod.api.Module;
 import ehacks.mod.commands.ConsoleGui;
 import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.gui.element.SimpleWindow;
-import ehacks.mod.gui.window.*;
+import ehacks.mod.gui.window.WindowEHacks;
+import ehacks.mod.gui.window.WindowHub;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
-import java.util.ArrayList;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
+
+import java.util.ArrayList;
 
 public class EHacksClickGui
         extends GuiScreen {
 
+    public static int mainColor = GLUtils.getColor(255, 255, 255);
+    public static Tooltip tooltip = null;
     public ArrayList<SimpleWindow> windows = new ArrayList<>();
     public ConsoleGui consoleGui = new ConsoleGui(Wrapper.INSTANCE.mc());
     public boolean canInputConsole = false;
-    public static int mainColor = GLUtils.getColor(255, 255, 255);
 
     public EHacksClickGui() {
     }
 
     //TODO fix all of these being offscreen on scale = auto
     public void initWindows() {
-        windows.add(new WindowPlayer());
-        windows.add(new WindowCombat());
-        windows.add(new WindowRender());
-        windows.add(new WindowMinigames());
-        windows.add(new WindowNoCheatPlus());
-        windows.add(new WindowEHacks());
-        windows.add(new WindowInfo());
-        windows.add(new WindowRadar());
-        windows.add(new WindowActives());
-        windows.add(new WindowPlayerIds());
-        windows.add(new WindowCheckVanish());
-        windows.add(new WindowFakeKeybindings());
-        windows.add(new WindowFakeChatKeybindings());
-        windows.add(new WindowFakeImportConfig());
-        windows.add(new WindowFakeExportConfig());
         windows.add(new WindowHub());
+        windows.add(new WindowEHacks());
     }
 
     @Override
@@ -64,8 +53,6 @@ public class EHacksClickGui
         return windows.get(windows.size() - 1);
     }
 
-    public static Tooltip tooltip = null;
-
     @Override
     public void drawScreen(int x, int y, float f) {
         tooltip = null;
@@ -74,7 +61,7 @@ public class EHacksClickGui
             window.draw(x, y);
         });
         if (tooltip != null) {
-            this.drawHoveringText(this.fontRendererObj.listFormattedStringToWidth(tooltip.text, 200), tooltip.x, tooltip.y, fontRendererObj);
+            this.drawHoveringText(this.fontRenderer.listFormattedStringToWidth(tooltip.text, 200), tooltip.x, tooltip.y, fontRenderer);
         }
     }
 
@@ -86,7 +73,7 @@ public class EHacksClickGui
                 data = "&7[&f" + from + "&7] &e" + data;
             }
         }
-        consoleGui.printChatMessage(new ChatComponentText(data.replace("&", "\u00a7").replace("\u00a7\u00a7", "&")));
+        consoleGui.printChatMessage(new TextComponentString(data.replace("&", "\u00a7").replace("\u00a7\u00a7", "&")));
     }
 
     @Override
@@ -108,13 +95,6 @@ public class EHacksClickGui
         } catch (Exception exception) {
             // empty catch block
         }
-    }
-
-    @Override
-    protected void mouseMovedOrUp(int p_146286_1_, int p_146286_2_, int p_146286_3_) {
-        windows.forEach((window) -> {
-            window.mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
-        });
     }
 
     @Override

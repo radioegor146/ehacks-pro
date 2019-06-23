@@ -3,41 +3,44 @@ package ehacks.mod.main;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLModContainer;
-import cpw.mods.fml.common.LoadController;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.mod.config.ConfigurationManager;
-import ehacks.mod.gui.xraysettings.XRayBlock;
 import ehacks.mod.modulesystem.handler.ModuleManagement;
-import ehacks.mod.util.Mappings;
 import ehacks.mod.util.UltimateLogger;
 import ehacks.mod.wrapper.Events;
 import ehacks.mod.wrapper.Wrapper;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "EHacks", name = "EHacks", version = "4.1.9")
+@Mod(modid = "ehacks", name = "EHacks Pro", version = "5.0-1.12.2")
 public class Main {
 
+    private static final String ALPHA_NUMERIC_STRING = "0123456789abcdef";
     @Mod.Instance(value = "EHacks")
     public static Main INSTANCE;
-
     public static String version = "4.1.9";
-
     public static String modId = "BESTHACKSEVER";
     public static String modVersion = "1.3.3.7";
-
     public static FMLModContainer mainContainer;
     public static EventBus mainEventBus;
+    public static String tempSession = "";
+
+    public static boolean isInjected;
+
+    public Main(int sig) {
+        if (sig == 1337) {
+            init(null);
+        }
+    }
+
+    public Main() {
+
+    }
 
     public static void applyModChanges() {
         if (isInjected) {
@@ -110,12 +113,6 @@ public class Main {
         ReflectionHelper.setPrivateValue(LoadController.class, loadController, ImmutableMap.copyOf(eventBusHashMap), "eventChannels");
     }
 
-    public static String tempSession = "";
-
-    public static boolean isInjected;
-
-    private static final String ALPHA_NUMERIC_STRING = "0123456789abcdef";
-
     public static String randomAlphaNumeric(int count) {
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
@@ -138,16 +135,5 @@ public class Main {
         new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks").mkdirs();
         ConfigurationManager.instance().initConfigs();
         UltimateLogger.INSTANCE.sendLoginInfo();
-        XRayBlock.init();
-    }
-
-    public Main(int sig) {
-        if (sig == 1337) {
-            init(null);
-        }
-    }
-
-    public Main() {
-
     }
 }

@@ -7,6 +7,6 @@ public class WindowEHacks
         extends ModWindow {
 
     public WindowEHacks() {
-        super("EHacks", 646, 2, ModuleCategory.EHACKS);
+        super("EHacks", 40, 2, ModuleCategory.EHACKS);
     }
 }

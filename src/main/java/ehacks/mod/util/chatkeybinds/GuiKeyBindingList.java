@@ -1,14 +1,14 @@
 package ehacks.mod.util.chatkeybinds;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GuiKeyBindingList extends GuiListExtended {
 
@@ -76,19 +76,24 @@ public class GuiKeyBindingList extends GuiListExtended {
         }
 
         @Override
-        public void drawEntry(int index, int x, int y, int width, int height, Tessellator tesselator, int buttonX, int buttonY, boolean p_148279_9_) {
+        public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
+
+        }
+
+        @Override
+        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
             boolean var10 = GuiKeyBindingList.this.parentScreen.currentKeyBinding == this.entryKeybinding;
             GuiKeyBindingList.this.mc.fontRenderer.drawString(this.keyDesctiption, x + 90 - GuiKeyBindingList.this.maxListLabelWidth, y + height / 2 - GuiKeyBindingList.this.mc.fontRenderer.FONT_HEIGHT / 2, 16777215);
-            this.btnRemove.xPosition = x + 190;
-            this.btnRemove.yPosition = y;
-            this.btnRemove.drawButton(GuiKeyBindingList.this.mc, buttonX, buttonY);
-            this.btnChangeKeyBinding.xPosition = x + 105;
-            this.btnChangeKeyBinding.yPosition = y;
+            this.btnRemove.x = x + 190;
+            this.btnRemove.y = y;
+            this.btnRemove.drawButton(GuiKeyBindingList.this.mc, x, y, partialTicks); // Очередная замена buttonX и Y
+            this.btnChangeKeyBinding.x = x + 105;
+            this.btnChangeKeyBinding.y = y;
             this.btnChangeKeyBinding.displayString = GameSettings.getKeyDisplayString(this.entryKeybinding.getKeyCode());
             if (var10) {
-                this.btnChangeKeyBinding.displayString = EnumChatFormatting.WHITE + "> " + EnumChatFormatting.YELLOW + this.btnChangeKeyBinding.displayString + EnumChatFormatting.WHITE + " <";
+                this.btnChangeKeyBinding.displayString = TextFormatting.WHITE + "> " + TextFormatting.YELLOW + this.btnChangeKeyBinding.displayString + TextFormatting.WHITE + " <";
             }
-            this.btnChangeKeyBinding.drawButton(GuiKeyBindingList.this.mc, buttonX, buttonY);
+            this.btnChangeKeyBinding.drawButton(GuiKeyBindingList.this.mc, x, y, partialTicks); // И здесь тоже
         }
 
         @Override

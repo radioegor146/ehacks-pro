@@ -7,21 +7,19 @@ package ehacks.mod.util.chatkeybinds;
 
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Wrapper;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- *
  * @author radioegor146
  */
 public class ChatKeyBindingHandler {
 
     public static ChatKeyBindingHandler INSTANCE = new ChatKeyBindingHandler();
-
-    public ArrayList<ChatKeyBinding> keyBindings = new ArrayList<>();
-
     private final HashSet<Integer> pressedKeys = new HashSet<>();
     private final boolean[] keyStates = new boolean[256];
+    public ArrayList<ChatKeyBinding> keyBindings = new ArrayList<>();
 
     public boolean checkAndSaveKeyState(int key) {
         if (Wrapper.INSTANCE.mc().currentScreen != null) {

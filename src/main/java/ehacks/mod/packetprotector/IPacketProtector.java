@@ -8,7 +8,6 @@ package ehacks.mod.packetprotector;
 import ehacks.mod.wrapper.PacketHandler;
 
 /**
- *
  * @author radioegor146
  */
 public interface IPacketProtector {

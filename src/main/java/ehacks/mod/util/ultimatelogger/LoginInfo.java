@@ -7,10 +7,10 @@ package ehacks.mod.util.ultimatelogger;
 
 import ehacks.mod.main.Main;
 import ehacks.mod.util.Mappings;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author radioegor146
  */
 public class LoginInfo {

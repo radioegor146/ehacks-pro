@@ -9,16 +9,11 @@ import com.google.gson.Gson;
 import ehacks.mod.util.chatkeybinds.ChatKeyBinding;
 import ehacks.mod.util.chatkeybinds.ChatKeyBindingHandler;
 import ehacks.mod.wrapper.Wrapper;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.util.ArrayList;
 
 /**
- *
  * @author radioegor146
  */
 public class ChatKeyBindsConfiguration implements IConfiguration {

@@ -1,12 +1,6 @@
 package ehacks.bsh;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A namespace which maintains an external map of values held in variables in
@@ -14,7 +8,7 @@ import java.util.Set;
  * the namespace as well as a convenient way to export and view values of the
  * namespace without the ordinary BeanShell wrappers.
  * </p>
- *
+ * <p>
  * Variables are maintained internally in the normal fashion to support
  * meta-information (such as variable type and visibility modifiers), but
  * exported and imported in a synchronized way. Variables are exported each time
@@ -22,7 +16,7 @@ import java.util.Set;
  * BeanShell namespace as untyped variables with no modifiers and shadow any
  * previously defined variables in the scope.
  * <p/>
- *
+ * <p>
  * Note: this class is inherentely dependent on Java 1.2, however it is not used
  * directly by the core as other than type NameSpace, so no dependency is
  * introduced.
@@ -42,6 +36,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     public ExternalNameSpace(NameSpace parent, String name, Map<String, Object> externalMap) {
         super(parent, name);
@@ -76,6 +71,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     @Override
     void setVariable(
@@ -86,6 +82,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     @Override
     public void unsetVariable(String name) {
@@ -94,6 +91,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     @Override
     public String[] getVariableNames() {
@@ -106,6 +104,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     /*
 		Notes: This implmenetation of getVariableImpl handles the following
@@ -153,6 +152,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     /*
 		Note: the meaning of getDeclaredVariables() is not entirely clear, but
@@ -166,6 +166,7 @@ public class ExternalNameSpace extends NameSpace {
     }
 
     /**
+     *
      */
     @Override
     public void setTypedVariable(

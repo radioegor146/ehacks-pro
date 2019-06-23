@@ -1,35 +1,37 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
 import java.lang.reflect.Array;
@@ -39,13 +41,13 @@ import java.lang.reflect.InvocationTargetException;
  * What's in a name? I'll tell you... Name() is a somewhat ambiguous thing in
  * the grammar and so is this.
  * <p>
- *
+ * <p>
  * This class is a name resolver. It holds a possibly ambiguous dot separated
  * name and reference to a namespace in which it allegedly lives. It provides
  * methods that attempt to resolve the name to various types of entities: e.g.
  * an Object, a Class, a declared scripted BeanShell method.
  * <p>
- *
+ * <p>
  * Name objects are created by the factory method NameSpace getNameResolver(),
  * which caches them subject to a class namespace change. This means that we can
  * cache information about various types of resolution here. Currently very
@@ -92,13 +94,22 @@ import java.lang.reflect.InvocationTargetException;
 class Name implements java.io.Serializable {
     // These do not change during evaluation
 
+    private static final String FINISHED = null; // null evalname and we're finished
     public NameSpace namespace;
-    String value = null;
 
     // ---------------------------------------------------------
     // The following instance variables mutate during evaluation and should
     // be reset by the reset() method where necessary
     // For evaluation
+    String value = null;
+    /**
+     * The result is a class
+     */
+    Class asClass;
+    /**
+     * The result is a static method call on the following class
+     */
+    Class classOfStaticMethod;
     /**
      * Remaining text to evaluate
      */
@@ -108,10 +119,6 @@ class Name implements java.io.Serializable {
      * caller, and super resolution.
      */
     private String lastEvalName;
-    private static final String FINISHED = null; // null evalname and we're finished
-    private Object evalBaseObject;	// base object for current eval
-
-    private int callstackDepth;		// number of times eval hit 'this.caller'
 
     //  
     //  End mutable instance variables.
@@ -120,22 +127,8 @@ class Name implements java.io.Serializable {
     // These are optimizations 
     // Note: it's ok to cache class resolution here because when the class
     // space changes the namespace will discard cached names.
-    /**
-     * The result is a class
-     */
-    Class asClass;
-
-    /**
-     * The result is a static method call on the following class
-     */
-    Class classOfStaticMethod;
-
-    // End Cached result structures
-    private void reset() {
-        evalName = value;
-        evalBaseObject = null;
-        callstackDepth = 0;
-    }
+    private Object evalBaseObject;    // base object for current eval
+    private int callstackDepth;        // number of times eval hit 'this.caller'
 
     /**
      * This constructor should *not* be used in general. Use NameSpace
@@ -150,16 +143,131 @@ class Name implements java.io.Serializable {
     }
 
     /**
+     * @return the enclosing class body namespace or null if not in a class.
+     */
+    static NameSpace getClassNameSpace(NameSpace thisNameSpace) {
+        // is a class instance
+        //if ( thisNameSpace.classInstance != null )
+        if (thisNameSpace.isClass) {
+            return thisNameSpace;
+        }
+
+        if (thisNameSpace.isMethod
+                && thisNameSpace.getParent() != null
+                //&& thisNameSpace.getParent().classInstance != null
+                && thisNameSpace.getParent().isClass) {
+            return thisNameSpace.getParent();
+        }
+
+        return null;
+    }
+
+    /*
+	private String getHelp( String name )
+		throws UtilEvalError
+	{
+		try {
+			// should check for null namespace here
+			return get( "bsh.help."+name, null/interpreter/ );
+		} catch ( Exception e ) {
+			return "usage: "+name;
+		}
+	}
+
+	private String getHelp( Class commandClass )
+		throws UtilEvalError
+	{
+        try {
+            return (String)Reflect.invokeStaticMethod(
+				null/bcm/, commandClass, "usage", null );
+        } catch( Exception e )
+			return "usage: "+name;
+		}
+	}
+     */
+    // Static methods that operate on compound ('.' separated) names
+    // I guess we could move these to StringUtil someday
+    public static boolean isCompound(String value) {
+        return value.indexOf('.') != -1;
+        //return countParts(value) > 1;
+    }
+
+    static int countParts(String value) {
+        if (value == null) {
+            return 0;
+        }
+
+        int count = 0;
+        int index = -1;
+        while ((index = value.indexOf('.', index + 1)) != -1) {
+            count++;
+        }
+        return count + 1;
+    }
+
+    static String prefix(String value) {
+        if (!isCompound(value)) {
+            return null;
+        }
+
+        return prefix(value, countParts(value) - 1);
+    }
+
+    static String prefix(String value, int parts) {
+        if (parts < 1) {
+            return null;
+        }
+
+        int count = 0;
+        int index = -1;
+
+        while (((index = value.indexOf('.', index + 1)) != -1)
+                && (++count < parts)) {
+        }
+
+        return (index == -1) ? value : value.substring(0, index);
+    }
+
+    static String suffix(String name) {
+        if (!isCompound(name)) {
+            return null;
+        }
+
+        return suffix(name, countParts(name) - 1);
+    }
+
+    public static String suffix(String value, int parts) {
+        if (parts < 1) {
+            return null;
+        }
+
+        int count = 0;
+        int index = value.length() + 1;
+
+        while (((index = value.lastIndexOf('.', index - 1)) != -1)
+                && (++count < parts)) ;
+
+        return (index == -1) ? value : value.substring(index + 1);
+    }
+
+    // End Cached result structures
+    private void reset() {
+        evalName = value;
+        evalBaseObject = null;
+        callstackDepth = 0;
+    }
+
+    /**
      * Resolve possibly complex name to an object value.
-     *
+     * <p>
      * Throws EvalError on various failures. A null object value is indicated by
      * a Primitive.NULL. A return type of Primitive.VOID comes from attempting
      * to access an undefined variable.
-     *
+     * <p>
      * Some cases: myVariable myVariable.foo myVariable.foo.bar
      * java.awt.GridBagConstraints.BOTH
      * my.package.stuff.MyClass.someField.someField...
-     *
+     * <p>
      * Interpreter reference is necessary to allow resolution of
      * "this.interpreter" magic field. CallStack reference is necessary to allow
      * resolution of "this.caller" magic field. "this.callstack" magic field.
@@ -170,10 +278,10 @@ class Name implements java.io.Serializable {
     }
 
     /**
-     * @see #toObject(CallStack, Interpreter)
      * @param forceClass if true then resolution will only produce a class. This
-     * is necessary to disambiguate in cases where the grammar knows that we
-     * want a class; where in general the var path may be taken.
+     *                   is necessary to disambiguate in cases where the grammar knows that we
+     *                   want a class; where in general the var path may be taken.
+     * @see #toObject(CallStack, Interpreter)
      */
     synchronized public Object toObject(
             CallStack callstack, Interpreter interpreter, boolean forceClass)
@@ -216,7 +324,7 @@ class Name implements java.io.Serializable {
             throws UtilEvalError {
         /*
 			Is it a simple variable name?
-			Doing this first gives the correct Java precedence for vars 
+			Doing this first gives the correct Java precedence for vars
 			vs. imported class names (at least in the simple case - see
 			tests/precedence1.bsh).  It should also speed things up a bit.
          */
@@ -274,7 +382,7 @@ class Name implements java.io.Serializable {
             }
 
             /*
-				Keep adding parts until we have a class 
+				Keep adding parts until we have a class
              */
             Class clas = null;
             int i = 1;
@@ -305,7 +413,7 @@ class Name implements java.io.Serializable {
                 && !forceClass && autoAllocateThis) {
             NameSpace targetNameSpace
                     = (evalBaseObject == null)
-                            ? namespace : ((This) evalBaseObject).namespace;
+                    ? namespace : ((This) evalBaseObject).namespace;
             Object obj = new NameSpace(
                     targetNameSpace, "auto: " + varName).getThis(interpreter);
             targetNameSpace.setVariable(varName, obj, false);
@@ -316,7 +424,7 @@ class Name implements java.io.Serializable {
 			If we didn't find a class or variable name (or prefix) above
 			there are two possibilities:
 
-			- If we are a simple name then we can pass as a void variable 
+			- If we are a simple name then we can pass as a void variable
 			reference.
 			- If we are compound then we must fail at this point.
          */
@@ -356,7 +464,7 @@ class Name implements java.io.Serializable {
                     + "Error while evaluating: " + value);
         }
 
-        /* 
+        /*
 			Resolve relative to a class type
 			static field, inner class, ?
          */
@@ -408,7 +516,7 @@ class Name implements java.io.Serializable {
             if (obj == null) {
                 throw new UtilEvalError(
                         "No static field or inner class: "
-                        + field + " of " + clas);
+                                + field + " of " + clas);
             }
 
             return completeRound(field, suffix(evalName), obj);
@@ -423,24 +531,25 @@ class Name implements java.io.Serializable {
                     value + " does not resolve to a class name.");
         }
 
-        /* 
+        /*
 			Some kind of field access?
          */
         String field = prefix(evalName, 1);
 
-        // length access on array? 
+        // length access on array?
         if (field.equals("length") && evalBaseObject.getClass().isArray()) {
             Object obj = new Primitive(Array.getLength(evalBaseObject));
             return completeRound(field, suffix(evalName), obj);
         }
 
-        // Check for field on object 
+        // Check for field on object
         // Note: could eliminate throwing the exception somehow
         try {
             Object obj = Reflect.getObjectFieldValue(evalBaseObject, field);
             return completeRound(field, suffix(evalName), obj);
         } catch (ReflectError e) {
-            /* not a field */ }
+            /* not a field */
+        }
 
         // if we get here we have failed
         throw new UtilEvalError(
@@ -449,7 +558,7 @@ class Name implements java.io.Serializable {
 
     /**
      * Resolve a variable relative to a This reference.
-     *
+     * <p>
      * This is the general variable resolution method, accomodating special
      * fields from the This context. Together the namespace and interpreter
      * comprise the This context. The callstack, if available allows for the
@@ -458,10 +567,7 @@ class Name implements java.io.Serializable {
      * <p/>
      *
      * @param callstack may be null, but this is only legitimate in special
-     * cases where we are sure resolution will not involve this.caller.
-     *
-     * @param namespace the namespace of the this reference (should be the same
-     * as the top of the stack?
+     *                  cases where we are sure resolution will not involve this.caller.
      */
     Object resolveThisFieldReference(
             CallStack callstack, NameSpace thisNameSpace, Interpreter interpreter,
@@ -596,33 +702,12 @@ class Name implements java.io.Serializable {
     }
 
     /**
-     * @return the enclosing class body namespace or null if not in a class.
-     */
-    static NameSpace getClassNameSpace(NameSpace thisNameSpace) {
-        // is a class instance
-        //if ( thisNameSpace.classInstance != null )
-        if (thisNameSpace.isClass) {
-            return thisNameSpace;
-        }
-
-        if (thisNameSpace.isMethod
-                && thisNameSpace.getParent() != null
-                //&& thisNameSpace.getParent().classInstance != null
-                && thisNameSpace.getParent().isClass) {
-            return thisNameSpace.getParent();
-        }
-
-        return null;
-    }
-
-    /**
      * Check the cache, else use toObject() to try to resolve to a class
      * identifier.
      *
-     *
      * @throws ClassNotFoundException on class not found.
-     * @throws ClassPathException (type of EvalError) on special case of
-     * ambiguous unqualified name after super import.
+     * @throws ClassPathException     (type of EvalError) on special case of
+     *                                ambiguous unqualified name after super import.
      */
     synchronized public Class toClass()
             throws ClassNotFoundException, UtilEvalError {
@@ -641,9 +726,9 @@ class Name implements java.io.Serializable {
         Class clas = namespace.getClass(evalName);
 
         if (clas == null) {
-            /* 
+            /*
 				Try toObject() which knows how to work through inner classes
-				and see what we end up with 
+				and see what we end up with
              */
             Object obj = null;
             try {
@@ -725,9 +810,9 @@ class Name implements java.io.Serializable {
 				in setting the variable to get the normal effect of finding the
 				nearest definition starting at the super scope.  On any other
 				resolution qualified by a 'this' type reference we want to set
-				the variable directly in that scope. e.g. this.x=5;  or 
+				the variable directly in that scope. e.g. this.x=5;  or
 				someThisType.x=5;
-				
+
 				In the old scoping rules super didn't do this.
              */
             boolean localVar = !lastEvalName.equals("super");
@@ -756,11 +841,11 @@ class Name implements java.io.Serializable {
      * Invoke the method identified by this name. Performs caching of method
      * resolution using SignatureKey.
      * <p>
-     *
+     * <p>
      * Name contains a wholely unqualfied messy name; resolve it to ( object |
      * static prefix ) + method name and invoke.
      * <p>
-     *
+     * <p>
      * The interpreter is necessary to support 'this.interpreter' references in
      * the called code. (e.g. debug());
      * <p>
@@ -785,7 +870,7 @@ class Name implements java.io.Serializable {
         BSHClassManager bcm = interpreter.getClassManager();
         NameSpace namespace = callstack.top();
 
-        // Optimization - If classOfStaticMethod is set then we have already 
+        // Optimization - If classOfStaticMethod is set then we have already
         // been here and determined that this is a static method invocation.
         // Note: maybe factor this out with path below... clean up.
         if (classOfStaticMethod != null) {
@@ -835,7 +920,7 @@ class Name implements java.io.Serializable {
                 if (obj == Primitive.NULL) {
                     throw new UtilTargetError(new NullPointerException(
                             "Null Pointer in Method Invocation of " + methodName
-                            + "() on variable: " + targetName));
+                                    + "() on variable: " + targetName));
                 }
 
                 // some other primitive
@@ -845,7 +930,7 @@ class Name implements java.io.Serializable {
                 if (Interpreter.DEBUG) {
                     Interpreter.debug(
                             "Attempt to access method on primitive..."
-                            + " allowing bsh.Primitive to peek through for debugging");
+                                    + " allowing bsh.Primitive to peek through for debugging");
                 }
             }
 
@@ -966,94 +1051,6 @@ class Name implements java.io.Serializable {
         }
 
         throw new InterpreterError("invalid command type");
-    }
-
-    /*
-	private String getHelp( String name )
-		throws UtilEvalError
-	{
-		try {
-			// should check for null namespace here
-			return get( "bsh.help."+name, null/interpreter/ );
-		} catch ( Exception e ) {
-			return "usage: "+name;
-		}
-	}
-
-	private String getHelp( Class commandClass )
-		throws UtilEvalError
-	{
-        try {
-            return (String)Reflect.invokeStaticMethod(
-				null/bcm/, commandClass, "usage", null );
-        } catch( Exception e )
-			return "usage: "+name;
-		}
-	}
-     */
-    // Static methods that operate on compound ('.' separated) names
-    // I guess we could move these to StringUtil someday
-    public static boolean isCompound(String value) {
-        return value.indexOf('.') != -1;
-        //return countParts(value) > 1;
-    }
-
-    static int countParts(String value) {
-        if (value == null) {
-            return 0;
-        }
-
-        int count = 0;
-        int index = -1;
-        while ((index = value.indexOf('.', index + 1)) != -1) {
-            count++;
-        }
-        return count + 1;
-    }
-
-    static String prefix(String value) {
-        if (!isCompound(value)) {
-            return null;
-        }
-
-        return prefix(value, countParts(value) - 1);
-    }
-
-    static String prefix(String value, int parts) {
-        if (parts < 1) {
-            return null;
-        }
-
-        int count = 0;
-        int index = -1;
-
-        while (((index = value.indexOf('.', index + 1)) != -1)
-                && (++count < parts)) {
-        }
-
-        return (index == -1) ? value : value.substring(0, index);
-    }
-
-    static String suffix(String name) {
-        if (!isCompound(name)) {
-            return null;
-        }
-
-        return suffix(name, countParts(name) - 1);
-    }
-
-    public static String suffix(String value, int parts) {
-        if (parts < 1) {
-            return null;
-        }
-
-        int count = 0;
-        int index = value.length() + 1;
-
-        while (((index = value.lastIndexOf('.', index - 1)) != -1)
-                && (++count < parts));
-
-        return (index == -1) ? value : value.substring(index + 1);
     }
 
     // end compound name routines

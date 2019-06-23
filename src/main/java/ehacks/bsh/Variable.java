@@ -51,8 +51,8 @@ public class Variable implements java.io.Serializable {
      * Set the value of the typed variable.
      *
      * @param value should be an object or wrapped bsh Primitive type. if value
-     * is null the appropriate default value will be set for the type: e.g.
-     * false for boolean, zero for integer types.
+     *              is null the appropriate default value will be set for the type: e.g.
+     *              false for boolean, zero for integer types.
      */
     public void setValue(Object value, int context)
             throws UtilEvalError {

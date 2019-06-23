@@ -1,24 +1,24 @@
-/** *
+/**
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (C) 2000 INRIA, France Telecom
  * Copyright (C) 2002 France Telecom
- *
+ * <p>
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * <p>
  * Contact: Eric.Bruneton@rd.francetelecom.com
- *
+ * <p>
  * Author: Eric Bruneton
  */
 package ehacks.bsh;
@@ -159,6 +159,7 @@ public class Type {
     // --------------------------------------------------------------------------
     // Constructors
     // --------------------------------------------------------------------------
+
     /**
      * Constructs a primitive type.
      *
@@ -173,9 +174,9 @@ public class Type {
      * Constructs a reference type.
      *
      * @param sort the sort of the reference type to be constructed.
-     * @param buf a buffer containing the descriptor of the previous type.
-     * @param off the offset of this descriptor in the previous buffer.
-     * @param len the length of this descriptor.
+     * @param buf  a buffer containing the descriptor of the previous type.
+     * @param off  the offset of this descriptor in the previous buffer.
+     * @param len  the length of this descriptor.
      */
     private Type(
             final int sort,
@@ -360,13 +361,130 @@ public class Type {
     // --------------------------------------------------------------------------
     // Accessors
     // --------------------------------------------------------------------------
+
+    /**
+     * Returns the descriptor corresponding to the given argument and return
+     * types.
+     *
+     * @param returnType    the return type of the method.
+     * @param argumentTypes the argument types of the method.
+     * @return the descriptor corresponding to the given argument and return
+     * types.
+     */
+    public static String getMethodDescriptor(
+            final Type returnType,
+            final Type[] argumentTypes) {
+        StringBuffer buf = new StringBuffer();
+        buf.append('(');
+        for (int i = 0; i < argumentTypes.length; ++i) {
+            argumentTypes[i].getDescriptor(buf);
+        }
+        buf.append(')');
+        returnType.getDescriptor(buf);
+        return buf.toString();
+    }
+
+    /**
+     * Returns the internal name of the given class. The internal name of a
+     * class is its fully qualified name, where '.' are replaced by '/'.
+     *
+     * @param c an object class.
+     * @return the internal name of the given class.
+     */
+    public static String getInternalName(final Class c) {
+        return c.getName().replace('.', '/');
+    }
+
+    /**
+     * Returns the descriptor corresponding to the given Java type.
+     *
+     * @param c an object class, a primitive class or an array class.
+     * @return the descriptor corresponding to the given class.
+     */
+    public static String getDescriptor(final Class c) {
+        StringBuffer buf = new StringBuffer();
+        getDescriptor(buf, c);
+        return buf.toString();
+    }
+
+    /**
+     * Returns the descriptor corresponding to the given method.
+     *
+     * @param m a {@link Method Method} object.
+     * @return the descriptor of the given method.
+     */
+    public static String getMethodDescriptor(final Method m) {
+        Class[] parameters = m.getParameterTypes();
+        StringBuffer buf = new StringBuffer();
+        buf.append('(');
+        for (int i = 0; i < parameters.length; ++i) {
+            getDescriptor(buf, parameters[i]);
+        }
+        buf.append(')');
+        getDescriptor(buf, m.getReturnType());
+        return buf.toString();
+    }
+
+    /**
+     * Appends the descriptor of the given class to the given string buffer.
+     *
+     * @param buf the string buffer to which the descriptor must be appended.
+     * @param c   the class whose descriptor must be computed.
+     */
+    private static void getDescriptor(final StringBuffer buf, final Class c) {
+        Class d = c;
+        while (true) {
+            if (d.isPrimitive()) {
+                char car;
+                if (d == Integer.TYPE) {
+                    car = 'I';
+                } else if (d == Void.TYPE) {
+                    car = 'V';
+                } else if (d == Boolean.TYPE) {
+                    car = 'Z';
+                } else if (d == Byte.TYPE) {
+                    car = 'B';
+                } else if (d == Character.TYPE) {
+                    car = 'C';
+                } else if (d == Short.TYPE) {
+                    car = 'S';
+                } else if (d == Double.TYPE) {
+                    car = 'D';
+                } else if (d == Float.TYPE) {
+                    car = 'F';
+                } else /*if (d == Long.TYPE)*/ {
+                    car = 'J';
+                }
+                buf.append(car);
+                return;
+            } else if (d.isArray()) {
+                buf.append('[');
+                d = d.getComponentType();
+            } else {
+                buf.append('L');
+                String name = d.getName();
+                int len = name.length();
+                for (int i = 0; i < len; ++i) {
+                    char car = name.charAt(i);
+                    buf.append(car == '.' ? '/' : car);
+                }
+                buf.append(';');
+                return;
+            }
+        }
+    }
+
+    // --------------------------------------------------------------------------
+    // Conversion to type descriptors
+    // --------------------------------------------------------------------------
+
     /**
      * Returns the sort of this Java type.
      *
      * @return {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR},
-     *      {@link #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT}, {@link
-     *      #FLOAT FLOAT}, {@link #LONG LONG}, {@link #DOUBLE DOUBLE}, {@link
-     *      #ARRAY ARRAY} or {@link #OBJECT OBJECT}.
+     * {@link #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT}, {@link
+     * #FLOAT FLOAT}, {@link #LONG LONG}, {@link #DOUBLE DOUBLE}, {@link
+     * #ARRAY ARRAY} or {@link #OBJECT OBJECT}.
      */
     public int getSort() {
         return sort;
@@ -396,6 +514,11 @@ public class Type {
         return getType(buf, off + getDimensions());
     }
 
+    // --------------------------------------------------------------------------
+    // Direct conversion from classes to type descriptors,
+    // without intermediate Type objects
+    // --------------------------------------------------------------------------
+
     /**
      * Returns the name of the class corresponding to this object type. This
      * method should only be used for an object type.
@@ -418,9 +541,6 @@ public class Type {
         return new String(buf, off + 1, len - 2);
     }
 
-    // --------------------------------------------------------------------------
-    // Conversion to type descriptors
-    // --------------------------------------------------------------------------
     /**
      * Returns the descriptor corresponding to this Java type.
      *
@@ -429,28 +549,6 @@ public class Type {
     public String getDescriptor() {
         StringBuffer buf = new StringBuffer();
         getDescriptor(buf);
-        return buf.toString();
-    }
-
-    /**
-     * Returns the descriptor corresponding to the given argument and return
-     * types.
-     *
-     * @param returnType the return type of the method.
-     * @param argumentTypes the argument types of the method.
-     * @return the descriptor corresponding to the given argument and return
-     * types.
-     */
-    public static String getMethodDescriptor(
-            final Type returnType,
-            final Type[] argumentTypes) {
-        StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < argumentTypes.length; ++i) {
-            argumentTypes[i].getDescriptor(buf);
-        }
-        buf.append(')');
-        returnType.getDescriptor(buf);
         return buf.toString();
     }
 
@@ -497,102 +595,9 @@ public class Type {
     }
 
     // --------------------------------------------------------------------------
-    // Direct conversion from classes to type descriptors,
-    // without intermediate Type objects
-    // --------------------------------------------------------------------------
-    /**
-     * Returns the internal name of the given class. The internal name of a
-     * class is its fully qualified name, where '.' are replaced by '/'.
-     *
-     * @param c an object class.
-     * @return the internal name of the given class.
-     */
-    public static String getInternalName(final Class c) {
-        return c.getName().replace('.', '/');
-    }
-
-    /**
-     * Returns the descriptor corresponding to the given Java type.
-     *
-     * @param c an object class, a primitive class or an array class.
-     * @return the descriptor corresponding to the given class.
-     */
-    public static String getDescriptor(final Class c) {
-        StringBuffer buf = new StringBuffer();
-        getDescriptor(buf, c);
-        return buf.toString();
-    }
-
-    /**
-     * Returns the descriptor corresponding to the given method.
-     *
-     * @param m a {@link Method Method} object.
-     * @return the descriptor of the given method.
-     */
-    public static String getMethodDescriptor(final Method m) {
-        Class[] parameters = m.getParameterTypes();
-        StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < parameters.length; ++i) {
-            getDescriptor(buf, parameters[i]);
-        }
-        buf.append(')');
-        getDescriptor(buf, m.getReturnType());
-        return buf.toString();
-    }
-
-    /**
-     * Appends the descriptor of the given class to the given string buffer.
-     *
-     * @param buf the string buffer to which the descriptor must be appended.
-     * @param c the class whose descriptor must be computed.
-     */
-    private static void getDescriptor(final StringBuffer buf, final Class c) {
-        Class d = c;
-        while (true) {
-            if (d.isPrimitive()) {
-                char car;
-                if (d == Integer.TYPE) {
-                    car = 'I';
-                } else if (d == Void.TYPE) {
-                    car = 'V';
-                } else if (d == Boolean.TYPE) {
-                    car = 'Z';
-                } else if (d == Byte.TYPE) {
-                    car = 'B';
-                } else if (d == Character.TYPE) {
-                    car = 'C';
-                } else if (d == Short.TYPE) {
-                    car = 'S';
-                } else if (d == Double.TYPE) {
-                    car = 'D';
-                } else if (d == Float.TYPE) {
-                    car = 'F';
-                } else /*if (d == Long.TYPE)*/ {
-                    car = 'J';
-                }
-                buf.append(car);
-                return;
-            } else if (d.isArray()) {
-                buf.append('[');
-                d = d.getComponentType();
-            } else {
-                buf.append('L');
-                String name = d.getName();
-                int len = name.length();
-                for (int i = 0; i < len; ++i) {
-                    char car = name.charAt(i);
-                    buf.append(car == '.' ? '/' : car);
-                }
-                buf.append(';');
-                return;
-            }
-        }
-    }
-
-    // --------------------------------------------------------------------------
     // Corresponding size and opcodes
     // --------------------------------------------------------------------------
+
     /**
      * Returns the size of values of this type.
      *
@@ -607,8 +612,8 @@ public class Type {
      * Returns a JVM instruction opcode adapted to this Java type.
      *
      * @param opcode a JVM instruction opcode. This opcode must be one of ILOAD,
-     * ISTORE, IALOAD, IASTORE, IADD, ISUB, IMUL, IDIV, IREM, INEG, ISHL, ISHR,
-     * IUSHR, IAND, IOR, IXOR and IRETURN.
+     *               ISTORE, IALOAD, IASTORE, IADD, ISUB, IMUL, IDIV, IREM, INEG, ISHL, ISHR,
+     *               IUSHR, IAND, IOR, IXOR and IRETURN.
      * @return an opcode that is similar to the given opcode, but adapted to
      * this Java type. For example, if this type is <tt>float</tt> and
      * <tt>opcode</tt> is IRETURN, this method returns FRETURN.

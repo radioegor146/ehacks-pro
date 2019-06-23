@@ -6,7 +6,6 @@
 package ehacks.mod.util;
 
 /**
- *
  * @author radioegor146
  */
 public class MinecraftGuiUtils {

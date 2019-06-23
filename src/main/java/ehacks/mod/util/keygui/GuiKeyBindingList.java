@@ -1,14 +1,14 @@
 package ehacks.mod.util.keygui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GuiKeyBindingList extends GuiListExtended {
 
@@ -87,8 +87,13 @@ public class GuiKeyBindingList extends GuiListExtended {
         }
 
         @Override
-        public void drawEntry(int p_148279_1_, int p_148279_2_, int p_148279_3_, int p_148279_4_, int p_148279_5_, Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_) {
-            GuiKeyBindingList.this.mc.fontRenderer.drawString(this.labelText, GuiKeyBindingList.this.mc.currentScreen.width / 2 - this.labelWidth / 2, p_148279_3_ + p_148279_5_ - GuiKeyBindingList.this.mc.fontRenderer.FONT_HEIGHT - 1, 16777215);
+        public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
+
+        }
+
+        @Override
+        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+            GuiKeyBindingList.this.mc.fontRenderer.drawString(this.labelText, GuiKeyBindingList.this.mc.currentScreen.width / 2 - this.labelWidth / 2, y + slotHeight - GuiKeyBindingList.this.mc.fontRenderer.FONT_HEIGHT - 1, 16777215);
         }
 
         @Override
@@ -116,15 +121,20 @@ public class GuiKeyBindingList extends GuiListExtended {
         }
 
         @Override
-        public void drawEntry(int index, int x, int y, int width, int height, Tessellator tesselator, int buttonX, int buttonY, boolean p_148279_9_) {
+        public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
+
+        }
+
+        @Override
+        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
             boolean var10 = GuiKeyBindingList.this.parentScreen.currentKeyBinding == this.entryKeybinding;
             GuiKeyBindingList.this.mc.fontRenderer.drawString(this.keyDesctiption, x + 90 - GuiKeyBindingList.this.maxListLabelWidth, y + height / 2 - GuiKeyBindingList.this.mc.fontRenderer.FONT_HEIGHT / 2, 16777215);
-            this.btnReset.xPosition = x + 190;
-            this.btnReset.yPosition = y;
+            this.btnReset.x = x + 190;
+            this.btnReset.y = y;
             this.btnReset.enabled = this.entryKeybinding.getKeyCode() != this.entryKeybinding.getKeyCodeDefault();
-            this.btnReset.drawButton(GuiKeyBindingList.this.mc, buttonX, buttonY);
-            this.btnChangeKeyBinding.xPosition = x + 105;
-            this.btnChangeKeyBinding.yPosition = y;
+            this.btnReset.drawButton(GuiKeyBindingList.this.mc, x, y, partialTicks); //Здесь явно баг, я не ебу где взять mouseX и mouse Y
+            this.btnChangeKeyBinding.x = x + 105;
+            this.btnChangeKeyBinding.y = y;
             this.btnChangeKeyBinding.displayString = GameSettings.getKeyDisplayString(this.entryKeybinding.getKeyCode());
             boolean var11 = false;
 
@@ -143,12 +153,12 @@ public class GuiKeyBindingList extends GuiListExtended {
             }
 
             if (var10) {
-                this.btnChangeKeyBinding.displayString = EnumChatFormatting.WHITE + "> " + EnumChatFormatting.YELLOW + this.btnChangeKeyBinding.displayString + EnumChatFormatting.WHITE + " <";
+                this.btnChangeKeyBinding.displayString = TextFormatting.WHITE + "> " + TextFormatting.YELLOW + this.btnChangeKeyBinding.displayString + TextFormatting.WHITE + " <";
             } else if (var11) {
-                this.btnChangeKeyBinding.displayString = EnumChatFormatting.RED + this.btnChangeKeyBinding.displayString;
+                this.btnChangeKeyBinding.displayString = TextFormatting.RED + this.btnChangeKeyBinding.displayString;
             }
 
-            this.btnChangeKeyBinding.drawButton(GuiKeyBindingList.this.mc, buttonX, buttonY);
+            this.btnChangeKeyBinding.drawButton(GuiKeyBindingList.this.mc, x, y, partialTicks); // Здесь тоже раньше были buttonX и Y
         }
 
         @Override

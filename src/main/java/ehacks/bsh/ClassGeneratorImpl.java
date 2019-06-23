@@ -9,22 +9,6 @@ import java.util.ArrayList;
 public class ClassGeneratorImpl
         extends ClassGenerator {
 
-    @Override
-    public Class generateClass(String string, Modifiers modifiers, Class[] arrclass, Class class_, BSHBlock bSHBlock, boolean bl, CallStack callStack, Interpreter interpreter) throws EvalError {
-        return ClassGeneratorImpl.generateClassImpl(string, modifiers, arrclass, class_, bSHBlock, bl, callStack, interpreter);
-    }
-
-    @Override
-    public Object invokeSuperclassMethod(BSHClassManager bshClassManager, Object object, String string, Object[] arrobject) throws UtilEvalError, ReflectError, InvocationTargetException {
-        return ClassGeneratorImpl.invokeSuperclassMethodImpl(bshClassManager, object, string, arrobject);
-    }
-
-    @Override
-    public void setInstanceNameSpaceParent(Object object, String string, NameSpace nameSpace) {
-        This this_ = ClassGeneratorUtil.getClassInstanceThis(object, string);
-        this_.getNameSpace().setParent(nameSpace);
-    }
-
     public static Class generateClassImpl(String string, Modifiers modifiers, Class[] arrclass, Class class_, BSHBlock bSHBlock, boolean bl, CallStack callStack, Interpreter interpreter) throws EvalError {
         try {
             Capabilities.setAccessibility(true);
@@ -137,6 +121,22 @@ public class ClassGeneratorImpl
         Class class_2 = class_.getSuperclass();
         method = Reflect.resolveExpectedJavaMethod(bshClassManager, class_2, object, string, arrobject, false);
         return Reflect.invokeMethod(method, object, arrobject);
+    }
+
+    @Override
+    public Class generateClass(String string, Modifiers modifiers, Class[] arrclass, Class class_, BSHBlock bSHBlock, boolean bl, CallStack callStack, Interpreter interpreter) throws EvalError {
+        return ClassGeneratorImpl.generateClassImpl(string, modifiers, arrclass, class_, bSHBlock, bl, callStack, interpreter);
+    }
+
+    @Override
+    public Object invokeSuperclassMethod(BSHClassManager bshClassManager, Object object, String string, Object[] arrobject) throws UtilEvalError, ReflectError, InvocationTargetException {
+        return ClassGeneratorImpl.invokeSuperclassMethodImpl(bshClassManager, object, string, arrobject);
+    }
+
+    @Override
+    public void setInstanceNameSpaceParent(Object object, String string, NameSpace nameSpace) {
+        This this_ = ClassGeneratorUtil.getClassInstanceThis(object, string);
+        this_.getNameSpace().setParent(nameSpace);
     }
 
     static class ClassNodeFilter

@@ -1,43 +1,43 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
 /**
  * Static routines supporing type comparison and conversion in BeanShell.
- *
+ * <p>
  * The following are notes on type comparison and conversion in BeanShell.
- *
- *
  */
 class Types {
 
@@ -139,7 +139,7 @@ class Types {
      * standard Java assignment conversion rules (i.e. without a cast). The
      * rules include Java 5 autoboxing/unboxing.
      * <p/>
-     *
+     * <p>
      * For Java primitive TYPE classes this method takes primitive promotion
      * into account. The ordinary Class.isAssignableFrom() does not take
      * primitive promotion conversions into account. Note that Java allows
@@ -151,13 +151,13 @@ class Types {
      * the value Primitive.NULL and allows it to be assigned to any reference
      * lhsType type (non primitive).
      * <p/>
-     *
+     * <p>
      * Note that the getAssignableForm() method is the primary bsh method for
      * checking assignability. It adds additional bsh conversions, etc.
      *
-     * @see #isBshAssignable( Class, Class )
      * @param lhsType assigning from rhsType to lhsType
      * @param rhsType assigning from rhsType to lhsType
+     * @see #isBshAssignable(Class, Class)
      */
     static boolean isJavaAssignable(Class lhsType, Class rhsType) {
         return isJavaBaseAssignable(lhsType, rhsType)
@@ -285,18 +285,16 @@ class Types {
      * Java conversion rules. If you wish to impose context sensitive conversion
      * rules then you must test before calling this method.
      * <p/>
-     *
+     * <p>
      * This method can handle fromValue Primitive types (representing primitive
      * casts) as well as fromValue object casts requiring interface generation,
      * etc.
      *
-     * @param toType the class type of the cast result, which may include
-     * primitive types, e.g. Byte.TYPE
-     *
+     * @param toType    the class type of the cast result, which may include
+     *                  primitive types, e.g. Byte.TYPE
      * @param fromValue an Object or bsh.Primitive primitive value (including
-     * Primitive.NULL or Primitive.VOID )
-     *
-     * @see #isBshAssignable( Class, Class )
+     *                  Primitive.NULL or Primitive.VOID )
+     * @see #isBshAssignable(Class, Class)
      */
     public static Object castObject(
             Object fromValue, Class toType, int operation)
@@ -307,8 +305,8 @@ class Types {
 
         Class fromType
                 = fromValue instanceof Primitive
-                        ? ((Primitive) fromValue).getType()
-                        : fromValue.getClass();
+                ? ((Primitive) fromValue).getType()
+                : fromValue.getClass();
 
         return castObject(
                 toType, fromType, fromValue, operation, false/*checkonly*/);
@@ -320,19 +318,19 @@ class Types {
      * the Java language rules, so this method can also perform (but not test)
      * any Java language assignment or cast conversion.
      * <p/>
-     *
+     * <p>
      * This method can perform the functionality of testing if an assignment or
      * cast is ultimately possible (with respect to BeanShell) as well as the
      * functionality of performing the necessary conversion of a value based on
      * the specified target type. This combined functionality is done for
      * expediency and could be separated later.
      * <p/>
-     *
+     * <p>
      * Other methods such as isJavaAssignable() should be used to determine the
      * suitability of an assignment in a fine grained or restrictive way based
      * on context before calling this method
      * <p/>
-     *
+     * <p>
      * A CAST is stronger than an ASSIGNMENT operation in that it will attempt
      * to perform primtive operations that cast to a smaller type. e.g.
      * (byte)myLong; These are used in explicit primitive casts, primitive
@@ -341,36 +339,28 @@ class Types {
      * scripted object to interface proxy in bsh is done on assignment as well
      * as cast).
      * <p/>
-     *
+     * <p>
      * This method does not obey strictJava(), you must test first before using
      * this method if you care. (See #isJavaAssignable()).
      * <p/>
      *
-     * @param toType the class type of the cast result, which may include
-     * primitive types, e.g. Byte.TYPE. toType may be null to indicate a loose
-     * type assignment (which matches any fromType).
-     *
-     * @param fromType is the class type of the value to be cast including java
-     * primitive TYPE classes for primitives. If fromValue is (or would be)
-     * Primitive.NULL then fromType should be null.
-     *
+     * @param toType    the class type of the cast result, which may include
+     *                  primitive types, e.g. Byte.TYPE. toType may be null to indicate a loose
+     *                  type assignment (which matches any fromType).
+     * @param fromType  is the class type of the value to be cast including java
+     *                  primitive TYPE classes for primitives. If fromValue is (or would be)
+     *                  Primitive.NULL then fromType should be null.
      * @param fromValue an Object or bsh.Primitive primitive value (including
-     * Primitive.NULL or Primitive.VOID )
-     *
+     *                  Primitive.NULL or Primitive.VOID )
      * @param checkOnly If checkOnly is true then fromValue must be null.
-     * FromType is checked for the cast to toType... If checkOnly is false then
-     * fromValue must be non-null (Primitive.NULL is ok) and the actual cast is
-     * performed.
-     *
-     * @throws UtilEvalError on invalid assignment (when operation is assignment
-     * ).
-     *
-     * @throws UtilTargetError wrapping ClassCastException on cast error (when
-     * operation is cast)
-     *
+     *                  FromType is checked for the cast to toType... If checkOnly is false then
+     *                  fromValue must be non-null (Primitive.NULL is ok) and the actual cast is
+     *                  performed.
      * @param operation is Types.CAST or Types.ASSIGNMENT
-     *
-     * @see bsh.Primitive.getType()
+     * @throws UtilEvalError   on invalid assignment (when operation is assignment
+     *                         ).
+     * @throws UtilTargetError wrapping ClassCastException on cast error (when
+     *                         operation is cast)
      */
     /*
 		Notes: This method is currently responsible for auto-boxing/unboxing
@@ -457,8 +447,8 @@ class Types {
                 // primitive to wrapper type
                 return checkOnly ? VALID_CAST
                         : Primitive.castWrapper(
-                                Primitive.unboxType(toType),
-                                ((Primitive) fromValue).getValue());
+                        Primitive.unboxType(toType),
+                        ((Primitive) fromValue).getValue());
             }
 
             // Primitive (not null or void) to Object.class type

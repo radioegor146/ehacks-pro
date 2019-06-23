@@ -1,7 +1,7 @@
 package ehacks.mod.util;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class Mappings {
 

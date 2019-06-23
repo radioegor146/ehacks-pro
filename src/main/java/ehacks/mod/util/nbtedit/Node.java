@@ -15,14 +15,6 @@ public class Node<T> {
         this.obj = obj;
     }
 
-    public boolean shouldDrawChildren() {
-        return this.drawChildren;
-    }
-
-    public void setDrawChildren(boolean draw) {
-        this.drawChildren = draw;
-    }
-
     public Node(Node<T> parent) {
         this(parent, null);
     }
@@ -31,6 +23,14 @@ public class Node<T> {
         this.parent = parent;
         this.children = new ArrayList<>();
         this.obj = obj;
+    }
+
+    public boolean shouldDrawChildren() {
+        return this.drawChildren;
+    }
+
+    public void setDrawChildren(boolean draw) {
+        this.drawChildren = draw;
     }
 
     public void addChild(Node<T> n) {

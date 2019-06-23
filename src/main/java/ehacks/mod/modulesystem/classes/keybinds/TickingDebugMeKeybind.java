@@ -11,7 +11,6 @@ import ehacks.mod.wrapper.ModuleCategory;
 import org.lwjgl.input.Keyboard;
 
 /**
- *
  * @author radioegor146
  */
 public class TickingDebugMeKeybind extends Module {
@@ -21,6 +20,15 @@ public class TickingDebugMeKeybind extends Module {
     public TickingDebugMeKeybind() {
         super(ModuleCategory.KEYBIND);
         this.setKeybinding(DEFAULT_BUTTON);
+    }
+
+    public static int getKey() {
+        Module m = ModuleController.INSTANCE.call(TickingDebugMeKeybind.class);
+        if (m == null) {
+            return DEFAULT_BUTTON;
+        } else {
+            return m.getKeybind();
+        }
     }
 
     @Override
@@ -36,15 +44,6 @@ public class TickingDebugMeKeybind extends Module {
     @Override
     public void onModuleEnabled() {
         this.off();
-    }
-
-    public static int getKey() {
-        Module m = ModuleController.INSTANCE.call(TickingDebugMeKeybind.class);
-        if (m == null) {
-            return DEFAULT_BUTTON;
-        } else {
-            return m.getKeybind();
-        }
     }
 
     @Override

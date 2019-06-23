@@ -6,7 +6,6 @@
 package ehacks.mod.util.packetquery;
 
 /**
- *
  * @author radioegor146
  */
 public class Version {

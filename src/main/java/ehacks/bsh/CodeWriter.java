@@ -1,24 +1,24 @@
-/** *
+/**
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (C) 2000 INRIA, France Telecom
  * Copyright (C) 2002 France Telecom
- *
+ * <p>
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * <p>
  * Contact: Eric.Bruneton@rd.francetelecom.com
- *
+ * <p>
  * Author: Eric Bruneton
  */
 package ehacks.bsh;
@@ -34,176 +34,12 @@ public class CodeWriter implements CodeVisitor {
      * <tt>true</tt> if preconditions must be checked at runtime or not.
      */
     final static boolean CHECK = false;
-
-    /**
-     * Next code writer (see {@link ClassWriter#firstMethod firstMethod}).
-     */
-    CodeWriter next;
-
-    /**
-     * The class writer to which this method must be added.
-     */
-    private final ClassWriter cw;
-
-    /**
-     * The constant pool item that contains the name of this method.
-     */
-    private Item name;
-
-    /**
-     * The constant pool item that contains the descriptor of this method.
-     */
-    private Item desc;
-
-    /**
-     * Access flags of this method.
-     */
-    private int access;
-
-    /**
-     * Maximum stack size of this method.
-     */
-    private int maxStack;
-
-    /**
-     * Maximum number of local variables for this method.
-     */
-    private int maxLocals;
-
-    /**
-     * The bytecode of this method.
-     */
-    private ByteVector code = new ByteVector();
-
-    /**
-     * Number of entries in the catch table of this method.
-     */
-    private int catchCount;
-
-    /**
-     * The catch table of this method.
-     */
-    private ByteVector catchTable;
-
-    /**
-     * Number of exceptions that can be thrown by this method.
-     */
-    private int exceptionCount;
-
-    /**
-     * The exceptions that can be thrown by this method. More precisely, this
-     * array contains the indexes of the constant pool items that contain the
-     * internal names of these exception classes.
-     */
-    private int[] exceptions;
-
-    /**
-     * Number of entries in the LocalVariableTable attribute.
-     */
-    private int localVarCount;
-
-    /**
-     * The LocalVariableTable attribute.
-     */
-    private ByteVector localVar;
-
-    /**
-     * Number of entries in the LineNumberTable attribute.
-     */
-    private int lineNumberCount;
-
-    /**
-     * The LineNumberTable attribute.
-     */
-    private ByteVector lineNumber;
-
-    /**
-     * Indicates if some jump instructions are too small and need to be resized.
-     */
-    private boolean resize;
-
-    // --------------------------------------------------------------------------
-    // Fields for the control flow graph analysis algorithm (used to compute the
-    // maximum stack size). A control flow graph contains one node per "basic
-    // block", and one edge per "jump" from one basic block to another. Each node
-    // (i.e., each basic block) is represented by the Label object that
-    // corresponds to the first instruction of this basic block. Each node also
-    // stores the list of its successors in the graph, as a linked list of Edge
-    // objects.
-    // --------------------------------------------------------------------------
-    /**
-     * <tt>true</tt> if the maximum stack size and number of local variables
-     * must be automatically computed.
-     */
-    private final boolean computeMaxs;
-
-    /**
-     * The (relative) stack size after the last visited instruction. This size
-     * is relative to the beginning of the current basic block, i.e., the true
-     * stack size after the last visited instruction is equal to the {@link
-     * Label#beginStackSize beginStackSize} of the current basic block plus
-     * <tt>stackSize</tt>.
-     */
-    private int stackSize;
-
-    /**
-     * The (relative) maximum stack size after the last visited instruction.
-     * This size is relative to the beginning of the current basic block, i.e.,
-     * the true maximum stack size after the last visited instruction is equal
-     * to the {@link Label#beginStackSize beginStackSize} of the current basic
-     * block plus
-     * <tt>stackSize</tt>.
-     */
-    private int maxStackSize;
-
-    /**
-     * The current basic block. This block is the basic block to which the next
-     * instruction to be visited must be added.
-     */
-    private Label currentBlock;
-
-    /**
-     * The basic block stack used by the control flow analysis algorithm. This
-     * stack is represented by a linked list of {@link Label Label} objects,
-     * linked to each other by their {@link Label#next} field. This stack must
-     * not be confused with the JVM stack used to execute the JVM instructions!
-     */
-    private Label blockStack;
-
     /**
      * The stack size variation corresponding to each JVM instruction. This
      * stack variation is equal to the size of the values produced by an
      * instruction, minus the size of the values consumed by this instruction.
      */
     private final static int[] SIZE;
-
-    // --------------------------------------------------------------------------
-    // Fields to optimize the creation of {@link Edge Edge} objects by using a
-    // pool of reusable objects. The (shared) pool is a linked list of Edge
-    // objects, linked to each other by their {@link Edge#poolNext} field. Each
-    // time a CodeWriter needs to allocate an Edge, it removes the first Edge
-    // of the pool and adds it to a private list of Edge objects. After the end
-    // of the control flow analysis algorithm, the Edge objects in the private
-    // list of the CodeWriter are added back to the pool (by appending this
-    // private list to the pool list; in order to do this in constant time, both
-    // head and tail of the private list are stored in this CodeWriter).
-    // --------------------------------------------------------------------------
-    /**
-     * The head of the list of {@link Edge Edge} objects used by this {@link
-     * CodeWriter CodeWriter}. These objects, linked to each other by their
-     * {@link Edge#poolNext} field, are added back to the shared pool at the end
-     * of the control flow analysis algorithm.
-     */
-    private Edge head;
-
-    /**
-     * The tail of the list of {@link Edge Edge} objects used by this {@link
-     * CodeWriter CodeWriter}. These objects, linked to each other by their
-     * {@link Edge#poolNext} field, are added back to the shared pool at the end
-     * of the control flow analysis algorithm.
-     */
-    private Edge tail;
-
     /**
      * The shared pool of {@link Edge Edge} objects. This pool is a linked list
      * of Edge objects, linked to each other by their {@link Edge#poolNext}
@@ -211,9 +47,6 @@ public class CodeWriter implements CodeVisitor {
      */
     private static Edge pool;
 
-    // --------------------------------------------------------------------------
-    // Static initializer
-    // --------------------------------------------------------------------------
     /**
      * Computes the stack size variation corresponding to each JVM instruction.
      */
@@ -444,15 +277,161 @@ public class CodeWriter implements CodeVisitor {
          */
     }
 
+    /**
+     * The class writer to which this method must be added.
+     */
+    private final ClassWriter cw;
+    /**
+     * <tt>true</tt> if the maximum stack size and number of local variables
+     * must be automatically computed.
+     */
+    private final boolean computeMaxs;
+    /**
+     * Next code writer (see {@link ClassWriter#firstMethod firstMethod}).
+     */
+    CodeWriter next;
+    /**
+     * The constant pool item that contains the name of this method.
+     */
+    private Item name;
+    /**
+     * The constant pool item that contains the descriptor of this method.
+     */
+    private Item desc;
+    /**
+     * Access flags of this method.
+     */
+    private int access;
+    /**
+     * Maximum stack size of this method.
+     */
+    private int maxStack;
+    /**
+     * Maximum number of local variables for this method.
+     */
+    private int maxLocals;
+    /**
+     * The bytecode of this method.
+     */
+    private ByteVector code = new ByteVector();
+    /**
+     * Number of entries in the catch table of this method.
+     */
+    private int catchCount;
+    /**
+     * The catch table of this method.
+     */
+    private ByteVector catchTable;
+    /**
+     * Number of exceptions that can be thrown by this method.
+     */
+    private int exceptionCount;
+    /**
+     * The exceptions that can be thrown by this method. More precisely, this
+     * array contains the indexes of the constant pool items that contain the
+     * internal names of these exception classes.
+     */
+    private int[] exceptions;
+    /**
+     * Number of entries in the LocalVariableTable attribute.
+     */
+    private int localVarCount;
+
+    // --------------------------------------------------------------------------
+    // Fields for the control flow graph analysis algorithm (used to compute the
+    // maximum stack size). A control flow graph contains one node per "basic
+    // block", and one edge per "jump" from one basic block to another. Each node
+    // (i.e., each basic block) is represented by the Label object that
+    // corresponds to the first instruction of this basic block. Each node also
+    // stores the list of its successors in the graph, as a linked list of Edge
+    // objects.
+    // --------------------------------------------------------------------------
+    /**
+     * The LocalVariableTable attribute.
+     */
+    private ByteVector localVar;
+    /**
+     * Number of entries in the LineNumberTable attribute.
+     */
+    private int lineNumberCount;
+    /**
+     * The LineNumberTable attribute.
+     */
+    private ByteVector lineNumber;
+    /**
+     * Indicates if some jump instructions are too small and need to be resized.
+     */
+    private boolean resize;
+    /**
+     * The (relative) stack size after the last visited instruction. This size
+     * is relative to the beginning of the current basic block, i.e., the true
+     * stack size after the last visited instruction is equal to the {@link
+     * Label#beginStackSize beginStackSize} of the current basic block plus
+     * <tt>stackSize</tt>.
+     */
+    private int stackSize;
+    /**
+     * The (relative) maximum stack size after the last visited instruction.
+     * This size is relative to the beginning of the current basic block, i.e.,
+     * the true maximum stack size after the last visited instruction is equal
+     * to the {@link Label#beginStackSize beginStackSize} of the current basic
+     * block plus
+     * <tt>stackSize</tt>.
+     */
+    private int maxStackSize;
+
+    // --------------------------------------------------------------------------
+    // Fields to optimize the creation of {@link Edge Edge} objects by using a
+    // pool of reusable objects. The (shared) pool is a linked list of Edge
+    // objects, linked to each other by their {@link Edge#poolNext} field. Each
+    // time a CodeWriter needs to allocate an Edge, it removes the first Edge
+    // of the pool and adds it to a private list of Edge objects. After the end
+    // of the control flow analysis algorithm, the Edge objects in the private
+    // list of the CodeWriter are added back to the pool (by appending this
+    // private list to the pool list; in order to do this in constant time, both
+    // head and tail of the private list are stored in this CodeWriter).
+    // --------------------------------------------------------------------------
+    /**
+     * The current basic block. This block is the basic block to which the next
+     * instruction to be visited must be added.
+     */
+    private Label currentBlock;
+    /**
+     * The basic block stack used by the control flow analysis algorithm. This
+     * stack is represented by a linked list of {@link Label Label} objects,
+     * linked to each other by their {@link Label#next} field. This stack must
+     * not be confused with the JVM stack used to execute the JVM instructions!
+     */
+    private Label blockStack;
+    /**
+     * The head of the list of {@link Edge Edge} objects used by this {@link
+     * CodeWriter CodeWriter}. These objects, linked to each other by their
+     * {@link Edge#poolNext} field, are added back to the shared pool at the end
+     * of the control flow analysis algorithm.
+     */
+    private Edge head;
+
+    // --------------------------------------------------------------------------
+    // Static initializer
+    // --------------------------------------------------------------------------
+    /**
+     * The tail of the list of {@link Edge Edge} objects used by this {@link
+     * CodeWriter CodeWriter}. These objects, linked to each other by their
+     * {@link Edge#poolNext} field, are added back to the shared pool at the end
+     * of the control flow analysis algorithm.
+     */
+    private Edge tail;
+
     // --------------------------------------------------------------------------
     // Constructor
     // --------------------------------------------------------------------------
+
     /**
      * Constructs a CodeWriter.
      *
-     * @param cw the class writer in which the method must be added.
+     * @param cw          the class writer in which the method must be added.
      * @param computeMaxs <tt>true</tt> if the maximum stack size and number of
-     * local variables must be automatically computed.
+     *                    local variables must be automatically computed.
      */
     protected CodeWriter(final ClassWriter cw, final boolean computeMaxs) {
         if (cw.firstMethod == null) {
@@ -473,14 +452,142 @@ public class CodeWriter implements CodeVisitor {
     }
 
     /**
+     * Computes the size of the arguments and of the return value of a method.
+     *
+     * @param desc the descriptor of a method.
+     * @return the size of the arguments of the method (plus one for the
+     * implicit this argument), argSize, and the size of its return value,
+     * retSize, packed into a single int i = <tt>(argSize << 2) | retSize</tt>
+     * (argSize is therefore equal to <tt>i >> 2</tt>, and retSize to
+     * <tt>i & 0x03</tt>).
+     */
+    private static int getArgumentsAndReturnSizes(final String desc) {
+        int n = 1;
+        int c = 1;
+        while (true) {
+            char car = desc.charAt(c++);
+            switch (car) {
+                case ')':
+                    car = desc.charAt(c);
+                    return n << 2 | (car == 'V' ? 0 : (car == 'D' || car == 'J' ? 2 : 1));
+                case 'L':
+                    while (desc.charAt(c++) != ';') {
+                    }
+                    n += 1;
+                    break;
+                case '[':
+                    while ((car = desc.charAt(c)) == '[') {
+                        ++c;
+                    }
+                    if (car == 'D' || car == 'J') {
+                        n -= 1;
+                    }
+                    break;
+                case 'D':
+                case 'J':
+                    n += 2;
+                    break;
+                default:
+                    n += 1;
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Reads an unsigned short value in the given byte array.
+     *
+     * @param b     a byte array.
+     * @param index the start index of the value to be read.
+     * @return the read value.
+     */
+    static int readUnsignedShort(final byte[] b, final int index) {
+        return ((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF);
+    }
+
+    /**
+     * Reads a signed short value in the given byte array.
+     *
+     * @param b     a byte array.
+     * @param index the start index of the value to be read.
+     * @return the read value.
+     */
+    static short readShort(final byte[] b, final int index) {
+        return (short) (((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF));
+    }
+
+    /**
+     * Reads a signed int value in the given byte array.
+     *
+     * @param b     a byte array.
+     * @param index the start index of the value to be read.
+     * @return the read value.
+     */
+    static int readInt(final byte[] b, final int index) {
+        return ((b[index] & 0xFF) << 24)
+                | ((b[index + 1] & 0xFF) << 16)
+                | ((b[index + 2] & 0xFF) << 8)
+                | (b[index + 3] & 0xFF);
+    }
+
+    /**
+     * Writes a short value in the given byte array.
+     *
+     * @param b     a byte array.
+     * @param index where the first byte of the short value must be written.
+     * @param s     the value to be written in the given byte array.
+     */
+    static void writeShort(final byte[] b, final int index, final int s) {
+        b[index] = (byte) (s >>> 8);
+        b[index + 1] = (byte) s;
+    }
+
+    /**
+     * Computes the future value of a bytecode offset.
+     * <p>
+     * Note: it is possible to have several entries for the same instruction in
+     * the <tt>indexes</tt> and <tt>sizes</tt>: two entries (index=a,size=b) and
+     * (index=a,size=b') are equivalent to a single entry (index=a,size=b+b').
+     *
+     * @param indexes current positions of the instructions to be resized. Each
+     *                instruction must be designated by the index of its <i>last</i> byte, plus
+     *                one (or, in other words, by the index of the <i>first</i> byte of the
+     *                <i>next</i> instruction).
+     * @param sizes   the number of bytes to be <i>added</i> to the above
+     *                instructions. More precisely, for each i < <tt>len</tt>,
+     *                <tt>sizes</tt>[i] bytes will be added at the end of the instruction
+     *                designated by <tt>indexes</tt>[i] or, if <tt>sizes</tt>[i] is negative,
+     *                the <i>last</i> |<tt>sizes[i]</tt>| bytes of the instruction will be
+     *                removed (the instruction size <i>must not</i> become negative or null).
+     * @param begin   index of the first byte of the source instruction.
+     * @param end     index of the first byte of the target instruction.
+     * @return the future value of the given bytecode offset.
+     */
+    static int getNewOffset(
+            final int[] indexes,
+            final int[] sizes,
+            final int begin,
+            final int end) {
+        int offset = end - begin;
+        for (int i = 0; i < indexes.length; ++i) {
+            if (begin < indexes[i] && indexes[i] <= end) { // forward jump
+                offset += sizes[i];
+            } else if (end < indexes[i] && indexes[i] <= begin) { // backward jump
+                offset -= sizes[i];
+            }
+        }
+        return offset;
+    }
+
+    /**
      * Initializes this CodeWriter to define the bytecode of the specified
      * method.
      *
-     * @param access the method's access flags (see {@link Constants}).
-     * @param name the method's name.
-     * @param desc the method's descriptor (see {@link Type Type}).
+     * @param access     the method's access flags (see {@link Constants}).
+     * @param name       the method's name.
+     * @param desc       the method's descriptor (see {@link Type Type}).
      * @param exceptions the internal names of the method's exceptions. May be
-     * <tt>null</tt>.
+     *                   <tt>null</tt>.
      */
     protected void init(
             final int access,
@@ -865,6 +972,10 @@ public class CodeWriter implements CodeVisitor {
         }
     }
 
+    // --------------------------------------------------------------------------
+    // Utility methods: control flow analysis algorithm
+    // --------------------------------------------------------------------------
+
     @Override
     public void visitLookupSwitchInsn(
             final Label dflt,
@@ -908,6 +1019,10 @@ public class CodeWriter implements CodeVisitor {
         Item classItem = cw.newClass(desc);
         code.put12(Constants.MULTIANEWARRAY, classItem.index).put1(dims);
     }
+
+    // --------------------------------------------------------------------------
+    // Utility methods: dump bytecode array
+    // --------------------------------------------------------------------------
 
     @Override
     public void visitTryCatchBlock(
@@ -997,6 +1112,10 @@ public class CodeWriter implements CodeVisitor {
         }
     }
 
+    // --------------------------------------------------------------------------
+    // Utility methods: instruction resizing (used to handle GOTO_W and JSR_W)
+    // --------------------------------------------------------------------------
+
     @Override
     public void visitLocalVariable(
             final String name,
@@ -1040,52 +1159,6 @@ public class CodeWriter implements CodeVisitor {
         lineNumber.put2(line);
     }
 
-    // --------------------------------------------------------------------------
-    // Utility methods: control flow analysis algorithm
-    // --------------------------------------------------------------------------
-    /**
-     * Computes the size of the arguments and of the return value of a method.
-     *
-     * @param desc the descriptor of a method.
-     * @return the size of the arguments of the method (plus one for the
-     * implicit this argument), argSize, and the size of its return value,
-     * retSize, packed into a single int i = <tt>(argSize << 2) | retSize</tt>
-     * (argSize is therefore equal to <tt>i >> 2</tt>, and retSize to
-     * <tt>i & 0x03</tt>).
-     */
-    private static int getArgumentsAndReturnSizes(final String desc) {
-        int n = 1;
-        int c = 1;
-        while (true) {
-            char car = desc.charAt(c++);
-            switch (car) {
-                case ')':
-                    car = desc.charAt(c);
-                    return n << 2 | (car == 'V' ? 0 : (car == 'D' || car == 'J' ? 2 : 1));
-                case 'L':
-                    while (desc.charAt(c++) != ';') {
-                    }
-                    n += 1;
-                    break;
-                case '[':
-                    while ((car = desc.charAt(c)) == '[') {
-                        ++c;
-                    }
-                    if (car == 'D' || car == 'J') {
-                        n -= 1;
-                    }
-                    break;
-                case 'D':
-                case 'J':
-                    n += 2;
-                    break;
-                default:
-                    n += 1;
-                    break;
-            }
-        }
-    }
-
     /**
      * Adds a successor to the {@link #currentBlock currentBlock} block.
      *
@@ -1118,9 +1191,6 @@ public class CodeWriter implements CodeVisitor {
         currentBlock.successors = b;
     }
 
-    // --------------------------------------------------------------------------
-    // Utility methods: dump bytecode array
-    // --------------------------------------------------------------------------
     /**
      * Returns the size of the bytecode of this method.
      *
@@ -1161,7 +1231,7 @@ public class CodeWriter implements CodeVisitor {
      * Puts the bytecode of this method in the given byte vector.
      *
      * @param out the byte vector into which the bytecode of this method must be
-     * copied.
+     *            copied.
      */
     void put(final ByteVector out) {
         out.put2(access).put2(name.index).put2(desc.index);
@@ -1228,9 +1298,6 @@ public class CodeWriter implements CodeVisitor {
         }
     }
 
-    // --------------------------------------------------------------------------
-    // Utility methods: instruction resizing (used to handle GOTO_W and JSR_W)
-    // --------------------------------------------------------------------------
     /**
      * Resizes the designated instructions, while keeping jump offsets and
      * instruction addresses consistent. This may require to resize other
@@ -1248,19 +1315,19 @@ public class CodeWriter implements CodeVisitor {
      * called.
      *
      * @param indexes current positions of the instructions to be resized. Each
-     * instruction must be designated by the index of its <i>last</i> byte, plus
-     * one (or, in other words, by the index of the <i>first</i> byte of the
-     * <i>next</i> instruction).
-     * @param sizes the number of bytes to be <i>added</i> to the above
-     * instructions. More precisely, for each i &lt; <tt>len</tt>,
-     * <tt>sizes</tt>[i] bytes will be added at the end of the instruction
-     * designated by <tt>indexes</tt>[i] or, if <tt>sizes</tt>[i] is negative,
-     * the <i>last</i> |<tt>sizes[i]</tt>| bytes of the instruction will be
-     * removed (the instruction size <i>must not</i> become negative or null).
-     * The gaps introduced by this method must be filled in "manually" in the
-     * array returned by the {@link #getCode getCode} method.
-     * @param len the number of instruction to be resized. Must be smaller than
-     * or equal to <tt>indexes</tt>.length and <tt>sizes</tt>.length.
+     *                instruction must be designated by the index of its <i>last</i> byte, plus
+     *                one (or, in other words, by the index of the <i>first</i> byte of the
+     *                <i>next</i> instruction).
+     * @param sizes   the number of bytes to be <i>added</i> to the above
+     *                instructions. More precisely, for each i &lt; <tt>len</tt>,
+     *                <tt>sizes</tt>[i] bytes will be added at the end of the instruction
+     *                designated by <tt>indexes</tt>[i] or, if <tt>sizes</tt>[i] is negative,
+     *                the <i>last</i> |<tt>sizes[i]</tt>| bytes of the instruction will be
+     *                removed (the instruction size <i>must not</i> become negative or null).
+     *                The gaps introduced by this method must be filled in "manually" in the
+     *                array returned by the {@link #getCode getCode} method.
+     * @param len     the number of instruction to be resized. Must be smaller than
+     *                or equal to <tt>indexes</tt>.length and <tt>sizes</tt>.length.
      * @return the <tt>indexes</tt> array, which now contains the new positions
      * of the resized instructions (designated as above).
      */
@@ -1636,91 +1703,6 @@ public class CodeWriter implements CodeVisitor {
     }
 
     /**
-     * Reads an unsigned short value in the given byte array.
-     *
-     * @param b a byte array.
-     * @param index the start index of the value to be read.
-     * @return the read value.
-     */
-    static int readUnsignedShort(final byte[] b, final int index) {
-        return ((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF);
-    }
-
-    /**
-     * Reads a signed short value in the given byte array.
-     *
-     * @param b a byte array.
-     * @param index the start index of the value to be read.
-     * @return the read value.
-     */
-    static short readShort(final byte[] b, final int index) {
-        return (short) (((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF));
-    }
-
-    /**
-     * Reads a signed int value in the given byte array.
-     *
-     * @param b a byte array.
-     * @param index the start index of the value to be read.
-     * @return the read value.
-     */
-    static int readInt(final byte[] b, final int index) {
-        return ((b[index] & 0xFF) << 24)
-                | ((b[index + 1] & 0xFF) << 16)
-                | ((b[index + 2] & 0xFF) << 8)
-                | (b[index + 3] & 0xFF);
-    }
-
-    /**
-     * Writes a short value in the given byte array.
-     *
-     * @param b a byte array.
-     * @param index where the first byte of the short value must be written.
-     * @param s the value to be written in the given byte array.
-     */
-    static void writeShort(final byte[] b, final int index, final int s) {
-        b[index] = (byte) (s >>> 8);
-        b[index + 1] = (byte) s;
-    }
-
-    /**
-     * Computes the future value of a bytecode offset.
-     * <p>
-     * Note: it is possible to have several entries for the same instruction in
-     * the <tt>indexes</tt> and <tt>sizes</tt>: two entries (index=a,size=b) and
-     * (index=a,size=b') are equivalent to a single entry (index=a,size=b+b').
-     *
-     * @param indexes current positions of the instructions to be resized. Each
-     * instruction must be designated by the index of its <i>last</i> byte, plus
-     * one (or, in other words, by the index of the <i>first</i> byte of the
-     * <i>next</i> instruction).
-     * @param sizes the number of bytes to be <i>added</i> to the above
-     * instructions. More precisely, for each i < <tt>len</tt>,
-     * <tt>sizes</tt>[i] bytes will be added at the end of the instruction
-     * designated by <tt>indexes</tt>[i] or, if <tt>sizes</tt>[i] is negative,
-     * the <i>last</i> |<tt>sizes[i]</tt>| bytes of the instruction will be
-     * removed (the instruction size <i>must not</i> become negative or null).
-     * @param begin index of the first byte of the source instruction.
-     * @param end index of the first byte of the target instruction.
-     * @return the future value of the given bytecode offset.
-     */
-    static int getNewOffset(
-            final int[] indexes,
-            final int[] sizes,
-            final int begin,
-            final int end) {
-        int offset = end - begin;
-        for (int i = 0; i < indexes.length; ++i) {
-            if (begin < indexes[i] && indexes[i] <= end) { // forward jump
-                offset += sizes[i];
-            } else if (end < indexes[i] && indexes[i] <= begin) { // backward jump
-                offset -= sizes[i];
-            }
-        }
-        return offset;
-    }
-
-    /**
      * Returns the current size of the bytecode of this method. This size just
      * includes the size of the bytecode instructions: it does not include the
      * size of the Exceptions, LocalVariableTable, LineNumberTable, Synthetic
@@ -1739,7 +1721,7 @@ public class CodeWriter implements CodeVisitor {
      *
      * @return the current bytecode of this method. The bytecode is contained
      * between the index 0 (inclusive) and the index {@link #getCodeSize
-     *      getCodeSize} (exclusive).
+     * getCodeSize} (exclusive).
      */
     protected byte[] getCode() {
         return code.data;

@@ -6,7 +6,6 @@
 package ehacks.mod.gui.element;
 
 /**
- *
  * @author radioegor146
  */
 public interface IClickable {

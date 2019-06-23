@@ -6,16 +6,7 @@ import ehacks.mod.wrapper.Wrapper;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagLong;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.*;
 import org.lwjgl.opengl.GL11;
 
 public class GuiEditSingleNBT
@@ -45,6 +36,100 @@ public class GuiEditSingleNBT
         this.nbt = node.getObject().getNBT();
         this.canEditText = editText;
         this.canEditValue = editValue;
+    }
+
+    private static void setValidValue(Node<NamedNBT> node, String value) {
+        NamedNBT named = node.getObject();
+        NBTBase base = named.getNBT();
+        if (base instanceof NBTTagByte) {
+            named.setNBT(new NBTTagByte(ParseHelper.parseByte(value)));
+        }
+        if (base instanceof NBTTagShort) {
+            named.setNBT(new NBTTagShort(ParseHelper.parseShort(value)));
+        }
+        if (base instanceof NBTTagInt) {
+            named.setNBT(new NBTTagInt(ParseHelper.parseInt(value)));
+        }
+        if (base instanceof NBTTagLong) {
+            named.setNBT(new NBTTagLong(ParseHelper.parseLong(value)));
+        }
+        if (base instanceof NBTTagFloat) {
+            named.setNBT(new NBTTagFloat(ParseHelper.parseFloat(value)));
+        }
+        if (base instanceof NBTTagDouble) {
+            named.setNBT(new NBTTagDouble(ParseHelper.parseDouble(value)));
+        }
+        if (base instanceof NBTTagByteArray) {
+            named.setNBT(new NBTTagByteArray(ParseHelper.parseByteArray(value)));
+        }
+        if (base instanceof NBTTagIntArray) {
+            named.setNBT(new NBTTagIntArray(ParseHelper.parseIntArray(value)));
+        }
+        if (base instanceof NBTTagString) {
+            named.setNBT(new NBTTagString(value));
+        }
+    }
+
+    private static void validValue(String value, byte type) throws NumberFormatException {
+        switch (type) {
+            case 1: {
+                ParseHelper.parseByte(value);
+                break;
+            }
+            case 2: {
+                ParseHelper.parseShort(value);
+                break;
+            }
+            case 3: {
+                ParseHelper.parseInt(value);
+                break;
+            }
+            case 4: {
+                ParseHelper.parseLong(value);
+                break;
+            }
+            case 5: {
+                ParseHelper.parseFloat(value);
+                break;
+            }
+            case 6: {
+                ParseHelper.parseDouble(value);
+                break;
+            }
+            case 7: {
+                ParseHelper.parseByteArray(value);
+                break;
+            }
+            case 11: {
+                ParseHelper.parseIntArray(value);
+            }
+        }
+    }
+
+    private static String getValue(NBTBase base) {
+        switch (base.getId()) {
+            case 7: {
+                String s = "";
+                for (byte b : ((NBTTagByteArray) base).getByteArray()) {
+                    s = s + b + " ";
+                }
+                return s;
+            }
+            case 9: {
+                return "TagList";
+            }
+            case 10: {
+                return "TagCompound";
+            }
+            case 11: {
+                String i = "";
+                for (int a : ((NBTTagIntArray) base).getIntArray()) {
+                    i = i + a + " ";
+                }
+                return i;
+            }
+        }
+        return NBTStringHelper.toString(base);
     }
 
     public void initGUI(int x, int y) {
@@ -125,8 +210,10 @@ public class GuiEditSingleNBT
         }
         this.key.drawTextBox();
         this.value.drawTextBox();
-        this.save.drawButton(Wrapper.INSTANCE.mc(), mx, my);
-        this.cancel.drawButton(Wrapper.INSTANCE.mc(), mx, my);
+
+        // Здесь нужен partialTicks и я не ебу, где его взять.
+        this.save.drawButton(Wrapper.INSTANCE.mc(), mx, my, 1);
+        this.cancel.drawButton(Wrapper.INSTANCE.mc(), mx, my, 1);
         if (this.kError != null) {
             this.drawCenteredString(Wrapper.INSTANCE.fontRenderer(), this.kError, this.x + 89, this.y + 4, 16711680);
         }
@@ -204,99 +291,5 @@ public class GuiEditSingleNBT
             return false;
         }
         return true;
-    }
-
-    private static void setValidValue(Node<NamedNBT> node, String value) {
-        NamedNBT named = node.getObject();
-        NBTBase base = named.getNBT();
-        if (base instanceof NBTTagByte) {
-            named.setNBT(new NBTTagByte(ParseHelper.parseByte(value)));
-        }
-        if (base instanceof NBTTagShort) {
-            named.setNBT(new NBTTagShort(ParseHelper.parseShort(value)));
-        }
-        if (base instanceof NBTTagInt) {
-            named.setNBT(new NBTTagInt(ParseHelper.parseInt(value)));
-        }
-        if (base instanceof NBTTagLong) {
-            named.setNBT(new NBTTagLong(ParseHelper.parseLong(value)));
-        }
-        if (base instanceof NBTTagFloat) {
-            named.setNBT(new NBTTagFloat(ParseHelper.parseFloat(value)));
-        }
-        if (base instanceof NBTTagDouble) {
-            named.setNBT(new NBTTagDouble(ParseHelper.parseDouble(value)));
-        }
-        if (base instanceof NBTTagByteArray) {
-            named.setNBT(new NBTTagByteArray(ParseHelper.parseByteArray(value)));
-        }
-        if (base instanceof NBTTagIntArray) {
-            named.setNBT(new NBTTagIntArray(ParseHelper.parseIntArray(value)));
-        }
-        if (base instanceof NBTTagString) {
-            named.setNBT(new NBTTagString(value));
-        }
-    }
-
-    private static void validValue(String value, byte type) throws NumberFormatException {
-        switch (type) {
-            case 1: {
-                ParseHelper.parseByte(value);
-                break;
-            }
-            case 2: {
-                ParseHelper.parseShort(value);
-                break;
-            }
-            case 3: {
-                ParseHelper.parseInt(value);
-                break;
-            }
-            case 4: {
-                ParseHelper.parseLong(value);
-                break;
-            }
-            case 5: {
-                ParseHelper.parseFloat(value);
-                break;
-            }
-            case 6: {
-                ParseHelper.parseDouble(value);
-                break;
-            }
-            case 7: {
-                ParseHelper.parseByteArray(value);
-                break;
-            }
-            case 11: {
-                ParseHelper.parseIntArray(value);
-            }
-        }
-    }
-
-    private static String getValue(NBTBase base) {
-        switch (base.getId()) {
-            case 7: {
-                String s = "";
-                for (byte b : ((NBTTagByteArray) base).func_150292_c()) {
-                    s = s + b + " ";
-                }
-                return s;
-            }
-            case 9: {
-                return "TagList";
-            }
-            case 10: {
-                return "TagCompound";
-            }
-            case 11: {
-                String i = "";
-                for (int a : ((NBTTagIntArray) base).func_150302_c()) {
-                    i = i + a + " ";
-                }
-                return i;
-            }
-        }
-        return NBTStringHelper.toString(base);
     }
 }

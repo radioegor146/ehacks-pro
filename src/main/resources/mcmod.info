@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ehacks",
+  "name": "EHacks Pro",
+  "description": "EHacks 1.12.2",
+  "version": "5.0-1.12.2",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["radioegor146", "Iterator"],
+  "credits": "FFT",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,24 +1,24 @@
-/** *
+/**
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (C) 2000 INRIA, France Telecom
  * Copyright (C) 2002 France Telecom
- *
+ * <p>
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * <p>
  * Contact: Eric.Bruneton@rd.francetelecom.com
- *
+ * <p>
  * Author: Eric Bruneton
  */
 package ehacks.bsh;
@@ -233,8 +233,8 @@ class ByteVector {
      * Puts an array of bytes into this byte vector. The byte vector is
      * automatically enlarged if necessary.
      *
-     * @param b an array of bytes. May be <tt>null</tt> to put <tt>len</tt> null
-     * bytes into this byte vector.
+     * @param b   an array of bytes. May be <tt>null</tt> to put <tt>len</tt> null
+     *            bytes into this byte vector.
      * @param off index of the fist byte of b that must be copied.
      * @param len number of bytes of b that must be copied.
      * @return this byte vector.
@@ -257,7 +257,7 @@ class ByteVector {
      * Enlarge this byte vector so that it can receive n more bytes.
      *
      * @param size number of additional bytes that this byte vector should be
-     * able to receive.
+     *             able to receive.
      */
     private void enlarge(final int size) {
         byte[] newData = new byte[Math.max(2 * data.length, length + size)];

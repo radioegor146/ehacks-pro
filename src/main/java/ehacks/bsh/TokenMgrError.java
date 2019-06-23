@@ -4,7 +4,7 @@ package ehacks.bsh;
 public class TokenMgrError extends Error {
 
     /*
-    * Ordinals for various reasons why an Error of this type can be thrown.
+     * Ordinals for various reasons why an Error of this type can be thrown.
      */
     /**
      * Lexical error occured.
@@ -32,6 +32,21 @@ public class TokenMgrError extends Error {
      * above 4 values.
      */
     int errorCode;
+
+    /*
+     * Constructors of various flavors follow.
+     */
+    public TokenMgrError() {
+    }
+
+    public TokenMgrError(String message, int reason) {
+        super(message);
+        errorCode = reason;
+    }
+
+    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
+        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+    }
 
     /**
      * Replaces unprintable characters by their espaced (or unicode escaped)
@@ -101,28 +116,13 @@ public class TokenMgrError extends Error {
      * You can also modify the body of this method to customize your error
      * messages. For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE
      * are not of end-users concern, so you can return something like :
-     *
+     * <p>
      * "Internal Error : Please file a bug report .... "
-     *
+     * <p>
      * from this method for such cases in the release version of your parser.
      */
     @Override
     public String getMessage() {
         return super.getMessage();
-    }
-
-    /*
-    * Constructors of various flavors follow.
-     */
-    public TokenMgrError() {
-    }
-
-    public TokenMgrError(String message, int reason) {
-        super(message);
-        errorCode = reason;
-    }
-
-    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
     }
 }

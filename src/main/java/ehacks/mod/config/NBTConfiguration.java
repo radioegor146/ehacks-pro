@@ -4,16 +4,11 @@ import com.google.gson.Gson;
 import ehacks.debugme.Debug;
 import ehacks.mod.util.nbtedit.GuiNBTTree;
 import ehacks.mod.wrapper.Wrapper;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.io.*;
+
 /**
- *
  * @author radioegor146
  */
 public class NBTConfiguration implements IConfiguration {

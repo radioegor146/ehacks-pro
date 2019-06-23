@@ -2,14 +2,14 @@ package ehacks.mod.commands;
 
 import ehacks.mod.commands.classes.*;
 import ehacks.mod.modulesystem.handler.EHacksGui;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeMap;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 
 /**
- *
  * @author radioegor146
  */
 public class CommandManager {
@@ -24,6 +24,12 @@ public class CommandManager {
         add(new FriendsCommand());
         add(new ConfigControlCommand());
         add(new KeybindCommand());
+    }
+
+    public static TextComponentTranslation format(TextFormatting color, String str, Object... args) {
+        TextComponentTranslation ret = new TextComponentTranslation(str, args);
+        ret.getStyle().setColor(color);
+        return ret;
     }
 
     private void add(ICommand command) {
@@ -44,19 +50,13 @@ public class CommandManager {
         try {
             processCommand(getCommand(commandName), args);
         } catch (Exception e) {
-            EHacksGui.clickGui.consoleGui.printChatMessage(format(EnumChatFormatting.RED, "commands.generic.exception"));
+            EHacksGui.clickGui.consoleGui.printChatMessage(format(TextFormatting.RED, "commands.generic.exception"));
         }
-    }
-
-    public static ChatComponentTranslation format(EnumChatFormatting color, String str, Object... args) {
-        ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
-        ret.getChatStyle().setColor(color);
-        return ret;
     }
 
     public void processCommand(ICommand command, String[] args) {
         if (command == null) {
-            EHacksGui.clickGui.consoleGui.printChatMessage(format(EnumChatFormatting.RED, "commands.generic.notFound"));
+            EHacksGui.clickGui.consoleGui.printChatMessage(format(TextFormatting.RED, "commands.generic.notFound"));
             return;
         }
         command.process(args);

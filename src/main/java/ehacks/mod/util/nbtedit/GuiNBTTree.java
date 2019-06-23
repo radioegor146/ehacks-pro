@@ -2,12 +2,10 @@ package ehacks.mod.util.nbtedit;
 
 import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.wrapper.Wrapper;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -15,8 +13,20 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class GuiNBTTree
         extends Gui {
+
+    public static NBTTagCompound[] saveSlots = new NBTTagCompound[10];
+    private static NamedNBT clipboard;
+    private static GuiSaveSlotButton[] saves;
+
+    static {
+        clipboard = null;
+    }
 
     private final NBTTree tree;
     private final List<GuiNBTNode> nodes;
@@ -31,17 +41,6 @@ public class GuiNBTTree
     private int offset;
     private Node<NamedNBT> focused;
     private GuiEditSingleNBT window;
-    public static NBTTagCompound[] saveSlots = new NBTTagCompound[10];
-    private static NamedNBT clipboard;
-    private static GuiSaveSlotButton[] saves;
-
-    public Node<NamedNBT> getFocused() {
-        return this.focused;
-    }
-
-    public NBTTree getNBTTree() {
-        return this.tree;
-    }
 
     public GuiNBTTree(NBTTree tree) {
         this.Y_GAP = Wrapper.INSTANCE.fontRenderer().FONT_HEIGHT + 2;
@@ -52,33 +51,8 @@ public class GuiNBTTree
         saves = new GuiSaveSlotButton[10];
     }
 
-    private int getHeightDifference() {
-        return this.getContentHeight() - (this.bottom - 30 + 2);
-    }
-
-    private int getContentHeight() {
-        return this.Y_GAP * this.nodes.size();
-    }
-
-    public GuiEditSingleNBT getWindow() {
-        return this.window;
-    }
-
-    public void initGUI(int width, int height, int bottom) {
-        this.width = width;
-        this.height = height;
-        this.bottom = bottom;
-        this.yClick = -1;
-        this.initGUI(false);
-        if (this.window != null) {
-            this.window.initGUI((width - 178) / 2, (height - 93) / 2);
-        }
-    }
-
-    public void updateScreen() {
-        if (this.window != null) {
-            this.window.update();
-        }
+    public Node<NamedNBT> getFocused() {
+        return this.focused;
     }
 
     private void setFocused(Node<NamedNBT> toFocus) {
@@ -127,6 +101,39 @@ public class GuiNBTTree
             this.buttons[15].setEnabled(false);
         }
         this.focused = toFocus;
+    }
+
+    public NBTTree getNBTTree() {
+        return this.tree;
+    }
+
+    private int getHeightDifference() {
+        return this.getContentHeight() - (this.bottom - 30 + 2);
+    }
+
+    private int getContentHeight() {
+        return this.Y_GAP * this.nodes.size();
+    }
+
+    public GuiEditSingleNBT getWindow() {
+        return this.window;
+    }
+
+    public void initGUI(int width, int height, int bottom) {
+        this.width = width;
+        this.height = height;
+        this.bottom = bottom;
+        this.yClick = -1;
+        this.initGUI(false);
+        if (this.window != null) {
+            this.window.initGUI((width - 178) / 2, (height - 93) / 2);
+        }
+    }
+
+    public void updateScreen() {
+        if (this.window != null) {
+            this.window.update();
+        }
     }
 
     public void initGUI() {
@@ -280,18 +287,18 @@ public class GuiNBTTree
     }
 
     protected void overlayBackground(int par1, int par2, int par3, int par4) {
-        Tessellator var5 = Tessellator.instance;
+        BufferBuilder var5 = Tessellator.getInstance().getBuffer();
         Wrapper.INSTANCE.mc().renderEngine.bindTexture(new ResourceLocation("textures/blocks/bedrock.png"));
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         float var6 = 32.0f;
-        var5.startDrawingQuads();
-        var5.setColorRGBA_I(4210752, par4);
-        var5.addVertexWithUV(0.0, par2, 0.0, 0.0, (par2 / var6));
-        var5.addVertexWithUV(this.width, par2, 0.0, (this.width / var6), (par2 / var6));
-        var5.setColorRGBA_I(4210752, par3);
-        var5.addVertexWithUV(this.width, par1, 0.0, (this.width / var6), (par1 / var6));
-        var5.addVertexWithUV(0.0, par1, 0.0, 0.0, (par1 / var6));
-        var5.draw();
+        var5.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        var5.putColorRGBA(par4, 255, 255, 255, par4); // Это какой-то жидкий понос, хз как оно работает
+        var5.pos(0.0, par2, 0.0).tex(0.0, (par2 / var6)).endVertex();
+        var5.pos(this.width, par2, 0.0).tex((this.width / var6), (par2 / var6)).endVertex();
+        var5.putColorRGBA(par3, 255, 255, 255, par3);
+        var5.pos(this.width, par1, 0.0).tex((this.width / var6), (par1 / var6)).endVertex();
+        var5.pos(0.0, par1, 0.0).tex(0.0, (par1 / var6)).endVertex();
+        Tessellator.getInstance().draw();
     }
 
     public void mouseClicked(int mx, int my) {
@@ -320,7 +327,8 @@ public class GuiNBTTree
                     if (button.inBoundsOfX(mx, my)) {
                         button.reset();
                         ConfigurationManager.instance().saveConfigs();
-                        Wrapper.INSTANCE.mc().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0f));
+                        // Саунд пока-что нахуй
+                        //Wrapper.INSTANCE.mc().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0f));
                         return;
                     }
                     if (!button.inBounds(mx, my)) {
@@ -353,9 +361,9 @@ public class GuiNBTTree
             saveSlots[button.saveId] = this.getNBTTree().toNBTTagCompound();
             button.saved();
             ConfigurationManager.instance().saveConfigs();
-            Wrapper.INSTANCE.mc().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0f));
+            //Wrapper.INSTANCE.mc().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0f));
         } else {
-            Wrapper.INSTANCE.mc().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0f));
+            //Wrapper.INSTANCE.mc().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0f));
             Wrapper.INSTANCE.mc().displayGuiScreen(new GuiNBTEdit(saveSlots[button.saveId]));
         }
     }
@@ -517,7 +525,7 @@ public class GuiNBTTree
         }
         if (parent instanceof NBTTagList) {
             NBTTagList list = (NBTTagList) parent;
-            return list.tagCount() == 0 || list.func_150303_d() == child.getId();
+            return list.tagCount() == 0 || list.getId() == child.getId();
         }
         return false;
     }
@@ -649,9 +657,5 @@ public class GuiNBTTree
 
     public void closeWindow() {
         this.window = null;
-    }
-
-    static {
-        clipboard = null;
     }
 }

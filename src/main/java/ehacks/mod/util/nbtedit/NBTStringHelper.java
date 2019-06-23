@@ -1,18 +1,7 @@
 package ehacks.mod.util.nbtedit;
 
 import com.google.common.base.Strings;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagLong;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.*;
 
 public class NBTStringHelper {
 
@@ -77,25 +66,25 @@ public class NBTStringHelper {
                 return "(TagCompound)";
             }
             case 1: {
-                return "" + ((NBTTagByte) base).func_150290_f();
+                return "" + ((NBTTagByte) base).getByte();
             }
             case 2: {
-                return "" + ((NBTTagShort) base).func_150289_e();
+                return "" + ((NBTTagShort) base).getShort();
             }
             case 3: {
-                return "" + ((NBTTagInt) base).func_150287_d();
+                return "" + ((NBTTagInt) base).getInt();
             }
             case 4: {
-                return "" + ((NBTTagLong) base).func_150291_c();
+                return "" + ((NBTTagLong) base).getLong();
             }
             case 5: {
-                return "" + ((NBTTagFloat) base).func_150288_h();
+                return "" + ((NBTTagFloat) base).getFloat();
             }
             case 6: {
-                return "" + ((NBTTagDouble) base).func_150286_g();
+                return "" + ((NBTTagDouble) base).getDouble();
             }
             case 7: {
-                return ((NBTTagString) base).func_150285_a_();
+                return ((NBTTagString) base).getString();
             }
             case 8: {
                 return "(TagList)";

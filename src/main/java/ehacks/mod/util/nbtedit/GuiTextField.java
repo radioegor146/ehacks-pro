@@ -3,7 +3,9 @@ package ehacks.mod.util.nbtedit;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.opengl.GL11;
 
@@ -15,6 +17,7 @@ public class GuiTextField
     private final int yPos;
     private final int width;
     private final int height;
+    private final boolean allowSection;
     private String text = "";
     private int maxStringLength = 32;
     private int cursorCounter;
@@ -27,7 +30,6 @@ public class GuiTextField
     private int disabledColor = 7368816;
     private boolean visible = true;
     private boolean enableBackgroundDrawing = true;
-    private final boolean allowSection;
 
     public GuiTextField(FontRenderer par1FontRenderer, int x, int y, int w, int h, boolean allowSection) {
         this.fontRenderer = par1FontRenderer;
@@ -42,13 +44,13 @@ public class GuiTextField
         ++this.cursorCounter;
     }
 
+    public String getText() {
+        return this.text;
+    }
+
     public void setText(String par1Str) {
         this.text = par1Str.length() > this.maxStringLength ? par1Str.substring(0, this.maxStringLength) : par1Str;
         this.setCursorPositionEnd();
-    }
-
-    public String getText() {
-        return this.text;
     }
 
     public String getSelectedtext() {
@@ -150,18 +152,6 @@ public class GuiTextField
 
     public void moveCursorBy(int par1) {
         this.setCursorPosition(this.selectionEnd + par1);
-    }
-
-    public void setCursorPosition(int par1) {
-        this.cursorPosition = par1;
-        int var2 = this.text.length();
-        if (this.cursorPosition < 0) {
-            this.cursorPosition = 0;
-        }
-        if (this.cursorPosition > var2) {
-            this.cursorPosition = var2;
-        }
-        this.setSelectionPos(this.cursorPosition);
     }
 
     public void setCursorPositionZero() {
@@ -339,19 +329,23 @@ public class GuiTextField
             par2 = par4;
             par4 = var5;
         }
-        Tessellator var6 = Tessellator.instance;
+        BufferBuilder var6 = Tessellator.getInstance().getBuffer();
         GL11.glColor4f(0.0f, 0.0f, 255.0f, 255.0f);
         GL11.glDisable(3553);
         GL11.glEnable(3058);
         GL11.glLogicOp(5387);
-        var6.startDrawingQuads();
-        var6.addVertex(par1, par4, 0.0);
-        var6.addVertex(par3, par4, 0.0);
-        var6.addVertex(par3, par2, 0.0);
-        var6.addVertex(par1, par2, 0.0);
-        var6.draw();
+        var6.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        var6.pos(par1, par4, 0.0).endVertex();
+        var6.pos(par3, par4, 0.0).endVertex();
+        var6.pos(par3, par2, 0.0).endVertex();
+        var6.pos(par1, par2, 0.0).endVertex();
+        Tessellator.getInstance().draw();
         GL11.glDisable(3058);
         GL11.glEnable(3553);
+    }
+
+    public int getMaxStringLength() {
+        return this.maxStringLength;
     }
 
     public void setMaxStringLength(int par1) {
@@ -361,12 +355,20 @@ public class GuiTextField
         }
     }
 
-    public int getMaxStringLength() {
-        return this.maxStringLength;
-    }
-
     public int getCursorPosition() {
         return this.cursorPosition;
+    }
+
+    public void setCursorPosition(int par1) {
+        this.cursorPosition = par1;
+        int var2 = this.text.length();
+        if (this.cursorPosition < 0) {
+            this.cursorPosition = 0;
+        }
+        if (this.cursorPosition > var2) {
+            this.cursorPosition = var2;
+        }
+        this.setSelectionPos(this.cursorPosition);
     }
 
     public boolean getEnableBackgroundDrawing() {
@@ -385,15 +387,15 @@ public class GuiTextField
         this.disabledColor = par1;
     }
 
+    public boolean isFocused() {
+        return this.isFocused;
+    }
+
     public void setFocused(boolean par1) {
         if (par1 && !this.isFocused) {
             this.cursorCounter = 0;
         }
         this.isFocused = par1;
-    }
-
-    public boolean isFocused() {
-        return this.isFocused;
     }
 
     public void func_82265_c(boolean par1) {

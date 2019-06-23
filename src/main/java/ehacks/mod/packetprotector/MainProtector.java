@@ -5,14 +5,13 @@
  */
 package ehacks.mod.packetprotector;
 
-import ehacks.mod.packetprotector.modules.*;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.PacketHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author radioegor146
  */
 public class MainProtector {
@@ -21,10 +20,6 @@ public class MainProtector {
 
     public void init() {
         protectors.clear();
-
-        protectors.add(new DragonsRadioProtector());
-        protectors.add(new IC2NuclearControlProtector());
-        protectors.add(new NanoNikProtector());
 
         InteropUtils.log("Inited " + protectors.size() + " protectors", "PacketProtector");
     }

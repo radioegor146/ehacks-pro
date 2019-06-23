@@ -1,9 +1,10 @@
 package ehacks.mod.util.nbtedit;
 
-import java.util.Comparator;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+
+import java.util.Comparator;
 
 public class NBTNodeSorter
         implements Comparator<Node<NamedNBT>> {

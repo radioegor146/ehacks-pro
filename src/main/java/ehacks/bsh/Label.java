@@ -1,24 +1,24 @@
-/** *
+/**
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (C) 2000 INRIA, France Telecom
  * Copyright (C) 2002 France Telecom
- *
+ * <p>
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * <p>
  * Contact: Eric.Bruneton@rd.francetelecom.com
- *
+ * <p>
  * Author: Eric Bruneton
  */
 package ehacks.bsh;
@@ -43,12 +43,49 @@ public class Label {
      * The position of this label in the code, if known.
      */
     int position;
+    /**
+     * The stack size at the beginning of this basic block. This size is
+     * initially unknown. It is computed by the control flow analysis algorithm
+     * (see {@link CodeWriter#visitMaxs visitMaxs}).
+     */
+    int beginStackSize;
+    /**
+     * The (relative) maximum stack size corresponding to this basic block. This
+     * size is relative to the stack size at the beginning of the basic block,
+     * i.e., the true maximum stack size is equal to {@link #beginStackSize
+     * beginStackSize} + {@link #maxStackSize maxStackSize}.
+     */
+    int maxStackSize;
 
+    // --------------------------------------------------------------------------
+    // Fields for the control flow graph analysis algorithm (used to compute the
+    // maximum stack size). A control flow graph contains one node per "basic
+    // block", and one edge per "jump" from one basic block to another. Each node
+    // (i.e., each basic block) is represented by the Label object that
+    // corresponds to the first instruction of this basic block. Each node also
+    // stores the list of it successors in the graph, as a linked list of Edge
+    // objects.
+    // --------------------------------------------------------------------------
+    /**
+     * The successors of this node in the control flow graph. These successors
+     * are stored in a linked list of {@link Edge Edge} objects, linked to each
+     * other by their {@link Edge#next} field.
+     */
+    Edge successors;
+    /**
+     * The next basic block in the basic block stack. See
+     * {@link CodeWriter#visitMaxs visitMaxs}.
+     */
+    Label next;
+    /**
+     * <tt>true</tt> if this basic block has been pushed in the basic block
+     * stack. See {@link CodeWriter#visitMaxs visitMaxs}.
+     */
+    boolean pushed;
     /**
      * Number of forward references to this label, times two.
      */
     private int referenceCount;
-
     /**
      * Informations about forward references. Each forward reference is
      * described by two consecutive integers in this array: the first one is the
@@ -61,51 +98,9 @@ public class Label {
     private int[] srcAndRefPositions;
 
     // --------------------------------------------------------------------------
-    // Fields for the control flow graph analysis algorithm (used to compute the
-    // maximum stack size). A control flow graph contains one node per "basic
-    // block", and one edge per "jump" from one basic block to another. Each node
-    // (i.e., each basic block) is represented by the Label object that
-    // corresponds to the first instruction of this basic block. Each node also
-    // stores the list of it successors in the graph, as a linked list of Edge
-    // objects.
-    // --------------------------------------------------------------------------
-    /**
-     * The stack size at the beginning of this basic block. This size is
-     * initially unknown. It is computed by the control flow analysis algorithm
-     * (see {@link CodeWriter#visitMaxs visitMaxs}).
-     */
-    int beginStackSize;
-
-    /**
-     * The (relative) maximum stack size corresponding to this basic block. This
-     * size is relative to the stack size at the beginning of the basic block,
-     * i.e., the true maximum stack size is equal to {@link #beginStackSize
-     * beginStackSize} + {@link #maxStackSize maxStackSize}.
-     */
-    int maxStackSize;
-
-    /**
-     * The successors of this node in the control flow graph. These successors
-     * are stored in a linked list of {@link Edge Edge} objects, linked to each
-     * other by their {@link Edge#next} field.
-     */
-    Edge successors;
-
-    /**
-     * The next basic block in the basic block stack. See
-     * {@link CodeWriter#visitMaxs visitMaxs}.
-     */
-    Label next;
-
-    /**
-     * <tt>true</tt> if this basic block has been pushed in the basic block
-     * stack. See {@link CodeWriter#visitMaxs visitMaxs}.
-     */
-    boolean pushed;
-
-    // --------------------------------------------------------------------------
     // Constructor
     // --------------------------------------------------------------------------
+
     /**
      * Constructs a new label.
      */
@@ -115,20 +110,21 @@ public class Label {
     // --------------------------------------------------------------------------
     // Methods to compute offsets and to manage forward references
     // --------------------------------------------------------------------------
+
     /**
      * Puts a reference to this label in the bytecode of a method. If the
      * position of the label is known, the offset is computed and written
      * directly. Otherwise, a null offset is written and a new forward reference
      * is declared for this label.
      *
-     * @param owner the code writer that calls this method.
-     * @param out the bytecode of the method.
-     * @param source the position of first byte of the bytecode instruction that
-     * contains this label.
+     * @param owner      the code writer that calls this method.
+     * @param out        the bytecode of the method.
+     * @param source     the position of first byte of the bytecode instruction that
+     *                   contains this label.
      * @param wideOffset <tt>true</tt> if the reference must be stored in 4
-     * bytes, or <tt>false</tt> if it must be stored with 2 bytes.
+     *                   bytes, or <tt>false</tt> if it must be stored with 2 bytes.
      * @throws IllegalArgumentException if this label has not been created by
-     * the given code writer.
+     *                                  the given code writer.
      */
     void put(
             final CodeWriter owner,
@@ -165,10 +161,10 @@ public class Label {
      * yet. For backward references, the offset of the reference can be, and
      * must be, computed and stored directly.
      *
-     * @param sourcePosition the position of the referencing instruction. This
-     * position will be used to compute the offset of this forward reference.
+     * @param sourcePosition    the position of the referencing instruction. This
+     *                          position will be used to compute the offset of this forward reference.
      * @param referencePosition the position where the offset for this forward
-     * reference must be stored.
+     *                          reference must be stored.
      */
     private void addReference(
             final int sourcePosition,
@@ -191,9 +187,9 @@ public class Label {
      * position becomes known. This method fills in the blanks that where left
      * in the bytecode by each forward reference previously added to this label.
      *
-     * @param owner the code writer that calls this method.
+     * @param owner    the code writer that calls this method.
      * @param position the position of this label in the bytecode.
-     * @param data the bytecode of the method.
+     * @param data     the bytecode of the method.
      * @return <tt>true</tt> if a blank that was left for this label was to
      * small to store the offset. In such a case the corresponding jump
      * instruction is replaced with a pseudo instruction (using unused opcodes)
@@ -201,7 +197,7 @@ public class Label {
      * to be replaced with true instructions with wider offsets (4 bytes instead
      * of 2). This is done in {@link CodeWriter#resizeInstructions}.
      * @throws IllegalArgumentException if this label has already been resolved,
-     * or if it has not been created by the given code writer.
+     *                                  or if it has not been created by the given code writer.
      */
     boolean resolve(
             final CodeWriter owner,

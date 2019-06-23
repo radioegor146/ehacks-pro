@@ -3,7 +3,6 @@ package ehacks.bsh;
 import java.util.Hashtable;
 
 /**
- *
  * @author Pat Niemeyer (pat@pat.net)
  */
 /*

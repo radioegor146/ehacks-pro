@@ -9,24 +9,17 @@ package ehacks.mod.util;
  *
  * @author radioegor146
  */
+
 import ehacks.mod.wrapper.Wrapper;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.tileentity.TileEntityCommandBlock;
-import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.tileentity.TileEntityNote;
-import net.minecraft.tileentity.TileEntityPiston;
+import net.minecraft.tileentity.*;
+
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Random {
 
@@ -69,7 +62,7 @@ public class Random {
     }
 
     public ItemStack item() {
-        ItemStack[] stacks = {new ItemStack(Items.diamond)};
+        ItemStack[] stacks = {new ItemStack(Items.DIAMOND)};
         return stacks[num(stacks.length)];
     }
 

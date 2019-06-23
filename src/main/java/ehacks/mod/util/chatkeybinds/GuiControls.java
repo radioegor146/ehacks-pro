@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
+import java.io.IOException;
+
 public class GuiControls extends GuiScreen {
 
     /**
@@ -12,13 +14,12 @@ public class GuiControls extends GuiScreen {
      * between screens.
      */
     public GuiScreen parentScreen;
-    protected String screenTitle;
-
     /**
      * The ID of the button that has been pressed.
      */
     public ChatKeyBinding currentKeyBinding = null;
     public long time;
+    protected String screenTitle;
     private GuiKeyBindingList keyBindingList;
 
     public GuiControls(GuiScreen parentScreen) {
@@ -52,20 +53,12 @@ public class GuiControls extends GuiScreen {
      */
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        if (mouseButton != 0 || !this.keyBindingList.func_148179_a(mouseX, mouseY, mouseButton)) {
-            super.mouseClicked(mouseX, mouseY, mouseButton);
-        }
-    }
-
-    /**
-     * Called when a mouse button is released. Args : mouseX, mouseY,
-     * releaseButton\n \n@param state Will be negative to indicate mouse move
-     * and will be either 0 or 1 to indicate mouse up.
-     */
-    @Override
-    protected void mouseMovedOrUp(int mouseX, int mouseY, int state) {
-        if (state != 0 || !this.keyBindingList.func_148181_b(mouseX, mouseY, state)) {
-            super.mouseMovedOrUp(mouseX, mouseY, state);
+        if (mouseButton != 0 || !this.keyBindingList.mouseClicked(mouseX, mouseY, mouseButton)) {
+            try {
+                super.mouseClicked(mouseX, mouseY, mouseButton);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,7 +83,11 @@ public class GuiControls extends GuiScreen {
             this.currentKeyBinding = null;
             this.time = Minecraft.getSystemTime();
         } else {
-            super.keyTyped(typedChar, keyCode);
+            try {
+                super.keyTyped(typedChar, keyCode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (keyCode == 1) {
                 mc.displayGuiScreen(parentScreen);
             }
@@ -105,7 +102,7 @@ public class GuiControls extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         this.keyBindingList.drawScreen(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.screenTitle, this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

@@ -8,7 +8,6 @@ package ehacks.mod.util.chatkeybinds;
 import ehacks.mod.wrapper.Wrapper;
 
 /**
- *
  * @author radioegor146
  */
 public class ChatKeyBinding implements Comparable {
@@ -21,12 +20,12 @@ public class ChatKeyBinding implements Comparable {
         this.keyCode = keyCode;
     }
 
-    public void setKeyCode(int keyCode) {
-        this.keyCode = keyCode;
-    }
-
     public int getKeyCode() {
         return this.keyCode;
+    }
+
+    public void setKeyCode(int keyCode) {
+        this.keyCode = keyCode;
     }
 
     public int getKeyCodeDefault() {

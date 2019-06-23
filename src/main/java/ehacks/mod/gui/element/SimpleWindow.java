@@ -14,12 +14,13 @@ import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Keyboard;
 
 /**
- *
  * @author radioegor146
  */
 public class SimpleWindow implements IIncludable, IClickable {
 
     private final String title;
+    public boolean canExtend = true;
+    public boolean canPin = true;
     private int xPos;
     private int yPos;
     private boolean isOpen;
@@ -30,8 +31,6 @@ public class SimpleWindow implements IIncludable, IClickable {
     private int dragX;
     private int dragY;
     private boolean dragging;
-    public boolean canExtend = true;
-    public boolean canPin = true;
     private int width;
     private int height;
 
@@ -47,7 +46,7 @@ public class SimpleWindow implements IIncludable, IClickable {
         }
         this.xPos = this.prevXPos + (x - this.dragX);
         this.yPos = this.prevYPos + (y - this.dragY);
-        ScaledResolution res = new ScaledResolution(Wrapper.INSTANCE.mc(), Wrapper.INSTANCE.mc().displayWidth, Wrapper.INSTANCE.mc().displayHeight);
+        ScaledResolution res = new ScaledResolution(Wrapper.INSTANCE.mc());
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             if (this.xPos < 20) {
                 this.xPos = 2;
@@ -186,20 +185,20 @@ public class SimpleWindow implements IIncludable, IClickable {
         return this.isExtended;
     }
 
-    public boolean isOpen() {
-        return this.isOpen;
+    public void setExtended(boolean flag) {
+        this.isExtended = flag;
     }
 
-    public boolean isPinned() {
-        return !this.dragging && this.isPinned;
+    public boolean isOpen() {
+        return this.isOpen;
     }
 
     public void setOpen(boolean flag) {
         this.isOpen = flag;
     }
 
-    public void setExtended(boolean flag) {
-        this.isExtended = flag;
+    public boolean isPinned() {
+        return !this.dragging && this.isPinned;
     }
 
     public void setPinned(boolean flag) {

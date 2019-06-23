@@ -6,9 +6,10 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
+import net.minecraft.network.EnumPacketDirection;
+import net.minecraft.network.NetworkManager;
 
 /**
- *
  * @author radioegor146
  */
 public class PacketHandler extends ChannelDuplexHandler {
@@ -22,7 +23,7 @@ public class PacketHandler extends ChannelDuplexHandler {
         this.protector.init();
         this.eventHandler = eventHandler;
         try {
-            ChannelPipeline pipeline = Wrapper.INSTANCE.mc().getNetHandler().getNetworkManager().channel().pipeline();
+            ChannelPipeline pipeline = new NetworkManager(EnumPacketDirection.CLIENTBOUND).channel().pipeline();
             pipeline.addBefore("packet_handler", "PacketHandler", this);
             InteropUtils.log("Attached", "PacketHandler");
         } catch (Exception exception) {

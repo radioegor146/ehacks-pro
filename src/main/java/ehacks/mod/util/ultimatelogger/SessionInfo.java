@@ -8,7 +8,6 @@ package ehacks.mod.util.ultimatelogger;
 import ehacks.mod.wrapper.Wrapper;
 
 /**
- *
  * @author radioegor146
  */
 public class SessionInfo {

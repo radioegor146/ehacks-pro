@@ -5,18 +5,12 @@
  */
 package ehacks.debugme;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.util.Mappings;
 import ehacks.mod.util.Random;
 import ehacks.mod.wrapper.Wrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.block.material.MaterialTransparent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -24,6 +18,7 @@ import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,16 +26,26 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.client.C14PacketTabComplete;
+import net.minecraft.network.EnumPacketDirection;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CPacketTabComplete;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author radioegor146
  */
 public class Debug {
@@ -48,13 +53,13 @@ public class Debug {
     public static Random random = new Random();
 
     public static int[] getMop() {
-        MovingObjectPosition preMop = Wrapper.INSTANCE.mc().objectMouseOver;
+        RayTraceResult preMop = Wrapper.INSTANCE.mc().objectMouseOver;
         Entity ent = Wrapper.INSTANCE.mc().pointedEntity;
         int[] arrn = new int[5];
-        arrn[0] = preMop.blockX;
-        arrn[1] = preMop.blockY;
-        arrn[2] = preMop.blockZ;
-        arrn[3] = preMop.sideHit;
+        arrn[0] = preMop.getBlockPos().getX();
+        arrn[1] = preMop.getBlockPos().getY();
+        arrn[2] = preMop.getBlockPos().getZ();
+        arrn[3] = preMop.sideHit.getHorizontalIndex(); //возможно не то
         arrn[4] = ent != null ? ent.getEntityId() : 0;
         int[] mop = arrn;
         return mop;
@@ -70,7 +75,7 @@ public class Debug {
     }
 
     public static int[] getCoords(TileEntity tileEntity) {
-        int[] coords = new int[]{tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord};
+        int[] coords = new int[]{tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ()};
         return coords;
     }
 
@@ -104,13 +109,13 @@ public class Debug {
     }
 
     public static int getDimensionId() {
-        return getWorld().provider.dimensionId;
+        return getWorld().provider.getDimension();
     }
 
     public static NBTTagCompound jsonToNBT(String json) {
         NBTBase nbtTag = null;
         try {
-            nbtTag = JsonToNBT.func_150315_a(json.replaceAll("'", "\""));
+            nbtTag = JsonToNBT.getTagFromJson(json.replaceAll("'", "\""));
         } catch (Exception err) {
             return null;
         }
@@ -126,7 +131,7 @@ public class Debug {
     }
 
     public static ItemStack getItem(NBTTagCompound tag) {
-        return getItem(getPlayer().getCurrentEquippedItem(), tag);
+        return getItem(getPlayer().getHeldItemMainhand(), tag);
     }
 
     public static ItemStack getItem(ItemStack toItem, NBTTagCompound tag) {
@@ -153,7 +158,7 @@ public class Debug {
     }
 
     public static TileEntity getTileEntity(int x, int y, int z) {
-        return getWorld().getTileEntity(x, y, z);
+        return getWorld().getTileEntity(new BlockPos(x, y, z));
     }
 
     public static Entity getEntity() {
@@ -205,7 +210,7 @@ public class Debug {
     }
 
     public static void sendTabComplete(String in) {
-        Wrapper.INSTANCE.player().sendQueue.addToSendQueue(new C14PacketTabComplete(in));
+        Wrapper.INSTANCE.player().connection.sendPacket(new CPacketTabComplete());
     }
 
     public static void setFakeSlot(ItemStack item, int slot) {
@@ -239,7 +244,7 @@ public class Debug {
     }
 
     public static void clickSlot(int slot, int shift, int action) {
-        Wrapper.INSTANCE.mc().playerController.windowClick(getWindowId(), slot, shift, action, getPlayer());
+        Wrapper.INSTANCE.mc().playerController.windowClick(getWindowId(), slot, shift, ClickType.PICKUP, getPlayer());
     }
 
     public static int getCurrentSlot() {
@@ -253,13 +258,13 @@ public class Debug {
     public static int getSlots(TileEntity tile) {
         if (tile instanceof IInventory) {
             IInventory inventory = (IInventory) tile;
-            return inventory.isUseableByPlayer(getPlayer()) ? inventory.getSizeInventory() : 0;
+            return inventory.isUsableByPlayer(getPlayer()) ? inventory.getSizeInventory() : 0;
         }
         return 0;
     }
 
     public static String getEntityInfoString(Entity entity) {
-        return "[" + entity.getCommandSenderName() + ": UUID(" + getUUID(entity) + "), ID(" + getEntityId(entity) + ")]";
+        return "[" + entity.getName() + ": UUID(" + getUUID(entity) + "), ID(" + getEntityId(entity) + ")]";
     }
 
     public static List<TileEntity> getNearTileEntities() {
@@ -268,7 +273,7 @@ public class Debug {
         if (chunkProvider instanceof ChunkProviderClient) {
             List<Chunk> chunks = ReflectionHelper.getPrivateValue(ChunkProviderClient.class, (ChunkProviderClient) chunkProvider, Mappings.chunkListing);
             chunks.forEach((chunk) -> {
-                chunk.chunkTileEntityMap.values().stream().filter((entityObj) -> !(!(entityObj instanceof TileEntity))).forEachOrdered((entityObj) -> {
+                chunk.getTileEntityMap().values().stream().filter((entityObj) -> !(!(entityObj instanceof TileEntity))).forEachOrdered((entityObj) -> {
                     out.add((TileEntity) entityObj);
                 });
             });
@@ -288,7 +293,7 @@ public class Debug {
 
     public static NBTTagCompound getNbtItem(ItemStack item) {
         NBTTagCompound itemTag = new NBTTagCompound();
-        itemTag.setByte("Count", (byte) item.stackSize);
+        itemTag.setByte("Count", (byte) item.getMaxStackSize());
         itemTag.setByte("Slot", (byte) 0);
         item.getItem();
         itemTag.setShort("id", (short) Item.getIdFromItem(item.getItem()));
@@ -307,7 +312,7 @@ public class Debug {
                     int x = center[0] + i;
                     int y = center[1] + j;
                     int z = center[2] + k;
-                    if (getWorld().getBlock(x, y, z).getMaterial() instanceof MaterialTransparent) {
+                    if (getWorld().getBlockState(new BlockPos(x, y, z)).getMaterial() instanceof MaterialTransparent) {
                         continue;
                     }
                     list.add(new int[]{x, y, z});
@@ -373,6 +378,6 @@ public class Debug {
             }
             ByteBufUtils.writeTag(buf, ((NBTTagCompound) o));
         }
-        NetworkDispatcher.get(Wrapper.INSTANCE.mc().getNetHandler().getNetworkManager()).sendProxy(new FMLProxyPacket(buf, channel));
+        NetworkDispatcher.get(new NetworkManager(EnumPacketDirection.CLIENTBOUND)).sendProxy(new FMLProxyPacket(new PacketBuffer(buf), channel));
     }
 }

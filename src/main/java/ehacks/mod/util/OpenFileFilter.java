@@ -5,8 +5,8 @@
  */
 package ehacks.mod.util;
 
-import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 public class OpenFileFilter
         extends FileFilter {

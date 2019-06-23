@@ -7,6 +7,7 @@ package ehacks.mod.config;
 
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.Wrapper;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,7 +16,6 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- *
  * @author radioegor146
  */
 public class LocalConfigStorage {

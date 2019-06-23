@@ -1,35 +1,37 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +42,7 @@ import java.lang.reflect.Method;
  * namespace. This is a thin wrapper around the BSHMethodDeclaration with a
  * pointer to the declaring namespace.
  * <p>
- *
+ * <p>
  * When a method is located in a subordinate namespace or invoked from an
  * arbitrary namespace it must nontheless execute with its 'super' as the
  * context in which it was declared.
@@ -63,17 +65,14 @@ public class BSHMethod
 
     // Begin Method components
     Modifiers modifiers;
+    // Scripted method body
+    BSHBlock methodBody;
     private String name;
     private Class creturnType;
-
     // Arguments
     private String[] paramNames;
     private int numArgs;
     private Class[] cparamTypes;
-
-    // Scripted method body
-    BSHBlock methodBody;
-
     // Java Method, for a BshObject that delegates to a real Java method
     private Method javaMethod;
     private Object javaObject;
@@ -115,6 +114,10 @@ public class BSHMethod
 
         this.javaMethod = method;
         this.javaObject = object;
+    }
+
+    private static boolean equal(Object obj1, Object obj2) {
+        return obj1 == null ? obj2 == null : obj1.equals(obj2);
     }
 
     /**
@@ -173,14 +176,14 @@ public class BSHMethod
      * the construct that invoked the method through the namespace.
      *
      * @param callerInfo is the BeanShell AST node representing the method
-     * invocation. It is used to print the line number and text of errors in
-     * EvalError exceptions. If the node is null here error messages may not be
-     * able to point to the precise location and text of the error.
-     * @param callstack is the callstack. If callstack is null a new one will be
-     * created with the declaring namespace of the method on top of the stack
-     * (i.e. it will look for purposes of the method invocation like the method
-     * call occurred in the declaring (enclosing) namespace in which the method
-     * is defined).
+     *                   invocation. It is used to print the line number and text of errors in
+     *                   EvalError exceptions. If the node is null here error messages may not be
+     *                   able to point to the precise location and text of the error.
+     * @param callstack  is the callstack. If callstack is null a new one will be
+     *                   created with the declaring namespace of the method on top of the stack
+     *                   (i.e. it will look for purposes of the method invocation like the method
+     *                   call occurred in the declaring (enclosing) namespace in which the method
+     *                   is defined).
      */
     public Object invoke(
             Object[] argValues, Interpreter interpreter, CallStack callstack,
@@ -195,18 +198,18 @@ public class BSHMethod
      * is used primarily for debugging in order to provide access to the text of
      * the construct that invoked the method through the namespace.
      *
-     * @param callerInfo is the BeanShell AST node representing the method
-     * invocation. It is used to print the line number and text of errors in
-     * EvalError exceptions. If the node is null here error messages may not be
-     * able to point to the precise location and text of the error.
-     * @param callstack is the callstack. If callstack is null a new one will be
-     * created with the declaring namespace of the method on top of the stack
-     * (i.e. it will look for purposes of the method invocation like the method
-     * call occurred in the declaring (enclosing) namespace in which the method
-     * is defined).
+     * @param callerInfo        is the BeanShell AST node representing the method
+     *                          invocation. It is used to print the line number and text of errors in
+     *                          EvalError exceptions. If the node is null here error messages may not be
+     *                          able to point to the precise location and text of the error.
+     * @param callstack         is the callstack. If callstack is null a new one will be
+     *                          created with the declaring namespace of the method on top of the stack
+     *                          (i.e. it will look for purposes of the method invocation like the method
+     *                          call occurred in the declaring (enclosing) namespace in which the method
+     *                          is defined).
      * @param overrideNameSpace When true the method is executed in the
-     * namespace on the top of the stack instead of creating its own local
-     * namespace. This allows it to be used in constructors.
+     *                          namespace on the top of the stack instead of creating its own local
+     *                          namespace. This allows it to be used in constructors.
      */
     Object invoke(
             Object[] argValues, Interpreter interpreter, CallStack callstack,
@@ -283,7 +286,7 @@ public class BSHMethod
 			// look for help string
 			try {
 				// should check for null namespace here
-				String help = 
+				String help =
 					(String)declaringNameSpace.get(
 					"bsh.help."+name, interpreter );
 
@@ -295,7 +298,7 @@ public class BSHMethod
              */
             throw new EvalError(
                     "Wrong number of arguments for local method: "
-                    + name, callerInfo, callstack);
+                            + name, callerInfo, callstack);
         }
 
         // Make the local namespace for the method invocation
@@ -320,9 +323,9 @@ public class BSHMethod
                 } catch (UtilEvalError e) {
                     throw new EvalError(
                             "Invalid argument: "
-                            + "`" + paramNames[i] + "'" + " for method: "
-                            + name + " : "
-                            + e.getMessage(), callerInfo, callstack);
+                                    + "`" + paramNames[i] + "'" + " for method: "
+                                    + name + " : "
+                                    + e.getMessage(), callerInfo, callstack);
                 }
                 try {
                     localNameSpace.setTypedVariable(paramNames[i],
@@ -338,8 +341,8 @@ public class BSHMethod
                 if (argValues[i] == Primitive.VOID) {
                     throw new EvalError(
                             "Undefined variable or class name, parameter: "
-                            + paramNames[i] + " to method: "
-                            + name, callerInfo, callstack);
+                                    + paramNames[i] + " to method: "
+                                    + name, callerInfo, callstack);
                 } else {
                     try {
                         localNameSpace.setLocalVariable(
@@ -410,7 +413,7 @@ public class BSHMethod
                 }
                 throw e.toEvalError(
                         "Incorrect type returned from method: "
-                        + name + e.getMessage(), node, callstack);
+                                + name + e.getMessage(), node, callstack);
             }
         }
 
@@ -449,10 +452,6 @@ public class BSHMethod
             return true;
         }
         return false;
-    }
-
-    private static boolean equal(Object obj1, Object obj2) {
-        return obj1 == null ? obj2 == null : obj1.equals(obj2);
     }
 
     @Override

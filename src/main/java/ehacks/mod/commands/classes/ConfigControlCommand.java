@@ -10,12 +10,12 @@ import ehacks.mod.config.CheatConfiguration;
 import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.InteropUtils;
+import net.minecraft.util.text.TextComponentString;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import net.minecraft.util.ChatComponentText;
 
 /**
- *
  * @author radioegor146
  */
 public class ConfigControlCommand implements ICommand {
@@ -95,7 +95,7 @@ public class ConfigControlCommand implements ICommand {
                 return;
             }
         }
-        EHacksGui.clickGui.consoleGui.printChatMessage(new ChatComponentText("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
+        EHacksGui.clickGui.consoleGui.printChatMessage(new TextComponentString("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
     }
 
     @Override

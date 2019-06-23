@@ -1,24 +1,24 @@
-/** *
+/**
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (C) 2000 INRIA, France Telecom
  * Copyright (C) 2002 France Telecom
- *
+ * <p>
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * <p>
  * Contact: Eric.Bruneton@rd.francetelecom.com
- *
+ * <p>
  * Author: Eric Bruneton
  */
 package ehacks.bsh;
@@ -101,7 +101,7 @@ class Item {
      * Constructs a copy of the given item.
      *
      * @param index index of the item to be constructed.
-     * @param i the item that must be copied into the item to be constructed.
+     * @param i     the item that must be copied into the item to be constructed.
      */
     Item(final short index, final Item i) {
         this.index = index;
@@ -163,7 +163,7 @@ class Item {
     /**
      * Sets this item to an item that do not hold a primitive value.
      *
-     * @param type the type of this item.
+     * @param type    the type of this item.
      * @param strVal1 first part of the value of this item.
      * @param strVal2 second part of the value of this item.
      * @param strVal3 third part of the value of this item.

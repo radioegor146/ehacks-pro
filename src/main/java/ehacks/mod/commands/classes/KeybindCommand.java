@@ -11,12 +11,12 @@ import ehacks.mod.commands.ICommand;
 import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.modulesystem.handler.EHacksGui;
 import ehacks.mod.util.InteropUtils;
-import java.util.ArrayList;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import org.lwjgl.input.Keyboard;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author radioegor146
  */
 public class KeybindCommand implements ICommand {
@@ -58,7 +58,7 @@ public class KeybindCommand implements ICommand {
             ConfigurationManager.instance().saveConfigs();
             return;
         }
-        EHacksGui.clickGui.consoleGui.printChatMessage(new ChatComponentText("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
+        EHacksGui.clickGui.consoleGui.printChatMessage(new TextComponentString("\u00a7c/" + this.getName() + " " + this.getCommandArgs()));
     }
 
     @Override

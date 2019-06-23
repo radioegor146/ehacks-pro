@@ -1,50 +1,49 @@
 package ehacks.mod.commands;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import ehacks.mod.modulesystem.handler.EHacksGui;
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.gui.stream.GuiTwitchUserMode;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.Achievement;
-import net.minecraft.stats.StatBase;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import tv.twitch.chat.ChatUserInfo;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
 
     private static final Set field_152175_f = Sets.newHashSet("http", "https");
     private static final Logger logger = LogManager.getLogger();
+    private static final String __OBFID = "CL_00000682";
+    /**
+     * Chat entry field
+     */
+    protected GuiTextField inputField;
     private String field_146410_g = "";
     /**
      * keeps position of which chat message you will select when you press up,
@@ -61,15 +60,10 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
      */
     private URI clickedURI;
     /**
-     * Chat entry field
-     */
-    protected GuiTextField inputField;
-    /**
      * is the text that appears when you press the chat key and the input box
      * appears pre-filled
      */
     private String defaultInputFieldText = "";
-    private static final String __OBFID = "CL_00000682";
 
     public ConsoleInputGui() {
     }
@@ -85,7 +79,7 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
         this.sentHistoryCursor = EHacksGui.clickGui.consoleGui.getSentMessages().size();
-        this.inputField = new GuiTextField(this.fontRendererObj, 4, this.height - 12, this.width - 4, 12);
+        this.inputField = new GuiTextField(1, this.fontRenderer, 4, this.height - 12, this.width - 4, 12);
         this.inputField.setMaxStringLength(100);
         this.inputField.setEnableBackgroundDrawing(false);
         this.inputField.setFocused(true);
@@ -169,7 +163,11 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
      */
     @Override
     public void handleMouseInput() {
-        super.handleMouseInput();
+        try {
+            super.handleMouseInput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         int i = Mouse.getEventDWheel();
 
         if (i != 0) {
@@ -195,14 +193,14 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (mouseButton == 0 && this.mc.gameSettings.chatLinks) {
-            IChatComponent ichatcomponent = EHacksGui.clickGui.consoleGui.getChatComponent(Mouse.getX(), Mouse.getY());
+            ITextComponent ichatcomponent = EHacksGui.clickGui.consoleGui.getChatComponent(Mouse.getX(), Mouse.getY());
 
             if (ichatcomponent != null) {
-                ClickEvent clickevent = ichatcomponent.getChatStyle().getChatClickEvent();
+                ClickEvent clickevent = ichatcomponent.getStyle().getClickEvent();
 
                 if (clickevent != null) {
                     if (isShiftKeyDown()) {
-                        this.inputField.writeText(ichatcomponent.getUnformattedTextForChat());
+                        this.inputField.writeText(ichatcomponent.getUnformattedComponentText());
                     } else {
                         URI uri;
 
@@ -238,14 +236,6 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
                                 case RUN_COMMAND:
                                     this.sendMessage(clickevent.getValue());
                                     break;
-                                case TWITCH_USER_INFO:
-                                    ChatUserInfo chatuserinfo = this.mc.func_152346_Z().func_152926_a(clickevent.getValue());
-                                    if (chatuserinfo != null) {
-                                        this.mc.displayGuiScreen(new GuiTwitchUserMode(this.mc.func_152346_Z(), chatuserinfo));
-                                    } else {
-                                        logger.error("Tried to handle twitch user but couldn\'t find them!");
-                                    }
-                                    break;
                                 default:
                                     logger.error("Don\'t know how to handle " + clickevent);
                                     break;
@@ -259,7 +249,11 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
         }
 
         this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        try {
+            super.mouseClicked(mouseX, mouseY, mouseButton);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -289,13 +283,13 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
         String s1;
 
         if (this.field_146417_i) {
-            this.inputField.deleteFromCursor(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());
+            this.inputField.deleteFromCursor(this.inputField.getNthWordFromPosWS(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());
 
             if (this.field_146413_s >= this.field_146412_t.size()) {
                 this.field_146413_s = 0;
             }
         } else {
-            int i = this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false);
+            int i = this.inputField.getNthWordFromPosWS(-1, this.inputField.getCursorPosition(), false);
             this.field_146412_t.clear();
             this.field_146413_s = 0;
             String s = this.inputField.getText().substring(i).toLowerCase();
@@ -321,10 +315,10 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
                 }
             }
 
-            EHacksGui.clickGui.consoleGui.printChatMessageWithOptionalDeletion(new ChatComponentText(stringbuilder.toString()), 1);
+            EHacksGui.clickGui.consoleGui.printChatMessageWithOptionalDeletion(new TextComponentString(stringbuilder.toString()), 1);
         }
 
-        this.inputField.writeText(EnumChatFormatting.getTextWithoutFormattingCodes(this.field_146412_t.get(this.field_146413_s++)));
+        this.inputField.writeText(TextFormatting.getTextWithoutFormattingCodes(this.field_146412_t.get(this.field_146413_s++)));
     }
 
     private void getAutoComplete(String p_146405_1_, String p_146405_2_) {
@@ -380,49 +374,32 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
             this.inputField.setText("/" + this.inputField.getText());
         }
         this.inputField.drawTextBox();
-        IChatComponent ichatcomponent = EHacksGui.clickGui.consoleGui.getChatComponent(Mouse.getX(), Mouse.getY());
+        ITextComponent ichatcomponent = EHacksGui.clickGui.consoleGui.getChatComponent(Mouse.getX(), Mouse.getY());
 
-        if (ichatcomponent != null && ichatcomponent.getChatStyle().getChatHoverEvent() != null) {
-            HoverEvent hoverevent = ichatcomponent.getChatStyle().getChatHoverEvent();
+        if (ichatcomponent != null && ichatcomponent.getStyle().getHoverEvent() != null) {
+            HoverEvent hoverevent = ichatcomponent.getStyle().getHoverEvent();
 
             if (null != hoverevent.getAction()) {
                 switch (hoverevent.getAction()) {
                     case SHOW_ITEM:
                         ItemStack itemstack = null;
                         try {
-                            NBTBase nbtbase = JsonToNBT.func_150315_a(hoverevent.getValue().getUnformattedText());
+                            NBTBase nbtbase = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
 
                             if (nbtbase instanceof NBTTagCompound) {
-                                itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
+                                itemstack = null; //ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase); НЕ смог найти замену..
                             }
                         } catch (NBTException ignored) {
                         }
                         if (itemstack != null) {
                             this.renderToolTip(itemstack, p_73863_1_, p_73863_2_);
                         } else {
-                            this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid Item!", p_73863_1_, p_73863_2_);
+                            this.drawCenteredString(fontRenderer, TextFormatting.RED + "Invalid Item!", p_73863_1_, p_73863_2_, 0xFFFFFF);
                         }
                         break;
                     case SHOW_TEXT:
-                        this.func_146283_a(Splitter.on("\n").splitToList(hoverevent.getValue().getFormattedText()), p_73863_1_, p_73863_2_);
-                        break;
-                    case SHOW_ACHIEVEMENT:
-                        StatBase statbase = StatList.func_151177_a(hoverevent.getValue().getUnformattedText());
-                        if (statbase != null) {
-                            IChatComponent ichatcomponent1 = statbase.func_150951_e();
-                            ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic"));
-                            chatcomponenttranslation.getChatStyle().setItalic(Boolean.TRUE);
-                            String s = statbase instanceof Achievement ? ((Achievement) statbase).getDescription() : null;
-                            ArrayList<String> arraylist = Lists.newArrayList(ichatcomponent1.getFormattedText(), chatcomponenttranslation.getFormattedText());
-
-                            if (s != null) {
-                                arraylist.addAll(this.fontRendererObj.listFormattedStringToWidth(s, 150));
-                            }
-
-                            this.func_146283_a(arraylist, p_73863_1_, p_73863_2_);
-                        } else {
-                            this.drawCreativeTabHoveringText(EnumChatFormatting.RED + "Invalid statistic/achievement!", p_73863_1_, p_73863_2_);
-                        }
+                        // Пока неизвестно, что сюда вписать.
+                        //this.(Splitter.on("\n").splitToList(hoverevent.getValue().getFormattedText()), p_73863_1_, p_73863_2_);
                         break;
                     default:
                         break;
@@ -446,11 +423,11 @@ public class ConsoleInputGui extends GuiScreen implements GuiYesNoCallback {
                 }
             }
 
-            String s1 = this.inputField.getText().substring(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false));
+            String s1 = this.inputField.getText().substring(this.inputField.getNthWordFromPosWS(-1, this.inputField.getCursorPosition(), false));
             String s2 = StringUtils.getCommonPrefix(p_146406_1_);
 
             if (s2.length() > 0 && !s1.equalsIgnoreCase(s2)) {
-                this.inputField.deleteFromCursor(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());
+                this.inputField.deleteFromCursor(this.inputField.getNthWordFromPosWS(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());
                 this.inputField.writeText(s2);
             } else if (this.field_146412_t.size() > 0) {
                 this.field_146417_i = true;

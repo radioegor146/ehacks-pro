@@ -6,7 +6,6 @@
 package ehacks.mod.config;
 
 /**
- *
  * @author radioegor146
  */
 public interface IConfiguration {

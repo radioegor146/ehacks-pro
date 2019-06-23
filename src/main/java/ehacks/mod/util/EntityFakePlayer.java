@@ -19,14 +19,7 @@ public class EntityFakePlayer
         if (movementInput.jump && this.onGround) {
             super.jump();
         }
-        super.moveEntityWithHeading(movementInput.moveStrafe, movementInput.moveForward);
-    }
-
-    @Override
-    public void moveEntity(double x, double y, double z) {
-        this.onGround = true;
-        super.moveEntity(x, y, z);
-        this.onGround = true;
+        super.moveRelative(movementInput.moveStrafe, 0, movementInput.moveForward, 0);
     }
 
     @Override

@@ -18,7 +18,6 @@ public class ConfigurationManager {
         configurations.add(new ModuleStateConfiguration());
         configurations.add(new ModIdConfiguration());
         configurations.add(new NBTConfiguration());
-        configurations.add(new XRayConfiguration());
     }
 
     public static ConfigurationManager instance() {

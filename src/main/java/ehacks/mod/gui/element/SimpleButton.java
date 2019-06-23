@@ -9,12 +9,12 @@ public class SimpleButton {
 
     private final SimpleWindow window;
     private final IClickable handler;
+    private final String title;
+    private final int color;
     private int sizeX;
     private int sizeY;
     private int xPos;
     private int yPos;
-    private final String title;
-    private final int color;
     private boolean pressed;
 
     public SimpleButton(SimpleWindow window, IClickable handler, String title, int color, int xPos, int yPos, int sizeX, int sizeY) {

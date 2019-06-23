@@ -7,40 +7,34 @@ package ehacks.mod.util;
 
 import com.google.gson.Gson;
 import ehacks.mod.util.packetquery.StatusResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- *
  * @author zh32 <zh32 at zh32.de>
  */
 public class ServerListPing17 {
 
+    private final Gson gson = new Gson();
     private InetSocketAddress host;
     private int timeout = 7000;
-    private final Gson gson = new Gson();
-
-    public void setAddress(InetSocketAddress host) {
-        this.host = host;
-    }
 
     public InetSocketAddress getAddress() {
         return this.host;
     }
 
-    void setTimeout(int timeout) {
-        this.timeout = timeout;
+    public void setAddress(InetSocketAddress host) {
+        this.host = host;
     }
 
     int getTimeout() {
         return this.timeout;
+    }
+
+    void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 
     public int readVarInt(DataInputStream in) throws IOException {

@@ -1,14 +1,16 @@
 package ehacks.bsh;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassGenerator {
 
-    private static ClassGenerator cg;
     private static final String DEBUG_DIR = System.getProperty("bsh.debugClasses");
+    private static ClassGenerator cg;
 
     public static ClassGenerator getClassGenerator() {
         if (cg == null) {
@@ -16,35 +18,6 @@ public class ClassGenerator {
         }
 
         return cg;
-    }
-
-    /**
-     * Parse the BSHBlock for the class definition and generate the class.
-     */
-    public Class generateClass(String name, Modifiers modifiers, Class[] interfaces, Class superClass, BSHBlock block, boolean isInterface, CallStack callstack, Interpreter interpreter) throws EvalError {
-        // Delegate to the static method
-        return generateClassImpl(name, modifiers, interfaces, superClass, block, isInterface, callstack, interpreter);
-    }
-
-    /**
-     * Invoke a super.method() style superclass method on an object instance.
-     * This is not a normal function of the Java reflection API and is provided
-     * by generated class accessor methods.
-     */
-    public Object invokeSuperclassMethod(BSHClassManager bcm, Object instance, String methodName, Object[] args) throws UtilEvalError, ReflectError, InvocationTargetException {
-        // Delegate to the static method
-        return invokeSuperclassMethodImpl(bcm, instance, methodName, args);
-    }
-
-    /**
-     * Change the parent of the class instance namespace. This is currently used
-     * for inner class support. Note: This method will likely be removed in the
-     * future.
-     */
-    // This could be static
-    public void setInstanceNameSpaceParent(Object instance, String className, NameSpace parent) {
-        This ithis = ClassGeneratorUtil.getClassInstanceThis(instance, className);
-        ithis.getNameSpace().setParent(parent);
     }
 
     /**
@@ -179,6 +152,52 @@ public class ClassGenerator {
         return methods.toArray(new DelayedEvalBshMethod[methods.size()]);
     }
 
+    public static Object invokeSuperclassMethodImpl(BSHClassManager bcm, Object instance, String methodName, Object[] args) throws UtilEvalError, ReflectError, InvocationTargetException {
+        String superName = ClassGeneratorUtil.BSHSUPER + methodName;
+
+        // look for the specially named super delegate method
+        Class clas = instance.getClass();
+        Method superMethod = Reflect.resolveJavaMethod(bcm, clas, superName, Types.getTypes(args), false/*onlyStatic*/);
+        if (superMethod != null) {
+            return Reflect.invokeMethod(superMethod, instance, args);
+        }
+
+        // No super method, try to invoke regular method
+        // could be a superfluous "super." which is legal.
+        Class superClass = clas.getSuperclass();
+        superMethod = Reflect.resolveExpectedJavaMethod(bcm, superClass, instance, methodName, args, false/*onlyStatic*/);
+        return Reflect.invokeMethod(superMethod, instance, args);
+    }
+
+    /**
+     * Parse the BSHBlock for the class definition and generate the class.
+     */
+    public Class generateClass(String name, Modifiers modifiers, Class[] interfaces, Class superClass, BSHBlock block, boolean isInterface, CallStack callstack, Interpreter interpreter) throws EvalError {
+        // Delegate to the static method
+        return generateClassImpl(name, modifiers, interfaces, superClass, block, isInterface, callstack, interpreter);
+    }
+
+    /**
+     * Invoke a super.method() style superclass method on an object instance.
+     * This is not a normal function of the Java reflection API and is provided
+     * by generated class accessor methods.
+     */
+    public Object invokeSuperclassMethod(BSHClassManager bcm, Object instance, String methodName, Object[] args) throws UtilEvalError, ReflectError, InvocationTargetException {
+        // Delegate to the static method
+        return invokeSuperclassMethodImpl(bcm, instance, methodName, args);
+    }
+
+    /**
+     * Change the parent of the class instance namespace. This is currently used
+     * for inner class support. Note: This method will likely be removed in the
+     * future.
+     */
+    // This could be static
+    public void setInstanceNameSpaceParent(Object instance, String className, NameSpace parent) {
+        This ithis = ClassGeneratorUtil.getClassInstanceThis(instance, className);
+        ithis.getNameSpace().setParent(parent);
+    }
+
     /**
      * A node filter that filters nodes for either a class body static
      * initializer or instance initializer. In the static case only static
@@ -237,23 +256,6 @@ public class ClassGenerator {
 
             return false;
         }
-    }
-
-    public static Object invokeSuperclassMethodImpl(BSHClassManager bcm, Object instance, String methodName, Object[] args) throws UtilEvalError, ReflectError, InvocationTargetException {
-        String superName = ClassGeneratorUtil.BSHSUPER + methodName;
-
-        // look for the specially named super delegate method
-        Class clas = instance.getClass();
-        Method superMethod = Reflect.resolveJavaMethod(bcm, clas, superName, Types.getTypes(args), false/*onlyStatic*/);
-        if (superMethod != null) {
-            return Reflect.invokeMethod(superMethod, instance, args);
-        }
-
-        // No super method, try to invoke regular method
-        // could be a superfluous "super." which is legal.
-        Class superClass = clas.getSuperclass();
-        superMethod = Reflect.resolveExpectedJavaMethod(bcm, superClass, instance, methodName, args, false/*onlyStatic*/);
-        return Reflect.invokeMethod(superMethod, instance, args);
     }
 
 }

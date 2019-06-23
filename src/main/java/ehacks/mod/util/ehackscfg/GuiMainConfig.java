@@ -1,12 +1,12 @@
 package ehacks.mod.util.ehackscfg;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import ehacks.mod.main.Main;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSelectWorld;
+import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback {
@@ -41,7 +41,7 @@ public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback {
                 this.mc.displayGuiScreen(this.backScreen);
             }
             if (button.id == 201) {
-                this.mc.displayGuiScreen(new GuiSelectWorld(this));
+                this.mc.displayGuiScreen(new GuiWorldSelection(this));
             }
             if (button.id == 100) {
                 this.mc.displayGuiScreen(new GuiModIdConfig(this));
@@ -55,7 +55,7 @@ public class GuiMainConfig extends GuiScreen implements GuiYesNoCallback {
     @Override
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, "EHacks config and utils", this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.fontRenderer, "EHacks config and utils", this.width / 2, 15, 16777215);
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }
 }

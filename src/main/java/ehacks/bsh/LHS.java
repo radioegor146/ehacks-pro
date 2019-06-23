@@ -1,35 +1,37 @@
-/** ***************************************************************************
- *                                                                           *
- *  This file is part of the BeanShell Java Scripting distribution.          *
- *  Documentation and updates may be found at http://www.beanshell.org/      *
- *                                                                           *
- *  Sun Public License Notice:                                               *
- *                                                                           *
- *  The contents of this file are subject to the Sun Public License Version  *
- *  1.0 (the "License"); you may not use this file except in compliance with *
- *  the License. A copy of the License is available at http://www.sun.com    *
- *                                                                           *
- *  The Original Code is BeanShell. The Initial Developer of the Original    *
- *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
- *  (C) 2000.  All Rights Reserved.                                          *
- *                                                                           *
- *  GNU Public License Notice:                                               *
- *                                                                           *
- *  Alternatively, the contents of this file may be used under the terms of  *
- *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
- *  provisions of LGPL are applicable instead of those above. If you wish to *
- *  allow use of your version of this file only under the  terms of the LGPL *
- *  and not to allow others to use your version of this file under the SPL,  *
- *  indicate your decision by deleting the provisions above and replace      *
- *  them with the notice and other provisions required by the LGPL.  If you  *
- *  do not delete the provisions above, a recipient may use your version of  *
- *  this file under either the SPL or the LGPL.                              *
- *                                                                           *
- *  Patrick Niemeyer (pat@pat.net)                                           *
- *  Author of Learning Java, O'Reilly & Associates                           *
- *  http://www.pat.net/~pat/                                                 *
- *                                                                           *
- **************************************************************************** */
+/**
+ * **************************************************************************
+ * *
+ * This file is part of the BeanShell Java Scripting distribution.          *
+ * Documentation and updates may be found at http://www.beanshell.org/      *
+ * *
+ * Sun Public License Notice:                                               *
+ * *
+ * The contents of this file are subject to the Sun Public License Version  *
+ * 1.0 (the "License"); you may not use this file except in compliance with *
+ * the License. A copy of the License is available at http://www.sun.com    *
+ * *
+ * The Original Code is BeanShell. The Initial Developer of the Original    *
+ * Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ * (C) 2000.  All Rights Reserved.                                          *
+ * *
+ * GNU Public License Notice:                                               *
+ * *
+ * Alternatively, the contents of this file may be used under the terms of  *
+ * the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ * provisions of LGPL are applicable instead of those above. If you wish to *
+ * allow use of your version of this file only under the  terms of the LGPL *
+ * and not to allow others to use your version of this file under the SPL,  *
+ * indicate your decision by deleting the provisions above and replace      *
+ * them with the notice and other provisions required by the LGPL.  If you  *
+ * do not delete the provisions above, a recipient may use your version of  *
+ * this file under either the SPL or the LGPL.                              *
+ * *
+ * Patrick Niemeyer (pat@pat.net)                                           *
+ * Author of Learning Java, O'Reilly & Associates                           *
+ * http://www.pat.net/~pat/                                                 *
+ * *
+ * ***************************************************************************
+ */
 package ehacks.bsh;
 
 import java.lang.reflect.Field;
@@ -39,7 +41,7 @@ import java.lang.reflect.Field;
  * the "left hand side" of an assignment and may be either resolved to a value
  * or assigned a value.
  * <p>
- *
+ * <p>
  * There is one special case here termed METHOD_EVAL where the LHS is used in an
  * intermediate evaluation of a chain of suffixes and wraps a method invocation.
  * In this case it may only be resolved to a value and cannot be assigned. (You
@@ -47,12 +49,6 @@ import java.lang.reflect.Field;
  * <p>
  */
 class LHS implements ParserConstants, java.io.Serializable {
-
-    NameSpace nameSpace;
-    /**
-     * The assignment should be to a local variable
-     */
-    boolean localVar;
 
     /**
      * Identifiers for the various types of LHS.
@@ -62,7 +58,11 @@ class LHS implements ParserConstants, java.io.Serializable {
             PROPERTY = 2,
             INDEX = 3,
             METHOD_EVAL = 4;
-
+    NameSpace nameSpace;
+    /**
+     * The assignment should be to a local variable
+     */
+    boolean localVar;
     int type;
 
     String varName;
@@ -85,9 +85,9 @@ class LHS implements ParserConstants, java.io.Serializable {
 
     /**
      * @param localVar if true the variable is set directly in the This
-     * reference's local scope. If false recursion to look for the variable
-     * definition in parent's scope is allowed. (e.g. the default case for
-     * undefined vars going to global).
+     *                 reference's local scope. If false recursion to look for the variable
+     *                 definition in parent's scope is allowed. (e.g. the default case for
+     *                 undefined vars going to global).
      */
     LHS(NameSpace nameSpace, String varName, boolean localVar) {
         type = VARIABLE;
@@ -214,7 +214,7 @@ class LHS implements ParserConstants, java.io.Serializable {
                             : val.getClass().getName();
                     throw new UtilEvalError(
                             "Argument type mismatch. " + (val == null ? "null" : type)
-                            + " not assignable to field " + field.getName());
+                                    + " not assignable to field " + field.getName());
                 }
             case PROPERTY:
                 /*
