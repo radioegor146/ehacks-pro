@@ -27,8 +27,8 @@ public class EHacksClickGui
 
     //TODO fix all of these being offscreen on scale = auto
     public void initWindows() {
-        windows.add(new WindowHub());
         windows.add(new WindowEHacks());
+        windows.add(new WindowHub());
     }
 
     @Override

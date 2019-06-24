@@ -4,7 +4,6 @@ import ehacks.mod.api.Module;
 import ehacks.mod.api.ModuleController;
 import ehacks.mod.commands.ConsoleInputGui;
 import ehacks.mod.config.ConfigurationManager;
-import ehacks.mod.main.Main;
 import ehacks.mod.modulesystem.classes.keybinds.HideCheatKeybind;
 import ehacks.mod.modulesystem.classes.keybinds.OpenConsoleKeybind;
 import ehacks.mod.modulesystem.handler.EHacksGui;
@@ -17,7 +16,6 @@ import ehacks.mod.util.ehackscfg.GuiMainConfig;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -29,7 +27,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -191,7 +188,7 @@ public class Events {
     public void onGuiScreenDraw(GuiScreenEvent.DrawScreenEvent.Pre event) {
         if (event.getGui() instanceof GuiMainMenu) {
             GuiMainMenu mainMenu = (GuiMainMenu) event.getGui();
-            ReflectionHelper.setPrivateValue(GuiMainMenu.class, mainMenu, "Fucked by radioegor146", Mappings.splashText);
+            ReflectionHelper.setPrivateValue(GuiMainMenu.class, mainMenu, "Fucked by radioegor146, ported by Iterator", Mappings.splashText);
         }
     }
 
