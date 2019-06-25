@@ -2,13 +2,10 @@ package ehacks.mod.modulesystem.classes.mods;
 
 import ehacks.mod.api.ModStatus;
 import ehacks.mod.api.Module;
+import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
-import ehacks.mod.wrapper.Wrapper;
 
 public class AnalTest extends Module {
-
-    private boolean prevState = false;
-
     public AnalTest() {
         super(ModuleCategory.EHACKS);
     }
@@ -25,7 +22,7 @@ public class AnalTest extends Module {
 
     @Override
     public void onModuleEnabled() {
-
+        InteropUtils.log("Module test.", "YourMother");
     }
 
     @Override
@@ -35,7 +32,7 @@ public class AnalTest extends Module {
 
     @Override
     public void onTicks() {
-        Wrapper.INSTANCE.mc().player.sendChatMessage("Anal test!");
+
     }
 
     @Override

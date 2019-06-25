@@ -6,8 +6,6 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.network.EnumPacketDirection;
-import net.minecraft.network.NetworkManager;
 
 /**
  * @author radioegor146
@@ -19,15 +17,22 @@ public class PacketHandler extends ChannelDuplexHandler {
     private MainProtector protector;
 
     public PacketHandler(Events eventHandler) {
-        this.protector = new MainProtector();
-        this.protector.init();
-        this.eventHandler = eventHandler;
         try {
-            ChannelPipeline pipeline = new NetworkManager(EnumPacketDirection.CLIENTBOUND).channel().pipeline();
+            ChannelPipeline pipeline = Wrapper.INSTANCE.mc().getConnection().getNetworkManager().channel().pipeline();
+
+            if (pipeline.get("PacketHandler") != null) { // Дикий костыль, который фиксит двойной вызов этого конструктора.
+                return;                                 // TODO: необходимо нормально пофиксить
+            }
+
+            this.protector = new MainProtector();
+            this.protector.init();
+            this.eventHandler = eventHandler;
+
             pipeline.addBefore("packet_handler", "PacketHandler", this);
             InteropUtils.log("Attached", "PacketHandler");
         } catch (Exception exception) {
-            InteropUtils.log("Error on attaching", "PacketHandler");
+            InteropUtils.log("Error on attaching - " + exception.toString(), "PacketHandler");
+            exception.printStackTrace();
         }
     }
 
