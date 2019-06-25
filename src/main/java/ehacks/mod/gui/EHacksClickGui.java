@@ -4,7 +4,7 @@ import ehacks.mod.api.Module;
 import ehacks.mod.commands.ConsoleGui;
 import ehacks.mod.config.ConfigurationManager;
 import ehacks.mod.gui.element.SimpleWindow;
-import ehacks.mod.gui.window.WindowEHacks;
+import ehacks.mod.gui.window.WindowBeuHacks;
 import ehacks.mod.gui.window.WindowHub;
 import ehacks.mod.util.GLUtils;
 import ehacks.mod.wrapper.Wrapper;
@@ -27,7 +27,7 @@ public class EHacksClickGui
 
     //TODO fix all of these being offscreen on scale = auto
     public void initWindows() {
-        windows.add(new WindowEHacks());
+        windows.add(new WindowBeuHacks());
         windows.add(new WindowHub());
     }
 

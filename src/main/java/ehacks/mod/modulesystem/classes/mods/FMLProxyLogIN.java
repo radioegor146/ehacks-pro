@@ -5,20 +5,21 @@ import ehacks.mod.api.Module;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.PacketHandler;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
-public class ModPacketLogger extends Module {
-    public ModPacketLogger() {
-        super(ModuleCategory.EHACKS);
+public class FMLProxyLogIN extends Module {
+    public FMLProxyLogIN() {
+        super(ModuleCategory.BEUHACKS);
     }
 
     @Override
     public String getName() {
-        return "ModPacketLogger";
+        return "FMLProxyLogIN";
     }
 
     @Override
     public String getDescription() {
-        return "Sends info about incoming and outcoming packets from mods.";
+        return "Sends info about incoming packets.";
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ModPacketLogger extends Module {
 
     @Override
     public String getModName() {
-        return "ModPacketLogger";
+        return "";
     }
 
     @Override
@@ -38,14 +39,15 @@ public class ModPacketLogger extends Module {
 
     @Override
     public boolean onPacket(Object packet, PacketHandler.Side side) {
-        String name = packet.getClass().getName();
-
-        if (name.startsWith("net.minecraft")) {
+        if (side != PacketHandler.Side.IN) {
             return true;
         }
 
-        InteropUtils.log(name, "Packet" + side.toString());
+        if (packet instanceof FMLProxyPacket) {
+            FMLProxyPacket fmlPacket = (FMLProxyPacket) packet;
 
+            InteropUtils.log(String.format("Packet from channel %s", fmlPacket.channel()), "Packet" + side.toString());
+        }
         return true;
     }
 }

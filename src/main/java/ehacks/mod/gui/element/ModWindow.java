@@ -50,7 +50,7 @@ public class ModWindow extends SimpleWindow {
         }
 
         Module hoverMod = null;
-        boolean alwaysShowHover = false;//
+        boolean alwaysShowHover = true;
 
         if (Keyboard.isKeyDown(ShowGroupsKeybind.getKey())) {
             int ds = 0;

@@ -2,7 +2,7 @@ package ehacks.mod.wrapper;
 
 public enum ModuleCategory {
     NONE("None"),
-    EHACKS("EHacks"),
+    BEUHACKS("BeuHacks"),
     KEYBIND("Keybind");
 
     private final String name;
