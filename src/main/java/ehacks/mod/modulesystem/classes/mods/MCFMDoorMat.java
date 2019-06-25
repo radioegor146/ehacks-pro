@@ -5,12 +5,16 @@ import ehacks.mod.api.Module;
 import ehacks.mod.util.InteropUtils;
 import ehacks.mod.wrapper.ModuleCategory;
 import ehacks.mod.wrapper.Wrapper;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 
+import java.lang.reflect.Constructor;
+
 public class MCFMDoorMat extends Module {
+    private Constructor doorMatGuiConstructor;
+
     public MCFMDoorMat() {
         super(ModuleCategory.BEUHACKS);
     }
@@ -28,8 +32,7 @@ public class MCFMDoorMat extends Module {
     @Override
     public ModStatus getModStatus() {
         try {
-            Class.forName("com.mrcrayfish.furniture.gui.GuiDoorMat").getConstructor();
-            Class.forName("com.mrcrayfish.furniture.tileentity.TileEntityDoorMat").getConstructor();
+            this.doorMatGuiConstructor = Class.forName("com.mrcrayfish.furniture.gui.GuiDoorMat").getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
             return ModStatus.WORKING;
         } catch (Exception ex) {
             return ModStatus.NOTWORKING;
@@ -52,7 +55,7 @@ public class MCFMDoorMat extends Module {
         TileEntity tile = Wrapper.INSTANCE.world().getTileEntity(rtx.getBlockPos());
 
         try {
-            if (event.getButton() != 0
+            if (event.getButton() != 1
                     || tile == null
                     || !Class.forName("com.mrcrayfish.furniture.tileentity.TileEntityDoorMat").isInstance(tile)) {
                 return;
@@ -62,7 +65,7 @@ public class MCFMDoorMat extends Module {
             int tileY = tile.getPos().getY();
             int tileZ = tile.getPos().getZ();
 
-            GuiContainer doorMatGui = (GuiContainer) Class.forName("com.mrcrayfish.furniture.gui.GuiDoorMat").getConstructor(new Class[]{Integer.class, Integer.class, Integer.class}).newInstance(tileX, tileY, tileZ);
+            GuiScreen doorMatGui = (GuiScreen) this.doorMatGuiConstructor.newInstance(tileX, tileY, tileZ);
 
             Wrapper.INSTANCE.mc().displayGuiScreen(doorMatGui);
 
