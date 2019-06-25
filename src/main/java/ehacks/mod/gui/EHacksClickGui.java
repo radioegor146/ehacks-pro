@@ -98,6 +98,13 @@ public class EHacksClickGui
     }
 
     @Override
+    public void mouseReleased(int mouseX, int mouseY, int state) {
+        for (SimpleWindow window : windows) {
+            window.mouseReleased(mouseX, mouseY, state);
+        }
+    }
+
+    @Override
     public boolean doesGuiPauseGame() {
         return false;
     }

@@ -129,6 +129,10 @@ public class SimpleWindow implements IIncludable, IClickable {
         return retval;
     }
 
+    public void mouseReleased(int mouseX, int mouseY, int state) {
+        this.dragging = false;
+    }
+
     public void mouseMovedOrUp(int x, int y, int b2) {
         if (b2 == 0) {
             this.dragging = false;

@@ -3,7 +3,7 @@ package ehacks.mod.modulesystem.handler;
 import ehacks.mod.api.Module;
 import ehacks.mod.api.ModuleController;
 import ehacks.mod.modulesystem.classes.keybinds.*;
-import ehacks.mod.modulesystem.classes.mods.AnalTest;
+import ehacks.mod.modulesystem.classes.mods.ModPacketLogger;
 
 public class ModuleManagement {
 
@@ -22,7 +22,7 @@ public class ModuleManagement {
     }
 
     public void initModules() {
-        this.add(new AnalTest());
+        this.add(new ModPacketLogger());
 
         this.add(new GiveKeybind());
         this.add(new SelectPlayerKeybind());
