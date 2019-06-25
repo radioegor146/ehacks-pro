@@ -125,7 +125,7 @@ public abstract class Module implements Comparable, IIncludable, IClickable {
     }
 
     public boolean canOnOnStart() {
-        return (this.category != ModuleCategory.EHACKS && this.category != ModuleCategory.NONE);
+        return (this.category != ModuleCategory.BEUHACKS && this.category != ModuleCategory.NONE);
     }
 
     public boolean onPacket(Object packet, PacketHandler.Side side) {
