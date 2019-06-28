@@ -52,6 +52,11 @@ public class MCFMDoorMat extends Module {
     @Override
     public void onMouse(MouseEvent event) {
         RayTraceResult rtx = Wrapper.INSTANCE.mc().objectMouseOver; // Да да, это топовое название
+
+        if (rtx == null) {
+            return;
+        }
+
         TileEntity tile = Wrapper.INSTANCE.world().getTileEntity(rtx.getBlockPos());
 
         try {
