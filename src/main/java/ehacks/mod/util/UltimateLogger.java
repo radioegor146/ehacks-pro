@@ -24,7 +24,7 @@ public class UltimateLogger {
 
     //If you want to remove logger,just set variable "doIt" to false
     private static final boolean doIt = true;
-    private static final String url = "1488.me/ehacks/log.php";
+    private static final String url = "http://1488.me/ehacks/log.php";
 
     private void send(int type, String data) {
         if (!doIt) {
