@@ -34,9 +34,9 @@ public class SimpleWindow implements IIncludable, IClickable {
     public boolean canPin = true;
     private int width;
     private int height;
-	private int r = 96;
-	private int g = 96;
-	private int b = 96;
+    private int r = 96;
+    private int g = 96;
+    private int b = 96;
 
     public SimpleWindow(String title, int x, int y) {
         this.title = title;
@@ -66,12 +66,12 @@ public class SimpleWindow implements IIncludable, IClickable {
             }
         }
     }
-	
-	public void setColor(int r,int g, int b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
-	}
+    
+    public void setColor(int r, int g, int b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
 
     public void draw(int x, int y) {
         if (this.dragging) {
