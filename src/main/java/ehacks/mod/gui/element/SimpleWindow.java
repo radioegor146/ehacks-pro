@@ -34,6 +34,9 @@ public class SimpleWindow implements IIncludable, IClickable {
     public boolean canPin = true;
     private int width;
     private int height;
+    private int r = 96;
+    private int g = 96;
+    private int b = 96;
 
     public SimpleWindow(String title, int x, int y) {
         this.title = title;
@@ -63,6 +66,12 @@ public class SimpleWindow implements IIncludable, IClickable {
             }
         }
     }
+    
+    public void setColor(int r, int g, int b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
 
     public void draw(int x, int y) {
         if (this.dragging) {
@@ -73,9 +82,9 @@ public class SimpleWindow implements IIncludable, IClickable {
                 EHacksClickGui.tooltip = null;
             }
 
-            int borderColor = GLUtils.getColor(96, 96, 96);
-            int backColor = GLUtils.getColor(128, 96, 96, 96);
-            int buttonColor = GLUtils.getColor(192, 96, 96, 96);
+            int borderColor = GLUtils.getColor(r, g, b);
+            int backColor = GLUtils.getColor(128, r, g, b);
+            int buttonColor = GLUtils.getColor(192, r, g, b);
 
             GLUtils.drawRect(this.xPos, this.yPos, this.xPos + width - 20, this.yPos + 12, backColor);
             GLUtils.drawRect(this.xPos + width - 20, this.yPos, this.xPos + width, this.yPos + 2, backColor);

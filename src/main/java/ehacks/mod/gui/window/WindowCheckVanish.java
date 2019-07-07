@@ -33,6 +33,7 @@ public class WindowCheckVanish
 
     public static int cvLastUpdate = 0;
     public static int lpLastUpdate = 0;
+    public static int tabList = 0;
 
     @Override
     public void draw(int x, int y) {
@@ -54,13 +55,19 @@ public class WindowCheckVanish
             }
         }
         if (this.isOpen()) {
+            tabList = Wrapper.INSTANCE.player().sendQueue.playerInfoList.size();
             ServerData serverData = Wrapper.INSTANCE.mc().func_147104_D();
             if (serverData == null) {
                 Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("You are in singleplayer", this.getClientX() + 1, this.getClientY() + 1, GLUtils.getColor(255, 255, 255));
                 return;
             }
+            if (tabList < lastCvResult || tabList < lastLpResult) {
+                super.setColor(255,0,0);
+            } else {
+                super.setColor(96,96,96);
+            }
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Server IP: " + serverData.serverIP, this.getClientX() + 1, this.getClientY() + 1, GLUtils.getColor(255, 255, 255));
-            Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("TAB-List: " + String.valueOf(Wrapper.INSTANCE.player().sendQueue.playerInfoList.size()), this.getClientX() + 1, this.getClientY() + 13, GLUtils.getColor(255, 255, 255));
+            Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("TAB-List: " + String.valueOf(tabList), this.getClientX() + 1, this.getClientY() + 13, GLUtils.getColor(255, 255, 255));
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("PacketQuery: " + (lastCvResult < 0 ? (lastCvResult == -1 ? "Error" : "Not working") : String.valueOf(lastCvResult)) + (cvThreadStarted.get() ? " [U]" : ""), this.getClientX() + 1, this.getClientY() + 25, GLUtils.getColor(255, 255, 255));
             Wrapper.INSTANCE.fontRenderer().drawStringWithShadow("Legacy: " + (lastLpResult < 0 ? (lastLpResult == -1 ? "Error" : "Not working") : String.valueOf(lastLpResult)) + (lpThreadStarted.get() ? " [U]" : ""), this.getClientX() + 1, this.getClientY() + 37, GLUtils.getColor(255, 255, 255));
         }
