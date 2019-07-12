@@ -25,7 +25,7 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "EHacks", name = "EHacks", version = "4.1.9")
+@Mod(modid = "EHacks", name = "EHacks", version = "4.1.9", acceptableRemoteVersions = "*")
 public class Main {
 
     @Mod.Instance(value = "EHacks")
