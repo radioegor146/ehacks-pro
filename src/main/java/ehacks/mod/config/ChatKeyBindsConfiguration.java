@@ -28,7 +28,7 @@ public class ChatKeyBindsConfiguration implements IConfiguration {
     private final File configFile;
 
     public ChatKeyBindsConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/chatkeybinds.json");
+        this.configFile = new File(System.getProperty("user.home") + "/ehacks/chatkeybinds.json");
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ModuleStateConfiguration implements IConfiguration {
     private final File moduleConfig;
 
     public ModuleStateConfiguration() {
-        this.moduleConfig = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/modulestatus.json");
+        this.moduleConfig = new File(System.getProperty("user.home") + "/ehacks/modulestatus.json");
     }
 
     @Override

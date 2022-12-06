@@ -26,7 +26,7 @@ public class AuraConfiguration implements IConfiguration {
     private final File configFile;
 
     public AuraConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/aura.json");
+        this.configFile = new File(System.getProperty("user.home") + "/ehacks/aura.json");
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ModIdConfiguration implements IConfiguration {
     private final File configFile;
 
     public ModIdConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/modid.json");
+        this.configFile = new File(System.getProperty("user.home") + "/ehacks/modid.json");
     }
 
     @Override

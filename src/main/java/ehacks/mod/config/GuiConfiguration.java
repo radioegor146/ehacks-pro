@@ -18,7 +18,7 @@ public class GuiConfiguration implements IConfiguration {
     private final File guiConfig;
 
     public GuiConfiguration() {
-        this.guiConfig = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/gui.json");
+        this.guiConfig = new File(System.getProperty("user.home") + "/ehacks/gui.json");
     }
 
     @Override

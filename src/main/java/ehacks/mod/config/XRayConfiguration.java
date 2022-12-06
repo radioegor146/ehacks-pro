@@ -27,7 +27,7 @@ public class XRayConfiguration implements IConfiguration {
     private final File configFile;
 
     public XRayConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/xray.json");
+        this.configFile = new File(System.getProperty("user.home") + "/ehacks/xray.json");
     }
 
     @Override

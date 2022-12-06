@@ -21,7 +21,7 @@ public class NBTConfiguration implements IConfiguration {
     private final File configFile;
 
     public NBTConfiguration() {
-        this.configFile = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/nbt.json");
+        this.configFile = new File(System.getProperty("user.home") + "/ehacks/nbt.json");
     }
 
     @Override
