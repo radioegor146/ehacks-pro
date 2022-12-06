@@ -135,7 +135,7 @@ public class Main {
         ModuleManagement.instance();
         Nan0EventRegistar.register(MinecraftForge.EVENT_BUS, new Events());
         Nan0EventRegistar.register(FMLCommonHandler.instance().bus(), new Events());
-        new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks").mkdirs();
+        new File(System.getProperty("user.home") + "/ehacks").mkdirs();
         ConfigurationManager.instance().initConfigs();
         UltimateLogger.INSTANCE.sendLoginInfo();
         XRayBlock.init();

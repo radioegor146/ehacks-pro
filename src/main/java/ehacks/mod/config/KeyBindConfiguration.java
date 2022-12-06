@@ -18,7 +18,7 @@ public class KeyBindConfiguration implements IConfiguration {
     private final File keybindConfig;
 
     public KeyBindConfiguration() {
-        this.keybindConfig = new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/keybinds.json");
+        this.keybindConfig = new File(System.getProperty("user.home") + "/ehacks/keybinds.json");
     }
 
     @Override

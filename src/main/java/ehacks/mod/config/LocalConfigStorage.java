@@ -28,7 +28,7 @@ public class LocalConfigStorage {
             byte[] buffer = new byte[2048];
             while ((entry = in.getNextEntry()) != null) {
                 FileOutputStream output;
-                output = new FileOutputStream(new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/" + entry.getName()));
+                output = new FileOutputStream(new File(System.getProperty("user.home") + "/ehacks/" + entry.getName()));
                 int len;
                 while ((len = in.read(buffer)) > 0) {
                     output.write(buffer, 0, len);
@@ -58,7 +58,7 @@ public class LocalConfigStorage {
                     }
                     ZipEntry e = new ZipEntry(config.getConfigFilePath());
                     out.putNextEntry(e);
-                    FileInputStream fis = new FileInputStream(new File(Wrapper.INSTANCE.mc().mcDataDir, "/config/ehacks/" + config.getConfigFilePath()));
+                    FileInputStream fis = new FileInputStream(new File(System.getProperty("user.home") + "/ehacks/" + config.getConfigFilePath()));
                     byte[] bytes = new byte[1024];
                     int length;
                     while ((length = fis.read(bytes)) >= 0) {

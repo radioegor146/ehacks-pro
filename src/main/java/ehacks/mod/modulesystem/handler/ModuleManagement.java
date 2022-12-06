@@ -182,6 +182,9 @@ public class ModuleManagement {
 
         this.add(new TableTop());
         this.add(new OnlineCraft());
+		
+        this.add(new ClickBlock());
+        this.add(new ChickenVanish());
 
         ModuleController.INSTANCE.sort();
 
